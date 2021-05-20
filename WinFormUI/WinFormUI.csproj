@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E11AFE65-4CA5-40B3-9D68-BC29C49FA37D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZXCL.WinFormUI</RootNamespace>
+    <AssemblyName>WinFormUI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\ZFlowLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControl\UsComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\UsComboBox.Designer.cs">
+      <DependentUpon>UsComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\UsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\UsControl.Designer.cs">
+      <DependentUpon>UsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\UsDateTimePicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\UsDateTimePicker.Designer.cs">
+      <DependentUpon>UsDateTimePicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\UsLine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\UsLine.Designer.cs">
+      <DependentUpon>UsLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\UsBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControl\UsRadioButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\UsRadioButton.Designer.cs">
+      <DependentUpon>UsRadioButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\UsTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControl\UsTextBox.Designer.cs">
+      <DependentUpon>UsTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\TabHeader.cs" />
+    <Compile Include="Controls\ZButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ZDateTimePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ZScrollBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\OpaqueLayer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Win32\Win32.cs" />
+    <Compile Include="Form\ControlBox\ControlBoxColor.cs" />
+    <Compile Include="Form\ControlBox\ControlBoxDrawImage.cs" />
+    <Compile Include="Form\ZForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ZForm.Designer.cs">
+      <DependentUpon>ZForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ZComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ZTextBoxBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ZTextBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Win32\WinAPI.cs" />
+    <Compile Include="Form\ZFormChild.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ZFormChild.Designer.cs">
+      <DependentUpon>ZFormChild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\ZFormMdi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ZFormMdi.Designer.cs">
+      <DependentUpon>ZFormMdi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ZListBox.cs" />
+    <Compile Include="Controls\ZCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ZRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CustomControl\UsComboBox.resx">
+      <DependentUpon>UsComboBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\UsControl.resx">
+      <DependentUpon>UsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\UsDateTimePicker.resx">
+      <DependentUpon>UsDateTimePicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\UsLine.resx">
+      <DependentUpon>UsLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\UsRadioButton.resx">
+      <DependentUpon>UsRadioButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomControl\UsTextBox.resx">
+      <DependentUpon>UsTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\ZForm.resx">
+      <DependentUpon>ZForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\ZFormMdi.resx">
+      <DependentUpon>ZFormMdi.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00000.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00001.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00002.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00003.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00004.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00005.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00006.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00007.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00008.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00009.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00010.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00011.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00012.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00013.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00014.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00015.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00016.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00017.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00018.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00019.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00020.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00021.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00022.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00023.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00024.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00025.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00026.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00027.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00028.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00029.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00030.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00031.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00032.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00033.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00034.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00035.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00036.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00037.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00038.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00039.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00040.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00041.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00042.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00043.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00044.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00045.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00046.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00047.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00048.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00049.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00050.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00051.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00052.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00053.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00054.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00055.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00056.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00057.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00058.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Marty_00059.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close_normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loading.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
