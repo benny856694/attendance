@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,6 +30,12 @@ namespace InsuranceBrowserLib
             iszn = isZn;
             InitializeComponent();
             this.chromeForm = chromeForm;
+
+            if (File.Exists("./branding/logo.ico"))
+            {
+                this.Icon = new Icon("./branding/logo.ico");
+            }
+
         }
 
         protected override CreateParams CreateParams

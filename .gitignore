@@ -356,4 +356,5 @@ MigrationBackup/
 *.zip
 *.rar
 detached
+Setup/InstallFiles/
 

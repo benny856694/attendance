@@ -488,6 +488,8 @@
     <Resource Include="Loginbackground.png" />
     <Resource Include="close_hover.png" />
     <Resource Include="close_norm.png" />
+    <Content Include="Branding\logo.ico" />
+    <Content Include="Branding\logo.png" />
     <Content Include="logo.ico" />
     <Resource Include="logo.png" />
     <Resource Include="logonew.png" />
@@ -553,6 +555,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
