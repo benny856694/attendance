@@ -29,8 +29,8 @@ DisableProgramGroupPage=yes
 DirExistsWarning=no
 OutputDir=Output
 OutputBaseFilename={#MyAppName}{#MyAppVersion}
-SetupIconFile=Dependencies\logo.ico
-WizardSmallImageFile=Dependencies\logo.bmp
+;SetupIconFile=Dependencies\logo.ico
+;WizardSmallImageFile=Dependencies\logo.bmp
 Compression=lzma
 SolidCompression=yes
 
