@@ -357,4 +357,5 @@ MigrationBackup/
 *.rar
 detached
 Setup/InstallFiles/
+Setup/Output/
 
