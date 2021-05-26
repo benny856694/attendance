@@ -98,7 +98,7 @@ namespace huaanClient
             catch (Exception ex)
             {
                 Logger.Error(ex, "Init error");
-                MessageBox.Show("Error, Please contact customer service");
+                MessageBox.Show($"Error:({ex.Message})\r\nPlease contact customer service");
                 return;
             }
 
