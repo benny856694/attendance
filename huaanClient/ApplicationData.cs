@@ -8,7 +8,7 @@ namespace huaanClient
         public static bool istest = false;
         public static bool IsTest { get; set; }
 
-        public static string MyAppVersion = "2.7.1.0";
+        public static string MyAppVersion = "2.7.2.0";
 
         //默认语言 0 中文 1 英文 2日文
         public static int defaultLanguage = 0;
