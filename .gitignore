@@ -358,4 +358,7 @@ MigrationBackup/
 detached
 Setup/InstallFiles/
 Setup/Output/
+Setup/branding
+Setup/Dependencies/logo.*
+huaanclient/branding/logo.*
 

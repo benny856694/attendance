@@ -256,7 +256,7 @@ namespace huaanClient
         {
             return System.IO.Directory.GetLogicalDrives().Contains(DriverName);
         }
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
             try
             {
@@ -314,7 +314,7 @@ namespace huaanClient
             try
             {
                 //初始化数据库
-                AddDataTtables.addData();
+                await AddDataTtables.addData();
             }
             catch (Exception ex)
             {
