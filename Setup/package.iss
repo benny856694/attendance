@@ -29,13 +29,13 @@ DisableProgramGroupPage=yes
 DirExistsWarning=no
 OutputDir=Output
 OutputBaseFilename={#MyAppName}{#MyAppVersion}
-;SetupIconFile=Dependencies\logo.ico
-;WizardSmallImageFile=Dependencies\logo.bmp
+SetupIconFile=branding\logo.ico
+WizardSmallImageFile=branding\logo.bmp
 Compression=lzma
 SolidCompression=yes
 
 [Languages]
-Name: "chinesesimp"; MessagesFile: "compiler:Default.isl"
+Name: "chinesesimp"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
 Name: "english"; MessagesFile: "compiler:Languages\English.isl"
 Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 
@@ -45,6 +45,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "InstallFiles\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "InstallFiles\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "branding\*"; DestDir: "{app}\branding";
 ; 注意: 不要在任何共享系统文件上使用“Flags: ignoreversion”
 
 ;动态连接库  与进程相关(关闭进程等)
@@ -52,11 +53,11 @@ Source: "Dependencies\IsTask.dll"; Flags: dontcopy noencryption
 Source: "Dependencies\IsTask.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{commonstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
+Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
+Name: "{commonstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
+;Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
@@ -129,8 +130,8 @@ begin
         if Pos(ExpandConstant('{#MyAppName}'),WizardForm.DirEdit.Text)=0 then
         begin
             WizardForm.DirEdit.Text:= WizardForm.DirEdit.Text+'\'+ExpandConstant('{#MyAppName}');
-        end
-    end
+        end;
+    end;
 
     if CurPage = wpReady then 
     begin

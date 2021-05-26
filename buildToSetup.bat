@@ -7,11 +7,11 @@ md Setup\InstallFiles
 md Setup\InstallFiles\detached
 
 ::复制可执行文件(相对路径)
-xcopy CefSharpLib Setup\InstallFiles /e /d /y /c
-xcopy huaanClient\bin\x86\Release Setup\InstallFiles /e /d /y /c /exclude:copy_exclude.txt
-xcopy InsuranceBrowserLib\bin\Release Setup\InstallFiles /e /d /y /c /exclude:copy_exclude.txt
-xcopy MultiPlayer\bin\Release Setup\InstallFiles /e /d /y /c /exclude:copy_exclude.txt
-xcopy WinfromUI\bin\Release Setup\InstallFiles /e /d /y /c /exclude:copy_exclude.txt
-xcopy ..\HaSdkDemoCsharp\lib\ Setup\InstallFiles /e /d /y /c /exclude:copy_exclude.txt
-xcopy ..\AttendanceWeb\dist Setup\InstallFiles\detached /e /d /y /c /exclude:copy_exclude.txt
-xcopy tool Setup\InstallFiles /e /d /y /c
+xcopy CefSharpLib Setup\InstallFiles /e /y 
+xcopy huaanClient\bin\x86\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy InsuranceBrowserLib\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy MultiPlayer\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy WinfromUI\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy ..\HaSdkDemoCsharp\lib\ Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy ..\AttendanceWeb\dist Setup\InstallFiles\detached /e /y /exclude:copy_exclude.txt
+xcopy tool Setup\InstallFiles /e /y
