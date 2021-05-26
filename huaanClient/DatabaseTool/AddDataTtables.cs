@@ -49,7 +49,7 @@ namespace huaanClient.DatabaseTool
                                     }
                                     catch (Exception ex)
                                     {
-                                        Logger.Error(ex);
+                                        Logger.Error(ex, "swallow exception on purpose");
                                     }
                                 }
                             }
@@ -69,7 +69,7 @@ namespace huaanClient.DatabaseTool
                                     }
                                     catch (Exception ex)
                                     {
-                                        Logger.Error(ex);
+                                        Logger.Error(ex, "swallow exception on purpose");
                                     }
                                 }
                             }
@@ -78,7 +78,7 @@ namespace huaanClient.DatabaseTool
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex);
+                        Logger.Error(ex, "swallow exception on purpose");
                     }
                 }
             });
@@ -180,8 +180,9 @@ namespace huaanClient.DatabaseTool
                         SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
                     }
                 }
-                catch {
-                    throw;
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "swallow exception on purpose");
                 }
                 
                 Inihelper.WriteBool("Setting", "FirstRun", true);
