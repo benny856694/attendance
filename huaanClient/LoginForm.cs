@@ -316,9 +316,11 @@ namespace huaanClient
             try
             {
                 //初始化数据库
+                Logger.Debug($"begin init database");
                var suc = await AddDataTtables.addData();
                 if (!suc)
                 {
+                    Logger.Debug($"init database failed");
                     if (isZn)
                     {
                         MessageBox.Show(lbStatus.Text = "数据库初始化失败。");

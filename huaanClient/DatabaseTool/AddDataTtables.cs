@@ -14,6 +14,7 @@ namespace huaanClient.DatabaseTool
 {
     class AddDataTtables
     {
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static async Task<bool> addData()
         {
@@ -26,12 +27,14 @@ namespace huaanClient.DatabaseTool
             await Task.Factory.StartNew(() =>
             {
                 //添加Capture_Data 先判断是否存在 如果不存在就创建
+
                 for (int i = 0; i < tableName.tablename.Length; i++)
                 {
                     try
                     {
                         if (!Isexistence(tableName.tablename[i].Trim()))
                         {
+                            Logger.Debug($"create table {tableName.tablename[i]}");
                             //如果不存在创建数据库
                             SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "CREATE TABLE " + tableName.tablename[i].Trim() + " (id integer NOT NULL PRIMARY KEY AUTOINCREMENT)");
                             //添加列
@@ -40,7 +43,14 @@ namespace huaanClient.DatabaseTool
                             {
                                 for (int m = 0; m < g.Length; m++)
                                 {
-                                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
+                                    try
+                                    {
+                                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Error(ex);
+                                    }
                                 }
                             }
                         }
@@ -53,14 +63,22 @@ namespace huaanClient.DatabaseTool
                             {
                                 for (int m = 0; m < g.Length; m++)
                                 {
-                                     SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
+                                    try
+                                    {
+                                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logger.Error(ex);
+                                    }
                                 }
                             }
                         }
+                        Logger.Debug($"table create succeed");
                     }
                     catch (Exception ex)
                     {
-                        throw;
+                        Logger.Error(ex);
                     }
                 }
             });

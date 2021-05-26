@@ -25,6 +25,8 @@ namespace huaanClient
     /// </summary>
     public partial class LoginNew : Window
     {
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public LoginNew()
         {
             InitializeComponent();
@@ -93,8 +95,9 @@ namespace huaanClient
                     ApplicationData.FaceRASystemToolUrl = "C:\\FaceRASystemTool";
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error(ex, "Init error");
                 MessageBox.Show("Error, Please contact customer service");
                 return;
             }
@@ -108,6 +111,7 @@ namespace huaanClient
             }
             catch (Exception ex)
             {
+                Logger.Error(ex, "init db error");
                 if (isZn)
                 {
                     changeLable("数据库初始化失败。");
