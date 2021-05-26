@@ -46,6 +46,8 @@ namespace huaanClient
         private const int WM_NCPAINT = 0x0085;
         private const int WM_ACTIVATEAPP = 0x001C;
 
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public struct MARGINS                           // struct for box shadow
         {
             public int leftWidth;
@@ -314,10 +316,25 @@ namespace huaanClient
             try
             {
                 //初始化数据库
-                await AddDataTtables.addData();
+               var suc = await AddDataTtables.addData();
+                if (!suc)
+                {
+                    if (isZn)
+                    {
+                        MessageBox.Show(lbStatus.Text = "数据库初始化失败。");
+                        return;
+                    }
+                    else
+                    {
+                        MessageBox.Show(lbStatus.Text = "Database initialization failed。");
+                        return;
+                    }
+                }
             }
             catch (Exception ex)
             {
+                Logger.Error(ex, "Initialize database");
+
                 if (isZn)
                 {
                     MessageBox.Show(lbStatus.Text = "数据库初始化失败。");

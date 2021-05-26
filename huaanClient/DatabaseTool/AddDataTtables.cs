@@ -40,13 +40,7 @@ namespace huaanClient.DatabaseTool
                             {
                                 for (int m = 0; m < g.Length; m++)
                                 {
-                                    try
-                                    {
-                                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
-                                    }
-                                    catch
-                                    {
-                                    }
+                                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
                                 }
                             }
                         }
@@ -59,20 +53,14 @@ namespace huaanClient.DatabaseTool
                             {
                                 for (int m = 0; m < g.Length; m++)
                                 {
-                                    try
-                                    {
-                                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                    }
+                                     SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
                                 }
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-
+                        throw;
                     }
                 }
             });
@@ -174,7 +162,9 @@ namespace huaanClient.DatabaseTool
                         SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
                     }
                 }
-                catch{}
+                catch {
+                    throw;
+                }
                 
                 Inihelper.WriteBool("Setting", "FirstRun", true);
             }

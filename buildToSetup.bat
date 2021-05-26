@@ -5,6 +5,7 @@ rmdir /s/q Setup\InstallFiles
 ::创建文件
 md Setup\InstallFiles
 md Setup\InstallFiles\detached
+md Setup\InstallFiles\branding
 
 ::复制可执行文件(相对路径)
 xcopy CefSharpLib Setup\InstallFiles /e /y 
@@ -15,4 +16,4 @@ xcopy WinfromUI\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
 xcopy ..\HaSdkDemoCsharp\lib\ Setup\InstallFiles /e /y /exclude:copy_exclude.txt
 xcopy ..\AttendanceWeb\dist Setup\InstallFiles\detached /e /y /exclude:copy_exclude.txt
 xcopy tool Setup\InstallFiles /e /y
-xcopy Setup\branding Setup\InstallFiles /e /y
+xcopy Setup\branding Setup\InstallFiles\branding /e /y
