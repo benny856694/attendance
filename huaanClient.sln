@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserLib", "InsuranceBrow
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiPlayer", "MultiPlayer\MultiPlayer.csproj", "{6566A5AB-BDBA-44EF-AE5C-87E4A000A6CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Dashboard\Dashboard.csproj", "{9FE5B056-A3E5-455B-BF6D-D085D0C60DBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{6566A5AB-BDBA-44EF-AE5C-87E4A000A6CA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6566A5AB-BDBA-44EF-AE5C-87E4A000A6CA}.Release|x86.ActiveCfg = Release|Any CPU
 		{6566A5AB-BDBA-44EF-AE5C-87E4A000A6CA}.Release|x86.Build.0 = Release|Any CPU
+		{9FE5B056-A3E5-455B-BF6D-D085D0C60DBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE5B056-A3E5-455B-BF6D-D085D0C60DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE5B056-A3E5-455B-BF6D-D085D0C60DBE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9FE5B056-A3E5-455B-BF6D-D085D0C60DBE}.Debug|x86.Build.0 = Debug|Any CPU
+		{9FE5B056-A3E5-455B-BF6D-D085D0C60DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE5B056-A3E5-455B-BF6D-D085D0C60DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE5B056-A3E5-455B-BF6D-D085D0C60DBE}.Release|x86.ActiveCfg = Release|Any CPU
+		{9FE5B056-A3E5-455B-BF6D-D085D0C60DBE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
