@@ -70,13 +70,13 @@ namespace Dashboard.Controls
             {
                 for (int j = 0; j < tlp.ColumnCount; j++)
                 {
+                    Control c = null;
                     if (index >= controls.Length)
                     {
                         if (hidenControls.Count > 0)
                         {
-                            var c = hidenControls[0];
+                            c = hidenControls[0];
                             hidenControls.RemoveAt(0);
-                            tlp.Controls.Add(c);
                         }
                         else
                         {
@@ -91,16 +91,16 @@ namespace Dashboard.Controls
                             {
                                 throw new InvalidOperationException(@"new control must be created by handling 'CreateNewControlForCell' event");
                             }
-
-                            tlp.Controls.Add(e.Control, j, i);
                             addedControls.Add(e.Control);
+                            c = e.Control;
                         }
                     }
                     else
                     {
-                        tlp.Controls.Add(controls[index], j, i);
+                        c = controls[index];
                     }
 
+                    tlp.Controls.Add(c, j, i);
                     ++index;
                 }
             }
