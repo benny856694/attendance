@@ -76,7 +76,7 @@ namespace Dashboard.Controls
         {
             if (_selected)
             {
-                using (Pen pen = new Pen(Color.Gray, 2))
+                using (Pen pen = new Pen(Color.White, 2))
                 {
                     e.Graphics.DrawRectangle(pen, 1, 1, Width - 4, Height - 4);
                 }
