@@ -38,11 +38,6 @@ namespace Dashboard.Controls
             set => this.BackColor = value;
         }
 
-        public void Select()
-        {
-            this.Selected = true;
-        }
-
         public bool Selected
         {
             get => _selected;
