@@ -15,6 +15,7 @@ namespace Dashboard.Controls
         private (int Row, int Col) _rowColumns = (0,0);
         private TableLayoutPanel _tlp;
         private Control[] _invisibleControls;
+        private Control _lastSelectedControl;
 
 
         public event EventHandler RowColumnChanged;
@@ -91,6 +92,14 @@ namespace Dashboard.Controls
                             {
                                 throw new InvalidOperationException(@"new control must be created by handling 'CreateNewControlForCell' event");
                             }
+
+                            var cameraControl = (e.Control as ISelectable);
+                            if (cameraControl != null)
+                            {
+                                cameraControl.MouseClicked += CameraControl_OnClicked;
+
+                            }
+
                             addedControls.Add(e.Control);
                             c = e.Control;
                         }
@@ -113,6 +122,29 @@ namespace Dashboard.Controls
 
             return (addedControls.ToArray(), hidenControls.ToArray());
 
+        }
+
+        private void CameraControl_OnClicked(object sender, MouseEventArgs e)
+        {
+            var cc = sender as Control;
+            if (cc == _lastSelectedControl)
+            {
+                return;
+            }
+
+            var lastSelectable = _lastSelectedControl as ISelectable;
+            if (lastSelectable != null)
+            {
+                lastSelectable.Selected = false;
+            }
+
+            var newSelectable = cc as ISelectable;
+            if (newSelectable != null)
+            {
+                newSelectable.Selected = true;
+            }
+
+            _lastSelectedControl = cc;
         }
 
         public void Add(Control c, int row, int col) => _tlp.Controls.Add(c, col, row);

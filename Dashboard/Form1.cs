@@ -31,7 +31,6 @@ namespace Dashboard
             HaCamera.DiscoverDevice();
 
 
-            cameraUserControl1.OnClicked += CameraUserControl1_OnClicked;
         }
 
         private void CameraUserControl1_OnClicked(object sender, EventArgs e)

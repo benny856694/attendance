@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dashboard.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,13 +23,9 @@ namespace Dashboard
 
         private void GridControl1_CreateNewControlForCell(object sender, Controls.CreateNewControlEventArgs e)
         {
-            var c = new Panel() 
-            { 
-                BackColor = Color.Gray,
-                Dock = DockStyle.Fill
-            };
+            var c = new CameraUserControl();
+            c.Dock = DockStyle.Fill;
 
-            c.Controls.Add(new Label() { Text = $"{e.Position} @ {DateTime.Now}", ForeColor = Color.White, AutoSize = true });
 
             e.Control = c;
         }

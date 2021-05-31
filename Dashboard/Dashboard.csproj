@@ -67,6 +67,7 @@
     <Compile Include="Controls\GridControl.Designer.cs">
       <DependentUpon>GridControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ISelectable.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Dashboard.Controls
 {
-    public partial class CameraUserControl : UserControl
+    public partial class CameraUserControl : UserControl, ISelectable
     {
         private bool _selected;
 
@@ -38,6 +38,11 @@ namespace Dashboard.Controls
             set => this.BackColor = value;
         }
 
+        public void Select()
+        {
+            this.Selected = true;
+        }
+
         public bool Selected
         {
             get => _selected;
@@ -48,25 +53,35 @@ namespace Dashboard.Controls
             }
         }
 
-        public event EventHandler OnClicked;
+        public event EventHandler<MouseEventArgs> MouseClicked;
 
         public CameraUserControl()
         {
             InitializeComponent();
+            this.MouseClick += CameraUserControl_MouseClick;
+            this.pictureBox1.MouseClick += PictureBox1_MouseClick;
+        }
+
+        private void PictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.MouseClicked?.Invoke(this, e);
+        }
+
+        private void CameraUserControl_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.MouseClicked?.Invoke(this, e);
         }
 
         private void CameraUserControl_Paint(object sender, PaintEventArgs e)
         {
             if (_selected)
             {
-                Pen pen = new Pen(new SolidBrush(Color.LightBlue), 2);
-                e.Graphics.DrawRectangle(pen, 1, 1, Width - 4, Height - 4);
+                using (Pen pen = new Pen(Color.Gray, 2))
+                {
+                    e.Graphics.DrawRectangle(pen, 1, 1, Width - 4, Height - 4);
+                }
             }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            OnClicked?.Invoke(this, e);
-        }
     }
 }

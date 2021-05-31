@@ -35,6 +35,7 @@ namespace Dashboard.Controls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.Name = "GridControl";
             this.Size = new System.Drawing.Size(631, 400);
             this.ResumeLayout(false);
