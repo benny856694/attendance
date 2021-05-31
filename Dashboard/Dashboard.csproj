@@ -58,6 +58,9 @@
     <Compile Include="Controls\CameraUserControl.Designer.cs">
       <DependentUpon>CameraUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CellPosition.cs" />
+    <Compile Include="Controls\CreateNewControlEventArgs.cs" />
+    <Compile Include="Controls\Extensions.cs" />
     <Compile Include="Controls\GridControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

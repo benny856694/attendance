@@ -17,44 +17,43 @@ namespace Dashboard
             InitializeComponent();
 
             gridControl1.RowColumnChanged += GridControl1_RowColumnChanged;
+            gridControl1.CreateNewControlForCell += GridControl1_CreateNewControlForCell;
+        }
+
+        private void GridControl1_CreateNewControlForCell(object sender, Controls.CreateNewControlEventArgs e)
+        {
+            var c = new Panel() 
+            { 
+                BackColor = Color.Gray,
+                Dock = DockStyle.Fill
+            };
+
+            c.Controls.Add(new Label() { Text = $"{e.Position} @ {DateTime.Now}", ForeColor = Color.White, AutoSize = true });
+
+            e.Control = c;
         }
 
         private void GridControl1_RowColumnChanged(object sender, EventArgs e)
         {
-            var rowcol = gridControl1.RowColumn;
-            for (int i = 0; i < rowcol.Rows; i++)
-            {
-                for (int j = 0; j < rowcol.Cols; j++)
-                {
-                    var panel = new Panel();
-                    panel.Dock = DockStyle.Fill;
-                    panel.ForeColor = Color.White;
-                    panel.BorderStyle = BorderStyle.FixedSingle;
-                    panel.BackColor = Color.Gray;
-
-                    gridControl1.Add(panel, i, j);
-                }
-            }
+            
         }
 
-        private void buttonIncColAndRow_Click(object sender, EventArgs e)
-        {
-            var rc = gridControl1.RowColumn;
-            rc.Cols++;
-            rc.Rows++;
-            gridControl1.RowColumn = rc;
-        }
-
+       
         private void TestForm_Load(object sender, EventArgs e)
         {
             gridControl1.RowColumn = (1, 1);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+   
+        private void numericUpDownCol_ValueChanged(object sender, EventArgs e)
         {
-            var rc = gridControl1.RowColumn;
-            rc.Cols--;
-            rc.Rows--;
+            var rc = (gridControl1.RowColumn.Rows, Convert.ToInt32(numericUpDownCol.Value));
+            gridControl1.RowColumn = rc;
+        }
+
+        private void numericUpDownRow_ValueChanged(object sender, EventArgs e)
+        {
+            var rc = (Convert.ToInt32(numericUpDownRow.Value), gridControl1.RowColumn.Cols);
             gridControl1.RowColumn = rc;
         }
     }
