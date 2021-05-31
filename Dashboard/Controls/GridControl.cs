@@ -14,8 +14,7 @@ namespace Dashboard.Controls
     {
         private (int Row, int Col) _rowColumns = (0,0);
         private TableLayoutPanel _tlp;
-        private List<Control> _visibleControls = new List<Control>();
-        private List<Control> _invisibleControls = new List<Control>();
+        private Control[] _invisibleControls;
 
 
         public event EventHandler RowColumnChanged;
@@ -50,7 +49,8 @@ namespace Dashboard.Controls
                 _tlp = CreateTableLayout(value);
                 _tlp.Dock = DockStyle.Fill;
 
-                MoveOldControlToNewContainer(visibleControls, _tlp);
+                var result = MoveOldControlToNewContainer(visibleControls, _tlp);
+                _invisibleControls = result.Hiden;
                 
 
                 this.Controls.Add(_tlp);
@@ -64,7 +64,7 @@ namespace Dashboard.Controls
         {
             var index = 0;
             var addedControls = new List<Control>();
-            var hidenControls = new List<Control>();
+            var hidenControls = new List<Control>(_invisibleControls ?? new Control[0]);
 
             for (int i = 0; i < tlp.RowCount; i++)
             {
@@ -72,20 +72,29 @@ namespace Dashboard.Controls
                 {
                     if (index >= controls.Length)
                     {
-                        if (CreateNewControlForCell == null)
+                        if (hidenControls.Count > 0)
                         {
-                            throw new InvalidOperationException("CreateNewControlForCell event must be handled");
+                            var c = hidenControls[0];
+                            hidenControls.RemoveAt(0);
+                            tlp.Controls.Add(c);
                         }
-
-                        var e = new CreateNewControlEventArgs(new CellPosition(j, i));
-                        CreateNewControlForCell.Invoke(this, e);
-                        if (e.Control == null)
+                        else
                         {
-                            throw new InvalidOperationException(@"new control must be created by handling 'CreateNewControlForCell' event");
-                        }
+                            if (CreateNewControlForCell == null)
+                            {
+                                throw new InvalidOperationException("CreateNewControlForCell event must be handled");
+                            }
 
-                        tlp.Controls.Add(e.Control, j, i);
-                        addedControls.Add(e.Control);
+                            var e = new CreateNewControlEventArgs(new CellPosition(j, i));
+                            CreateNewControlForCell.Invoke(this, e);
+                            if (e.Control == null)
+                            {
+                                throw new InvalidOperationException(@"new control must be created by handling 'CreateNewControlForCell' event");
+                            }
+
+                            tlp.Controls.Add(e.Control, j, i);
+                            addedControls.Add(e.Control);
+                        }
                     }
                     else
                     {
@@ -98,8 +107,9 @@ namespace Dashboard.Controls
 
             for (int i = index; i < controls.Length; i++)
             {
-                hidenControls.Add(controls[i]);
+                hidenControls.Insert(0, controls[i]);
             }
+
 
             return (addedControls.ToArray(), hidenControls.ToArray());
 
@@ -134,7 +144,7 @@ namespace Dashboard.Controls
             var rowHeight = 100F / rowCols.rows;
             for (int i = 0; i < rowCols.rows; i++)
             {
-                tlp.RowStyles.Add(new ColumnStyle(SizeType.Percent, rowHeight));
+                tlp.RowStyles.Add(new RowStyle(SizeType.Percent, rowHeight));
             }
 
             return tlp;
