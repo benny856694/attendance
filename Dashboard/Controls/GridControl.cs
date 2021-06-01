@@ -14,14 +14,20 @@ namespace Dashboard.Controls
     {
         private (int Row, int Col) _rowColumns = (0,0);
         private TableLayoutPanel _tlp;
-        private Control[] _invisibleControls;
+        private Control[] _invisibleControls = new Control[0];
         private Control _lastSelectedControl;
+
 
 
         public event EventHandler RowColumnChanged;
 
         public event EventHandler<CreateNewControlEventArgs> CreateNewControlForCell;
 
+        public event EventHandler<ControlVisibleChangedEventArgs> ControlVisibleChanged;
+
+        public Control SelectedControl => _lastSelectedControl;
+
+        public Control[] HidenControls => _invisibleControls;
 
         public (int Rows, int Cols) RowColumn
         {
@@ -52,32 +58,58 @@ namespace Dashboard.Controls
 
                 var result = MoveOldControlToNewContainer(visibleControls, _tlp);
                 _invisibleControls = result.Hiden;
+
+                if (_invisibleControls.Contains(_lastSelectedControl))
+                {
+                    var selectable = _lastSelectedControl as ISelectable;
+                    if (selectable != null)
+                    {
+                        selectable.Selected = false;
+                    }
+                    _lastSelectedControl = null;
+                }
                 
 
                 this.Controls.Add(_tlp);
                 this.ResumeLayout();
 
+                foreach (var item in result.VisibleToHidden)
+                {
+                    var args = new ControlVisibleChangedEventArgs(item, VisibleState.Show, VisibleState.Hide);
+                    ControlVisibleChanged?.Invoke(this, args);
+                }
+
+                foreach (var item in result.HidenToVisible)
+                {
+                    var args = new ControlVisibleChangedEventArgs(item, VisibleState.Hide, VisibleState.Show);
+                    ControlVisibleChanged?.Invoke(this, args);
+                }
+
                 RowColumnChanged?.Invoke(this, new EventArgs());
             }
         }
 
-        private (Control[] Added, Control[] Hiden)  MoveOldControlToNewContainer(Control[] controls, TableLayoutPanel tlp)
+        private (Control[] Added, Control[] Hiden, Control[] VisibleToHidden, Control[] HidenToVisible)  MoveOldControlToNewContainer(Control[] controls, TableLayoutPanel tlp)
         {
             var index = 0;
             var addedControls = new List<Control>();
             var hidenControls = new List<Control>(_invisibleControls ?? new Control[0]);
+            var hidenToVisibleControls = new List<Control>();
+            var visibleToHidenControls = new List<Control>();
 
             for (int i = 0; i < tlp.RowCount; i++)
             {
                 for (int j = 0; j < tlp.ColumnCount; j++)
                 {
                     Control c = null;
+                    
                     if (index >= controls.Length)
                     {
                         if (hidenControls.Count > 0)
                         {
                             c = hidenControls[0];
                             hidenControls.RemoveAt(0);
+                            hidenToVisibleControls.Add(c);
                         }
                         else
                         {
@@ -117,10 +149,11 @@ namespace Dashboard.Controls
             for (int i = index; i < controls.Length; i++)
             {
                 hidenControls.Insert(0, controls[i]);
+                visibleToHidenControls.Add(controls[i]);
             }
 
 
-            return (addedControls.ToArray(), hidenControls.ToArray());
+            return (addedControls.ToArray(), hidenControls.ToArray(), visibleToHidenControls.ToArray(), hidenToVisibleControls.ToArray());
 
         }
 

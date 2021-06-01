@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,12 @@ namespace Dashboard
 
             gridControl1.RowColumnChanged += GridControl1_RowColumnChanged;
             gridControl1.CreateNewControlForCell += GridControl1_CreateNewControlForCell;
+            gridControl1.ControlVisibleChanged += GridControl1_ControlVisibleChanged;
+        }
+
+        private void GridControl1_ControlVisibleChanged(object sender, ControlVisibleChangedEventArgs e)
+        {
+            Debug.WriteLine($"{e.OldVisibleState} -> {e.NewVisibleState}");
         }
 
         private void GridControl1_CreateNewControlForCell(object sender, Controls.CreateNewControlEventArgs e)

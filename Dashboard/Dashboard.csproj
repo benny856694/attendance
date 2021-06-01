@@ -68,6 +68,8 @@
       <DependentUpon>GridControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ISelectable.cs" />
+    <Compile Include="Controls\ControlVisibleChangedEventArgs.cs" />
+    <Compile Include="Controls\VisibleState.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
