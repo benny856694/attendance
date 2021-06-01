@@ -16,4 +16,4 @@ xcopy WinfromUI\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
 xcopy ..\HaSdkDemoCsharp\lib\ Setup\InstallFiles /e /y /exclude:copy_exclude.txt
 xcopy ..\AttendanceWeb\dist Setup\InstallFiles\detached /e /y /exclude:copy_exclude.txt
 xcopy tool Setup\InstallFiles /e /y
-xcopy Setup\branding Setup\InstallFiles\branding /e /y
+xcopy .\brandings Setup\InstallFiles\branding /e /y

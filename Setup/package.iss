@@ -2,7 +2,7 @@
 ; 有关创建 Inno Setup 脚本文件的详细资料请查阅帮助文档！
 
 #define MyAppName "FaceRASystem"
-#define MyAppVersion "2.7.2.0"
+#define MyAppVersion "2.7.3.0"
 #define MyAppPublisher "FaceRASystem"
 #define MyAppURL "http://www.huaanvision.com/"
 #define MyAppExeName "FaceRASystem.exe"
@@ -29,8 +29,8 @@ DisableProgramGroupPage=yes
 DirExistsWarning=no
 OutputDir=Output
 OutputBaseFilename={#MyAppName}{#MyAppVersion}
-SetupIconFile=branding\logo.ico
-WizardSmallImageFile=branding\logo.bmp
+SetupIconFile=InstallFiles\branding\logo.ico
+;WizardSmallImageFile=InstallFiles\branding\logo.bmp
 Compression=lzma
 SolidCompression=yes
 
@@ -45,7 +45,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "InstallFiles\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "InstallFiles\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "branding\*"; DestDir: "{app}\branding";
+Source: "InstallFiles\branding\*"; DestDir: "{app}\branding";
 ; 注意: 不要在任何共享系统文件上使用“Flags: ignoreversion”
 
 ;动态连接库  与进程相关(关闭进程等)
