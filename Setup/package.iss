@@ -30,7 +30,7 @@ DirExistsWarning=no
 OutputDir=Output
 OutputBaseFilename={#MyAppName}{#MyAppVersion}
 SetupIconFile=InstallFiles\branding\logo.ico
-;WizardSmallImageFile=InstallFiles\branding\logo.bmp
+WizardSmallImageFile=InstallFiles\branding\logo.bmp
 Compression=lzma
 SolidCompression=yes
 

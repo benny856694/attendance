@@ -1496,7 +1496,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public string getLogo()
         {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"branding\logo.png");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"branding\logo.bmp");
             if (File.Exists(path))
             {
                 return path;
