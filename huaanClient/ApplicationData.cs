@@ -5,8 +5,7 @@ namespace huaanClient
     class ApplicationData
     {
         //是否为测试
-        public static bool istest = false;
-        public static bool IsTest { get; set; }
+        public static bool IsTest => Properties.Settings.Default.debug;
 
         public static string MyAppVersion = "2.7.2.0";
 

@@ -257,7 +257,6 @@ namespace huaanClient
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ApplicationData.IsTest = ApplicationData.istest;
             ApplicationData.DefaultLanguage = ApplicationData.defaultLanguage;
             try
             {

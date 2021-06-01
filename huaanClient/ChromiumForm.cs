@@ -1494,6 +1494,17 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return GetData.getCapture_Data7day();
         }
 
+        public string getLogo()
+        {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"branding\logo.png");
+            if (File.Exists(path))
+            {
+                return path;
+            }
+
+            return "";
+        }
+
         //控制寻轮调用getCapture_Datacuont
         //public string getCapture_Datacuontfortime(string statime, string endtime, string name, string devname, string stranger)
         //{

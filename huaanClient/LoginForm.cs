@@ -143,7 +143,6 @@ namespace huaanClient
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            ApplicationData.IsTest = ApplicationData.istest;
             ApplicationData.DefaultLanguage = ApplicationData.defaultLanguage;
             try
             {
