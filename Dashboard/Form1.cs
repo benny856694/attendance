@@ -15,7 +15,6 @@ namespace Dashboard
 {
     public partial class Form1 : Form
     {
-        CameraUserControl lastCameraUserControl = null;
         Dictionary<HaCamera, CameraUserControl> _cameraToControlMap
             = new Dictionary<HaCamera, CameraUserControl>();
 
@@ -30,26 +29,20 @@ namespace Dashboard
             HaCamera.DeviceDiscovered += HaCamera_DeviceDiscovered;
             HaCamera.DiscoverDevice();
 
+            gridControl1.CreateNewControlForCell += GridControl1_CreateNewControlForCell;
 
+            gridControl1.RowColumn = (2, 2);
+        }
+
+        private void GridControl1_CreateNewControlForCell(object sender, CreateNewControlEventArgs e)
+        {
+            var c = new CameraUserControl();
+            c.Dock = DockStyle.Fill;
+            e.Control = c;
         }
 
         private void CameraUserControl1_OnClicked(object sender, EventArgs e)
         {
-            var cam = sender as CameraUserControl;
-            if (cam != null)
-            {
-                if (cam == lastCameraUserControl)
-                {
-                    return;
-                }
-
-                if (lastCameraUserControl != null)
-                {
-                    lastCameraUserControl.Selected = false;
-                }
-                lastCameraUserControl = cam;
-                cam.Selected = true;
-            }
 
             
         }
@@ -62,31 +55,30 @@ namespace Dashboard
 
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
+            var targetControl = gridControl1.SelectedControl as CameraUserControl;
+            if (targetControl == null) return;
+
             var selectedCameraIp = (string)listBox1.SelectedItem;
-            var oldCam = lastCameraUserControl?.Tag as HaCamera;
-            if (oldCam?.Ip == selectedCameraIp)
+            HaCamera cam = GetRunningCameraByIp(selectedCameraIp);
+            if (cam != null)
             {
+                cam.Tag = targetControl;
+                _cameraToControlMap[cam] = targetControl;
                 return;
             }
 
-            if (oldCam != null)
-            {
-                oldCam.FaceCaptured -= Cam_FaceCaptured;
-                oldCam.DisConnect();
 
-            }
+            var newCam = new HaCamera() { Ip = selectedCameraIp };
+            newCam.Tag = targetControl;
+            targetControl.Tag = cam;
+            targetControl.TopRightText = selectedCameraIp;
+            newCam.Port = 9527;
+            newCam.Username = "admin";
+            newCam.Password = "admin";
+            newCam.FaceCaptured += Cam_FaceCaptured;
+            newCam.Connectnovideo();
 
-
-            var cam = new HaCamera() { Ip = listBox1.SelectedItem as string };
-            cam.Tag = lastCameraUserControl;
-            lastCameraUserControl.Tag = cam;
-            lastCameraUserControl.TopRightText = selectedCameraIp;
-            cam.Port = 9527;
-            cam.Username = "admin";
-            cam.Password = "admin";
-            cam.FaceCaptured += Cam_FaceCaptured;
-            cam.Connectnovideo();
-
+            _cameraToControlMap.Add(newCam, targetControl);
         }
 
         private void Cam_FaceCaptured(object sender, FaceCapturedEventArgs e)
@@ -109,6 +101,41 @@ namespace Dashboard
             }
            
             
+        }
+
+        private HaCamera GetRunningCameraByIp(string ip)
+        {
+            return gridControl1
+                .Controls
+                .OfType<Control>()
+                .Select(x => x.Tag as HaCamera)
+                .FirstOrDefault(x=>x?.Ip == ip);
+                
+        }
+
+        private void gridControl1_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+
+        
+        private void gridControl1_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void gridControl1_MouseLeave(object sender, EventArgs e)
+        {
+        }
+
+        private void comboBox1Col_SelectedValueChanged(object sender, EventArgs e)
+        {
+            gridControl1.Cols = Convert.ToInt32(comboBox1Col.SelectedItem);
+        }
+
+        private void comboBoxRow_SelectedValueChanged(object sender, EventArgs e)
+        {
+            gridControl1.Rows = Convert.ToInt32(comboBoxRow.SelectedItem);
         }
     }
 }

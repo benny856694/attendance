@@ -40,20 +40,18 @@ namespace Dashboard.Controls
             this.labelBottomCenter.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.labelBottomCenter.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelBottomCenter.ForeColor = System.Drawing.Color.White;
-            this.labelBottomCenter.Location = new System.Drawing.Point(3, 417);
-            this.labelBottomCenter.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelBottomCenter.Location = new System.Drawing.Point(2, 361);
             this.labelBottomCenter.Name = "labelBottomCenter";
-            this.labelBottomCenter.Size = new System.Drawing.Size(679, 38);
+            this.labelBottomCenter.Size = new System.Drawing.Size(510, 33);
             this.labelBottomCenter.TabIndex = 0;
             this.labelBottomCenter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(2, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(679, 414);
+            this.pictureBox1.Size = new System.Drawing.Size(510, 358);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -62,32 +60,32 @@ namespace Dashboard.Controls
             // 
             this.labelTopRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTopRight.AutoEllipsis = true;
+            this.labelTopRight.AutoSize = true;
             this.labelTopRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTopRight.ForeColor = System.Drawing.Color.White;
             this.labelTopRight.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelTopRight.Location = new System.Drawing.Point(473, 15);
-            this.labelTopRight.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTopRight.Location = new System.Drawing.Point(502, 14);
             this.labelTopRight.Name = "labelTopRight";
-            this.labelTopRight.Size = new System.Drawing.Size(192, 28);
+            this.labelTopRight.Size = new System.Drawing.Size(0, 24);
             this.labelTopRight.TabIndex = 2;
             this.labelTopRight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CameraUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.labelTopRight);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.labelBottomCenter);
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "CameraUserControl";
-            this.Padding = new System.Windows.Forms.Padding(3);
-            this.Size = new System.Drawing.Size(685, 458);
+            this.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.Size = new System.Drawing.Size(514, 397);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.CameraUserControl_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

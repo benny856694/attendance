@@ -29,12 +29,30 @@ namespace Dashboard.Controls
 
         public Control[] HidenControls => _invisibleControls;
 
+        public int Rows
+        {
+            get => _rowColumns.Row;
+            set
+            {
+                RowColumn = (value, Cols);
+            }
+        }
+
+        public int Cols
+        {
+            get => _rowColumns.Col;
+            set
+            {
+                RowColumn = (Rows, value);
+            }
+        }
+
         public (int Rows, int Cols) RowColumn
         {
             get => _rowColumns;
             set
             {
-                if (value.Rows < 1 || value.Cols < 1)
+                if (value.Rows < 0 || value.Cols < 0)
                 {
                     throw new ArgumentOutOfRangeException("Rows and Cols must be > 0");
                 }

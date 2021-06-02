@@ -18,7 +18,11 @@ namespace Dashboard.Controls
         public string TopRightText
         {
             get => labelTopRight.Text;
-            set => labelTopRight.Text = value;
+            set
+            {
+                labelTopRight.Text = value;
+
+            }
         }
 
         public string BottomText
@@ -55,6 +59,12 @@ namespace Dashboard.Controls
             InitializeComponent();
             this.MouseClick += CameraUserControl_MouseClick;
             this.pictureBox1.MouseClick += PictureBox1_MouseClick;
+            this.labelTopRight.SizeChanged += LabelTopRight_SizeChanged;
+        }
+
+        private void LabelTopRight_SizeChanged(object sender, EventArgs e)
+        {
+            labelTopRight.Left = this.Width - 5 - labelTopRight.Width;
         }
 
         private void PictureBox1_MouseClick(object sender, MouseEventArgs e)
