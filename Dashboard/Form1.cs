@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -30,8 +31,18 @@ namespace Dashboard
             HaCamera.DiscoverDevice();
 
             gridControl1.CreateNewControlForCell += GridControl1_CreateNewControlForCell;
+            gridControl1.ControlVisibleChanged += GridControl1_ControlVisibleChanged;
 
             gridControl1.RowColumn = (2, 2);
+        }
+
+        private void GridControl1_ControlVisibleChanged(object sender, ControlVisibleChangedEventArgs e)
+        {
+            var c = e.Control as CameraUserControl;
+            if (c != null)
+            {
+                ReleaseControlCamera(c);
+            }
         }
 
         private void GridControl1_CreateNewControlForCell(object sender, CreateNewControlEventArgs e)
@@ -60,18 +71,28 @@ namespace Dashboard
 
             var selectedCameraIp = (string)listBox1.SelectedItem;
             HaCamera cam = GetRunningCameraByIp(selectedCameraIp);
+            if (ReferenceEquals(cam?.Tag, targetControl)) return;
+
             if (cam != null)
             {
-                cam.Tag = targetControl;
-                _cameraToControlMap[cam] = targetControl;
-                return;
+                //change camera target control
+                ChangeCamTargetControl(cam, targetControl);
+            }
+            else
+            {
+                ConnectNewCamToControl(selectedCameraIp, targetControl);
             }
 
+        }
 
-            var newCam = new HaCamera() { Ip = selectedCameraIp };
+        private void ConnectNewCamToControl(string ip, CameraUserControl targetControl)
+        {
+            ReleaseControlCamera(targetControl);
+
+            var newCam = new HaCamera() { Ip = ip };
             newCam.Tag = targetControl;
-            targetControl.Tag = cam;
-            targetControl.TopRightText = selectedCameraIp;
+            targetControl.Tag = newCam;
+            targetControl.TopRightText = ip;
             newCam.Port = 9527;
             newCam.Username = "admin";
             newCam.Password = "admin";
@@ -79,6 +100,40 @@ namespace Dashboard
             newCam.Connectnovideo();
 
             _cameraToControlMap.Add(newCam, targetControl);
+
+        }
+
+        private void ChangeCamTargetControl(HaCamera cam, CameraUserControl targetControl)
+        {
+            ReleaseControlCamera(targetControl);
+
+            var oldControl = cam.Tag as CameraUserControl;
+            if (oldControl != null)
+            {
+                oldControl.Tag = null;
+                oldControl.Clear();
+            }
+
+            cam.Tag = targetControl;
+            targetControl.Tag = cam;
+            targetControl.TopRightText = cam.Ip;
+            _cameraToControlMap[cam] = targetControl;
+            return;
+
+        }
+
+        private void ReleaseControlCamera(CameraUserControl targetControl)
+        {
+            var cam = targetControl.Tag as HaCamera;
+            if (cam != null)
+            {
+                cam.FaceCaptured -= Cam_FaceCaptured;
+                cam.Tag = null;
+                targetControl.Tag = null;
+                cam.DisConnect();
+                _cameraToControlMap.Remove(cam);
+            }
+            targetControl.Clear();
         }
 
         private void Cam_FaceCaptured(object sender, FaceCapturedEventArgs e)
@@ -105,11 +160,20 @@ namespace Dashboard
 
         private HaCamera GetRunningCameraByIp(string ip)
         {
-            return gridControl1
-                .Controls
-                .OfType<Control>()
+            var controls = gridControl1
+                .ChildControls
+                .OfType<CameraUserControl>();
+
+            Debug.WriteLine($"total {controls.Count()} controls");
+            foreach (var c in controls)
+            {
+                Debug.WriteLine((c.Tag as HaCamera)?.Ip);
+            }
+
+            var cam = controls
                 .Select(x => x.Tag as HaCamera)
                 .FirstOrDefault(x=>x?.Ip == ip);
+            return cam;
                 
         }
 

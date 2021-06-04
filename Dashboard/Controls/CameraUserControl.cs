@@ -62,9 +62,18 @@ namespace Dashboard.Controls
             this.labelTopRight.SizeChanged += LabelTopRight_SizeChanged;
         }
 
+        public void Clear()
+        {
+            var pic = this.pictureBox1.Image;
+            this.pictureBox1.Image = null;
+            this.labelTopRight.Text = "";
+            this.labelBottomCenter.Text = "";
+            this.BackColor = Color.Black;
+        }
+
         private void LabelTopRight_SizeChanged(object sender, EventArgs e)
         {
-            labelTopRight.Left = this.Width - 5 - labelTopRight.Width;
+            //labelTopRight.Left = this.Width - 5 - labelTopRight.Width;
         }
 
         private void PictureBox1_MouseClick(object sender, MouseEventArgs e)
