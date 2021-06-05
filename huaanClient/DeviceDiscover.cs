@@ -11,6 +11,7 @@ namespace huaanClient
 {
     public static class DeviceDiscover
     {
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static List<(string mac, string ip, string mask, string platform, string system)> Search(int timeoutSec)
         {
             List<(string mac, string ip, string mask, string platform, string system)> ret = new List<(string mac, string ip, string mask, string platform, string system)>();
@@ -21,7 +22,7 @@ namespace huaanClient
             for (int i = 0; i < ipadrlist.Length; ++i)
             {
                 IPAddress ipa = ipadrlist[i];
-                UdpClient client = new UdpClient(new IPEndPoint(ipa, 0));
+                UdpClient client = new UdpClient();
                 client.JoinMulticastGroup(IPAddress.Parse("224.0.1.1"));
 
                 IPEndPoint multicast = new IPEndPoint(IPAddress.Parse("224.0.1.1"), 6100);
@@ -74,7 +75,10 @@ namespace huaanClient
                             }
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex);
+                    }
                 });
             }
             foreach (Task task in tasks)
@@ -82,7 +86,10 @@ namespace huaanClient
                 {
                     task.Wait();
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                }
 
             return ret;
         }
