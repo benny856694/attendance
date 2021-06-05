@@ -39,7 +39,7 @@ namespace Dashboard
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxRow = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1Col = new System.Windows.Forms.ComboBox();
+            this.comboBoxCol = new System.Windows.Forms.ComboBox();
             this.gridControl1 = new Dashboard.Controls.GridControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -53,22 +53,25 @@ namespace Dashboard
             // splitContainer1
             // 
             resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
             this.splitContainer1.Panel1.Controls.Add(this.panel3);
             this.splitContainer1.Panel1.Controls.Add(this.panel2);
             this.splitContainer1.Panel1.Controls.Add(this.panel1);
             // 
             // splitContainer1.Panel2
             // 
+            resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
             this.splitContainer1.Panel2.Controls.Add(this.gridControl1);
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.listBox1);
             resources.ApplyResources(this.panel3, "panel3");
+            this.panel3.Controls.Add(this.listBox1);
             this.panel3.Name = "panel3";
             // 
             // listBox1
@@ -80,8 +83,8 @@ namespace Dashboard
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.label1);
             resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.Controls.Add(this.label1);
             this.panel2.Name = "panel2";
             // 
             // label1
@@ -91,11 +94,11 @@ namespace Dashboard
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.comboBoxRow);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.comboBox1Col);
-            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Controls.Add(this.comboBoxCol);
             this.panel1.Name = "panel1";
             // 
             // label3
@@ -105,14 +108,9 @@ namespace Dashboard
             // 
             // comboBoxRow
             // 
+            resources.ApplyResources(this.comboBoxRow, "comboBoxRow");
             this.comboBoxRow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRow.FormattingEnabled = true;
-            this.comboBoxRow.Items.AddRange(new object[] {
-            resources.GetString("comboBoxRow.Items"),
-            resources.GetString("comboBoxRow.Items1"),
-            resources.GetString("comboBoxRow.Items2"),
-            resources.GetString("comboBoxRow.Items3")});
-            resources.ApplyResources(this.comboBoxRow, "comboBoxRow");
             this.comboBoxRow.Name = "comboBoxRow";
             this.comboBoxRow.SelectedValueChanged += new System.EventHandler(this.comboBoxRow_SelectedValueChanged);
             // 
@@ -121,24 +119,19 @@ namespace Dashboard
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
-            // comboBox1Col
+            // comboBoxCol
             // 
-            this.comboBox1Col.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1Col.FormattingEnabled = true;
-            this.comboBox1Col.Items.AddRange(new object[] {
-            resources.GetString("comboBox1Col.Items"),
-            resources.GetString("comboBox1Col.Items1"),
-            resources.GetString("comboBox1Col.Items2"),
-            resources.GetString("comboBox1Col.Items3")});
-            resources.ApplyResources(this.comboBox1Col, "comboBox1Col");
-            this.comboBox1Col.Name = "comboBox1Col";
-            this.comboBox1Col.SelectedValueChanged += new System.EventHandler(this.comboBox1Col_SelectedValueChanged);
+            resources.ApplyResources(this.comboBoxCol, "comboBoxCol");
+            this.comboBoxCol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxCol.FormattingEnabled = true;
+            this.comboBoxCol.Name = "comboBoxCol";
+            this.comboBoxCol.SelectedValueChanged += new System.EventHandler(this.comboBox1Col_SelectedValueChanged);
             // 
             // gridControl1
             // 
+            resources.ApplyResources(this.gridControl1, "gridControl1");
             this.gridControl1.BackColor = System.Drawing.Color.Black;
             this.gridControl1.Cols = 0;
-            resources.ApplyResources(this.gridControl1, "gridControl1");
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.Rows = 0;
             this.gridControl1.MouseEnter += new System.EventHandler(this.gridControl1_MouseEnter);
@@ -177,7 +170,7 @@ namespace Dashboard
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxRow;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox1Col;
+        private System.Windows.Forms.ComboBox comboBoxCol;
     }
 }
 

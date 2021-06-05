@@ -90,6 +90,9 @@
     <EmbeddedResource Include="Controls\GridControl.resx">
       <DependentUpon>GridControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form1.en.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

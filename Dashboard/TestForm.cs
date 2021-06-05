@@ -45,20 +45,20 @@ namespace Dashboard
        
         private void TestForm_Load(object sender, EventArgs e)
         {
-            gridControl1.RowColumn = (1, 1);
+            gridControl1.SetRowCol(1, 1);
         }
 
    
         private void numericUpDownCol_ValueChanged(object sender, EventArgs e)
         {
-            var rc = (gridControl1.RowColumn.Rows, Convert.ToInt32(numericUpDownCol.Value));
-            gridControl1.RowColumn = rc;
+            var col = Convert.ToInt32(numericUpDownCol.Value);
+            gridControl1.Cols = col;
         }
 
         private void numericUpDownRow_ValueChanged(object sender, EventArgs e)
         {
-            var rc = (Convert.ToInt32(numericUpDownRow.Value), gridControl1.RowColumn.Cols);
-            gridControl1.RowColumn = rc;
+            var row = Convert.ToInt32(numericUpDownRow.Value);
+            gridControl1.Rows = row;
         }
     }
 }

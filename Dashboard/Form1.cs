@@ -26,16 +26,26 @@ namespace Dashboard
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            gridControl1.CreateNewControlForCell += GridControl1_CreateNewControlForCell;
+            gridControl1.ControlVisibleChanged += GridControl1_ControlVisibleChanged;
+
+
             LoadIcon();
+            InitUi();
 
             HaCamera.InitEnvironment();
             HaCamera.DeviceDiscovered += HaCamera_DeviceDiscovered;
             HaCamera.DiscoverDevice();
 
-            gridControl1.CreateNewControlForCell += GridControl1_CreateNewControlForCell;
-            gridControl1.ControlVisibleChanged += GridControl1_ControlVisibleChanged;
 
-            gridControl1.RowColumn = (2, 2);
+            //gridControl1.SetRowCol(2, 2);
+        }
+
+        private void InitUi()
+        {
+            this.comboBoxRow.DataSource = new[] { 1, 2, 3, 4 };
+            this.comboBoxCol.DataSource = new[] { 1, 2, 3, 4 };
         }
 
         private void LoadIcon()
@@ -205,12 +215,12 @@ namespace Dashboard
 
         private void comboBox1Col_SelectedValueChanged(object sender, EventArgs e)
         {
-            gridControl1.Cols = Convert.ToInt32(comboBox1Col.SelectedItem);
+            gridControl1.Cols = (int)comboBoxCol.SelectedValue;
         }
 
         private void comboBoxRow_SelectedValueChanged(object sender, EventArgs e)
         {
-            gridControl1.Rows = Convert.ToInt32(comboBoxRow.SelectedItem);
+            gridControl1.Rows = (int)comboBoxRow.SelectedValue;
         }
     }
 }

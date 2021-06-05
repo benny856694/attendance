@@ -34,79 +34,70 @@ namespace Dashboard.Controls
         public int Rows
         {
             get => _rowColumns.Row;
-            set
-            {
-                RowColumn = (value, Cols);
-            }
+            set => SetRowCol(value, Cols);
         }
 
         public int Cols
         {
             get => _rowColumns.Col;
-            set
-            {
-                RowColumn = (Rows, value);
-            }
+            set => SetRowCol(Rows, value);
         }
 
-        public (int Rows, int Cols) RowColumn
+        public void SetRowCol(int rows, int cols)
         {
-            get => _rowColumns;
-            set
+            if (rows < 0 || cols < 0)
             {
-                if (value.Rows < 0 || value.Cols < 0)
-                {
-                    throw new ArgumentOutOfRangeException("Rows and Cols must be > 0");
-                }
-
-                if (_rowColumns == value)
-                {
-                    return;
-                }
-
-                _rowColumns = value;
-
-                this.SuspendLayout();
-
-                var visibleControls = _tlp?.Controls.ExtractAll() ?? new Control[0];
-                _tlp?.Controls.Clear();
-                
-                this.Controls?.Clear();
-                _tlp?.Dispose();
-                _tlp = CreateTableLayout(value);
-                _tlp.Dock = DockStyle.Fill;
-
-                var result = MoveOldControlToNewContainer(visibleControls, _tlp);
-                _invisibleControls = result.Hiden;
-
-                if (_invisibleControls.Contains(_lastSelectedControl))
-                {
-                    var selectable = _lastSelectedControl as ISelectable;
-                    if (selectable != null)
-                    {
-                        selectable.Selected = false;
-                    }
-                    _lastSelectedControl = null;
-                }
-                
-
-                this.Controls.Add(_tlp);
-                this.ResumeLayout();
-
-                foreach (var item in result.VisibleToHidden)
-                {
-                    var args = new ControlVisibleChangedEventArgs(item, VisibleState.Show, VisibleState.Hide);
-                    ControlVisibleChanged?.Invoke(this, args);
-                }
-
-                foreach (var item in result.HidenToVisible)
-                {
-                    var args = new ControlVisibleChangedEventArgs(item, VisibleState.Hide, VisibleState.Show);
-                    ControlVisibleChanged?.Invoke(this, args);
-                }
-
-                RowColumnChanged?.Invoke(this, new EventArgs());
+                throw new ArgumentOutOfRangeException("Rows and Cols must be > 0");
             }
+
+            var rowCols = (rows, cols);
+            if (_rowColumns == rowCols)
+            {
+                return;
+            }
+
+            _rowColumns = rowCols;
+
+            this.SuspendLayout();
+
+            var visibleControls = _tlp?.Controls.ExtractAll() ?? new Control[0];
+            _tlp?.Controls.Clear();
+
+            this.Controls?.Clear();
+            _tlp?.Dispose();
+            _tlp = CreateTableLayout(rowCols);
+            _tlp.Dock = DockStyle.Fill;
+
+            var result = MoveOldControlToNewContainer(visibleControls, _tlp);
+            _invisibleControls = result.Hiden;
+
+            if (_invisibleControls.Contains(_lastSelectedControl))
+            {
+                var selectable = _lastSelectedControl as ISelectable;
+                if (selectable != null)
+                {
+                    selectable.Selected = false;
+                }
+                _lastSelectedControl = null;
+            }
+
+
+            this.Controls.Add(_tlp);
+            this.ResumeLayout();
+
+            foreach (var item in result.VisibleToHidden)
+            {
+                var args = new ControlVisibleChangedEventArgs(item, VisibleState.Show, VisibleState.Hide);
+                ControlVisibleChanged?.Invoke(this, args);
+            }
+
+            foreach (var item in result.HidenToVisible)
+            {
+                var args = new ControlVisibleChangedEventArgs(item, VisibleState.Hide, VisibleState.Show);
+                ControlVisibleChanged?.Invoke(this, args);
+            }
+
+            RowColumnChanged?.Invoke(this, new EventArgs());
         }
 
         private (Control[] Added, Control[] Hiden, Control[] VisibleToHidden, Control[] HidenToVisible)  MoveOldControlToNewContainer(Control[] controls, TableLayoutPanel tlp)
