@@ -11,13 +11,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Dashboard.Model;
+using Jot.Configuration;
 
 namespace Dashboard
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, ITrackingAware
     {
         Dictionary<HaCamera, CameraUserControl> _cameraToControlMap
             = new Dictionary<HaCamera, CameraUserControl>();
+
+
+        IList<Device> _connectedDevices
+            = new List<Device>();
+
+        public Device[] ConnectedDevices
+        {
+            get => _connectedDevices?.ToArray() ?? new Device[0];
+            set
+            {
+                var l = new List<Device>(value);
+                _connectedDevices = l;
+            }
+        }
 
         public Form1()
         {
@@ -26,13 +42,15 @@ namespace Dashboard
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             gridControl1.CreateNewControlForCell += GridControl1_CreateNewControlForCell;
             gridControl1.ControlVisibleChanged += GridControl1_ControlVisibleChanged;
 
 
             LoadIcon();
             InitUi();
+
+            Services.Tracker.Track(this);
+           
 
             HaCamera.InitEnvironment();
             HaCamera.DeviceDiscovered += HaCamera_DeviceDiscovered;
@@ -44,8 +62,9 @@ namespace Dashboard
 
         private void InitUi()
         {
-            this.comboBoxRow.DataSource = new[] { 1, 2, 3, 4 };
-            this.comboBoxCol.DataSource = new[] { 1, 2, 3, 4 };
+            this.comboBoxRow.DataSource = new[] { 1, 2, 3, 4, 5};
+
+            this.comboBoxCol.DataSource = new[] { 1, 2, 3, 4, 5};
         }
 
         private void LoadIcon()
@@ -88,9 +107,13 @@ namespace Dashboard
         private void listBox1_DoubleClick(object sender, EventArgs e)
         {
             var targetControl = gridControl1.SelectedControl as CameraUserControl;
-            if (targetControl == null) return;
+            if (targetControl == null)
+            {
+                MessageBox.Show(Properties.Strings.PromptSelectedCellIsNull);
+                return;
+            }
 
-            var selectedCameraIp = (string)listBox1.SelectedItem;
+                var selectedCameraIp = (string)listBox1.SelectedItem;
             HaCamera cam = GetRunningCameraByIp(selectedCameraIp);
             if (ReferenceEquals(cam?.Tag, targetControl)) return;
 
@@ -221,6 +244,14 @@ namespace Dashboard
         private void comboBoxRow_SelectedValueChanged(object sender, EventArgs e)
         {
             gridControl1.Rows = (int)comboBoxRow.SelectedValue;
+        }
+
+        public void ConfigureTracking(TrackingConfiguration configuration)
+        {
+            var cfg = configuration.AsGeneric<Form1>();
+            cfg.Property(f => f.comboBoxCol.SelectedIndex, "GridCol");
+            cfg.Property(f => f.comboBoxRow.SelectedIndex, "GridRow");
+            cfg.Properties(f => new { f.ConnectedDevices });
         }
     }
 }
