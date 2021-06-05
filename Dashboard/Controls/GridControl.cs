@@ -43,6 +43,8 @@ namespace Dashboard.Controls
             set => SetRowCol(Rows, value);
         }
 
+        public Control CellAtPosition(int row, int col) => _tlp.GetControlFromPosition(col, row);
+
         public void SetRowCol(int rows, int cols)
         {
             if (rows < 0 || cols < 0)
@@ -151,7 +153,7 @@ namespace Dashboard.Controls
                     {
                         c = controls[index];
                     }
-
+                    
                     tlp.Controls.Add(c, j, i);
                     ++index;
                 }

@@ -52,16 +52,50 @@ namespace Dashboard
             LoadIcon();
             InitUi();
 
-            Services.Tracker.Track(this);
-           
-
             HaCamera.InitEnvironment();
             HaCamera.DeviceDiscovered += HaCamera_DeviceDiscovered;
             HaCamera.DiscoverDevice();
 
+            Services.Tracker.Track(this);
 
+            ConnectCameras();
             //gridControl1.SetRowCol(2, 2);
         }
+
+        private void ConnectCameras()
+        {
+            if (_connectedDevices?.Count == 0) return;
+
+            var rows = gridControl1.Rows;
+            var cols = gridControl1.Cols;
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (_connectedDevices.Count == 0) return;
+                    var d = _connectedDevices[0];
+                    _connectedDevices.RemoveAt(0);
+                    var c = gridControl1.CellAtPosition(i, j) as CameraUserControl;
+
+                    var hc = new HaCamera()
+                    {
+                        Name = d.Name,
+                        Ip = d.IP,
+                        Port = d.Port,
+                        Username = d.UserName,
+                        Password = d.Password
+                    };
+                    hc.Tag = c;
+                    c.Tag = hc;
+                    c.TopRightText = hc.Name ?? hc.Ip;
+                    hc.FaceCaptured += Cam_FaceCaptured;
+                    hc.Connectnovideo();
+                    _cameraToControlMap.Add(hc, c);
+
+                }
+            }
+        }
+
 
         private void InitUi()
         {
@@ -273,6 +307,7 @@ namespace Dashboard
             {
                 Name = x.Name,
                 IP = x.Ip,
+                Port = x.Port,
                 Password = x.Password,
                 UserName = x.Username
             }).ToList();
