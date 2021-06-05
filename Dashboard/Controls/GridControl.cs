@@ -29,6 +29,8 @@ namespace Dashboard.Controls
 
         public Control[] HidenControls => _invisibleControls;
 
+        public ControlCollection ChildControls => _tlp?.Controls;
+
         public int Rows
         {
             get => _rowColumns.Row;
@@ -69,7 +71,7 @@ namespace Dashboard.Controls
                 var visibleControls = _tlp?.Controls.ExtractAll() ?? new Control[0];
                 _tlp?.Controls.Clear();
                 
-                this.Controls.Clear();
+                this.Controls?.Clear();
                 _tlp?.Dispose();
                 _tlp = CreateTableLayout(value);
                 _tlp.Dock = DockStyle.Fill;

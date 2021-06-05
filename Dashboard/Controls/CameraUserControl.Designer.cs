@@ -32,7 +32,9 @@ namespace Dashboard.Controls
             this.labelBottomCenter = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelTopRight = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelBottomCenter
@@ -49,26 +51,33 @@ namespace Dashboard.Controls
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(2, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(2, 39);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(510, 358);
+            this.pictureBox1.Size = new System.Drawing.Size(510, 322);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
             // labelTopRight
             // 
-            this.labelTopRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTopRight.AutoEllipsis = true;
-            this.labelTopRight.AutoSize = true;
+            this.labelTopRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelTopRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTopRight.ForeColor = System.Drawing.Color.White;
-            this.labelTopRight.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelTopRight.Location = new System.Drawing.Point(502, 14);
+            this.labelTopRight.Location = new System.Drawing.Point(0, 0);
             this.labelTopRight.Name = "labelTopRight";
-            this.labelTopRight.Size = new System.Drawing.Size(0, 24);
+            this.labelTopRight.Size = new System.Drawing.Size(510, 36);
             this.labelTopRight.TabIndex = 2;
-            this.labelTopRight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelTopRight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.labelTopRight);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(2, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(510, 36);
+            this.panel1.TabIndex = 3;
             // 
             // CameraUserControl
             // 
@@ -76,16 +85,16 @@ namespace Dashboard.Controls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.labelTopRight);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelBottomCenter);
             this.Name = "CameraUserControl";
             this.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Size = new System.Drawing.Size(514, 397);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.CameraUserControl_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -94,5 +103,6 @@ namespace Dashboard.Controls
         private System.Windows.Forms.Label labelBottomCenter;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label labelTopRight;
+        private System.Windows.Forms.Panel panel1;
     }
 }
