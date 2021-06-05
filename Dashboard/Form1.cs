@@ -35,6 +35,9 @@ namespace Dashboard
             }
         }
 
+        public IEnumerable<CameraUserControl> AllCameraUserControls => gridControl1.ChildControls.OfType<CameraUserControl>();
+
+
         public Form1()
         {
             InitializeComponent();
@@ -204,9 +207,7 @@ namespace Dashboard
 
         private HaCamera GetRunningCameraByIp(string ip)
         {
-            var controls = gridControl1
-                .ChildControls
-                .OfType<CameraUserControl>();
+            var controls = AllCameraUserControls;
 
             Debug.WriteLine($"total {controls.Count()} controls");
             foreach (var c in controls)
@@ -252,6 +253,29 @@ namespace Dashboard
             cfg.Property(f => f.comboBoxCol.SelectedIndex, "GridCol");
             cfg.Property(f => f.comboBoxRow.SelectedIndex, "GridRow");
             cfg.Properties(f => new { f.ConnectedDevices });
+        }
+
+
+
+
+        private IEnumerable<HaCamera> GetConnectedDevices()
+        {
+            return AllCameraUserControls
+                .Select(x => x.Tag as HaCamera)
+                .Where(x => x != null);
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //to save the state
+            _connectedDevices = GetConnectedDevices().Select(x => new Device
+            {
+                Name = x.Name,
+                IP = x.Ip,
+                Password = x.Password,
+                UserName = x.Username
+            }).ToList();
         }
     }
 }

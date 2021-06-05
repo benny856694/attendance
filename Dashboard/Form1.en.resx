@@ -152,7 +152,4 @@
   <data name="comboBoxCol.Location" type="System.Drawing.Point, System.Drawing">
     <value>100, 13</value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
-  </data>
 </root>
