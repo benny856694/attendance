@@ -25,6 +25,8 @@ namespace Dashboard
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            LoadIcon();
+
             HaCamera.InitEnvironment();
             HaCamera.DeviceDiscovered += HaCamera_DeviceDiscovered;
             HaCamera.DiscoverDevice();
@@ -32,6 +34,15 @@ namespace Dashboard
             gridControl1.CreateNewControlForCell += GridControl1_CreateNewControlForCell;
 
             gridControl1.RowColumn = (2, 2);
+        }
+
+        private void LoadIcon()
+        {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"branding\logo.ico");
+            if (File.Exists(path))
+            {
+                this.Icon = new Icon(path);
+            }
         }
 
         private void GridControl1_CreateNewControlForCell(object sender, CreateNewControlEventArgs e)
