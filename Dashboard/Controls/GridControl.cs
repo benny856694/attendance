@@ -178,14 +178,12 @@ namespace Dashboard.Controls
                 return;
             }
 
-            var lastSelectable = _lastSelectedControl as ISelectable;
-            if (lastSelectable != null)
+            if(_lastSelectedControl is ISelectable lastSelectable)
             {
                 lastSelectable.Selected = false;
             }
 
-            var newSelectable = cc as ISelectable;
-            if (newSelectable != null)
+            if(cc is ISelectable newSelectable)
             {
                 newSelectable.Selected = true;
             }
