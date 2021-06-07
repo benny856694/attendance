@@ -231,7 +231,7 @@ namespace Dashboard
 
                     var bgc = e.IsPersonMatched ? Color.Green : Color.Red;
                     var name = e.PersonName ?? "Unidentified";
-                    control.BottomText = $"{name} - {e.CaptureTime:T}";
+                    control.BottomText = $"{name} | {e.CaptureTime:T}";
                     control.BackColor = bgc;
                 }));
             }
