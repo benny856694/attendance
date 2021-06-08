@@ -43,8 +43,8 @@ namespace Dashboard
             // 
             // listBoxNew
             // 
-            this.listBoxNew.FormattingEnabled = true;
             resources.ApplyResources(this.listBoxNew, "listBoxNew");
+            this.listBoxNew.FormattingEnabled = true;
             this.listBoxNew.Name = "listBoxNew";
             this.listBoxNew.SelectedValueChanged += new System.EventHandler(this.listBoxNew_SelectedValueChanged);
             // 
@@ -83,8 +83,8 @@ namespace Dashboard
             // 
             // listBoxAdded
             // 
-            this.listBoxAdded.FormattingEnabled = true;
             resources.ApplyResources(this.listBoxAdded, "listBoxAdded");
+            this.listBoxAdded.FormattingEnabled = true;
             this.listBoxAdded.Name = "listBoxAdded";
             this.listBoxAdded.SelectedValueChanged += new System.EventHandler(this.listBoxAdded_SelectedValueChanged);
             // 

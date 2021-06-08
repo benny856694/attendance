@@ -39,7 +39,7 @@ namespace Dashboard
         private void HaCamera_DeviceDiscovered(object sender, DeviceDiscoverdEventArgs e)
         {
             _lastIpFoundTime = DateTime.Now;
-            listBoxNew.Items.Add(e.IP);
+            this.BeginInvoke((Func<object, int>)listBoxNew.Items.Add, e.IP);
 
         }
 
