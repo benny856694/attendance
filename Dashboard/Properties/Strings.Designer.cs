@@ -70,6 +70,15 @@ namespace Dashboard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 不能为空.
+        /// </summary>
+        internal static string CantBeEmpty {
+            get {
+                return ResourceManager.GetString("CantBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 请先选择一个窗口.
         /// </summary>
         internal static string PromptSelectedCellIsNull {

@@ -61,6 +61,7 @@ namespace Dashboard
             this.errorProvider1.SetIconAlignment(this.textBoxName, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("textBoxName.IconAlignment"))));
             this.errorProvider1.SetIconPadding(this.textBoxName, ((int)(resources.GetObject("textBoxName.IconPadding"))));
             this.textBoxName.Name = "textBoxName";
+            this.textBoxName.Validated += new System.EventHandler(this.textBoxName_Validated);
             // 
             // textBoxIP
             // 

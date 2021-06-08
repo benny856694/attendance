@@ -100,4 +100,10 @@
 	<data name="PromptSelectedCellIsNull" xml:space="preserve">
 		<value>Please select a cell first</value>
 	</data>
+	<data name="Added" xml:space="preserve">
+		<value>Added</value>
+	</data>
+	<data name="CantBeEmpty" xml:space="preserve">
+		<value>Can't be empty</value>
+	</data>
 </root>
