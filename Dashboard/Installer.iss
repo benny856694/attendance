@@ -4,7 +4,7 @@
 #define MyAppName "SmartSchoolNetwork Dashboard"
 #define MyAppVersion "1.0"
 #define MyAppPublisher "SmartSchoolNetwork"
-#define MyAppURL "http://http://www.smartschoolnetwork.com/"
+#define MyAppURL "http://www.smartschoolnetwork.com/"
 #define MyAppExeName "SmartSchoolNetworkDashboard.exe"
 
 [Setup]
@@ -23,7 +23,7 @@ DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=C:\Users\benny856694\Documents\Projects\Attandence\Dashboard\output
-OutputBaseFilename=SmartschoolnetworkDashboard
+OutputBaseFilename=SmartSchoolNetworkDashboard
 SetupIconFile=C:\Users\benny856694\Documents\Projects\Attandence\Dashboard\bin\Debug\branding\logo.ico
 Compression=lzma
 SolidCompression=yes

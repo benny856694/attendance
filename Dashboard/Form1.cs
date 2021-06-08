@@ -205,8 +205,7 @@ namespace Dashboard
 
         private void ReleaseControlCamera(CameraUserControl targetControl)
         {
-            var cam = targetControl.Tag as HaCamera;
-            if (cam != null)
+            if (targetControl.Tag is HaCamera cam)
             {
                 cam.FaceCaptured -= Cam_FaceCaptured;
                 cam.Tag = null;
