@@ -13,5 +13,11 @@ namespace Dashboard.Model
         public int Port { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+        public override string ToString()
+        {
+            return Name == null ? IP : $"{Name} | {IP}";
+        }
+        
     }
 }

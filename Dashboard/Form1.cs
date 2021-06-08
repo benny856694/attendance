@@ -53,8 +53,6 @@ namespace Dashboard
             InitUi();
 
             HaCamera.InitEnvironment();
-            HaCamera.DeviceDiscovered += HaCamera_DeviceDiscovered;
-            HaCamera.DiscoverDevice();
 
             Services.Tracker.Track(this);
 
@@ -310,6 +308,14 @@ namespace Dashboard
                 Password = x.Password,
                 UserName = x.Username
             }).ToList();
+        }
+
+        private void buttonSearchDevice_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormSearchCamera())
+            {
+                form.ShowDialog(this);
+            }
         }
     }
 }
