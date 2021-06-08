@@ -19,15 +19,23 @@ namespace Dashboard
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            var valid = this.ValidateChildren();
+            var valid = this.Validate();
             if (!valid) return;
             this.DialogResult = DialogResult.OK;
         }
 
-        private void textBoxName_Validated(object sender, EventArgs e)
+
+        private void textBox_Validating(object sender, CancelEventArgs e)
         {
-            errorProvider1.SetError(textBoxName, string.IsNullOrEmpty(textBoxName.Text)
-                ? Properties.Strings.CantBeEmpty : string.Empty);
+            bool valid = ValidateNotEmpty(((TextBox) sender));
+            e.Cancel = !valid;
+        }
+
+        private  bool ValidateNotEmpty(TextBox tb)
+        {
+            var valid = !string.IsNullOrEmpty(tb.Text);
+            errorProvider1.SetError(tb, valid ? string.Empty : Properties.Strings.CantBeEmpty);
+            return valid;
         }
     }
 }

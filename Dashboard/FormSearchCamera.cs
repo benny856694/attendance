@@ -77,14 +77,25 @@ namespace Dashboard
         {
             using (var form = new FormAddedDevice())
             {
-                form.textBoxIP.Text = (string)listBoxNew.SelectedValue;
-                form.ShowDialog(this);
+                form.textBoxIP.Text = (string)listBoxNew.SelectedItem;
+                var dr = form.ShowDialog(this);
+                if (dr == DialogResult.OK)
+                {
+                    listBoxAdded.Items.Add(new Model.Device
+                    {
+                        Name = form.textBoxName.Text,
+                        IP = form.textBoxIP.Text,
+                        Port = int.Parse(form.textBoxPort.Text),
+                        UserName = form.textBoxUsername.Text,
+                        Password = form.textBoxPassword.Text,
+                    });
+                }
             }
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-
+            listBoxAdded.Items.Remove(listBoxAdded.SelectedItem);
         }
     }
 }

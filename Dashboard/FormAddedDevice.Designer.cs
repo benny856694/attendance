@@ -49,90 +49,61 @@ namespace Dashboard
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
-            this.errorProvider1.SetError(this.label1, resources.GetString("label1.Error"));
-            this.errorProvider1.SetIconAlignment(this.label1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label1.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.label1, ((int)(resources.GetObject("label1.IconPadding"))));
             this.label1.Name = "label1";
             // 
             // textBoxName
             // 
             resources.ApplyResources(this.textBoxName, "textBoxName");
-            this.errorProvider1.SetError(this.textBoxName, resources.GetString("textBoxName.Error"));
-            this.errorProvider1.SetIconAlignment(this.textBoxName, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("textBoxName.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.textBoxName, ((int)(resources.GetObject("textBoxName.IconPadding"))));
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Validated += new System.EventHandler(this.textBoxName_Validated);
+            this.textBoxName.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
             // 
             // textBoxIP
             // 
             resources.ApplyResources(this.textBoxIP, "textBoxIP");
-            this.errorProvider1.SetError(this.textBoxIP, resources.GetString("textBoxIP.Error"));
-            this.errorProvider1.SetIconAlignment(this.textBoxIP, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("textBoxIP.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.textBoxIP, ((int)(resources.GetObject("textBoxIP.IconPadding"))));
             this.textBoxIP.Name = "textBoxIP";
+            this.textBoxIP.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
             // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
-            this.errorProvider1.SetError(this.label2, resources.GetString("label2.Error"));
-            this.errorProvider1.SetIconAlignment(this.label2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label2.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.label2, ((int)(resources.GetObject("label2.IconPadding"))));
             this.label2.Name = "label2";
             // 
             // textBoxPort
             // 
             resources.ApplyResources(this.textBoxPort, "textBoxPort");
-            this.errorProvider1.SetError(this.textBoxPort, resources.GetString("textBoxPort.Error"));
-            this.errorProvider1.SetIconAlignment(this.textBoxPort, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("textBoxPort.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.textBoxPort, ((int)(resources.GetObject("textBoxPort.IconPadding"))));
             this.textBoxPort.Name = "textBoxPort";
+            this.textBoxPort.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
             // 
             // label3
             // 
             resources.ApplyResources(this.label3, "label3");
-            this.errorProvider1.SetError(this.label3, resources.GetString("label3.Error"));
-            this.errorProvider1.SetIconAlignment(this.label3, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label3.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.label3, ((int)(resources.GetObject("label3.IconPadding"))));
             this.label3.Name = "label3";
             // 
             // textBoxUsername
             // 
             resources.ApplyResources(this.textBoxUsername, "textBoxUsername");
-            this.errorProvider1.SetError(this.textBoxUsername, resources.GetString("textBoxUsername.Error"));
-            this.errorProvider1.SetIconAlignment(this.textBoxUsername, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("textBoxUsername.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.textBoxUsername, ((int)(resources.GetObject("textBoxUsername.IconPadding"))));
             this.textBoxUsername.Name = "textBoxUsername";
+            this.textBoxUsername.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
             // 
             // label4
             // 
             resources.ApplyResources(this.label4, "label4");
-            this.errorProvider1.SetError(this.label4, resources.GetString("label4.Error"));
-            this.errorProvider1.SetIconAlignment(this.label4, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label4.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.label4, ((int)(resources.GetObject("label4.IconPadding"))));
             this.label4.Name = "label4";
             // 
             // textBoxPassword
             // 
             resources.ApplyResources(this.textBoxPassword, "textBoxPassword");
-            this.errorProvider1.SetError(this.textBoxPassword, resources.GetString("textBoxPassword.Error"));
-            this.errorProvider1.SetIconAlignment(this.textBoxPassword, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("textBoxPassword.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.textBoxPassword, ((int)(resources.GetObject("textBoxPassword.IconPadding"))));
             this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.Validating += new System.ComponentModel.CancelEventHandler(this.textBox_Validating);
             // 
             // label5
             // 
             resources.ApplyResources(this.label5, "label5");
-            this.errorProvider1.SetError(this.label5, resources.GetString("label5.Error"));
-            this.errorProvider1.SetIconAlignment(this.label5, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label5.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.label5, ((int)(resources.GetObject("label5.IconPadding"))));
             this.label5.Name = "label5";
             // 
             // buttonOK
             // 
             resources.ApplyResources(this.buttonOK, "buttonOK");
-            this.errorProvider1.SetError(this.buttonOK, resources.GetString("buttonOK.Error"));
-            this.errorProvider1.SetIconAlignment(this.buttonOK, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("buttonOK.IconAlignment"))));
-            this.errorProvider1.SetIconPadding(this.buttonOK, ((int)(resources.GetObject("buttonOK.IconPadding"))));
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -140,7 +111,6 @@ namespace Dashboard
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
-            resources.ApplyResources(this.errorProvider1, "errorProvider1");
             // 
             // FormAddedDevice
             // 
