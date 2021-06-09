@@ -22,18 +22,20 @@ namespace Dashboard
             = new Dictionary<HaCamera, CameraUserControl>();
 
 
-        IList<Device> _connectedDevices
-            = new List<Device>();
+        IList<string> _connectedDeviceIps
+            = new List<string>();
 
-        public Device[] ConnectedDevices
+        public string[] ConnectedDeviceIps
         {
-            get => _connectedDevices?.ToArray() ?? new Device[0];
+            get => _connectedDeviceIps?.ToArray() ?? new string[0];
             set
             {
-                var l = new List<Device>(value);
-                _connectedDevices = l;
+                var l = new List<string>(value);
+                _connectedDeviceIps = l;
             }
         }
+
+        public Device[] AddedDevices { get; set; } = new Device[0];
 
         public IEnumerable<CameraUserControl> AllCameraUserControls => gridControl1.ChildControls.OfType<CameraUserControl>();
 
@@ -55,14 +57,24 @@ namespace Dashboard
             HaCamera.InitEnvironment();
 
             Services.Tracker.Track(this);
-
+            
+            ShowAddedCameras();
             ConnectCameras();
             //gridControl1.SetRowCol(2, 2);
         }
 
+        private void ShowAddedCameras()
+        {
+            foreach (var item in this.AddedDevices)
+            {
+                listBox1.Items.Add(item);
+            }
+        }
+
         private void ConnectCameras()
         {
-            if (_connectedDevices?.Count == 0) return;
+            if (_connectedDeviceIps?.Count == 0) return;
+            var existsDeviceIps = _connectedDeviceIps.Where(x => AddedDevices.Any(y => y.IP == x)).ToList();
 
             var rows = gridControl1.Rows;
             var cols = gridControl1.Cols;
@@ -70,9 +82,9 @@ namespace Dashboard
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    if (_connectedDevices.Count == 0) return;
-                    var d = _connectedDevices[0];
-                    _connectedDevices.RemoveAt(0);
+                    if (existsDeviceIps.Count() == 0) return;
+                    var d = AddedDevices.FirstOrDefault(x=>x.IP == existsDeviceIps[0]);
+                    existsDeviceIps.RemoveAt(0);
                     var c = gridControl1.CellAtPosition(i, j) as CameraUserControl;
 
                     var hc = new HaCamera()
@@ -85,7 +97,7 @@ namespace Dashboard
                     };
                     hc.Tag = c;
                     c.Tag = hc;
-                    c.TopRightText = hc.Name ?? hc.Ip;
+                    c.TopRightText = d.ToString();
                     hc.FaceCaptured += Cam_FaceCaptured;
                     hc.Connectnovideo();
                     _cameraToControlMap.Add(hc, c);
@@ -148,8 +160,8 @@ namespace Dashboard
                 return;
             }
 
-                var selectedCameraIp = (string)listBox1.SelectedItem;
-            HaCamera cam = GetRunningCameraByIp(selectedCameraIp);
+            var device = (Device) listBox1.SelectedItem ;
+            HaCamera cam = GetRunningCameraByIp(device.IP);
             if (ReferenceEquals(cam?.Tag, targetControl)) return;
 
             if (cam != null)
@@ -159,19 +171,19 @@ namespace Dashboard
             }
             else
             {
-                ConnectNewCamToControl(selectedCameraIp, targetControl);
+                ConnectNewCamToControl(device, targetControl);
             }
 
         }
 
-        private void ConnectNewCamToControl(string ip, CameraUserControl targetControl)
+        private void ConnectNewCamToControl(Device d, CameraUserControl targetControl)
         {
             ReleaseControlCamera(targetControl);
 
-            var newCam = new HaCamera() { Ip = ip };
+            var newCam = new HaCamera() { Ip = d.IP };
             newCam.Tag = targetControl;
             targetControl.Tag = newCam;
-            targetControl.TopRightText = ip;
+            targetControl.TopRightText = d.ToString();
             newCam.Port = 9527;
             newCam.Username = "admin";
             newCam.Password = "admin";
@@ -283,7 +295,7 @@ namespace Dashboard
             var cfg = configuration.AsGeneric<Form1>();
             cfg.Property(f => f.comboBoxCol.SelectedIndex, "GridCol");
             cfg.Property(f => f.comboBoxRow.SelectedIndex, "GridRow");
-            cfg.Properties(f => new { f.ConnectedDevices });
+            cfg.Properties(f => new { f.ConnectedDeviceIps, f.AddedDevices });
         }
 
 
@@ -300,21 +312,24 @@ namespace Dashboard
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             //to save the state
-            _connectedDevices = GetConnectedDevices().Select(x => new Device
-            {
-                Name = x.Name,
-                IP = x.Ip,
-                Port = x.Port,
-                Password = x.Password,
-                UserName = x.Username
-            }).ToList();
+
+            AddedDevices = this.listBox1.Items.OfType<Device>().ToArray();
+
+            _connectedDeviceIps = GetConnectedDevices().Select(x => x.Ip).ToList();
         }
 
         private void buttonSearchDevice_Click(object sender, EventArgs e)
         {
             using (var form = new FormSearchCamera())
             {
-                form.ShowDialog(this);
+                form.AddedDevices = AddedDevices;
+               var dr = form.ShowDialog(this);
+                if (dr == DialogResult.OK)
+                {
+                    listBox1.Items.Clear();
+                    AddedDevices = form.AddedDevices.ToArray();
+                    ShowAddedCameras();
+                }
             }
         }
     }

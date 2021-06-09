@@ -1,4 +1,5 @@
-﻿using HaSdkWrapper;
+﻿using Dashboard.Model;
+using HaSdkWrapper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -51,6 +52,8 @@ namespace Dashboard
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            AddedDevices = this.listBoxAdded.Items.OfType<Device>().ToList();
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
@@ -65,7 +68,9 @@ namespace Dashboard
 
         private void listBoxNew_SelectedValueChanged(object sender, EventArgs e)
         {
-            buttonAdd.Enabled = listBoxNew.SelectedItem != null;
+            var selectedIp = (string)listBoxNew.SelectedItem;
+            buttonAdd.Enabled = listBoxNew.SelectedItem != null 
+                && AddedDevices.FirstOrDefault(x=>x.IP == selectedIp) == null;
         }
 
         private void listBoxAdded_SelectedValueChanged(object sender, EventArgs e)
