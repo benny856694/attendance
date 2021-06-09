@@ -38,6 +38,8 @@ namespace Dashboard
             this.buttonAdd = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.listBoxAdded = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,10 +90,22 @@ namespace Dashboard
             this.listBoxAdded.Name = "listBoxAdded";
             this.listBoxAdded.SelectedValueChanged += new System.EventHandler(this.listBoxAdded_SelectedValueChanged);
             // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
             // FormSearchCamera
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.listBoxAdded);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonOK);
@@ -108,6 +122,7 @@ namespace Dashboard
             this.Load += new System.EventHandler(this.FormSearchCamera_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -120,5 +135,7 @@ namespace Dashboard
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ListBox listBoxAdded;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
