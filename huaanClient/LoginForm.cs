@@ -262,8 +262,8 @@ namespace huaanClient
             try
             {
                 //先判断是否存在
-                bool bc = DriverExists(@"D:\");
-                if (bc)
+                var dDrive = new DriveInfo("d");
+                if (dDrive.IsReady && dDrive.DriveType == DriveType.Fixed)
                 {
                     //先创建基础文件夹
                     var imgPath = "D:\\FaceRASystemTool";
