@@ -59,18 +59,20 @@ namespace Dashboard
             // 
             // splitContainer1.Panel1
             // 
+            resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
             this.splitContainer1.Panel1.Controls.Add(this.panel3);
             this.splitContainer1.Panel1.Controls.Add(this.panel2);
             this.splitContainer1.Panel1.Controls.Add(this.panel1);
             // 
             // splitContainer1.Panel2
             // 
+            resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
             this.splitContainer1.Panel2.Controls.Add(this.gridControl1);
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.listBox1);
             resources.ApplyResources(this.panel3, "panel3");
+            this.panel3.Controls.Add(this.listBox1);
             this.panel3.Name = "panel3";
             // 
             // listBox1
@@ -82,9 +84,9 @@ namespace Dashboard
             // 
             // panel2
             // 
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.label1);
-            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
             // 
             // button1
@@ -102,11 +104,11 @@ namespace Dashboard
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.comboBoxRow);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.comboBoxCol);
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // label3
@@ -116,9 +118,9 @@ namespace Dashboard
             // 
             // comboBoxRow
             // 
+            resources.ApplyResources(this.comboBoxRow, "comboBoxRow");
             this.comboBoxRow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRow.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBoxRow, "comboBoxRow");
             this.comboBoxRow.Name = "comboBoxRow";
             this.comboBoxRow.SelectedValueChanged += new System.EventHandler(this.comboBoxRow_SelectedValueChanged);
             // 
@@ -129,17 +131,17 @@ namespace Dashboard
             // 
             // comboBoxCol
             // 
+            resources.ApplyResources(this.comboBoxCol, "comboBoxCol");
             this.comboBoxCol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCol.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBoxCol, "comboBoxCol");
             this.comboBoxCol.Name = "comboBoxCol";
             this.comboBoxCol.SelectedValueChanged += new System.EventHandler(this.comboBox1Col_SelectedValueChanged);
             // 
             // gridControl1
             // 
+            resources.ApplyResources(this.gridControl1, "gridControl1");
             this.gridControl1.BackColor = System.Drawing.Color.Black;
             this.gridControl1.Cols = 0;
-            resources.ApplyResources(this.gridControl1, "gridControl1");
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.Rows = 0;
             this.gridControl1.MouseEnter += new System.EventHandler(this.gridControl1_MouseEnter);

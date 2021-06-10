@@ -2872,7 +2872,7 @@
         <member name="F:HaSdkWrapper.FaceRecoInfo.matchPersonId">
             char[20]
         </member>
-        <member name="F:HaSdkWrapper.FaceRecoInfo.matchPersonName">
+        <member name="F:HaSdkWrapper.FaceRecoInfo._matchPersonName">
             char[16]
         </member>
         <member name="F:HaSdkWrapper.FaceRecoInfo.matchRole">
@@ -3027,7 +3027,7 @@
             有效期截止时间
              </summary>
         </member>
-        <member name="F:HaSdkWrapper.FaceRecoInfo.userParam">
+        <member name="P:HaSdkWrapper.FaceRecoInfo.userParam">
             <summary>
             自定义字段
             </summary>
