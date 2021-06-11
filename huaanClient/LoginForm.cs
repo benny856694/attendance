@@ -263,6 +263,7 @@ namespace huaanClient
             {
                 //先判断是否存在
                 var dDrive = new DriveInfo("d");
+                var cDrive = new DriveInfo("c");
                 if (dDrive.IsReady && dDrive.DriveType == DriveType.Fixed)
                 {
                     //先创建基础文件夹
@@ -275,7 +276,7 @@ namespace huaanClient
                     ApplicationData.FaceRASystemToolUrl = "D:\\FaceRASystemTool";
                 }
                 //D盘不存在 直接创建到C盘
-                else
+                else if(cDrive.IsReady && cDrive.DriveType == DriveType.Fixed)
                 {
                     //先创建基础文件夹
                     var imgPath = "C:\\FaceRASystemTool";
@@ -285,6 +286,11 @@ namespace huaanClient
                     }
 
                     ApplicationData.FaceRASystemToolUrl = "C:\\FaceRASystemTool";
+                }
+                else
+                {
+                    MessageBox.Show(Properties.Strings.AllDriveIsNotAvailable);
+                    return;
                 }
             }
             catch
