@@ -126,4 +126,7 @@
 	<data name="PromptSelectedCellIsNull" xml:space="preserve">
     <value>请先选择一个窗口</value>
   </data>
+	<data name="Unidentified" xml:space="preserve">
+    <value>未注册</value>
+  </data>
 </root>

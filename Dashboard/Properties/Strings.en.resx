@@ -106,4 +106,7 @@
 	<data name="CantBeEmpty" xml:space="preserve">
 		<value>Can't be empty</value>
 	</data>
+	<data name="Unidentified" xml:space="preserve">
+		<value>Unidentified</value>
+	</data>
 </root>
