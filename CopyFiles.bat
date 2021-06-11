@@ -33,7 +33,7 @@ goto start
 
 :start
 ECHO 你选择了 %brand%
-pause
+pause 继续请回车
 
 ::删除文件
 rmdir /s/q Setup\InstallFiles
