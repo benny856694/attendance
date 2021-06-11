@@ -33,7 +33,7 @@ namespace Dashboard
             var vr = new DeviceValidator().Validate(Device);
             if (!vr.IsValid)
             {
-                MessageBox.Show(vr.ToString());
+                MessageBox.Show(this, vr.ToString());
                 return;
             }
             this.DialogResult = DialogResult.OK;
@@ -42,8 +42,8 @@ namespace Dashboard
 
         private void textBox_Validating(object sender, CancelEventArgs e)
         {
-            bool valid = ValidateNotEmpty(((TextBox) sender));
-            e.Cancel = !valid;
+           // bool valid = ValidateNotEmpty(((TextBox) sender));
+           // e.Cancel = !valid;
         }
 
         private  bool ValidateNotEmpty(TextBox tb)
