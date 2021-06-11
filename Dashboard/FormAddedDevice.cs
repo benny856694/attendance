@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dashboard.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,15 +13,29 @@ namespace Dashboard
 {
     public partial class FormAddedDevice : Form
     {
-        public FormAddedDevice()
+
+        public Device Device =>  new Model.Device
+                    {
+                        Name = textBoxName.Text,
+                        IP = textBoxIP.Text,
+                        Port = int.Parse(textBoxPort.Text),
+                        UserName = textBoxUsername.Text,
+                        Password = textBoxPassword.Text,
+                    };
+
+    public FormAddedDevice()
         {
             InitializeComponent();
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            var valid = this.Validate();
-            if (!valid) return;
+            var vr = new DeviceValidator().Validate(Device);
+            if (!vr.IsValid)
+            {
+                MessageBox.Show(vr.ToString());
+                return;
+            }
             this.DialogResult = DialogResult.OK;
         }
 

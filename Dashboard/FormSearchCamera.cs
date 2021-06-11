@@ -86,14 +86,7 @@ namespace Dashboard
                 var dr = form.ShowDialog(this);
                 if (dr == DialogResult.OK)
                 {
-                    listBoxAdded.Items.Add(new Model.Device
-                    {
-                        Name = form.textBoxName.Text,
-                        IP = form.textBoxIP.Text,
-                        Port = int.Parse(form.textBoxPort.Text),
-                        UserName = form.textBoxUsername.Text,
-                        Password = form.textBoxPassword.Text,
-                    });
+                    listBoxAdded.Items.Add(form.Device);
                 }
             }
         }

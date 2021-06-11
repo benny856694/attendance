@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,21 @@ namespace Dashboard.Model
 
 
             return this.IP == other.IP;
+        }
+
+        public override int GetHashCode()
+        {
+            return IP.GetHashCode();
+        }
+    }
+
+    class DeviceValidator : AbstractValidator<Device>
+    {
+        public DeviceValidator()
+        {
+            RuleFor(d => d.Name).NotEmpty();
+            RuleFor(d => d.IP).NotEmpty().Matches(@"(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))");
+            RuleFor(d => d.Port).NotEmpty();
         }
     }
 }
