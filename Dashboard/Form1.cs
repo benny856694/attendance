@@ -239,7 +239,7 @@ namespace Dashboard
                     oldImage?.Dispose();
 
                     var bgc = e.IsPersonMatched ? Color.Green : Color.Red;
-                    var name = e.PersonName ?? "Unidentified";
+                    var name = e.PersonName ?? Properties.Strings.Unidentified;
                     control.BottomText = $"{name} | {e.CaptureTime.ToLocalTime():T}";
                     control.BackColor = bgc;
                 }));

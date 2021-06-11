@@ -86,5 +86,14 @@ namespace Dashboard.Properties {
                 return ResourceManager.GetString("PromptSelectedCellIsNull", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 未注册.
+        /// </summary>
+        internal static string Unidentified {
+            get {
+                return ResourceManager.GetString("Unidentified", resourceCulture);
+            }
+        }
     }
 }
