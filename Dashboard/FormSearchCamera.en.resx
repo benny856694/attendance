@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="listBoxNew.ItemHeight" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="listBoxNew.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 45</value>
@@ -126,7 +130,7 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="listBoxNew.Size" type="System.Drawing.Size, System.Drawing">
-    <value>345, 409</value>
+    <value>345, 400</value>
   </data>
   <data name="buttonDelete.Location" type="System.Drawing.Point, System.Drawing">
     <value>388, 252</value>
@@ -158,6 +162,9 @@
   <data name="buttonAdd.Text" xml:space="preserve">
     <value>Add &gt;</value>
   </data>
+  <data name="listBoxAdded.ItemHeight" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
   <data name="listBoxAdded.Location" type="System.Drawing.Point, System.Drawing">
     <value>500, 45</value>
   </data>
@@ -165,16 +172,16 @@
     <value>3, 2, 3, 2</value>
   </data>
   <data name="listBoxAdded.Size" type="System.Drawing.Size, System.Drawing">
-    <value>345, 409</value>
+    <value>345, 400</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 15</value>
+    <value>59, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Available</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 15</value>
+    <value>35, 12</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Added</value>
