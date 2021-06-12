@@ -79,11 +79,38 @@ namespace Dashboard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IP地址.
+        /// </summary>
+        internal static string IP {
+            get {
+                return ResourceManager.GetString("IP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IP地址格式无效.
         /// </summary>
         internal static string IpFormatNotValid {
             get {
                 return ResourceManager.GetString("IpFormatNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 名称.
+        /// </summary>
+        internal static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 端口号.
+        /// </summary>
+        internal static string Port {
+            get {
+                return ResourceManager.GetString("Port", resourceCulture);
             }
         }
         

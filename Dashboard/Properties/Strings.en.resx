@@ -109,4 +109,13 @@
 	<data name="Unidentified" xml:space="preserve">
 		<value>Unidentified</value>
 	</data>
+	<data name="IP" xml:space="preserve">
+		<value>IP</value>
+	</data>
+	<data name="Name" xml:space="preserve">
+		<value>Name</value>
+	</data>
+	<data name="Port" xml:space="preserve">
+		<value>Port</value>
+	</data>
 </root>

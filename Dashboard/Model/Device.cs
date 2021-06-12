@@ -45,9 +45,17 @@ namespace Dashboard.Model
     {
         public DeviceValidator()
         {
-            RuleFor(d => d.Name).NotEmpty();
-            RuleFor(d => d.IP).NotEmpty().Matches(@"(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))");
-            RuleFor(d => d.Port).NotEmpty();
+            CascadeMode = CascadeMode.Stop;
+            RuleFor(d => d.Name)
+                .NotEmpty()
+                .WithName(Properties.Strings.Name);
+            RuleFor(d => d.IP)
+                .NotEmpty()
+                .Matches(@"(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))")
+                .WithName(Properties.Strings.IP);
+            RuleFor(d => d.Port)
+                .NotEmpty()
+                .WithName(Properties.Strings.Port);
         }
     }
 }
