@@ -40,6 +40,7 @@ namespace Dashboard
             this.listBoxAdded = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.buttonAddDeviceManually = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,10 +101,18 @@ namespace Dashboard
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
+            // buttonAddDeviceManually
+            // 
+            resources.ApplyResources(this.buttonAddDeviceManually, "buttonAddDeviceManually");
+            this.buttonAddDeviceManually.Name = "buttonAddDeviceManually";
+            this.buttonAddDeviceManually.UseVisualStyleBackColor = true;
+            this.buttonAddDeviceManually.Click += new System.EventHandler(this.buttonAddDeviceManually_Click);
+            // 
             // FormSearchCamera
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.buttonAddDeviceManually);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBoxAdded);
@@ -137,5 +146,6 @@ namespace Dashboard
         private System.Windows.Forms.ListBox listBoxAdded;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button buttonAddDeviceManually;
     }
 }

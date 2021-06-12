@@ -55,6 +55,8 @@ namespace Dashboard.Model
                 .WithName(Properties.Strings.IP);
             RuleFor(d => d.Port)
                 .NotEmpty()
+                .GreaterThan(0)
+                .LessThanOrEqualTo(int.MaxValue)
                 .WithName(Properties.Strings.Port);
         }
     }

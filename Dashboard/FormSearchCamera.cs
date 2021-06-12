@@ -80,9 +80,14 @@ namespace Dashboard
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
+            AddDevice((string)listBoxNew.SelectedItem);
+        }
+
+        private void AddDevice(string ip = null)
+        {
             using (var form = new FormAddedDevice())
             {
-                form.textBoxIP.Text = (string)listBoxNew.SelectedItem;
+                form.textBoxIP.Text = ip;
                 var dr = form.ShowDialog(this);
                 if (dr == DialogResult.OK)
                 {
@@ -94,6 +99,11 @@ namespace Dashboard
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             listBoxAdded.Items.Remove(listBoxAdded.SelectedItem);
+        }
+
+        private void buttonAddDeviceManually_Click(object sender, EventArgs e)
+        {
+            AddDevice();
         }
     }
 }
