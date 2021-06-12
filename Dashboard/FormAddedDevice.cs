@@ -66,11 +66,11 @@ namespace Dashboard
                     .WithName(Properties.Strings.Name);
                 RuleFor(d => d.bunifuTextBoxIp.Text)
                     .NotEmpty()
-                    .Matches(@"(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))")
+                    .Matches(@"^(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))$")
                     .WithName(Properties.Strings.IP);
                 RuleFor(d => d.bunifuTextBoxPort.Text)
                     .NotEmpty()
-                    .Matches(@"\d{1,5}")
+                    .Matches(@"^\d{1,5}$")
                     .WithName(Properties.Strings.Port);
             }
         }
