@@ -87,7 +87,7 @@ namespace Dashboard
         {
             using (var form = new FormAddedDevice())
             {
-                form.textBoxIP.Text = ip;
+                form.bunifuTextBoxIp.Text = ip;
                 var dr = form.ShowDialog(this);
                 if (dr == DialogResult.OK)
                 {
