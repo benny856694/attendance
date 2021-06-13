@@ -255,23 +255,38 @@ namespace Dashboard
 
         private void ShowImages(FaceCapturedEventArgs e, CameraUserControl control, DisplayMode mode = DisplayMode.Single)
         {
+            Image realtimeFace = null;
+            Image templateFace = null;
+            if (e.FeatureImageData != null)
+            {
+                realtimeFace = Image.FromStream(new MemoryStream(e.FeatureImageData));
+            }
+            if (e.ModelFaceImageData != null)
+            {
+                templateFace = Image.FromStream(new MemoryStream(e.ModelFaceImageData));
+            }
+            else
+            {
+                templateFace = new Bitmap(1, 1);
+            }
+
             if (mode == DisplayMode.Single)
             {
-                var imgData = _setting.ShowRealtimeImage ? e.FeatureImageData : e.ModelFaceImageData;
+                var img = _setting.ShowRealtimeImage ? realtimeFace : templateFace;
 
                 var oldImage = control.Image;
-                control.Image = Image.FromStream(new MemoryStream(imgData));
+                control.Image = img;
                 oldImage?.Dispose();
 
             }
             else if (mode == DisplayMode.Double)
             {
                 var oldImageLeft = control.ImageLeft;
-                control.ImageLeft = Image.FromStream(new MemoryStream(e.ModelFaceImageData));
+                control.ImageLeft = templateFace;
                 oldImageLeft?.Dispose();
 
                 var oldImageRight = control.ImageRight;
-                control.ImageRight = Image.FromStream(new MemoryStream(e.FeatureImageData));
+                control.ImageRight = realtimeFace;
                 oldImageRight?.Dispose();
             }
         }
