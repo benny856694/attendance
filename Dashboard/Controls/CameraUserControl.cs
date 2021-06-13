@@ -93,6 +93,8 @@ namespace Dashboard.Controls
                     default:
                         break;
                 }
+
+                _displayMode = value;
             }
         }
 
