@@ -70,6 +70,15 @@ namespace Dashboard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 至少要显示一张图片.
+        /// </summary>
+        internal static string AtLeastOneImageShouldBeDisplayed {
+            get {
+                return ResourceManager.GetString("AtLeastOneImageShouldBeDisplayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 不能为空.
         /// </summary>
         internal static string CantBeEmpty {

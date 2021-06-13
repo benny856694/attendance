@@ -34,6 +34,7 @@ namespace Dashboard
             this.panel3 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.bunifuImageButtonOptions = new Bunifu.UI.WinForms.BunifuImageButton();
             this.bunifuImageButton1 = new Bunifu.UI.WinForms.BunifuImageButton();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -85,9 +86,43 @@ namespace Dashboard
             // panel2
             // 
             resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.Controls.Add(this.bunifuImageButtonOptions);
             this.panel2.Controls.Add(this.bunifuImageButton1);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Name = "panel2";
+            // 
+            // bunifuImageButtonOptions
+            // 
+            resources.ApplyResources(this.bunifuImageButtonOptions, "bunifuImageButtonOptions");
+            this.bunifuImageButtonOptions.ActiveImage = null;
+            this.bunifuImageButtonOptions.AllowAnimations = true;
+            this.bunifuImageButtonOptions.AllowBuffering = false;
+            this.bunifuImageButtonOptions.AllowToggling = false;
+            this.bunifuImageButtonOptions.AllowZooming = false;
+            this.bunifuImageButtonOptions.AllowZoomingOnFocus = false;
+            this.bunifuImageButtonOptions.BackColor = System.Drawing.Color.Transparent;
+            this.bunifuImageButtonOptions.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.bunifuImageButtonOptions.ErrorImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageButtonOptions.ErrorImage")));
+            this.bunifuImageButtonOptions.FadeWhenInactive = false;
+            this.bunifuImageButtonOptions.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
+            this.bunifuImageButtonOptions.Image = ((System.Drawing.Image)(resources.GetObject("bunifuImageButtonOptions.Image")));
+            this.bunifuImageButtonOptions.ImageActive = null;
+            this.bunifuImageButtonOptions.ImageLocation = null;
+            this.bunifuImageButtonOptions.ImageMargin = 0;
+            this.bunifuImageButtonOptions.ImageSize = new System.Drawing.Size(24, 24);
+            this.bunifuImageButtonOptions.ImageZoomSize = new System.Drawing.Size(24, 24);
+            this.bunifuImageButtonOptions.InitialImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageButtonOptions.InitialImage")));
+            this.bunifuImageButtonOptions.Name = "bunifuImageButtonOptions";
+            this.bunifuImageButtonOptions.Rotation = 0;
+            this.bunifuImageButtonOptions.ShowActiveImage = true;
+            this.bunifuImageButtonOptions.ShowCursorChanges = true;
+            this.bunifuImageButtonOptions.ShowImageBorders = true;
+            this.bunifuImageButtonOptions.ShowSizeMarkers = false;
+            this.bunifuImageButtonOptions.ToolTipText = "";
+            this.bunifuImageButtonOptions.WaitOnLoad = false;
+            this.bunifuImageButtonOptions.Zoom = 0;
+            this.bunifuImageButtonOptions.ZoomSpeed = 10;
+            this.bunifuImageButtonOptions.Click += new System.EventHandler(this.bunifuImageButtonOptions_Click);
             // 
             // bunifuImageButton1
             // 
@@ -208,6 +243,7 @@ namespace Dashboard
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxCol;
         private Bunifu.UI.WinForms.BunifuImageButton bunifuImageButton1;
+        private Bunifu.UI.WinForms.BunifuImageButton bunifuImageButtonOptions;
     }
 }
 

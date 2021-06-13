@@ -14,6 +14,7 @@ namespace Dashboard.Controls
     public partial class CameraUserControl : UserControl, ISelectable
     {
         private bool _selected;
+        private DisplayMode _displayMode;
 
         public string TopRightText
         {
@@ -33,8 +34,32 @@ namespace Dashboard.Controls
 
         public Image Image
         {
-            set => pictureBox1.Image = value;
-            get => pictureBox1.Image;
+            set
+            {
+                Mode = DisplayMode.Single;
+                pictureBoxSingle.Image = value;
+            }
+            get => pictureBoxSingle.Image;
+        }
+
+        public Image ImageLeft
+        {
+            get => pictureBoxLeft.Image;
+            set
+            {
+                Mode = DisplayMode.Double;
+                pictureBoxLeft.Image = value;
+            }
+        }
+
+        public Image ImageRight
+        {
+            get => pictureBoxRight.Image;
+            set
+            {
+                Mode = DisplayMode.Double;
+                pictureBoxRight.Image = value;
+            }
         }
 
         public Color BackgroundColor
@@ -52,20 +77,40 @@ namespace Dashboard.Controls
             }
         }
 
+        public DisplayMode Mode 
+        {
+            get => _displayMode;
+            set
+            {
+                switch (value)
+                {
+                    case DisplayMode.Single:
+                        bunifuPagesImageContainer.SelectedIndex = 0;
+                        break;
+                    case DisplayMode.Double:
+                        bunifuPagesImageContainer.SelectedIndex = 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+
         public event EventHandler<MouseEventArgs> MouseClicked;
 
         public CameraUserControl()
         {
             InitializeComponent();
             this.MouseClick += CameraUserControl_MouseClick;
-            this.pictureBox1.MouseClick += PictureBox1_MouseClick;
+            this.pictureBoxSingle.MouseClick += PictureBox1_MouseClick;
             this.labelTopRight.SizeChanged += LabelTopRight_SizeChanged;
         }
 
         public void Clear()
         {
-            var pic = this.pictureBox1.Image;
-            this.pictureBox1.Image = null;
+            var pic = this.pictureBoxSingle.Image;
+            this.pictureBoxSingle.Image = null;
             this.labelTopRight.Text = "";
             this.labelBottomCenter.Text = "";
             this.BackColor = Color.Black;

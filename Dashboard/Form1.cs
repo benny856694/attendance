@@ -25,6 +25,8 @@ namespace Dashboard
         IList<string> _connectedDeviceIps
             = new List<string>();
 
+        Settings _setting = new Settings();
+
         public string[] ConnectedDeviceIps
         {
             get => _connectedDeviceIps?.ToArray() ?? new string[0];
@@ -57,6 +59,7 @@ namespace Dashboard
             HaCamera.InitEnvironment();
 
             Services.Tracker.Track(this);
+            Services.Tracker.Track(_setting);
             
             ShowAddedCameras();
             ConnectCameras();
@@ -234,9 +237,11 @@ namespace Dashboard
             {
                 this.BeginInvoke(new Action(() =>
                 {
-                    var oldImage = control.Image;
-                    control.Image = Image.FromStream(new MemoryStream(e.FeatureImageData));
-                    oldImage?.Dispose();
+                    var mode = _setting.ShowRealtimeImage != _setting.ShowTemplateImage
+                     ? DisplayMode.Single : DisplayMode.Double;
+                    
+
+                    ShowImages(e, control, mode);
 
                     var bgc = e.IsPersonMatched ? Color.Green : Color.Red;
                     var name = e.PersonName ?? Properties.Strings.Unidentified;
@@ -246,6 +251,29 @@ namespace Dashboard
             }
            
             
+        }
+
+        private void ShowImages(FaceCapturedEventArgs e, CameraUserControl control, DisplayMode mode = DisplayMode.Single)
+        {
+            if (mode == DisplayMode.Single)
+            {
+                var imgData = _setting.ShowRealtimeImage ? e.FeatureImageData : e.ModelFaceImageData;
+
+                var oldImage = control.Image;
+                control.Image = Image.FromStream(new MemoryStream(imgData));
+                oldImage?.Dispose();
+
+            }
+            else if (mode == DisplayMode.Double)
+            {
+                var oldImageLeft = control.ImageLeft;
+                control.ImageLeft = Image.FromStream(new MemoryStream(e.ModelFaceImageData));
+                oldImageLeft?.Dispose();
+
+                var oldImageRight = control.ImageRight;
+                control.ImageRight = Image.FromStream(new MemoryStream(e.FeatureImageData));
+                oldImageRight?.Dispose();
+            }
         }
 
         private HaCamera GetRunningCameraByIp(string ip)
@@ -329,6 +357,18 @@ namespace Dashboard
                     listBox1.Items.Clear();
                     AddedDevices = form.AddedDevices.ToArray();
                     ShowAddedCameras();
+                }
+            }
+        }
+
+        private void bunifuImageButtonOptions_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormOptions())
+            {
+                var dr = form.ShowDialog(this);
+                if (dr == DialogResult.OK)
+                {
+                    _setting = form.Settings;
                 }
             }
         }

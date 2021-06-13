@@ -120,6 +120,9 @@
 	<data name="Added" xml:space="preserve">
     <value>已添加</value>
   </data>
+	<data name="AtLeastOneImageShouldBeDisplayed" xml:space="preserve">
+    <value>至少要显示一张图片</value>
+  </data>
 	<data name="CantBeEmpty" xml:space="preserve">
     <value>不能为空</value>
   </data>

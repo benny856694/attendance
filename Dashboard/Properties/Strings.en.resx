@@ -118,4 +118,7 @@
 	<data name="Port" xml:space="preserve">
 		<value>Port</value>
 	</data>
+	<data name="AtLeastOneImageShouldBeDisplayed" xml:space="preserve">
+		<value>At lease one image should be displayed</value>
+	</data>
 </root>
