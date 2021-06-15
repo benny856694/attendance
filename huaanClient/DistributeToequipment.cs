@@ -5,10 +5,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Dapper;
 
 namespace huaanClient
 {
@@ -20,6 +22,16 @@ namespace huaanClient
             string connectionString = ApplicationData.connectionString;
             string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success'";
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
+
+            //bin
+            List<Model.EquipmentDistribution> distributions = new List<Model.EquipmentDistribution>();
+            using (var db = new SQLiteConnection(connectionString))
+            {
+                distributions = db.Query<DbEquipmentDistribution>($"select * from {DbNames.TableEquipementDistribution}")
+                    .Select(x=>x.toModel()).ToList();
+            }
+
+
             if (!string.IsNullOrEmpty(sr))
             {
                 JArray srjo = (JArray)JsonConvert.DeserializeObject(sr);

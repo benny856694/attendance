@@ -296,6 +296,7 @@ namespace DBUtility.SQLite
             return Dtb2Json(dataTable);
         }
 
+
         /// <summary>
         /// 将datatable转换为json  
         /// </summary>

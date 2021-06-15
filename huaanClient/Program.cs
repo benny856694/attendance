@@ -14,6 +14,7 @@ namespace huaanClient
 {
     static class Program
     {
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -73,7 +74,7 @@ namespace huaanClient
                     }
                     catch (Exception ex)
                     {
-
+                        Logger.Error(ex, "deploy face exception");
                     }
                 }
             });

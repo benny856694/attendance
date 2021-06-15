@@ -127,6 +127,9 @@
     <Reference Include="CSkin, Version=16.1.14.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\cskin.16.1.14.3\lib\net40\CSkin.dll</HintPath>
     </Reference>
+    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -249,6 +252,7 @@
     <Compile Include="ChromiumForm.Designer.cs">
       <DependentUpon>ChromiumForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\DbNames.cs" />
     <Compile Include="DataSynchronization.cs" />
     <Compile Include="ExportToExcel.cs" />
     <Compile Include="copyfile.cs" />
@@ -291,6 +295,8 @@
       <DependentUpon>LoginNew.xaml</DependentUpon>
     </Compile>
     <Compile Include="MD5Util.cs" />
+    <Compile Include="Database\DbEquipmentDistribution.cs" />
+    <Compile Include="Model\EquipmentDistribution.cs" />
     <Compile Include="PDFGenerator.cs" />
     <Compile Include="PrinPDF.cs" />
     <Compile Include="Properties\Strings.Designer.cs">
