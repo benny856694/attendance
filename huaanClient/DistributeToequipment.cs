@@ -24,11 +24,56 @@ namespace huaanClient
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
 
             //bin
-            List<Model.EquipmentDistribution> distributions = new List<Model.EquipmentDistribution>();
-            using (var db = new SQLiteConnection(connectionString))
+            List<DbEquipmentDistribution> distributions = new List<DbEquipmentDistribution>();
+            using (var db = SQLiteHelper.GetConnection())
             {
-                distributions = db.Query<DbEquipmentDistribution>($"select * from {DbNames.TableEquipementDistribution}")
-                    .Select(x=>x.toModel()).ToList();
+                distributions = db.Query<DbEquipmentDistribution>($"select * from {DbConstants.TableEquipementDistribution} where status != \"{DbConstants.success}\"")
+                    .ToList();
+            }
+
+            foreach (var distribute in distributions)
+            {
+                if (distribute.type == "0" && distribute.status != DbConstants.success)
+                {
+                    DbMyDevice deviceInfo = null;
+                    DbStaff staff = null;
+                    using (var conn = SQLiteHelper.GetConnection())
+                    {
+                        var cmd = $"select * from {DbConstants.TableStaff} where id = @StaffId; select * from {DbConstants.TableMyDevice} where id = @MyDeviceId;";
+                        var multi = conn.QueryMultiple(cmd, new { StaffId = distribute.userid, MyDeviceId = distribute.deviceid });
+                        staff = multi.Read<DbStaff>().FirstOrDefault();
+                        deviceInfo = multi.Read<DbMyDevice>().FirstOrDefault();
+                    }
+
+                    string distributeId = distribute.userid.ToString();
+                    if (GetData.getIscode_syn())
+                    {
+                        distributeId = staff.Employee_code;
+                    }
+
+                    if (staff != null && deviceInfo != null)
+                    {
+                        var device = Deviceinfo.MyDevicelist.FirstOrDefault(x => x.IP == deviceInfo.ipAddress);
+                        if (device?.IsConnected == true)
+                        {
+                            if (!File.Exists(staff.picture))
+                            {
+                                distribute.type = "2";
+                                distribute.status = "fail";
+                                distribute.date = DateTime.Now.ToString(DbConstants.dt_format);
+                                var cmd = $"UPDATE {DbConstants.TableEquipementDistribution} SET type = @type, status = @status, date = @date WHERE id = @id";
+                                UpdateDistribution(distribute, cmd);
+                                continue;
+                            }
+                        }
+                    }
+
+                }
+                else if(distribute.type == "1" && distribute.status != DbConstants.success)
+                {
+
+                }
+
             }
 
 
@@ -52,6 +97,8 @@ namespace huaanClient
                             string sqldata = SQLiteHelper.SQLiteDataReader(connectionString, sql);
                             JArray sqldatajo = (JArray)JsonConvert.DeserializeObject(sqldata);
 
+                            
+
                             if (GetData.getIscode_syn())
                             {
                                 downid = sqldatajo[0]["Employee_code"].ToString().Trim();
@@ -60,79 +107,39 @@ namespace huaanClient
                             if (sqldatajo.Count>0)
                             {
                                 /*JObject PersonJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.PersonJson)*/;
+                                var person =  sqldatajo[0];
                                 string PersonJson = string.Empty;
-                                string ip= sqldatajo[0]["ipAddress"].ToString().Trim();
-                                string source = sqldatajo[0]["source"].ToString().Trim();
+                                string ip= person["ipAddress"].ToString().Trim();
+                                string source = person["source"].ToString().Trim();
                                 CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ip);
                                 if (CameraConfigPortlist == null)
                                     continue;
-                                if (CameraConfigPortlist.IsConnected) 
+                                if (CameraConfigPortlist.IsConnected)
                                 {
                                     if (PersonJson != null)
                                     {
                                         //PersonJson["id"] = userid;
                                         //PersonJson["name"] = sqldatajo[0]["name"].ToString().Trim();
 
-                                        string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
+                                        var imagePath = person["picture"].ToString();
 
                                         //判断图片是否存在 如果不存在
-                                        if (!IsExis(sqldatajo[0]["picture"].ToString()))
+                                        if (!IsExis(imagePath))
                                         {
                                             string updatessql = "UPDATE Equipment_distribution SET status='fail',type='2',date=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " WHERE id=" + id;
                                             SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                                             return;
                                         }
-                                        if (source.Length>4)
-                                        {
 
-                                            string ss= sqldatajo[0]["picture"].ToString().Trim();
-                                            string ss1 = sqldatajo[0]["picture"].ToString().Trim().Substring(0, sqldatajo[0]["picture"].ToString().Trim().Length - 4)
-                                                + "reg_images" + ".jpg";
-                                            thumb = Convert.ToBase64String(File.ReadAllBytes(sqldatajo[0]["picture"].ToString().Trim()));
-                                            twis = Convert.ToBase64String(File.ReadAllBytes(sqldatajo[0]["picture"].ToString().Trim().Substring(0, sqldatajo[0]["picture"].ToString().Trim().Length - 4)
-                                                + "reg_images"+".jpg"));
-                                            if (File.ReadAllBytes(sqldatajo[0]["picture"].ToString().Trim()).Length== 112 * 112 * 3)
-                                            {
-                                                norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", thumb);
-                                            }else
-                                                norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", thumb);
-                                            reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", twis);
-                                        }
-                                        else
-                                        {
-                                            //将图片转换成符合相机需求
-                                            if (twistImageCore(File.ReadAllBytes(sqldatajo[0]["picture"].ToString().Trim()), CameraConfigPortlist.DevicVersion, out thumb, out twis, out bool IsNew))
-                                            {
-                                                reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
+                                        PrepareImages(imagePath, source, CameraConfigPortlist, out var thumb, out var twis, out var reg_images, out var norm_images);
 
-                                                if (IsNew)
-                                                {
-                                                    norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", twis);
-                                                }
-                                                else
-                                                    norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
-
-                                            }
-                                        }
-                                        if (sqldatajo[0]["idcardtype"].ToString().Trim()=="64")
-                                        {
-                                            PersonJson = string.Format(UtilsJson.PersonJson64, downid, sqldatajo[0]["name"].ToString().Trim(), reg_images, norm_images, sqldatajo[0]["face_idcard"].ToString().Trim());
-                                        }
-                                        else if (sqldatajo[0]["idcardtype"].ToString().Trim() == "32")
-                                        {
-                                            PersonJson = string.Format(UtilsJson.PersonJson32, downid, sqldatajo[0]["name"].ToString().Trim(), reg_images, norm_images, sqldatajo[0]["face_idcard"].ToString().Trim());
-                                        }
-                                        else
-                                        {
-                                            PersonJson = string.Format(UtilsJson.PersonJson, downid, sqldatajo[0]["name"].ToString().Trim(), reg_images, norm_images);
-                                        }
+                                        PersonJson = PrepareJson(downid, person, reg_images, norm_images);
 
                                         //string imgebase64str = ReadImageFile(sqldatajo[0]["picture"].ToString().Trim());
                                         //PersonJson["reg_images"][0]["image_data"] = imgebase64str;
 
-                                        
+
                                     }
-                                    string s = jo.ToString();
 
                                     JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
                                     if (deleteJson != null)
@@ -213,6 +220,76 @@ namespace huaanClient
             }
         }
 
+        private static void UpdateDistribution(DbEquipmentDistribution distribute, string cmd)
+        {
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                conn.Execute(cmd, distribute);
+            }
+        }
+
+        private static string PrepareJson(string downid, JToken sqldatajo, string reg_images, string norm_images)
+        {
+            string PersonJson;
+            if (sqldatajo["idcardtype"].ToString().Trim() == "64")
+            {
+                PersonJson = string.Format(UtilsJson.PersonJson64, downid, sqldatajo["name"].ToString().Trim(), reg_images, norm_images, sqldatajo[0]["face_idcard"].ToString().Trim());
+            }
+            else if (sqldatajo["idcardtype"].ToString().Trim() == "32")
+            {
+                PersonJson = string.Format(UtilsJson.PersonJson32, downid, sqldatajo["name"].ToString().Trim(), reg_images, norm_images, sqldatajo[0]["face_idcard"].ToString().Trim());
+            }
+            else
+            {
+                PersonJson = string.Format(UtilsJson.PersonJson, downid, sqldatajo["name"].ToString().Trim(), reg_images, norm_images);
+            }
+
+            return PersonJson;
+        }
+
+        private static void PrepareImages(string imagePath, string source, CameraConfigPort CameraConfigPortlist, 
+            out string thumb, 
+            out string twis, 
+            out string reg_images, 
+            out string norm_images)
+        {
+            reg_images = string.Empty;
+            norm_images = string.Empty;
+
+            if (source.Length > 4)
+            {
+
+                string ss = imagePath;
+                string ss1 = imagePath.Substring(0, imagePath.Length - 4)
+                    + "reg_images" + ".jpg";
+                thumb = Convert.ToBase64String(File.ReadAllBytes(imagePath));
+                twis = Convert.ToBase64String(File.ReadAllBytes(imagePath.Substring(0, imagePath.Length - 4)
+                    + "reg_images" + ".jpg"));
+                if (File.ReadAllBytes(imagePath).Length == 112 * 112 * 3)
+                {
+                    norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", thumb);
+                }
+                else
+                    norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", thumb);
+                reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", twis);
+            }
+            else
+            {
+                //将图片转换成符合相机需求
+                if (twistImageCore(File.ReadAllBytes(imagePath), CameraConfigPortlist.DevicVersion, out thumb, out twis, out bool IsNew))
+                {
+                    reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
+
+                    if (IsNew)
+                    {
+                        norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", twis);
+                    }
+                    else
+                        norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
+
+                }
+            }
+        }
 
         public static bool distrbute(string name,string imgeurl,string statime,string endtime,string id)
         {

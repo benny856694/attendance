@@ -252,7 +252,9 @@
     <Compile Include="ChromiumForm.Designer.cs">
       <DependentUpon>ChromiumForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\DbNames.cs" />
+    <Compile Include="Database\DbMyDevice.cs" />
+    <Compile Include="Database\DbConstants.cs" />
+    <Compile Include="Database\DbStaff.cs" />
     <Compile Include="DataSynchronization.cs" />
     <Compile Include="ExportToExcel.cs" />
     <Compile Include="copyfile.cs" />
