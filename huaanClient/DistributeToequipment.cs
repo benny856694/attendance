@@ -35,14 +35,14 @@ namespace huaanClient
             {
                 if (distribute.type == "0" && distribute.status != DbConstants.success)
                 {
-                    DbMyDevice deviceInfo = null;
+                    MyDevice deviceInfo = null;
                     DbStaff staff = null;
                     using (var conn = SQLiteHelper.GetConnection())
                     {
                         var cmd = $"select * from {DbConstants.TableStaff} where id = @StaffId; select * from {DbConstants.TableMyDevice} where id = @MyDeviceId;";
                         var multi = conn.QueryMultiple(cmd, new { StaffId = distribute.userid, MyDeviceId = distribute.deviceid });
                         staff = multi.Read<DbStaff>().FirstOrDefault();
-                        deviceInfo = multi.Read<DbMyDevice>().FirstOrDefault();
+                        deviceInfo = multi.Read<MyDevice>().FirstOrDefault();
                     }
 
                     string distributeId = distribute.userid.ToString();

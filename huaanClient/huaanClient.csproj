@@ -252,7 +252,13 @@
     <Compile Include="ChromiumForm.Designer.cs">
       <DependentUpon>ChromiumForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\DbMyDevice.cs" />
+    <Compile Include="Database\Attendance_Data.cs" />
+    <Compile Include="Database\AttendanceGroup.cs" />
+    <Compile Include="Database\Capture_Data.cs" />
+    <Compile Include="Database\Shift.cs" />
+    <Compile Include="Database\department.cs" />
+    <Compile Include="Database\DataSyn.cs" />
+    <Compile Include="Database\MyDevice.cs" />
     <Compile Include="Database\DbConstants.cs" />
     <Compile Include="Database\DbStaff.cs" />
     <Compile Include="DataSynchronization.cs" />
