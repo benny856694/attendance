@@ -220,7 +220,7 @@ namespace huaanClient
                 "FROM staff staf " +
                 "LEFT JOIN department de ON de.id=staf.department_id  " +
                 "LEFT JOIN Employetype em ON em.id = staf.Employetype_id " +
-                "WHERE staf.isMarkedForDelete is null "
+                "WHERE staf.isMarkedForDelete = 0 "
                 + "LIMIT " + pageint + "," + limt ;
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
@@ -230,7 +230,7 @@ namespace huaanClient
         public static string getStaffDatacount()
         {
 
-            string commandText = "SELECT COUNT(*) as count FROM staff where isMarkedForDelete is null";
+            string commandText = "SELECT COUNT(*) as count FROM staff where isMarkedForDelete = 0";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
@@ -411,7 +411,7 @@ namespace huaanClient
                 st.Append(" staf.phone='" + qu_phone.Trim() + "' AND");
             }
 
-            st.Append(" staf.isMarkedForDelete is null AND");
+            st.Append(" staf.isMarkedForDelete = 0 AND");
 
             string commandText = st.ToString().Substring(0, st.ToString().Length - 3).ToString()
                + " LIMIT " + pageint + "," + limt;
@@ -2587,7 +2587,7 @@ namespace huaanClient
 
         public static string getindexforNumberRegist()
         {
-            string commandText = "SELECT COUNT(*) AS count  FROM staff where isMarkedForDelete is null";
+            string commandText = "SELECT COUNT(*) AS count  FROM staff where isMarkedForDelete = 0";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
