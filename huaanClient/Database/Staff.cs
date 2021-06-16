@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Database
 {
-    class DbStaff
+    class Staff
     {
         public int id { get; set; }
         public string name { get; set; }

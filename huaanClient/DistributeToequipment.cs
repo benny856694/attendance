@@ -24,10 +24,10 @@ namespace huaanClient
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
 
             //bin
-            List<DbEquipmentDistribution> distributions = new List<DbEquipmentDistribution>();
+            List<EquipmentDistribution> distributions = new List<EquipmentDistribution>();
             using (var db = SQLiteHelper.GetConnection())
             {
-                distributions = db.Query<DbEquipmentDistribution>($"select * from {DbConstants.TableEquipementDistribution} where status != \"{DbConstants.success}\"")
+                distributions = db.Query<EquipmentDistribution>($"select * from {DbConstants.TableEquipementDistribution} where status != \"{DbConstants.success}\"")
                     .ToList();
             }
 
@@ -36,12 +36,12 @@ namespace huaanClient
                 if (distribute.type == "0" && distribute.status != DbConstants.success)
                 {
                     MyDevice deviceInfo = null;
-                    DbStaff staff = null;
+                    Staff staff = null;
                     using (var conn = SQLiteHelper.GetConnection())
                     {
                         var cmd = $"select * from {DbConstants.TableStaff} where id = @StaffId; select * from {DbConstants.TableMyDevice} where id = @MyDeviceId;";
                         var multi = conn.QueryMultiple(cmd, new { StaffId = distribute.userid, MyDeviceId = distribute.deviceid });
-                        staff = multi.Read<DbStaff>().FirstOrDefault();
+                        staff = multi.Read<Staff>().FirstOrDefault();
                         deviceInfo = multi.Read<MyDevice>().FirstOrDefault();
                     }
 
@@ -60,11 +60,13 @@ namespace huaanClient
                             {
                                 distribute.type = "2";
                                 distribute.status = "fail";
-                                distribute.date = DateTime.Now.ToString(DbConstants.dt_format);
+                                distribute.date = DateTime.Now;//.ToString(DbConstants.dt_format);
                                 var cmd = $"UPDATE {DbConstants.TableEquipementDistribution} SET type = @type, status = @status, date = @date WHERE id = @id";
                                 UpdateDistribution(distribute, cmd);
                                 continue;
                             }
+
+
                         }
                     }
 
@@ -220,7 +222,7 @@ namespace huaanClient
             }
         }
 
-        private static void UpdateDistribution(DbEquipmentDistribution distribute, string cmd)
+        private static void UpdateDistribution(EquipmentDistribution distribute, string cmd)
         {
             using (var conn = SQLiteHelper.GetConnection())
             {
