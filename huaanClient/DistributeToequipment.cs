@@ -78,13 +78,13 @@ namespace huaanClient
 
         }
 
-        private static void DeleteDistribute(JObject jo, string connectionString)
+        private static void DeleteDistribute(JObject distribute, string connectionString)
         {
-            string id = jo["userid"].ToString().Trim();
+            string id = distribute["userid"].ToString().Trim();
             if (GetData.getIscode_syn())
             {
                 //获取对应的名字和IP地址
-                string sql = "SELECT staff.Employee_code FROM staff  WHERE staff.id=" + jo["userid"].ToString();
+                string sql = "SELECT staff.Employee_code FROM staff  WHERE staff.id=" + distribute["userid"].ToString();
                 string sqldata = SQLiteHelper.SQLiteDataReader(connectionString, sql);
                 JArray sqldatajo = (JArray)JsonConvert.DeserializeObject(sqldata);
 
@@ -110,7 +110,7 @@ namespace huaanClient
                         int code_int = int.Parse(code);
                         if (code_int == 0 || code_int == 22)
                         {
-                            GetData.ubpdateEquipment_distributionfordel(jo["userid"].ToString());
+                            GetData.ubpdateEquipment_distributionfordel(distribute["userid"].ToString());
                         }
                     }
                 }
@@ -139,7 +139,7 @@ namespace huaanClient
                     //判断图片是否存在 如果不存在
                     if (!IsExis(distributeParams["picture"].ToString()))
                     {
-                        string updatessql = "UPDATE Equipment_distribution SET status='fail',type='2',date=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " WHERE id=" + id;
+                        string updatessql = "UPDATE Equipment_distribution SET status='fail',type='2',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
                         SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                         return;
                     }

@@ -429,7 +429,8 @@ namespace huaanClient.DatabaseTool
   "islineAdmin TEXT",
   "face_idcard TEXT",
   "source TEXT",
-  "idcardtype TEXT"
+  "idcardtype TEXT",
+  "isMarkedForDelete integer",
   //face_idcard
         };
 
