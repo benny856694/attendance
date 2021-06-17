@@ -131,6 +131,9 @@
   <data name="panel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <data name="buttonChooseDevice.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
   <data name="&gt;&gt;textBoxDirectory.Name" xml:space="preserve">
     <value>textBoxDirectory</value>
   </data>
@@ -150,11 +153,8 @@
   <data name="&gt;&gt;panel2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>FormSyncFace</value>
-  </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="bunifuDataGridView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -168,8 +168,11 @@
   <data name="bunifuCircleProgress1.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 43</value>
   </data>
-  <data name="buttonChooseDevice.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="&gt;&gt;buttonChooseDevice.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="buttonSelDirectory.Text" xml:space="preserve">
+    <value>...</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>872, 59</value>
@@ -216,8 +219,8 @@
   <data name="&gt;&gt;bunifuDataGridView1.Parent" xml:space="preserve">
     <value>panel2</value>
   </data>
-  <data name="buttonSelDirectory.Text" xml:space="preserve">
-    <value>...</value>
+  <data name="&gt;&gt;buttonChooseDevice.Parent" xml:space="preserve">
+    <value>panel1</value>
   </data>
   <data name="&gt;&gt;bunifuCircleProgress1.Type" xml:space="preserve">
     <value>Bunifu.UI.WinForms.BunifuCircleProgress, Bunifu.UI.WinForms.BunifuCircleProgress, Version=5.0.7.0, Culture=neutral, PublicKeyToken=e8e24ccd28363fe9</value>
@@ -255,14 +258,11 @@
   <data name="bunifuDataGridView1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="bunifuDataGridView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
   <data name="&gt;&gt;buttonSync.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;buttonChooseDevice.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormSyncFace</value>
   </data>
   <data name="buttonChooseDevice.Text" xml:space="preserve">
     <value>选择设备</value>
@@ -309,9 +309,6 @@
   <data name="&gt;&gt;textBoxDirectory.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="&gt;&gt;buttonChooseDevice.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
   <data name="buttonSync.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 23</value>
   </data>
@@ -333,8 +330,8 @@
   <data name="bunifuCircleProgress1.Location" type="System.Drawing.Point, System.Drawing">
     <value>652, 10</value>
   </data>
-  <data name="&gt;&gt;buttonSelDirectory.Name" xml:space="preserve">
-    <value>buttonSelDirectory</value>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="textBoxDirectory.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -356,6 +353,9 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>872, 561</value>
+  </data>
+  <data name="&gt;&gt;buttonSelDirectory.Name" xml:space="preserve">
+    <value>buttonSelDirectory</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

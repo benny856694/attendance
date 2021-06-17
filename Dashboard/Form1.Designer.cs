@@ -34,6 +34,7 @@ namespace Dashboard
             this.panel3 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.bunifuImageSyncFace = new Bunifu.UI.WinForms.BunifuImageButton();
             this.bunifuImageButtonOptions = new Bunifu.UI.WinForms.BunifuImageButton();
             this.bunifuImageButton1 = new Bunifu.UI.WinForms.BunifuImageButton();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,7 +44,6 @@ namespace Dashboard
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxCol = new System.Windows.Forms.ComboBox();
             this.gridControl1 = new Dashboard.Controls.GridControl();
-            this.bunifuImageSyncFace = new Bunifu.UI.WinForms.BunifuImageButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -61,18 +61,20 @@ namespace Dashboard
             // 
             // splitContainer1.Panel1
             // 
+            resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
             this.splitContainer1.Panel1.Controls.Add(this.panel3);
             this.splitContainer1.Panel1.Controls.Add(this.panel2);
             this.splitContainer1.Panel1.Controls.Add(this.panel1);
             // 
             // splitContainer1.Panel2
             // 
+            resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
             this.splitContainer1.Panel2.Controls.Add(this.gridControl1);
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.listBox1);
             resources.ApplyResources(this.panel3, "panel3");
+            this.panel3.Controls.Add(this.listBox1);
             this.panel3.Name = "panel3";
             // 
             // listBox1
@@ -84,22 +86,55 @@ namespace Dashboard
             // 
             // panel2
             // 
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Controls.Add(this.bunifuImageSyncFace);
             this.panel2.Controls.Add(this.bunifuImageButtonOptions);
             this.panel2.Controls.Add(this.bunifuImageButton1);
             this.panel2.Controls.Add(this.label1);
-            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
+            // 
+            // bunifuImageSyncFace
+            // 
+            resources.ApplyResources(this.bunifuImageSyncFace, "bunifuImageSyncFace");
+            this.bunifuImageSyncFace.ActiveImage = null;
+            this.bunifuImageSyncFace.AllowAnimations = true;
+            this.bunifuImageSyncFace.AllowBuffering = false;
+            this.bunifuImageSyncFace.AllowToggling = false;
+            this.bunifuImageSyncFace.AllowZooming = false;
+            this.bunifuImageSyncFace.AllowZoomingOnFocus = false;
+            this.bunifuImageSyncFace.BackColor = System.Drawing.Color.Transparent;
+            this.bunifuImageSyncFace.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.bunifuImageSyncFace.ErrorImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageSyncFace.ErrorImage")));
+            this.bunifuImageSyncFace.FadeWhenInactive = false;
+            this.bunifuImageSyncFace.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
+            this.bunifuImageSyncFace.Image = ((System.Drawing.Image)(resources.GetObject("bunifuImageSyncFace.Image")));
+            this.bunifuImageSyncFace.ImageActive = null;
+            this.bunifuImageSyncFace.ImageLocation = null;
+            this.bunifuImageSyncFace.ImageMargin = 0;
+            this.bunifuImageSyncFace.ImageSize = new System.Drawing.Size(24, 24);
+            this.bunifuImageSyncFace.ImageZoomSize = new System.Drawing.Size(24, 24);
+            this.bunifuImageSyncFace.InitialImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageSyncFace.InitialImage")));
+            this.bunifuImageSyncFace.Name = "bunifuImageSyncFace";
+            this.bunifuImageSyncFace.Rotation = 0;
+            this.bunifuImageSyncFace.ShowActiveImage = true;
+            this.bunifuImageSyncFace.ShowCursorChanges = true;
+            this.bunifuImageSyncFace.ShowImageBorders = true;
+            this.bunifuImageSyncFace.ShowSizeMarkers = false;
+            this.bunifuImageSyncFace.ToolTipText = "";
+            this.bunifuImageSyncFace.WaitOnLoad = false;
+            this.bunifuImageSyncFace.Zoom = 0;
+            this.bunifuImageSyncFace.ZoomSpeed = 10;
+            this.bunifuImageSyncFace.Click += new System.EventHandler(this.bunifuImageSyncFace_Click);
             // 
             // bunifuImageButtonOptions
             // 
+            resources.ApplyResources(this.bunifuImageButtonOptions, "bunifuImageButtonOptions");
             this.bunifuImageButtonOptions.ActiveImage = null;
             this.bunifuImageButtonOptions.AllowAnimations = true;
             this.bunifuImageButtonOptions.AllowBuffering = false;
             this.bunifuImageButtonOptions.AllowToggling = false;
             this.bunifuImageButtonOptions.AllowZooming = false;
             this.bunifuImageButtonOptions.AllowZoomingOnFocus = false;
-            resources.ApplyResources(this.bunifuImageButtonOptions, "bunifuImageButtonOptions");
             this.bunifuImageButtonOptions.BackColor = System.Drawing.Color.Transparent;
             this.bunifuImageButtonOptions.DialogResult = System.Windows.Forms.DialogResult.None;
             this.bunifuImageButtonOptions.ErrorImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageButtonOptions.ErrorImage")));
@@ -126,13 +161,13 @@ namespace Dashboard
             // 
             // bunifuImageButton1
             // 
+            resources.ApplyResources(this.bunifuImageButton1, "bunifuImageButton1");
             this.bunifuImageButton1.ActiveImage = null;
             this.bunifuImageButton1.AllowAnimations = true;
             this.bunifuImageButton1.AllowBuffering = false;
             this.bunifuImageButton1.AllowToggling = false;
             this.bunifuImageButton1.AllowZooming = false;
             this.bunifuImageButton1.AllowZoomingOnFocus = false;
-            resources.ApplyResources(this.bunifuImageButton1, "bunifuImageButton1");
             this.bunifuImageButton1.BackColor = System.Drawing.Color.Transparent;
             this.bunifuImageButton1.DialogResult = System.Windows.Forms.DialogResult.None;
             this.bunifuImageButton1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageButton1.ErrorImage")));
@@ -164,11 +199,11 @@ namespace Dashboard
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.comboBoxRow);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.comboBoxCol);
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // label3
@@ -178,9 +213,9 @@ namespace Dashboard
             // 
             // comboBoxRow
             // 
+            resources.ApplyResources(this.comboBoxRow, "comboBoxRow");
             this.comboBoxRow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRow.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBoxRow, "comboBoxRow");
             this.comboBoxRow.Name = "comboBoxRow";
             this.comboBoxRow.SelectedValueChanged += new System.EventHandler(this.comboBoxRow_SelectedValueChanged);
             // 
@@ -191,60 +226,27 @@ namespace Dashboard
             // 
             // comboBoxCol
             // 
+            resources.ApplyResources(this.comboBoxCol, "comboBoxCol");
             this.comboBoxCol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCol.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBoxCol, "comboBoxCol");
             this.comboBoxCol.Name = "comboBoxCol";
             this.comboBoxCol.SelectedValueChanged += new System.EventHandler(this.comboBox1Col_SelectedValueChanged);
             // 
             // gridControl1
             // 
+            resources.ApplyResources(this.gridControl1, "gridControl1");
             this.gridControl1.BackColor = System.Drawing.Color.Black;
             this.gridControl1.Cols = 0;
-            resources.ApplyResources(this.gridControl1, "gridControl1");
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.Rows = 0;
             this.gridControl1.MouseEnter += new System.EventHandler(this.gridControl1_MouseEnter);
             this.gridControl1.MouseLeave += new System.EventHandler(this.gridControl1_MouseLeave);
             this.gridControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gridControl1_MouseMove);
             // 
-            // bunifuImageSyncFace
-            // 
-            this.bunifuImageSyncFace.ActiveImage = null;
-            this.bunifuImageSyncFace.AllowAnimations = true;
-            this.bunifuImageSyncFace.AllowBuffering = false;
-            this.bunifuImageSyncFace.AllowToggling = false;
-            this.bunifuImageSyncFace.AllowZooming = false;
-            this.bunifuImageSyncFace.AllowZoomingOnFocus = false;
-            resources.ApplyResources(this.bunifuImageSyncFace, "bunifuImageSyncFace");
-            this.bunifuImageSyncFace.BackColor = System.Drawing.Color.Transparent;
-            this.bunifuImageSyncFace.DialogResult = System.Windows.Forms.DialogResult.None;
-            this.bunifuImageSyncFace.ErrorImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageSyncFace.ErrorImage")));
-            this.bunifuImageSyncFace.FadeWhenInactive = false;
-            this.bunifuImageSyncFace.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
-            this.bunifuImageSyncFace.Image = ((System.Drawing.Image)(resources.GetObject("bunifuImageSyncFace.Image")));
-            this.bunifuImageSyncFace.ImageActive = null;
-            this.bunifuImageSyncFace.ImageLocation = null;
-            this.bunifuImageSyncFace.ImageMargin = 0;
-            this.bunifuImageSyncFace.ImageSize = new System.Drawing.Size(24, 24);
-            this.bunifuImageSyncFace.ImageZoomSize = new System.Drawing.Size(24, 24);
-            this.bunifuImageSyncFace.InitialImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageSyncFace.InitialImage")));
-            this.bunifuImageSyncFace.Name = "bunifuImageSyncFace";
-            this.bunifuImageSyncFace.Rotation = 0;
-            this.bunifuImageSyncFace.ShowActiveImage = true;
-            this.bunifuImageSyncFace.ShowCursorChanges = true;
-            this.bunifuImageSyncFace.ShowImageBorders = true;
-            this.bunifuImageSyncFace.ShowSizeMarkers = false;
-            this.bunifuImageSyncFace.ToolTipText = "";
-            this.bunifuImageSyncFace.WaitOnLoad = false;
-            this.bunifuImageSyncFace.Zoom = 0;
-            this.bunifuImageSyncFace.ZoomSpeed = 10;
-            this.bunifuImageSyncFace.Click += new System.EventHandler(this.bunifuImageSyncFace_Click);
-            // 
             // Form1
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);

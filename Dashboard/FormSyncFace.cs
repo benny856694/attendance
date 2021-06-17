@@ -28,7 +28,7 @@ namespace Dashboard
 
         private void buttonSelDirectory_Click(object sender, EventArgs e)
         {
-            var dr = folderBrowserDialog1.ShowDialog();
+            var dr = folderBrowserDialog1.ShowDialog(this);
             if (dr == DialogResult.OK)
             {
                 directory = folderBrowserDialog1.SelectedPath;
@@ -111,6 +111,8 @@ namespace Dashboard
 
         private async void buttonSync_ClickAsync(object sender, EventArgs e)
         {
+            if (directory == null || AddedDevice.Length == 0) return;
+
             var regs = ParseFolder(directory);
             buttonSync.Enabled = false;
             bunifuCircleProgress1.Animated = true;
