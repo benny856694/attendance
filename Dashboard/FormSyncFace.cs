@@ -160,7 +160,8 @@ namespace Dashboard
                 var dr = form.ShowDialog(this);
                 if (dr == DialogResult.OK)
                 {
-                    AddIpColumns(form.AddedDevices);
+                    this.AddedDevice = form.AddedDevices.ToArray();
+                    AddIpColumns(this.AddedDevice);
                 }
             }
         }
