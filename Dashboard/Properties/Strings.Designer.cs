@@ -88,6 +88,15 @@ namespace Dashboard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 失败.
+        /// </summary>
+        internal static string Fail {
+            get {
+                return ResourceManager.GetString("Fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IP地址.
         /// </summary>
         internal static string IP {
@@ -129,6 +138,15 @@ namespace Dashboard.Properties {
         internal static string PromptSelectedCellIsNull {
             get {
                 return ResourceManager.GetString("PromptSelectedCellIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 成功.
+        /// </summary>
+        internal static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
             }
         }
         

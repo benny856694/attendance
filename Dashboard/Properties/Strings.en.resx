@@ -121,4 +121,10 @@
 	<data name="AtLeastOneImageShouldBeDisplayed" xml:space="preserve">
 		<value>At lease one image should be displayed</value>
 	</data>
+	<data name="Fail" xml:space="preserve">
+		<value>Fail</value>
+	</data>
+	<data name="Success" xml:space="preserve">
+		<value>Success</value>
+	</data>
 </root>
