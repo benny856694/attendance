@@ -342,6 +342,8 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Strings.en.resx" />
+    <EmbeddedResource Include="Properties\Strings.fr.resx" />
+    <EmbeddedResource Include="Properties\Strings.ja.resx" />
     <EmbeddedResource Include="Properties\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
