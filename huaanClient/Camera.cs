@@ -25,6 +25,8 @@ namespace huaanClient
         public Camera()
         {
             InitializeComponent();
+            this.Text = Properties.Strings.TakePicture;
+            this.btnLogin.Text = Properties.Strings.TakePicture;
         }
 
         //public delegate void VideoParmReceivedArgs(string sender);
@@ -96,7 +98,7 @@ namespace huaanClient
         public void chanvideo(string ip)
         {
             ischange = false;
-            videoSourcePlayer1.Text = "正在切换...";
+            videoSourcePlayer1.Text = Properties.Strings.PromptSwitchingCamera;
             videoSourcePlayer1.Stop();
             if (ip.Length<5)
             {
@@ -139,7 +141,7 @@ namespace huaanClient
                     Iplist iplist = new Iplist();
                     var v = i;
                     iplist.Controls["btn"].Click += (object sender_, EventArgs e_) => chanvideo((v).ToString());
-                    iplist.Controls["Iplabel"].Text = "摄像头"+(i+1);
+                    iplist.Controls["Iplabel"].Text = $"{Properties.Strings.Camera}"+(i+1);
                     plView.Controls.Add(iplist);
                 }
                 

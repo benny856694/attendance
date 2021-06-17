@@ -7,6 +7,7 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -47,6 +48,8 @@ namespace huaanClient
 
         public  async void LoginForm()
         {
+            SetCurrentLanguage();
+
             bool isZn;
             if (Language_Selection1.SelectedIndex == 0)
             {
@@ -70,29 +73,17 @@ namespace huaanClient
             try
             {
                 //先判断是否存在
-                bool bc = DriverExists(@"D:\");
-                if (bc)
+                var drives = DriveInfo.GetDrives().Where(d=>d.IsReady && d.DriveType == DriveType.Fixed).OrderByDescending(x=>x.Name).ToList();
+                foreach (var d in drives)
                 {
-                    //先创建基础文件夹
-                    var imgPath = "D:\\FaceRASystemTool";
-                    if (!Directory.Exists(imgPath))
+                    var path = System.IO.Path.Combine(d.RootDirectory.FullName, "FaceRASystemTool");
+                    if (!Directory.Exists(path))
                     {
-                        Directory.CreateDirectory(imgPath);
+                        Directory.CreateDirectory(path);
                     }
 
-                    ApplicationData.FaceRASystemToolUrl = "D:\\FaceRASystemTool";
-                }
-                //D盘不存在 直接创建到C盘
-                else
-                {
-                    //先创建基础文件夹
-                    var imgPath = "C:\\FaceRASystemTool";
-                    if (!Directory.Exists(imgPath))
-                    {
-                        Directory.CreateDirectory(imgPath);
-                    }
-
-                    ApplicationData.FaceRASystemToolUrl = "C:\\FaceRASystemTool";
+                    ApplicationData.FaceRASystemToolUrl = path;
+                    break;
                 }
             }
             catch (Exception ex)
@@ -244,6 +235,28 @@ namespace huaanClient
                 }
             }
         }
+
+        private void SetCurrentLanguage()
+        {
+            switch (Language_Selection1.SelectedIndex)
+            {
+                case 0: //chinese
+                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh");
+                    break;
+                case 1: //english
+                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+                    break;
+                case 2: //japaness
+                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja");
+                    break;
+                case 3: //french
+                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("fr");
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
         public  void changeLable(string value)
         {
             this.Dispatcher.BeginInvoke(new Action(() => {

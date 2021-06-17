@@ -126,6 +126,9 @@
 	<data name="CantBeEmpty" xml:space="preserve">
     <value>不能为空</value>
   </data>
+	<data name="Fail" xml:space="preserve">
+    <value>失败</value>
+  </data>
 	<data name="IP" xml:space="preserve">
     <value>IP地址</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
 	<data name="PromptSelectedCellIsNull" xml:space="preserve">
     <value>请先选择一个窗口</value>
+  </data>
+	<data name="Success" xml:space="preserve">
+    <value>成功</value>
   </data>
 	<data name="Unidentified" xml:space="preserve">
     <value>未注册</value>

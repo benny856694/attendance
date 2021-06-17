@@ -97,34 +97,19 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-	<data name="PromptSelectedCellIsNull" xml:space="preserve">
-		<value>Please select a cell first</value>
+	<data name="AllDriveIsNotAvailable" xml:space="preserve">
+		<value>Impossible d'enregistrer les données sans disque disponible</value>
 	</data>
-	<data name="Added" xml:space="preserve">
-		<value>Added</value>
+	<data name="Camera" xml:space="preserve">
+		<value>Caméra</value>
 	</data>
-	<data name="CantBeEmpty" xml:space="preserve">
-		<value>Can't be empty</value>
+	<data name="PromptSwitchingCamera" xml:space="preserve">
+		<value>Commutation...</value>
 	</data>
-	<data name="Unidentified" xml:space="preserve">
-		<value>Unidentified</value>
+	<data name="Switch" xml:space="preserve">
+		<value>Basculer</value>
 	</data>
-	<data name="IP" xml:space="preserve">
-		<value>IP</value>
-	</data>
-	<data name="Name" xml:space="preserve">
-		<value>Name</value>
-	</data>
-	<data name="Port" xml:space="preserve">
-		<value>Port</value>
-	</data>
-	<data name="AtLeastOneImageShouldBeDisplayed" xml:space="preserve">
-		<value>At lease one image should be displayed</value>
-	</data>
-	<data name="Fail" xml:space="preserve">
-		<value>Fail</value>
-	</data>
-	<data name="Success" xml:space="preserve">
-		<value>Success</value>
+	<data name="TakePicture" xml:space="preserve">
+		<value>Prendre des photos</value>
 	</data>
 </root>

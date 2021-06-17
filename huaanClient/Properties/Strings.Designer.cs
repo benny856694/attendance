@@ -61,11 +61,47 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to 没有可用的磁盘，无法保存数据.
         /// </summary>
         internal static string AllDriveIsNotAvailable {
             get {
                 return ResourceManager.GetString("AllDriveIsNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 相机.
+        /// </summary>
+        internal static string Camera {
+            get {
+                return ResourceManager.GetString("Camera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在切换....
+        /// </summary>
+        internal static string PromptSwitchingCamera {
+            get {
+                return ResourceManager.GetString("PromptSwitchingCamera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 切换.
+        /// </summary>
+        internal static string Switch {
+            get {
+                return ResourceManager.GetString("Switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 拍照.
+        /// </summary>
+        internal static string TakePicture {
+            get {
+                return ResourceManager.GetString("TakePicture", resourceCulture);
             }
         }
     }

@@ -15,6 +15,7 @@ namespace huaanClient
         public Iplist()
         {
             InitializeComponent();
+            this.btn.Text = Properties.Strings.Switch;
         }
     }
 }

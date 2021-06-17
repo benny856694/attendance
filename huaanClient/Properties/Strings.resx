@@ -120,4 +120,16 @@
 	<data name="AllDriveIsNotAvailable" xml:space="preserve">
     <value>没有可用的磁盘，无法保存数据</value>
   </data>
+	<data name="Camera" xml:space="preserve">
+    <value>相机</value>
+  </data>
+	<data name="PromptSwitchingCamera" xml:space="preserve">
+    <value>正在切换...</value>
+  </data>
+	<data name="Switch" xml:space="preserve">
+    <value>切换</value>
+  </data>
+	<data name="TakePicture" xml:space="preserve">
+    <value>拍照</value>
+  </data>
 </root>

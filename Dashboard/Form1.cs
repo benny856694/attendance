@@ -383,5 +383,14 @@ namespace Dashboard
                 }
             }
         }
+
+        private void bunifuImageSyncFace_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormSyncFace())
+            {
+                form.AddedDevice = this.AddedDevices;
+                 form.ShowDialog(this);
+            }
+        }
     }
 }
