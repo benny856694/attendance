@@ -125,17 +125,21 @@ namespace Dashboard
                     if (row.Tag is FaceRegitration reg)
                     {
                         var result = Properties.Strings.Success;
+                        var success = true;
                         try
                         {
                             var res = await PostFaceRegAsync(client, reg);
                             result = res.code == 0 ? Properties.Strings.Success : $"{Properties.Strings.Fail}: {res.reply}";
+                            success = res.code == 0;
                         }
                         catch (Exception ex)
                         {
                             result = $"{Properties.Strings.Fail}: {ex.Message}";
+                            success = false;
                         }
 
                         row.Cells[ip.IP].Value = result;
+                        row.Cells[ip.IP].Style.BackColor = success ? Color.DarkGreen : Color.DarkRed;
                     }
                     
                 }
