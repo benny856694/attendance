@@ -139,7 +139,7 @@ namespace Dashboard
                         }
 
                         row.Cells[ip.IP].Value = result;
-                        row.Cells[ip.IP].Style.BackColor = success ? Color.DarkGreen : Color.DarkRed;
+                        row.Cells[ip.IP].Style.ForeColor = success ? Color.DarkGreen : Color.DarkRed;
                     }
                     
                 }
