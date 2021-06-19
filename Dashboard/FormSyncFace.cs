@@ -226,7 +226,7 @@ namespace Dashboard
         public void ConfigureTracking(TrackingConfiguration configuration)
         {
             var cfg = configuration.AsGeneric<FormSyncFace>();
-            cfg.Property(f => f.textBoxDirectory.Text);
+            cfg.Property(f => f.textBoxDirectory.Text, "choosenDirectory");
             cfg.Property(f => f.showFileFormatPrompt);
         }
 
