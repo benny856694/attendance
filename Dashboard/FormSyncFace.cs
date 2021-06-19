@@ -1,4 +1,5 @@
 ﻿using Dashboard.Model;
+using HaSdkWrapper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -97,6 +98,8 @@ namespace Dashboard
         private async Task<Response> PostFaceRegAsync(HttpClient client, FaceRegitration reg)
         {
             dynamic addPerson = new ExpandoObject();
+            addPerson.version = "0.2";
+            addPerson.cmd = "upload person";
             addPerson.id = reg.Id;
             addPerson.wg_card_id = int.Parse(reg.Id);
             addPerson.reg_image = Convert.ToBase64String(File.ReadAllBytes(reg.FullPathToImage));
@@ -131,7 +134,8 @@ namespace Dashboard
                         try
                         {
                             var res = await PostFaceRegAsync(client, reg);
-                            result = res.code == 0 ? Properties.Strings.Success : $"{Properties.Strings.Fail}: {res.reply}";
+                            result = res.code == 0 ? 
+                                Properties.Strings.Success : $"{Properties.Strings.Fail}-{res.code}:{HaCamera.GetErrorDescribe(res.code)}";
                             success = res.code == 0;
                         }
                         catch (Exception ex)
