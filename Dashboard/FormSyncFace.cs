@@ -24,6 +24,7 @@ namespace Dashboard
         public FaceRegitration[] Registrations { get; private set; } = new FaceRegitration[0];
 
         private bool showFileFormatPrompt = true;
+        private bool _ipSelected;
 
         public FormSyncFace()
         {
@@ -58,6 +59,7 @@ namespace Dashboard
             if (validFiles.Length == 0) return;
             Registrations = validFiles;
             ShowFiles(allFiles, validFiles);
+            _ipSelected = false;
         }
 
         private void ShowFiles(string[] allFiles, FaceRegitration[] validFiles)
@@ -155,11 +157,13 @@ namespace Dashboard
 
         private async void buttonDeploy_ClickAsync(object sender, EventArgs e)
         {
-            if (Registrations?.Length == 0 || AddedDevice?.Length == 0) return;
+            if (Registrations?.Length == 0 || AddedDevice?.Length == 0 || !_ipSelected) return;
 
             buttonSync.Enabled = false;
             toolStripProgressBar1.Visible = true;
             buttonSelDirectory.Enabled = false;
+            buttonRefresh.Enabled = false;
+
             foreach (var ip in AddedDevice)
             {
                 var client = CreateHttpClient(ip.IP);
@@ -192,6 +196,7 @@ namespace Dashboard
             buttonSync.Enabled = true;
             toolStripProgressBar1.Visible  = false;
             buttonSelDirectory.Enabled = true;
+            buttonRefresh.Enabled = true;
 
         }
 
@@ -210,6 +215,7 @@ namespace Dashboard
                 {
                     this.AddedDevice = form.AddedDevices.ToArray();
                     AddIpColumns(this.AddedDevice);
+                    _ipSelected = true;
                 }
             }
         }
