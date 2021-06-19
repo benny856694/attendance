@@ -163,6 +163,7 @@ namespace Dashboard
             toolStripProgressBar1.Visible = true;
             buttonSelDirectory.Enabled = false;
             buttonRefresh.Enabled = false;
+            buttonChooseDevice.Enabled = false;
 
             foreach (var ip in AddedDevice)
             {
@@ -197,6 +198,7 @@ namespace Dashboard
             toolStripProgressBar1.Visible  = false;
             buttonSelDirectory.Enabled = true;
             buttonRefresh.Enabled = true;
+            buttonChooseDevice.Enabled = true;
 
         }
 
