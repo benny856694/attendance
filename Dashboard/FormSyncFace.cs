@@ -135,7 +135,7 @@ namespace Dashboard
                         {
                             var res = await PostFaceRegAsync(client, reg);
                             result = res.code == 0 ? 
-                                Properties.Strings.Success : $"{Properties.Strings.Fail}-{res.code}:{HaCamera.GetErrorDescribe(res.code)}";
+                                Properties.Strings.Success : $"{Properties.Strings.Fail}-{res.code}:{Api.HttpApiErrorCodes.GetErrorDesc(res.code)}";
                             success = res.code == 0;
                         }
                         catch (Exception ex)

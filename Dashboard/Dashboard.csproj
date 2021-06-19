@@ -207,6 +207,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\HttpApiErrorCodes.cs" />
     <Compile Include="Controls\CameraListItemUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
