@@ -140,7 +140,7 @@ namespace Dashboard
             addPerson.version = "0.2";
             addPerson.cmd = "upload person";
             addPerson.id = reg.Id;
-            addPerson.wg_card_id = int.Parse(reg.Id);
+            addPerson.name = reg.Name;
             addPerson.reg_image = Convert.ToBase64String(File.ReadAllBytes(reg.FullPathToImage));
 
             var json =  (string) JsonConvert.SerializeObject(addPerson);
