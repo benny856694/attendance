@@ -10,14 +10,9 @@ namespace Dashboard.Api
     {
         public static string GetErrorDesc(int errorCode)
         {
-            switch(errorCode)
-            {
-                case int e when ErrorCodes.ContainsKey(e):
-                    return ErrorCodes[e];
-                default:
-                    return "Unknown Error";
-
-            }
+            return ErrorCodes.ContainsKey(errorCode) ?
+                ErrorCodes[errorCode] : "Unknow Error";
+            
 
         }
 
