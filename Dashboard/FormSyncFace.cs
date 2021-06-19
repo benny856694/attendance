@@ -1,4 +1,5 @@
 ﻿using Dashboard.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -95,14 +96,15 @@ namespace Dashboard
 
         private async Task<Response> PostFaceRegAsync(HttpClient client, FaceRegitration reg)
         {
-            var addPerson = new AddPersonRequest
-            {
-                id = reg.Id,
-                wg_card_id = int.Parse(reg.Id),
-                reg_image = Convert.ToBase64String(File.ReadAllBytes(reg.FullPathToImage))
-            };
+            dynamic addPerson = new ExpandoObject();
+            addPerson.id = reg.Id;
+            addPerson.wg_card_id = int.Parse(reg.Id);
+            addPerson.reg_image = Convert.ToBase64String(File.ReadAllBytes(reg.FullPathToImage));
 
-            var response = await client.PostAsJsonAsync("", addPerson);
+            var json =  (string) JsonConvert.SerializeObject(addPerson);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("", content);
             response.EnsureSuccessStatusCode();
             var resObj = await response.Content.ReadAsAsync<Response>();
             return resObj;
