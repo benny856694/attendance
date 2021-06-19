@@ -127,4 +127,7 @@
 	<data name="Success" xml:space="preserve">
 		<value>Success</value>
 	</data>
+	<data name="FilesCount" xml:space="preserve">
+		<value>{0} file(s)</value>
+	</data>
 </root>

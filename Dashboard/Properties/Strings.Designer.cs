@@ -97,6 +97,15 @@ namespace Dashboard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} 文件.
+        /// </summary>
+        internal static string FilesCount {
+            get {
+                return ResourceManager.GetString("FilesCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IP地址.
         /// </summary>
         internal static string IP {

@@ -1,5 +1,6 @@
 ﻿using Dashboard.Model;
 using HaSdkWrapper;
+using Jot.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,12 @@ using System.Windows.Forms;
 
 namespace Dashboard
 {
-    public partial class FormSyncFace : Form
+    public partial class FormSyncFace : Form, ITrackingAware
     {
-        public Device[] AddedDevice { private get; set; }
-        public FaceRegitration[] Regs { get; private set; }
+        public Device[] AddedDevice { private get; set; } 
+        public FaceRegitration[] Registrations { get; private set; } = new FaceRegitration[0];
 
-        private string directory;
+        private bool showFileFormatPrompt = true;
 
         public FormSyncFace()
         {
@@ -30,19 +31,56 @@ namespace Dashboard
 
         private void buttonSelDirectory_Click(object sender, EventArgs e)
         {
+            if (showFileFormatPrompt)
+            {
+                using (var form = new FormImageTypePrompt())
+                {
+                    form.checkBoxDontPromptAgain.Checked = !this.showFileFormatPrompt;
+                    form.ShowDialog(this);
+                    this.showFileFormatPrompt = !form.checkBoxDontPromptAgain.Checked;
+                }
+
+            }
+
+            folderBrowserDialog1.SelectedPath = textBoxDirectory.Text;
             var dr = folderBrowserDialog1.ShowDialog(this);
             if (dr == DialogResult.OK)
             {
-                directory = folderBrowserDialog1.SelectedPath;
-                textBoxDirectory.Text = directory;
-                Regs = ParseFolder(folderBrowserDialog1.SelectedPath);
-                CreateColumns();
-                foreach (var item in Regs)
-                {
-                    var idx = bunifuDataGridView1.Rows.Add(item.Id, item.Name, item.FullPathToImage);
-                    var row = bunifuDataGridView1.Rows[idx].Tag = item;
-                }
+                textBoxDirectory.Text = folderBrowserDialog1.SelectedPath;
+                LoadAndShowFiles();
             }
+        }
+
+        private void LoadAndShowFiles()
+        {
+            var (allFiles, validFiles) = LoadFiles(textBoxDirectory.Text);
+            if (validFiles.Length == 0) return;
+            Registrations = validFiles;
+            ShowFiles(allFiles, validFiles);
+        }
+
+        private void ShowFiles(string[] allFiles, FaceRegitration[] validFiles)
+        {
+            toolStripStatusLabelFilesCount.Text = string.Format(Properties.Strings.FilesCount, allFiles.Length);
+            toolStripStatusLabelValidFileCount.Text = string.Format(Properties.Strings.FilesCount, validFiles.Length);
+
+
+            CreateColumns();
+            foreach (var item in validFiles)
+            {
+                var idx = bunifuDataGridView1.Rows.Add(item.Id, item.Name, item.FullPathToImage);
+                bunifuDataGridView1.Rows[idx].Tag = item;
+            }
+
+        }
+
+        private (string[] allFiles, FaceRegitration[] validFiles) LoadFiles(string folder)
+        {
+            var allFiles = EnumerateAllFiles(folder);
+            var valid = ParseFileNames(allFiles);
+            return (allFiles, valid);
+
+           
         }
 
         private void CreateColumns()
@@ -53,11 +91,11 @@ namespace Dashboard
             bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "path", HeaderText = "path" });
         }
 
-        public FaceRegitration[] ParseFolder(string path)
+        public FaceRegitration[] ParseFileNames(string[] files)
         {
             var result = new List<FaceRegitration>();
-            var files = Directory.EnumerateFiles(path, "*.jpg");
-            foreach (var file in files)
+            var jpgFiles = files.Where(x => x.EndsWith(".jpg"));   
+            foreach (var file in jpgFiles)
             {
                 var nameOnly = Path.GetFileNameWithoutExtension(file);
                 if (TryParseName(nameOnly, out var id, out var name))
@@ -70,6 +108,8 @@ namespace Dashboard
             return result.ToArray();
 
         }
+
+        public string[] EnumerateAllFiles(string folder) => Directory.EnumerateFiles(folder).ToArray();
 
         private bool TryParseName(string fileName, out string id, out string name)
         {
@@ -114,14 +154,13 @@ namespace Dashboard
            
         }
 
-        private async void buttonSync_ClickAsync(object sender, EventArgs e)
+        private async void buttonDeploy_ClickAsync(object sender, EventArgs e)
         {
-            if (directory == null || AddedDevice.Length == 0) return;
+            if (Registrations?.Length == 0 || AddedDevice?.Length == 0) return;
 
-            var regs = ParseFolder(directory);
             buttonSync.Enabled = false;
-            bunifuCircleProgress1.Animated = true;
-            bunifuCircleProgress1.Visible = true;
+            toolStripProgressBar1.Visible = true;
+            buttonSelDirectory.Enabled = false;
             foreach (var ip in AddedDevice)
             {
                 var client = CreateHttpClient(ip.IP);
@@ -152,10 +191,14 @@ namespace Dashboard
             }
 
             buttonSync.Enabled = true;
-            bunifuCircleProgress1.Animated = false;
-            bunifuCircleProgress1.Visible = false;
+            toolStripProgressBar1.Visible  = false;
+            buttonSelDirectory.Enabled = true;
 
+        }
 
+        private void ShowDeployResult(FaceRegitration reg, string targetIp, bool success, string errorMessage)
+        {
+            var row = bunifuDataGridView1.Rows.OfType<DataGridViewRow>().FirstOrDefault(x => x.Tag.Equals(reg));
         }
 
         private void buttonChooseDevice_Click(object sender, EventArgs e)
@@ -179,6 +222,28 @@ namespace Dashboard
                 bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = ip.IP, HeaderText = ip.IP });
 
             }
+        }
+
+        public void ConfigureTracking(TrackingConfiguration configuration)
+        {
+            var cfg = configuration.AsGeneric<FormSyncFace>();
+            cfg.Property(f => f.textBoxDirectory.Text);
+            cfg.Property(f => f.showFileFormatPrompt);
+        }
+
+        private void FormSyncFace_Load(object sender, EventArgs e)
+        {
+            Services.Tracker.Track(this);
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxDirectory.Text)) return;
+            buttonSelDirectory.Enabled = false;
+
+            LoadAndShowFiles();
+
+            buttonSelDirectory.Enabled = true;
         }
     }
 }

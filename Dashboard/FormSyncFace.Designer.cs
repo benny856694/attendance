@@ -36,16 +36,23 @@ namespace Dashboard
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxDirectory = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.bunifuCircleProgress1 = new Bunifu.UI.WinForms.BunifuCircleProgress();
+            this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonSync = new System.Windows.Forms.Button();
             this.buttonChooseDevice = new System.Windows.Forms.Button();
             this.buttonSelDirectory = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.bunifuDataGridView1 = new Bunifu.UI.WinForms.BunifuDataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelTotalFile = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelFilesCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelValid = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelValidFileCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bunifuDataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -61,7 +68,7 @@ namespace Dashboard
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Controls.Add(this.bunifuCircleProgress1);
+            this.panel1.Controls.Add(this.buttonRefresh);
             this.panel1.Controls.Add(this.buttonSync);
             this.panel1.Controls.Add(this.buttonChooseDevice);
             this.panel1.Controls.Add(this.buttonSelDirectory);
@@ -69,44 +76,19 @@ namespace Dashboard
             this.panel1.Controls.Add(this.textBoxDirectory);
             this.panel1.Name = "panel1";
             // 
-            // bunifuCircleProgress1
+            // buttonRefresh
             // 
-            resources.ApplyResources(this.bunifuCircleProgress1, "bunifuCircleProgress1");
-            this.bunifuCircleProgress1.Animated = false;
-            this.bunifuCircleProgress1.AnimationInterval = 1;
-            this.bunifuCircleProgress1.AnimationSpeed = 1;
-            this.bunifuCircleProgress1.BackColor = System.Drawing.Color.Transparent;
-            this.bunifuCircleProgress1.CircleMargin = 10;
-            this.bunifuCircleProgress1.ForeColor = System.Drawing.Color.Transparent;
-            this.bunifuCircleProgress1.IsPercentage = false;
-            this.bunifuCircleProgress1.LineProgressThickness = 5;
-            this.bunifuCircleProgress1.LineThickness = 5;
-            this.bunifuCircleProgress1.Name = "bunifuCircleProgress1";
-            this.bunifuCircleProgress1.ProgressAnimationSpeed = 200;
-            this.bunifuCircleProgress1.ProgressBackColor = System.Drawing.Color.Gainsboro;
-            this.bunifuCircleProgress1.ProgressColor = System.Drawing.Color.DodgerBlue;
-            this.bunifuCircleProgress1.ProgressColor2 = System.Drawing.Color.DodgerBlue;
-            this.bunifuCircleProgress1.ProgressEndCap = Bunifu.UI.WinForms.BunifuCircleProgress.CapStyles.Round;
-            this.bunifuCircleProgress1.ProgressFillStyle = Bunifu.UI.WinForms.BunifuCircleProgress.FillStyles.Solid;
-            this.bunifuCircleProgress1.ProgressStartCap = Bunifu.UI.WinForms.BunifuCircleProgress.CapStyles.Round;
-            this.bunifuCircleProgress1.SecondaryFont = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.bunifuCircleProgress1.SubScriptColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
-            this.bunifuCircleProgress1.SubScriptMargin = new System.Windows.Forms.Padding(5, -20, 0, 0);
-            this.bunifuCircleProgress1.SubScriptText = "";
-            this.bunifuCircleProgress1.SuperScriptColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(166)))), ((int)(((byte)(166)))));
-            this.bunifuCircleProgress1.SuperScriptMargin = new System.Windows.Forms.Padding(5, 20, 0, 0);
-            this.bunifuCircleProgress1.SuperScriptText = "";
-            this.bunifuCircleProgress1.TextMargin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.bunifuCircleProgress1.Value = 30;
-            this.bunifuCircleProgress1.ValueByTransition = 30;
-            this.bunifuCircleProgress1.ValueMargin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            resources.ApplyResources(this.buttonRefresh, "buttonRefresh");
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // buttonSync
             // 
             resources.ApplyResources(this.buttonSync, "buttonSync");
             this.buttonSync.Name = "buttonSync";
             this.buttonSync.UseVisualStyleBackColor = true;
-            this.buttonSync.Click += new System.EventHandler(this.buttonSync_ClickAsync);
+            this.buttonSync.Click += new System.EventHandler(this.buttonDeploy_ClickAsync);
             // 
             // buttonChooseDevice
             // 
@@ -190,7 +172,46 @@ namespace Dashboard
             // 
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Controls.Add(this.bunifuDataGridView1);
+            this.panel2.Controls.Add(this.statusStrip1);
             this.panel2.Name = "panel2";
+            // 
+            // statusStrip1
+            // 
+            resources.ApplyResources(this.statusStrip1, "statusStrip1");
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelTotalFile,
+            this.toolStripStatusLabelFilesCount,
+            this.toolStripStatusLabelValid,
+            this.toolStripStatusLabelValidFileCount,
+            this.toolStripProgressBar1});
+            this.statusStrip1.Name = "statusStrip1";
+            // 
+            // toolStripStatusLabelTotalFile
+            // 
+            resources.ApplyResources(this.toolStripStatusLabelTotalFile, "toolStripStatusLabelTotalFile");
+            this.toolStripStatusLabelTotalFile.Name = "toolStripStatusLabelTotalFile";
+            // 
+            // toolStripStatusLabelFilesCount
+            // 
+            resources.ApplyResources(this.toolStripStatusLabelFilesCount, "toolStripStatusLabelFilesCount");
+            this.toolStripStatusLabelFilesCount.Name = "toolStripStatusLabelFilesCount";
+            // 
+            // toolStripStatusLabelValid
+            // 
+            resources.ApplyResources(this.toolStripStatusLabelValid, "toolStripStatusLabelValid");
+            this.toolStripStatusLabelValid.Name = "toolStripStatusLabelValid";
+            // 
+            // toolStripStatusLabelValidFileCount
+            // 
+            resources.ApplyResources(this.toolStripStatusLabelValidFileCount, "toolStripStatusLabelValidFileCount");
+            this.toolStripStatusLabelValidFileCount.Name = "toolStripStatusLabelValidFileCount";
+            // 
+            // toolStripProgressBar1
+            // 
+            resources.ApplyResources(this.toolStripProgressBar1, "toolStripProgressBar1");
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             // 
             // FormSyncFace
             // 
@@ -201,10 +222,14 @@ namespace Dashboard
             this.Name = "FormSyncFace";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.Load += new System.EventHandler(this.FormSyncFace_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bunifuDataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -215,11 +240,17 @@ namespace Dashboard
         private System.Windows.Forms.TextBox textBoxDirectory;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonSelDirectory;
-        private Bunifu.UI.WinForms.BunifuCircleProgress bunifuCircleProgress1;
         private System.Windows.Forms.Button buttonSync;
         private System.Windows.Forms.Button buttonChooseDevice;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private Bunifu.UI.WinForms.BunifuDataGridView bunifuDataGridView1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTotalFile;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelFilesCount;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelValidFileCount;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelValid;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.Button buttonRefresh;
     }
 }
