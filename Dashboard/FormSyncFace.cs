@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -115,15 +116,13 @@ namespace Dashboard
         {
             id = null;
             name = null;
-            var sections = fileName.Split('-', ' ', '#');
-            if(sections.Length == 2)
+            var match = Regex.Match(fileName, @"^\s*(\S*)\s+(.*?)\s*$");
+            if (match.Success)
             {
-                id = sections[0];
-                if (!int.TryParse(id, out var _)) return false;
-                name = sections[1];
+                id = match.Groups[1].Value;
+                name = match.Groups[2].Value;
                 return true;
             }
-
 
             return false;
         }
