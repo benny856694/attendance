@@ -130,8 +130,8 @@
   <data name="panel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="buttonChooseDevice.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;textBoxDirectory.Name" xml:space="preserve">
     <value>textBoxDirectory</value>
@@ -146,8 +146,8 @@
   <data name="toolStripStatusLabelValid.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 20</value>
   </data>
-  <data name="toolStripStatusLabelTotalFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 20</value>
+  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
+    <value>panel2</value>
   </data>
   <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
@@ -171,9 +171,6 @@
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 3, 5, 3</value>
   </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
@@ -189,17 +186,11 @@
   <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="toolStripStatusLabelFilesCount.Text" xml:space="preserve">
-    <value>0 文件</value>
+  <data name="buttonRefresh.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 29</value>
-  </data>
-  <data name="&gt;&gt;buttonChooseDevice.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="buttonChooseDevice.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>1163, 68</value>
@@ -228,17 +219,11 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;textBoxDirectory.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
-  </data>
-  <data name="buttonChooseDevice.Text" xml:space="preserve">
-    <value>选择设备</value>
   </data>
   <data name="textBoxDirectory.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -249,6 +234,9 @@
   <data name="&gt;&gt;toolStripStatusLabelValidFileCount.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>下发人像</value>
+  </data>
   <data name="buttonRefresh.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 27</value>
   </data>
@@ -257,6 +245,9 @@
   </data>
   <data name="buttonSelDirectory.Text" xml:space="preserve">
     <value>...</value>
+  </data>
+  <data name="buttonSync.Text" xml:space="preserve">
+    <value>同步</value>
   </data>
   <data name="buttonRefresh.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -276,44 +267,59 @@
   <data name="bunifuDataGridView1.Size" type="System.Drawing.Size, System.Drawing">
     <value>1163, 553</value>
   </data>
+  <data name="&gt;&gt;toolStripStatusLabel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>1163, 579</value>
   </data>
-  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="buttonRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAZFJREFUSEvt
+        Vc1Kw0AYXA/qQS3oC+jZP0Qs+gRCvAeSJrnkEPSmL6Io4s9RQX0DQV+j2Ise9SQoiLQqap2vmaVpEvJD
+        wVMHBrKzM9+3u022aoBSME1zqlarTXKoLMuacRznFWzH+AzWXdfdtW17jvZcDCF0LZTnUFIKDTeg/YLx
+        Jprf4EEQBMOMpAOFdiKhbcqpkF3CUwVPwC9mbnACI7T0wvO81YixjQIf2P4ypzMhPmSeJIfnI8pdYKKC
+        iQddPMJ7sEJbJrCgJVkU/HJcs5RDQDgH48U7ROiMtlzAvy8Z+eEpJaELc1gKyK0xX6eURD8NfN+fYP6N
+        UhL9NBDk5v+jwbsY8D6PUyqFIg0aNFUplUKRBvmvWgzwXunCKbykLQSEBfAHbOESW6ScCdwCY/DrnUfZ
+        kDnausCKTml4lC+UciZQaB7+JnPCpmic7oVcWCh8S+MneAzzimEYo7SkApktZoSblNMhTWA6BOVu0aE4
+        5SjXGekA4wshh/ng1vfAO7AFxpu8YOXTtCf+sAYoAKX+AKAlKhdTNIqVAAAAAElFTkSuQmCC
+</value>
   </data>
   <data name="buttonSync.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
   <data name="&gt;&gt;toolStripStatusLabelFilesCount.Name" xml:space="preserve">
     <value>toolStripStatusLabelFilesCount</value>
   </data>
-  <data name="buttonSync.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripStatusLabelValidFileCount.Name" xml:space="preserve">
     <value>toolStripStatusLabelValidFileCount</value>
   </data>
+  <data name="toolStripProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 18</value>
+  </data>
+  <data name="&gt;&gt;toolStripProgressBar1.Name" xml:space="preserve">
+    <value>toolStripProgressBar1</value>
+  </data>
   <data name="bunifuDataGridView1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="bunifuDataGridView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 68</value>
   </data>
   <data name="&gt;&gt;buttonSync.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>FormSyncFace</value>
-  </data>
   <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
-  </data>
-  <data name="buttonSelDirectory.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
   </data>
   <data name="&gt;&gt;bunifuDataGridView1.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -327,20 +333,26 @@
   <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>1163, 26</value>
   </data>
-  <data name="buttonRefresh.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="textBoxDirectory.Size" type="System.Drawing.Size, System.Drawing">
     <value>683, 25</value>
   </data>
-  <data name="&gt;&gt;buttonChooseDevice.Name" xml:space="preserve">
-    <value>buttonChooseDevice</value>
+  <data name="toolStripStatusLabelValid.Text" xml:space="preserve">
+    <value>有效：</value>
   </data>
   <data name="&gt;&gt;statusStrip1.Name" xml:space="preserve">
     <value>statusStrip1</value>
   </data>
-  <data name="&gt;&gt;buttonRefresh.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="bunifuDataGridView1.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>51</value>
+  </data>
+  <data name="buttonRefresh.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 3, 4, 3</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabelValid.Name" xml:space="preserve">
+    <value>toolStripStatusLabelValid</value>
   </data>
   <data name="&gt;&gt;folderBrowserDialog1.Name" xml:space="preserve">
     <value>folderBrowserDialog1</value>
@@ -348,8 +360,8 @@
   <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="bunifuDataGridView1.RowHeadersWidth" type="System.Int32, mscorlib">
-    <value>51</value>
+  <data name="buttonChooseDevice.Text" xml:space="preserve">
+    <value>选择设备</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -384,23 +396,14 @@
   <data name="buttonChooseDevice.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 27</value>
   </data>
-  <data name="buttonRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAZFJREFUSEvt
-        Vc1Kw0AYXA/qQS3oC+jZP0Qs+gRCvAeSJrnkEPSmL6Io4s9RQX0DQV+j2Ise9SQoiLQqap2vmaVpEvJD
-        wVMHBrKzM9+3u022aoBSME1zqlarTXKoLMuacRznFWzH+AzWXdfdtW17jvZcDCF0LZTnUFIKDTeg/YLx
-        Jprf4EEQBMOMpAOFdiKhbcqpkF3CUwVPwC9mbnACI7T0wvO81YixjQIf2P4ypzMhPmSeJIfnI8pdYKKC
-        iQddPMJ7sEJbJrCgJVkU/HJcs5RDQDgH48U7ROiMtlzAvy8Z+eEpJaELc1gKyK0xX6eURD8NfN+fYP6N
-        UhL9NBDk5v+jwbsY8D6PUyqFIg0aNFUplUKRBvmvWgzwXunCKbykLQSEBfAHbOESW6ScCdwCY/DrnUfZ
-        kDnausCKTml4lC+UciZQaB7+JnPCpmic7oVcWCh8S+MneAzzimEYo7SkApktZoSblNMhTWA6BOVu0aE4
-        5SjXGekA4wshh/ng1vfAO7AFxpu8YOXTtCf+sAYoAKX+AKAlKhdTNIqVAAAAAElFTkSuQmCC
-</value>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 29</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>下发人像</value>
+  <data name="toolStripStatusLabelTotalFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 20</value>
   </data>
-  <data name="buttonRefresh.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
+  <data name="&gt;&gt;buttonRefresh.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;buttonRefresh.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -408,14 +411,11 @@
   <data name="&gt;&gt;panel1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;buttonSelDirectory.Name" xml:space="preserve">
-    <value>buttonSelDirectory</value>
+  <data name="buttonSync.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
   </data>
   <data name="&gt;&gt;toolStripStatusLabelValid.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="statusStrip1.Text" xml:space="preserve">
-    <value>statusStrip1</value>
   </data>
   <data name="&gt;&gt;statusStrip1.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -423,41 +423,41 @@
   <data name="buttonSync.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 27</value>
   </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="bunifuDataGridView1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="buttonChooseDevice.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
+  <data name="&gt;&gt;buttonSelDirectory.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
   <data name="toolStripStatusLabel2.Text" xml:space="preserve">
     <value>0 文件</value>
   </data>
-  <data name="&gt;&gt;toolStripStatusLabelValid.Name" xml:space="preserve">
-    <value>toolStripStatusLabelValid</value>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="textBoxDirectory.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="buttonSync.Text" xml:space="preserve">
-    <value>同步</value>
+  <data name="toolStripStatusLabelFilesCount.Text" xml:space="preserve">
+    <value>0 文件</value>
   </data>
   <data name="bunifuDataGridView1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
   </data>
-  <data name="toolStripStatusLabelValidFileCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 20</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;buttonChooseDevice.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 20</value>
   </data>
-  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
-    <value>panel2</value>
+  <data name="&gt;&gt;buttonSelDirectory.Name" xml:space="preserve">
+    <value>buttonSelDirectory</value>
   </data>
-  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 68</value>
+  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="buttonSync.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 3, 4, 3</value>
@@ -474,11 +474,11 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>1163, 647</value>
   </data>
-  <data name="toolStripProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 18</value>
+  <data name="buttonSelDirectory.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FormSyncFace</value>
   </data>
   <data name="&gt;&gt;toolStripStatusLabel2.Name" xml:space="preserve">
     <value>toolStripStatusLabel2</value>
@@ -492,17 +492,17 @@
   <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;toolStripProgressBar1.Name" xml:space="preserve">
-    <value>toolStripProgressBar1</value>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;buttonChooseDevice.Name" xml:space="preserve">
+    <value>buttonChooseDevice</value>
   </data>
-  <data name="&gt;&gt;buttonSelDirectory.Parent" xml:space="preserve">
-    <value>panel1</value>
+  <data name="toolStripStatusLabelValidFileCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 20</value>
   </data>
-  <data name="toolStripStatusLabelValid.Text" xml:space="preserve">
-    <value>有效：</value>
+  <data name="statusStrip1.Text" xml:space="preserve">
+    <value>statusStrip1</value>
   </data>
   <data name="buttonSync.Location" type="System.Drawing.Point, System.Drawing">
     <value>1055, 23</value>
@@ -510,16 +510,16 @@
   <data name="&gt;&gt;toolStripStatusLabelTotalFile.Name" xml:space="preserve">
     <value>toolStripStatusLabelTotalFile</value>
   </data>
-  <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>221, 17</value>
   </metadata>
   <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>en</value>
   </metadata>
-  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>221, 17</value>
+  <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
 </root>

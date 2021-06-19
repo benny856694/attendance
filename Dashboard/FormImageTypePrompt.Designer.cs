@@ -37,9 +37,9 @@ namespace Dashboard
             // 
             // bunifuLabel1
             // 
-            resources.ApplyResources(this.bunifuLabel1, "bunifuLabel1");
             this.bunifuLabel1.AllowParentOverrides = false;
             this.bunifuLabel1.AutoEllipsis = false;
+            resources.ApplyResources(this.bunifuLabel1, "bunifuLabel1");
             this.bunifuLabel1.Cursor = System.Windows.Forms.Cursors.Default;
             this.bunifuLabel1.CursorType = System.Windows.Forms.Cursors.Default;
             this.bunifuLabel1.Name = "bunifuLabel1";
@@ -61,8 +61,8 @@ namespace Dashboard
             // 
             // FormImageTypePrompt
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBoxDontPromptAgain);
             this.Controls.Add(this.bunifuLabel1);
