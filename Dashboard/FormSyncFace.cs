@@ -89,15 +89,15 @@ namespace Dashboard
         private void CreateColumns()
         {
             bunifuDataGridView1.Columns.Clear();
-            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "id", HeaderText = "id" });
-            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "name", HeaderText = "name" });
-            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "path", HeaderText = "path" });
+            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "ID", HeaderText = "ID", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
+            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Name", HeaderText = "Name", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
+            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Path", HeaderText = "Path", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
         }
 
         public FaceRegitration[] ParseFileNames(string[] files)
         {
             var result = new List<FaceRegitration>();
-            var jpgFiles = files.Where(x => x.EndsWith(".jpg"));   
+            var jpgFiles = files.Where(x => string.Compare(Path.GetExtension(x), ".jpg", StringComparison.OrdinalIgnoreCase) == 0);   
             foreach (var file in jpgFiles)
             {
                 var nameOnly = Path.GetFileNameWithoutExtension(file);
@@ -226,8 +226,10 @@ namespace Dashboard
         {
             foreach (var ip in addedDevices)
             {
-                bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = ip.IP, HeaderText = ip.IP });
-
+                if (!bunifuDataGridView1.Columns.Contains(ip.IP))
+                {
+                    bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = ip.IP, HeaderText = ip.IP });
+                }
             }
         }
 
