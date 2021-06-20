@@ -1,5 +1,6 @@
 ﻿using Dashboard.Model;
 using HaSdkWrapper;
+using ImageMagick;
 using Jot.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -138,12 +139,14 @@ namespace Dashboard
 
         private async Task<Response> PostFaceRegAsync(HttpClient client, FaceRegitration reg)
         {
+            var imgData = GetRotatedImageData(reg.FullPathToImage);
+
             dynamic addPerson = new ExpandoObject();
             addPerson.version = "0.2";
             addPerson.cmd = "upload person";
             addPerson.id = reg.Id;
             addPerson.name = reg.Name;
-            addPerson.reg_image = Convert.ToBase64String(File.ReadAllBytes(reg.FullPathToImage));
+            addPerson.reg_image = imgData;
 
             var json =  (string) JsonConvert.SerializeObject(addPerson);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -153,6 +156,17 @@ namespace Dashboard
             var resObj = await response.Content.ReadAsAsync<Response>();
             return resObj;
            
+        }
+
+        private object GetRotatedImageData(string fullPathToImage)
+        {
+            using (var img = new MagickImage(fullPathToImage))
+            {
+                img.AutoOrient();   // Fix orientation
+                img.Strip();        // remove all EXIF information
+                img.Resize(800, 0);
+                return img.ToBase64();
+            }
         }
 
         private async void buttonDeploy_ClickAsync(object sender, EventArgs e)
