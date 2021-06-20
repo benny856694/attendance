@@ -68,13 +68,13 @@ namespace Dashboard
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.buttonRefresh);
             this.panel1.Controls.Add(this.buttonSync);
             this.panel1.Controls.Add(this.buttonChooseDevice);
             this.panel1.Controls.Add(this.buttonSelDirectory);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.textBoxDirectory);
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // buttonRefresh
@@ -107,10 +107,12 @@ namespace Dashboard
             // 
             // folderBrowserDialog1
             // 
+            resources.ApplyResources(this.folderBrowserDialog1, "folderBrowserDialog1");
             this.folderBrowserDialog1.ShowNewFolderButton = false;
             // 
             // bunifuDataGridView1
             // 
+            resources.ApplyResources(this.bunifuDataGridView1, "bunifuDataGridView1");
             this.bunifuDataGridView1.AllowCustomTheming = false;
             this.bunifuDataGridView1.AllowUserToAddRows = false;
             this.bunifuDataGridView1.AllowUserToDeleteRows = false;
@@ -129,7 +131,6 @@ namespace Dashboard
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.bunifuDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            resources.ApplyResources(this.bunifuDataGridView1, "bunifuDataGridView1");
             this.bunifuDataGridView1.CurrentTheme.AlternatingRowsStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(251)))), ((int)(((byte)(255)))));
             this.bunifuDataGridView1.CurrentTheme.AlternatingRowsStyle.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.bunifuDataGridView1.CurrentTheme.AlternatingRowsStyle.ForeColor = System.Drawing.Color.Black;
@@ -170,9 +171,9 @@ namespace Dashboard
             // 
             // panel2
             // 
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Controls.Add(this.bunifuDataGridView1);
             this.panel2.Controls.Add(this.statusStrip1);
-            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
             // 
             // statusStrip1
@@ -190,33 +191,33 @@ namespace Dashboard
             // 
             // toolStripStatusLabelTotalFile
             // 
-            this.toolStripStatusLabelTotalFile.Name = "toolStripStatusLabelTotalFile";
             resources.ApplyResources(this.toolStripStatusLabelTotalFile, "toolStripStatusLabelTotalFile");
+            this.toolStripStatusLabelTotalFile.Name = "toolStripStatusLabelTotalFile";
             // 
             // toolStripStatusLabelFilesCount
             // 
-            this.toolStripStatusLabelFilesCount.Name = "toolStripStatusLabelFilesCount";
             resources.ApplyResources(this.toolStripStatusLabelFilesCount, "toolStripStatusLabelFilesCount");
+            this.toolStripStatusLabelFilesCount.Name = "toolStripStatusLabelFilesCount";
             // 
             // toolStripStatusLabel1
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             // 
             // toolStripStatusLabelValid
             // 
-            this.toolStripStatusLabelValid.Name = "toolStripStatusLabelValid";
             resources.ApplyResources(this.toolStripStatusLabelValid, "toolStripStatusLabelValid");
+            this.toolStripStatusLabelValid.Name = "toolStripStatusLabelValid";
             // 
             // toolStripStatusLabelValidFileCount
             // 
-            this.toolStripStatusLabelValidFileCount.Name = "toolStripStatusLabelValidFileCount";
             resources.ApplyResources(this.toolStripStatusLabelValidFileCount, "toolStripStatusLabelValidFileCount");
+            this.toolStripStatusLabelValidFileCount.Name = "toolStripStatusLabelValidFileCount";
             // 
             // toolStripProgressBar1
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             resources.ApplyResources(this.toolStripProgressBar1, "toolStripProgressBar1");
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             // 
             // FormSyncFace
