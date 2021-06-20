@@ -71,7 +71,7 @@ namespace Dashboard
             CreateColumns();
             foreach (var item in validFiles)
             {
-                var idx = bunifuDataGridView1.Rows.Add(item.Id, item.Name, item.FullPathToImage);
+                var idx = bunifuDataGridView1.Rows.Add(item.Id, item.Name, Path.GetFileName(item.FullPathToImage));
                 bunifuDataGridView1.Rows[idx].Tag = item;
             }
 
@@ -89,9 +89,9 @@ namespace Dashboard
         private void CreateColumns()
         {
             bunifuDataGridView1.Columns.Clear();
-            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "ID", HeaderText = "ID", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
-            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Name", HeaderText = "Name", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
-            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Path", HeaderText = "Path", AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells });
+            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "ID", HeaderText = "ID", AutoSizeMode = DataGridViewAutoSizeColumnMode.None });
+            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Name", HeaderText = "Name", AutoSizeMode = DataGridViewAutoSizeColumnMode.None });
+            bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Path", HeaderText = "Path", AutoSizeMode = DataGridViewAutoSizeColumnMode.None });
         }
 
         public FaceRegitration[] ParseFileNames(string[] files)
