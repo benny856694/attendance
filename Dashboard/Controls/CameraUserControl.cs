@@ -134,6 +134,15 @@ namespace Dashboard.Controls
             set => panelPairing.Visible = value; 
         }
 
+        public PictureBox[] PairingPictureBoxs => new PictureBox[] { pictureBoxPair1, pictureBoxPair2, pictureBoxPair3 };
+
+        public void ClearPairImages()
+        {
+            pictureBoxPair1.Image = null;
+            pictureBoxPair2.Image = null;
+            pictureBoxPair3.Image = null;
+        }
+
 
         public event EventHandler<MouseEventArgs> MouseClicked;
 

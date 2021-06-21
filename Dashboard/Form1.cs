@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dashboard.Model;
 using Jot.Configuration;
+using FileHelpers.ExcelNPOIStorage;
 
 namespace Dashboard
 {
@@ -26,6 +27,10 @@ namespace Dashboard
             = new List<string>();
 
         Settings _setting = new Settings();
+
+        FaceRegitration[] _faces = new FaceRegitration[0];
+        Dictionary<string, string[]> _pairing = new Dictionary<string, string[]>();
+
 
         public string[] ConnectedDeviceIps
         {
@@ -60,6 +65,11 @@ namespace Dashboard
 
             Services.Tracker.Track(this);
             Services.Tracker.Track(_setting);
+
+            if (Directory.Exists(_setting.PairingFolder))
+            {
+                LoadPairing(_setting.PairingFolder);
+            }
             
             ShowAddedCameras();
             ConnectCameras();
@@ -265,8 +275,8 @@ namespace Dashboard
             {
                 templateFace = Image.FromStream(new MemoryStream(e.ModelFaceImageData));
             }
+
             
-            control.ShowPairingImages = false;
 
             if (mode == DisplayMode.Single || templateFace == null)
             {
@@ -287,6 +297,47 @@ namespace Dashboard
                 control.ImageRight = realtimeFace;
                 oldImageRight?.Dispose();
             }
+
+
+            ShowPairing(e, control);
+        }
+
+        private void ShowPairing(FaceCapturedEventArgs e, CameraUserControl control)
+        {
+
+            var pairings = FindPairings(e.PersonID);
+            var show = pairings?.Length > 0;
+            if (show == true)
+            {
+                control.ClearPairImages();
+            }
+            control.ShowPairingImages = show;
+            if (pairings == null) return;
+
+            for (int i = 0; i < control.PairingPictureBoxs.Length; i++)
+            {
+                if (i > pairings.Length - 1) return;
+                var pair = pairings[i];
+                if (File.Exists(pair.FullPathToImage))
+                {
+                    control.PairingPictureBoxs[i].Image = Image.FromFile(pair.FullPathToImage).ExifRotate();
+                }
+
+            }
+
+        }
+
+        private FaceRegitration[] FindPairings(string personID)
+        {
+            if (personID == null) return null;
+
+            var found = _pairing.TryGetValue(personID, out var pairing);
+            if (found)
+            {
+                return  _faces.Where(x => pairing.Contains(x.Id)).ToArray();
+            }
+
+            return null;
         }
 
         private HaCamera GetRunningCameraByIp(string ip)
@@ -393,6 +444,31 @@ namespace Dashboard
                 form.AddedDevice = this.AddedDevices;
                  form.ShowDialog(this);
             }
+        }
+
+
+        private void LoadPairing(string fullPathToDirectory)
+        {
+            var allFiles = Utils.EnumerateAllFiles(fullPathToDirectory);
+            var excel = allFiles.FirstOrDefault(x=>string.Compare(Path.GetExtension(x), ".xlsx", StringComparison.OrdinalIgnoreCase) == 0);
+            if (excel == null) throw new InvalidOperationException(Properties.Strings.PairingExcelFileMissing);
+            _pairing = LoadPairingFile(excel)
+                .GroupBy(x => x.id)
+                .ToDictionary(g => g.Key, g => g.Select(p => p.pair_id).ToArray());
+
+            _faces = Utils.LoadFiles(allFiles).validFiles;
+
+        }
+
+        private Pair[] LoadPairingFile(string fullPathToExcelFile)
+        {
+            var provider = new ExcelNPOIStorage(typeof(Pair))
+            {
+                FileName = fullPathToExcelFile,
+                StartColumn = 0,
+                StartRow = 1
+            };
+            return (Pair[])provider.ExtractRecords();
         }
     }
 }

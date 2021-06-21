@@ -56,7 +56,8 @@ namespace Dashboard
 
         private void LoadAndShowFiles()
         {
-            var (allFiles, validFiles) = LoadFiles(textBoxDirectory.Text);
+            var allFiles = Utils.EnumerateAllFiles(textBoxDirectory.Text);
+            var (_, validFiles) = Utils.LoadFiles(allFiles);
             if (validFiles.Length == 0) return;
             Registrations = validFiles;
             ShowFiles(allFiles, validFiles);
@@ -78,14 +79,7 @@ namespace Dashboard
 
         }
 
-        private (string[] allFiles, FaceRegitration[] validFiles) LoadFiles(string folder)
-        {
-            var allFiles = EnumerateAllFiles(folder);
-            var valid = ParseFileNames(allFiles);
-            return (allFiles, valid);
-
-           
-        }
+        
 
         private void CreateColumns()
         {
@@ -95,40 +89,9 @@ namespace Dashboard
             bunifuDataGridView1.Columns.Add(new DataGridViewTextBoxColumn() { Name = "Path", HeaderText = "Path", AutoSizeMode = DataGridViewAutoSizeColumnMode.None });
         }
 
-        public FaceRegitration[] ParseFileNames(string[] files)
-        {
-            var result = new List<FaceRegitration>();
-            var jpgFiles = files.Where(x => string.Compare(Path.GetExtension(x), ".jpg", StringComparison.OrdinalIgnoreCase) == 0);   
-            foreach (var file in jpgFiles)
-            {
-                var nameOnly = Path.GetFileNameWithoutExtension(file);
-                if (TryParseName(nameOnly, out var id, out var name))
-                {
-                    var reg = new FaceRegitration { Id = id, Name = name, FullPathToImage = file };
-                    result.Add(reg);
-                } 
-            }
+       
 
-            return result.ToArray();
-
-        }
-
-        public string[] EnumerateAllFiles(string folder) => Directory.EnumerateFiles(folder).ToArray();
-
-        private bool TryParseName(string fileName, out string id, out string name)
-        {
-            id = null;
-            name = null;
-            var match = Regex.Match(fileName, @"^\s*(\S*)\s+(.*?)\s*$");
-            if (match.Success)
-            {
-                id = match.Groups[1].Value;
-                name = match.Groups[2].Value;
-                return true;
-            }
-
-            return false;
-        }
+        
 
         private HttpClient CreateHttpClient(string ip)
         {

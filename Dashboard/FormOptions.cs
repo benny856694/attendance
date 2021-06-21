@@ -25,6 +25,7 @@ namespace Dashboard
 
             checkBoxShowTemplateImage.Checked = Settings.ShowTemplateImage;
             checkBoxShowRealtimeImage.Checked = Settings.ShowRealtimeImage;
+            bunifuTextBoxPairingFolder.Text = Settings.PairingFolder;
         }
 
         private void FormOptions_FormClosed(object sender, FormClosedEventArgs e)
@@ -41,10 +42,22 @@ namespace Dashboard
 
             Settings.ShowTemplateImage = checkBoxShowTemplateImage.Checked;
             Settings.ShowRealtimeImage = checkBoxShowRealtimeImage.Checked;
+            Settings.PairingFolder = bunifuTextBoxPairingFolder.Text;
             Services.Tracker.Persist(Settings);
 
 
             DialogResult = DialogResult.OK;
+        }
+
+        private void buttonSelPairingFolder_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.SelectedPath = Settings.PairingFolder;
+            var dr = folderBrowserDialog1.ShowDialog(this);
+            if (dr == DialogResult.OK)
+            {
+                bunifuTextBoxPairingFolder.Text = folderBrowserDialog1.SelectedPath;
+            }
+
         }
     }
 }
