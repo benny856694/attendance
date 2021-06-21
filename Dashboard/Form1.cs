@@ -266,6 +266,8 @@ namespace Dashboard
                 templateFace = Image.FromStream(new MemoryStream(e.ModelFaceImageData));
             }
             
+            control.ShowPairingImages = false;
+
             if (mode == DisplayMode.Single || templateFace == null)
             {
                 var img = _setting.ShowRealtimeImage ? realtimeFace : templateFace;

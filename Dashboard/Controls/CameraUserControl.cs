@@ -37,9 +37,9 @@ namespace Dashboard.Controls
             set
             {
                 Mode = DisplayMode.Single;
-                pictureBoxSingle.Image = value;
+                pictureBoxLeft.Image = value;
             }
-            get => pictureBoxSingle.Image;
+            get => pictureBoxLeft.Image;
         }
 
         public Image ImageLeft
@@ -59,6 +59,36 @@ namespace Dashboard.Controls
             {
                 Mode = DisplayMode.Double;
                 pictureBoxRight.Image = value;
+            }
+        }
+
+        public Image ImagePair1
+        {
+            get => pictureBoxPair1.Image;
+            set
+            {
+                ShowPairingImages = true;
+                pictureBoxPair1.Image = value;
+            }
+        }
+
+        public Image ImagePair2
+        {
+            get => pictureBoxPair2.Image;
+            set
+            {
+                ShowPairingImages = true;
+                pictureBoxPair2.Image = value;
+            }
+        }
+
+        public Image ImagePair3
+        {
+            get => pictureBoxPair3.Image;
+            set
+            {
+                ShowPairingImages = true;
+                pictureBoxPair3.Image = value;
             }
         }
 
@@ -85,10 +115,11 @@ namespace Dashboard.Controls
                 switch (value)
                 {
                     case DisplayMode.Single:
-                        bunifuPagesImageContainer.SelectedIndex = 0;
+                        splitContainer1.Panel2Collapsed = true;
+
                         break;
                     case DisplayMode.Double:
-                        bunifuPagesImageContainer.SelectedIndex = 1;
+                        splitContainer1.Panel2Collapsed = false;
                         break;
                     default:
                         break;
@@ -98,6 +129,11 @@ namespace Dashboard.Controls
             }
         }
 
+        public bool ShowPairingImages
+        {
+            set => panelPairing.Visible = value; 
+        }
+
 
         public event EventHandler<MouseEventArgs> MouseClicked;
 
@@ -105,14 +141,21 @@ namespace Dashboard.Controls
         {
             InitializeComponent();
             this.MouseClick += CameraUserControl_MouseClick;
-            this.pictureBoxSingle.MouseClick += PictureBox1_MouseClick;
+            this.pictureBoxLeft.MouseClick += PictureBox1_MouseClick;
+            this.pictureBoxRight.MouseClick += PictureBox1_MouseClick;
+            this.pictureBoxPair1.MouseClick += PictureBox1_MouseClick;
+            this.pictureBoxPair2.MouseClick += PictureBox1_MouseClick;
+            this.pictureBoxPair3.MouseClick += PictureBox1_MouseClick;
             this.labelTopRight.SizeChanged += LabelTopRight_SizeChanged;
         }
 
         public void Clear()
         {
-            var pic = this.pictureBoxSingle.Image;
-            this.pictureBoxSingle.Image = null;
+            this.pictureBoxLeft.Image = null;
+            this.pictureBoxRight.Image = null;
+            this.pictureBoxPair1.Image = null;
+            this.pictureBoxPair2.Image = null;
+            this.pictureBoxPair3.Image = null;
             this.labelTopRight.Text = "";
             this.labelBottomCenter.Text = "";
             this.BackColor = Color.Black;
