@@ -235,7 +235,7 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>26, 80</value>
+    <value>26, 84</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 13</value>
@@ -260,14 +260,15 @@
   </data>
   <data name="bunifuTextBoxPairingFolder.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAAQQAAAAaCAYAAABRoyJVAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACESURBVHhe7dRRCcAwEETB868qITIqowJaDsJCNGQG9mcF
-        vAI4rLWeMcZnZneuG7BzUNUHcK9uwM6BIMDtBAEIQQBCEIAQBCAEAQhBAEIQgBAEIAQBCEEAQhCAEAQg
-        BAEIQQBCEIAQBCAEAQhBAEIQgBAEII4gzDnfPszsznUDdg4AWtUPS/3HC22duhcAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAAQQAAAAhCAYAAAA/HtU7AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACWSURBVHhe7dRRCQMxAETB+FeVIzIqowJaAuHBacgM7M8K
+        eAPgZa31mXP+zOzO7QacHIyxD+BeuwEnB4IAtxMEIIIARBCACAIQQQAiCEAEAYggABEEIIIARBCACAIQ
+        QQAiCEAEAYggABEEIIIARBCACAIQQQAiCEAEAYggABEEIIIARBCAvILwPM93H2Z253YDTg4AtjH+uEna
+        IX1G63kAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="bunifuTextBoxPairingFolder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>78, 73</value>
+    <value>78, 74</value>
   </data>
   <data name="bunifuTextBoxPairingFolder.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>1, 1</value>
@@ -276,7 +277,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="bunifuTextBoxPairingFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 26</value>
+    <value>260, 33</value>
   </data>
   <data name="bunifuTextBoxPairingFolder.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -303,7 +304,7 @@
     <value>344, 74</value>
   </data>
   <data name="buttonSelPairingFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 25</value>
+    <value>34, 32</value>
   </data>
   <data name="buttonSelPairingFolder.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -325,6 +326,9 @@
   </data>
   <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>en</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

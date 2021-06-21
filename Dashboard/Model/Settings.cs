@@ -12,11 +12,18 @@ namespace Dashboard.Model
         public bool ShowRealtimeImage { get; set; } = true;
         public bool ShowTemplateImage { get; set; } = true;
         public string PairingFolder { get; set;  }
+        public bool ShowPairingImage { get; set; } = true;
         public void ConfigureTracking(TrackingConfiguration configuration)
         {
             configuration.AsGeneric<Settings>()
                 .Id(_ => "Settings")
-                .Properties(s => new { s.ShowRealtimeImage, s.ShowTemplateImage, s.PairingFolder });
+                .Properties(s => new
+                { 
+                    s.ShowRealtimeImage, 
+                    s.ShowTemplateImage, 
+                    s.PairingFolder,
+                    s.ShowPairingImage
+                });
         }
     }
 }

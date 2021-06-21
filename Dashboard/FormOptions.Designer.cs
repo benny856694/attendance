@@ -90,7 +90,7 @@ namespace Dashboard
             this.bunifuTextBoxPairingFolder.BorderThickness = 1;
             this.bunifuTextBoxPairingFolder.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
             this.bunifuTextBoxPairingFolder.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.bunifuTextBoxPairingFolder.DefaultFont = new System.Drawing.Font("Segoe UI", 9.25F);
+            this.bunifuTextBoxPairingFolder.DefaultFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.bunifuTextBoxPairingFolder.DefaultText = "";
             this.bunifuTextBoxPairingFolder.FillColor = System.Drawing.Color.White;
             this.bunifuTextBoxPairingFolder.HideSelection = true;
