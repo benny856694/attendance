@@ -220,8 +220,7 @@ namespace huaanClient
                 "FROM staff staf " +
                 "LEFT JOIN department de ON de.id=staf.department_id  " +
                 "LEFT JOIN Employetype em ON em.id = staf.Employetype_id " +
-                "WHERE staf.isMarkedForDelete = 0 "
-                + "LIMIT " + pageint + "," + limt ;
+                "LIMIT " + pageint + "," + limt ;
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
@@ -230,7 +229,7 @@ namespace huaanClient
         public static string getStaffDatacount()
         {
 
-            string commandText = "SELECT COUNT(*) as count FROM staff where isMarkedForDelete = 0";
+            string commandText = "SELECT COUNT(*) as count FROM staff";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
@@ -411,7 +410,6 @@ namespace huaanClient
                 st.Append(" staf.phone='" + qu_phone.Trim() + "' AND");
             }
 
-            st.Append(" staf.isMarkedForDelete = 0 AND");
 
             string commandText = st.ToString().Substring(0, st.ToString().Length - 3).ToString()
                + " LIMIT " + pageint + "," + limt;
@@ -1735,7 +1733,7 @@ namespace huaanClient
                         return obj.ToString();
                     }
                 }
-                string commandTextdepartmentid = "SELECT COUNT(id) as len FROM staff sta WHERE isMarkedForDelete <> 1 and sta.Employee_code= '" + staff_no + "'";
+                string commandTextdepartmentid = "SELECT COUNT(id) as len FROM staff sta WHERE sta.Employee_code= '" + staff_no + "'";
                 sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
                 if (!string.IsNullOrEmpty(sr))
                 {
@@ -2587,7 +2585,7 @@ namespace huaanClient
 
         public static string getindexforNumberRegist()
         {
-            string commandText = "SELECT COUNT(*) AS count  FROM staff where isMarkedForDelete = 0";
+            string commandText = "SELECT COUNT(*) AS count  FROM staff";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
@@ -3288,7 +3286,7 @@ namespace huaanClient
                 int DetoeqRe = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
                 if (DetoeqRe >= 0)
                 {
-                    string commandText = "UPDATE staff SET isMarkedForDelete = 1 where id = " + id;
+                    string commandText = "DELETE  from staff where id = " + id;
                     int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
                     if (sr == 1)
                     {

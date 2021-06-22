@@ -430,7 +430,6 @@ namespace huaanClient.DatabaseTool
   "face_idcard TEXT",
   "source TEXT",
   "idcardtype TEXT",
-  "isMarkedForDelete integer default 0",
   //face_idcard
         };
 
