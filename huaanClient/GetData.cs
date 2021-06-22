@@ -15,6 +15,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
+using Dapper;
 
 namespace huaanClient
 {
@@ -1060,6 +1061,29 @@ namespace huaanClient
                 return false;
             }
 
+        }
+
+
+        public static void setAddPersonToEquipmentORM(string id)
+        {
+            try
+            {
+                using (var conn = SQLiteHelper.GetConnection())
+                {
+                    var myDevices = conn.Query<MyDevice>("SELECT * from MyDevice");
+                    foreach (var d in myDevices)
+                    {
+                        var distributions = conn.Query<EquipmentDistribution>("select * from Equipment_distribution");
+                    }
+
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public static void setAddPersonToEquipment(string id)

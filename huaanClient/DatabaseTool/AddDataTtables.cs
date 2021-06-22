@@ -319,6 +319,8 @@ namespace huaanClient.DatabaseTool
   "type TEXT",
   "date TEXT",
   "code TEXT",
+  "isDistributedByEmployeeCode INTEGER default 0",
+  "employeeCode TEXT DEFAULT ''"
         };
 
         public static string[] LineFor_list =
