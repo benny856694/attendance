@@ -997,7 +997,7 @@ namespace huaanClient
                     {
                         device = conn.Get<MyDevice>(deviceid);
                         staff = conn.Get<Staff>(userid);
-                        DistributeToOneDevice(staff, device, distributeByCode, conn);
+                        DistributeStaffToDevice(staff, device, distributeByCode, conn);
                     }
 
                     
@@ -1022,7 +1022,7 @@ namespace huaanClient
                     {
                         foreach (var staff in staffs)
                         {
-                            DistributeToOneDevice(staff, device, distributeByCode, conn);
+                            DistributeStaffToDevice(staff, device, distributeByCode, conn);
                         }
                     }
                 }
@@ -1052,7 +1052,7 @@ namespace huaanClient
                     staff = conn.Get<Staff>(id);
                     foreach (var d in myDevices)
                     {
-                        DistributeToOneDevice(staff, d, distributeByCode, conn);
+                        DistributeStaffToDevice(staff, d, distributeByCode, conn);
                     }
                 }
                 
@@ -1065,7 +1065,7 @@ namespace huaanClient
             }
         }
 
-        private static void DistributeToOneDevice(Staff staff, MyDevice device,  bool distributeByCode, IDbConnection conn)
+        private static void DistributeStaffToDevice(Staff staff, MyDevice device,  bool distributeByCode, IDbConnection conn)
         {
             
                 var distributions = conn.Query<EquipmentDistribution>(

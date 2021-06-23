@@ -1171,7 +1171,6 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             //        callback.ExecuteAsync(result);
             //    }));
             //});
-            Debug.WriteLine(nameof(this.getCapture_Dataforindex));
             string result = string.Empty;
             Task.Factory.StartNew(() =>
             {
