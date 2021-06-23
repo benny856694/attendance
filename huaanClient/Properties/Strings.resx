@@ -126,6 +126,21 @@
 	<data name="PromptSwitchingCamera" xml:space="preserve">
     <value>正在切换...</value>
   </data>
+	<data name="SaveFailed" xml:space="preserve">
+    <value>保存失败</value>
+  </data>
+	<data name="SaveSuccess" xml:space="preserve">
+    <value>保存成功</value>
+  </data>
+	<data name="StaffCodeExists" xml:space="preserve">
+    <value>员工编号已经存在</value>
+  </data>
+	<data name="StaffCodeIsEmpty" xml:space="preserve">
+    <value>员工编号不能为空</value>
+  </data>
+	<data name="StaffImageInValid" xml:space="preserve">
+    <value>照片不合符要求</value>
+  </data>
 	<data name="Switch" xml:space="preserve">
     <value>切换</value>
   </data>

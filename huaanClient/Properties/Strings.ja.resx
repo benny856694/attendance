@@ -112,4 +112,19 @@
 	<data name="TakePicture" xml:space="preserve">
 		<value>写真を撮る</value>
 	</data>
+	<data name="StaffCodeExists" xml:space="preserve">
+		<value>ユーザー番号は既に存在します</value>
+	</data>
+	<data name="StaffCodeIsEmpty" xml:space="preserve">
+		<value>ユーザー番号は空にしてはいけません</value>
+	</data>
+	<data name="StaffImageInValid" xml:space="preserve">
+		<value>写真は要求に合いません</value>
+	</data>
+	<data name="SaveFailed" xml:space="preserve">
+		<value>保存に失敗しました</value>
+	</data>
+	<data name="SaveSuccess" xml:space="preserve">
+		<value>保存に成功しました</value>
+	</data>
 </root>

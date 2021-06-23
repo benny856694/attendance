@@ -132,4 +132,19 @@
 	<data name="Switch" xml:space="preserve">
 		<value>Switch</value>
 	</data>
+	<data name="StaffCodeExists" xml:space="preserve">
+		<value>Employee number already exists</value>
+	</data>
+	<data name="StaffCodeIsEmpty" xml:space="preserve">
+		<value>Employee number cannot be empty</value>
+	</data>
+	<data name="StaffImageInValid" xml:space="preserve">
+		<value>The photo is not valid</value>
+	</data>
+	<data name="SaveFailed" xml:space="preserve">
+		<value>Save succeeded</value>
+	</data>
+	<data name="SaveSuccess" xml:space="preserve">
+		<value>Save failed</value>
+	</data>
 </root>

@@ -18,6 +18,8 @@ using System.Windows.Forms;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using System.Data;
+using System.Dynamic;
+using System.Threading;
 
 namespace huaanClient
 {
@@ -1723,8 +1725,112 @@ namespace huaanClient
                 return null;
 
         }
+
+        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype)
+        {
+
+            if (string.IsNullOrEmpty(staff_no))
+            {
+                return JsonConvert.SerializeObject(new
+                {
+                    result = 1,
+                    data = Properties.Strings.StaffCodeIsEmpty
+                });
+            }
+            else
+            {
+                using (var con = SQLiteHelper.GetConnection())
+                {
+                    var codeExists =  con.Query<Staff>("SELECT Employee_code from staff where Employee_code = @code", new { code = staff_no })
+                        .Any();
+                    if (codeExists)
+                    {
+                        return JsonConvert.SerializeObject(new
+                        {
+                            result = 1,
+                            data = Properties.Strings.StaffCodeExists,
+                        });
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(imge))
+            {
+                byte[] imgData;
+                imgData = copyfile.SaveImage(imge);
+                byte[][] re = HaCamera.HA_GetJpgFeatureImageNew(imgData);
+
+                if (re[2][0] != 0)
+                {
+                    return JsonConvert.SerializeObject(new 
+                    { 
+                        result = 1, 
+                        data = Properties.Strings.StaffImageInValid
+                    }); 
+                }
+            }
+
+            AttendanceGroup attGroup = null;
+            using (var con = SQLiteHelper.GetConnection())
+            {
+                attGroup = con.Query<AttendanceGroup>("SELECT id FROM AttendanceGroup WHERE isdefault=1")
+                    .FirstOrDefault();
+            }
+
+            var staff = new Staff();
+            staff.name = name;
+            staff.Employee_code = staff_no;
+            staff.phone = phone;
+            staff.Email = email;
+            if (!string.IsNullOrEmpty(department))
+            {
+                staff.department_id = int.Parse(department);
+
+            }
+            staff.Employetype_id = int.Parse(string.IsNullOrEmpty(Employetype) ? "1" : Employetype);
+            
+            staff.idcardtype = idcardtype;
+            staff.face_idcard = face_idcard;
+            staff.picture = imge;
+            if (attGroup != null)
+            {
+                staff.AttendanceGroup_id = Convert.ToInt32(attGroup.id);
+            }
+
+            if (Thread.CurrentThread.CurrentUICulture.Name.Contains("ja"))
+            {
+                staff.line_type = lineType;
+                staff.line_userid = line_userid;
+            }
+
+            try
+            {
+                using (var con = SQLiteHelper.GetConnection())
+                {
+                    var id = con.Insert(staff);
+                    setAddPersonToEquipment(id.ToString());
+                    return JsonConvert.SerializeObject(new
+                    {
+                        result = 2,
+                        data = Properties.Strings.SaveSuccess
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Save Staff error");
+                return JsonConvert.SerializeObject(new
+                {
+                    result = 1,
+                    data = Properties.Strings.SaveFailed
+                });
+            }
+        }
+
+
+
         //0未传值 1保存失败 2成功
-        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard,string idcardtype)
+        public static string setStaf_Deprecated(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard,string idcardtype)
         {
             if (string.IsNullOrEmpty(Employetype))
             {
