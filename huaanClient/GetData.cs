@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using Dapper;
+using Dapper.Contrib.Extensions;
 
 namespace huaanClient
 {
@@ -23,6 +24,7 @@ namespace huaanClient
     {
         //返回json
         public static JObject obj = null;
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static string getDepartmentDataI()
         {
 
@@ -1064,29 +1066,58 @@ namespace huaanClient
         }
 
 
-        public static void setAddPersonToEquipmentORM(string id)
+        public static void setAddPersonToEquipment(string id)
         {
             try
             {
+                var distributeByCode = getIscode_syn();
                 using (var conn = SQLiteHelper.GetConnection())
                 {
-                    var myDevices = conn.Query<MyDevice>("SELECT * from MyDevice");
+                    var myDevices = conn.GetAll<MyDevice>();
+                    var staff = conn.Get<Staff>(id);
                     foreach (var d in myDevices)
                     {
-                        var distributions = conn.Query<EquipmentDistribution>("select * from Equipment_distribution");
+                        var distributions = conn.Query<EquipmentDistribution>(
+                            "select * from Equipment_distribution where userid = @userid and deviceid = @deviceid", new { userid = id, deviceid = d.id });
+                        if (distributions.Count() == 0)
+                        {
+                            var distro = new EquipmentDistribution()
+                            {
+                                userid = Convert.ToInt32(id),
+                                deviceid = Convert.ToInt32(d.id),
+                                status = "inprogress"
+                            };
+
+                            if (distributeByCode)
+                            {
+                                distro.isDistributedByEmployeeCode = 1;
+                                distro.employeeCode = staff.Employee_code;
+                            }
+
+                            conn.Insert(distro);
+                        }
+                        else
+                        {
+                            foreach (var distro in distributions)
+                            {
+                                distro.status = "";
+                            }
+                            conn.Update(distributions);
+                        }
+
                     }
 
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Logger.Error(ex, "Add Data to distribution error");
                 throw;
             }
         }
 
-        public static void setAddPersonToEquipment(string id)
+        public static void setAddPersonToEquipmentOld(string id)
         {
             try
             {

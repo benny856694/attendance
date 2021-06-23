@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Dapper;
+using Dapper.Contrib.Extensions;
 
 namespace huaanClient
 {
@@ -79,6 +80,49 @@ namespace huaanClient
         }
 
         private static void DeleteDistribute(JObject distribute, string connectionString)
+        {
+            var staffId = distribute["userid"].ToString().Trim();
+            var distroId = (int) distribute["id"];
+            var employeeCode = distribute["employeeCode"].ToString();
+            var isDistributeByCode = (int) distribute["isDistributedByEmployeeCode"];
+
+            var Devicelistdata = Deviceinfo.MyDevicelist;
+            Devicelistdata.ForEach(s =>
+            {
+                if (s.IsConnected)
+                {
+                    JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
+                    if (deleteJson != null)
+                    {
+                        deleteJson["id"] = isDistributeByCode == 1 ? employeeCode : staffId ;
+                    }
+                    string restr = GetDevinfo.request(s, deleteJson.ToString());
+                    JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+                    if (restr_json != null)
+                    {
+                        string code = restr_json["code"].ToString();
+                        int code_int = int.Parse(code);
+                        if (code_int == 0 || code_int == 22)
+                        {
+                            using (var conn = SQLiteHelper.GetConnection())
+                            {
+                                var distro = new EquipmentDistribution()
+                                {
+                                    id = distroId,
+                                    type = "1",
+                                    status = "success",
+                                    date = DateTime.Now
+                                };
+                                conn.Execute("UPDATE Equipment_distribution " +
+                                    "SET type = @type, status = @status, date = @date where id = @id", distro);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        private static void DeleteDistributeOld(JObject distribute, string connectionString)
         {
             string id = distribute["userid"].ToString().Trim();
             if (GetData.getIscode_syn())
