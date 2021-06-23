@@ -190,12 +190,12 @@ namespace huaanClient
                         o.id = downid;
                         o.name = distributeParams["name"].ToString().Trim();
 
-                        var idCardType = distributeParams["idcardtype"];
-                        var idCard = distributeParams["face_idcard"];
-                        if (idCardType.HasValues && idCard.HasValues)
+                        var idCardType = distributeParams["idcardtype"].Value<string>();
+                        var idCard = distributeParams["face_idcard"].Value<string>();
+                        if (!string.IsNullOrEmpty(idCardType) && !string.IsNullOrEmpty(idCard))
                         {
-                            var idNumber = Convert.ToUInt64(idCard.Value<string>());
-                            if (idCardType.Value<string>() == "64" )
+                            var idNumber = Convert.ToUInt64(idCard);
+                            if (idCardType == "64" )
                             {
                                 o.long_card_id = idNumber;
                             }
