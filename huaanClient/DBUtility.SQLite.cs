@@ -286,15 +286,21 @@ namespace DBUtility.SQLite
         /// <returns>IDataReader</returns>
         public static string SQLiteDataReader(string connectionString, string commandText)
         {
-            DataTable dataTable = new DataTable();
-            SQLiteConnection cn = new SQLiteConnection(connectionString);
-            SQLiteCommand cmd = new SQLiteCommand(commandText, cn);
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            SQLiteDataReader sr = cmd.ExecuteReader();
-            dataTable.Load(sr);
-           
-            return Dtb2Json(dataTable);
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new SQLiteCommand(commandText, conn))
+                {
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        DataTable dataTable = new DataTable();
+                        dataTable.Load(rdr);
+                        return Dtb2Json(dataTable);
+                    }
+
+                }
+                
+            } 
         }
 
 
@@ -795,7 +801,7 @@ namespace DBUtility.SQLite
         }
 
 
-        public static IDbConnection GetConnection()
+        public static SQLiteConnection GetConnection()
         {
             return new SQLiteConnection(ApplicationData.connectionString);
         }

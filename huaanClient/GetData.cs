@@ -17,6 +17,7 @@ using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using Dapper;
 using Dapper.Contrib.Extensions;
+using System.Data;
 
 namespace huaanClient
 {
@@ -989,24 +990,17 @@ namespace huaanClient
                 {
                     string userid = s["userid"].ToString().Trim();
                     string deviceid = s["deviceid"].ToString().Trim();
-
-                    string commandText = "SELECT COUNT(userid) as len ,type from Equipment_distribution WHERE userid=" + userid + " AND deviceid=" + deviceid;
-                    string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
-                    if (!string.IsNullOrEmpty(sr))
+                    MyDevice device = null;
+                    Staff staff = null;
+                    var distributeByCode = getIscode_syn();
+                    using (var conn = SQLiteHelper.GetConnection())
                     {
-                        JArray srjo = (JArray)JsonConvert.DeserializeObject(sr);
-                        string reint = srjo[0]["len"].ToString();
-                        if (int.Parse(reint) == 0)
-                        {
-                            string updatessql = "INSERT INTO Equipment_distribution (type,status,userid, deviceid) VALUES (0,'inprogress'," + userid + "," + deviceid + ")";
-                            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
-                        }
-                        if (int.Parse(reint) == 1)
-                        {
-                            string updatessql = "UPDATE Equipment_distribution SET status='',type=0 WHERE userid=" + userid;
-                            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
-                        }
+                        device = conn.Get<MyDevice>(deviceid);
+                        staff = conn.Get<Staff>(userid);
+                        DistributeToOneDevice(staff, device, distributeByCode, conn);
                     }
+
+                    
                 }
             }
         }
@@ -1015,46 +1009,25 @@ namespace huaanClient
         {
             try
             {
-                //查找出设备
-                string commandText_dev = "SELECT id FROM MyDevice";
-                string data_dev = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText_dev);
-                JArray jo_dev = (JArray)JsonConvert.DeserializeObject(data_dev);
+                IEnumerable<MyDevice> devices = null;
+                IEnumerable<Staff> staffs = null;
+                var distributeByCode = getIscode_syn();
 
-                //查找出所有人员
-                string commandText_prson = "SELECT id FROM staff WHERE picture!='' OR picture!=NULL";
-                string data_prson = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText_prson);
-                JArray jo_prson = (JArray)JsonConvert.DeserializeObject(data_prson);
-
-                if (jo_dev.Count > 0 && jo_prson.Count > 0)
+                using (var conn = SQLiteHelper.GetConnection())
                 {
-                    foreach (JObject s in jo_dev)
+                    devices = conn.GetAll<MyDevice>();
+                    staffs = conn.Query<Staff>("SELECT * from staff" +
+                        " where picture!='' OR picture!=NULL ");
+                    foreach (var device in devices)
                     {
-                        foreach (JObject s1 in jo_prson)
+                        foreach (var staff in staffs)
                         {
-                            string userid = s1["id"].ToString().Trim();
-                            string deviceid = s["id"].ToString().Trim();
-
-                            string commandText = "SELECT COUNT(userid) as len ,type from Equipment_distribution WHERE userid=" + userid + " AND deviceid=" + deviceid;
-                            string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
-                            if (!string.IsNullOrEmpty(sr))
-                            {
-                                JArray srjo = (JArray)JsonConvert.DeserializeObject(sr);
-                                string reint = srjo[0]["len"].ToString();
-                                if (int.Parse(reint) == 0)
-                                {
-                                    string updatessql = "INSERT INTO Equipment_distribution (type,status,userid, deviceid) VALUES (0,'inprogress'," + userid + "," + deviceid + ")";
-                                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
-                                }
-                                if (int.Parse(reint) == 1)
-                                {
-                                    string updatessql = "UPDATE Equipment_distribution SET status='',type=0 WHERE userid=" + userid;
-                                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
-                                }
-                            }
+                            DistributeToOneDevice(staff, device, distributeByCode, conn);
                         }
-
                     }
                 }
+
+                
 
                 return true;
             }
@@ -1071,43 +1044,18 @@ namespace huaanClient
             try
             {
                 var distributeByCode = getIscode_syn();
+                IEnumerable<MyDevice> myDevices = null;
+                Staff staff = null;
                 using (var conn = SQLiteHelper.GetConnection())
                 {
-                    var myDevices = conn.GetAll<MyDevice>();
-                    var staff = conn.Get<Staff>(id);
+                    myDevices = conn.GetAll<MyDevice>();
+                    staff = conn.Get<Staff>(id);
                     foreach (var d in myDevices)
                     {
-                        var distributions = conn.Query<EquipmentDistribution>(
-                            "select * from Equipment_distribution where userid = @userid and deviceid = @deviceid", new { userid = id, deviceid = d.id });
-                        if (distributions.Count() == 0)
-                        {
-                            var distro = new EquipmentDistribution()
-                            {
-                                userid = Convert.ToInt32(id),
-                                deviceid = Convert.ToInt32(d.id),
-                                status = "inprogress"
-                            };
-
-                            if (distributeByCode)
-                            {
-                                distro.isDistributedByEmployeeCode = 1;
-                                distro.employeeCode = staff.Employee_code;
-                            }
-
-                            conn.Insert(distro);
-                        }
-                        else
-                        {
-                            foreach (var distro in distributions)
-                            {
-                                distro.status = "";
-                            }
-                            conn.Update(distributions);
-                        }
-
+                        DistributeToOneDevice(staff, d, distributeByCode, conn);
                     }
-
                 }
+                
 
             }
             catch (Exception ex)
@@ -1115,6 +1063,41 @@ namespace huaanClient
                 Logger.Error(ex, "Add Data to distribution error");
                 throw;
             }
+        }
+
+        private static void DistributeToOneDevice(Staff staff, MyDevice device,  bool distributeByCode, IDbConnection conn)
+        {
+            
+                var distributions = conn.Query<EquipmentDistribution>(
+                        "select * from Equipment_distribution " +
+                        "where userid = @userid and deviceid = @deviceid", 
+                        new { userid = staff.id, deviceid = device.id });
+                if (distributions.Count() == 0)
+                {
+                    var distro = new EquipmentDistribution()
+                    {
+                        userid = staff.id,
+                        deviceid = device.id,
+                        status = "inprogress"
+                    };
+
+                    if (distributeByCode)
+                    {
+                        distro.isDistributedByEmployeeCode = 1;
+                        distro.employeeCode = staff.Employee_code;
+                    }
+
+                    conn.Insert(distro);
+                }
+                else
+                {
+                    foreach (var distro in distributions)
+                    {
+                        distro.status = "";
+                    }
+                    conn.Update(distributions);
+                }
+            
         }
 
         public static void setAddPersonToEquipmentOld(string id)
