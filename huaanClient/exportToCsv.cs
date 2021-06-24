@@ -163,7 +163,7 @@ namespace huaanClient
             DataToCsv.ExportDataToCSV(getGoupname()+"-"+msg, dataTable, date);
         }
 
-        public static void exportForDay(AttendanceData[] data,string te)
+        public static void exportForDay(AttendanceData[] data,string te, string selectedColumns = null)
         {
 
             string msg = "每日考勤表";
@@ -172,7 +172,7 @@ namespace huaanClient
             else if (ApplicationData.LanguageSign.Contains("日本語"))
                 msg = "毎日勤務評定表";
             //todo
-            DataToCsv.ExportDataToCSVforDay(getGoupname()+"-" + msg +"-"+ te, data);
+            DataToCsv.ExportDataToCSVforDay(getGoupname()+"-" + msg +"-"+ te, data, selectedColumns);
         }
 
         public static void exportFor(string type, string data, string te)

@@ -761,7 +761,7 @@ namespace huaanClient
 
         public static string getCsvSettings()
         {
-            string sql = "SELECT IFNULL(keyStr,'') as keyStr,IFNULL(valuesStr,'') as valuesStr FROM CsvSettings where id=1";
+            string sql = "SELECT IFNULL(keyStr,'') as keyStr,IFNULL(valuesStr,'') as valuesStr FROM CsvSettings LIMIT 1";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, sql);
             return sr;
         }

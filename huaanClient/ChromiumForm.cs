@@ -979,20 +979,19 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 starttime = starttime.Replace(@"/", "-");
                 endtime = endtime.Replace(@"/", "-");
-                string data = string.Empty;
                
                 //判断是否有默认
                 string isSetdefault = GetData.getCsvSettings();
                 JArray jo = (JArray)JsonConvert.DeserializeObject(isSetdefault);
                 if (jo.Count > 0)
                 {
-                    string key = jo[0]["keyStr"].ToString();
+                    string selectedColumns = jo[0]["keyStr"].ToString();
                     string values = jo[0]["valuesStr"].ToString();
 
-                    if (!string.IsNullOrEmpty(key))
+                    if (!string.IsNullOrEmpty(selectedColumns))
                     {
-                        data=GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism,key+ ",ifnull(Remarks,'') as Remarks ");
-                        exportToCsv.exportForDay1(data, starttime + endtime,values);
+                        var attData = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
+                        exportToCsv.exportForDay(attData, starttime + endtime, selectedColumns);
                     }
                     else
                     {
@@ -1002,8 +1001,8 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 }
                 else
                 {
-                    var attendance_Datas = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
-                    exportToCsv.exportForDay(attendance_Datas, starttime + endtime);
+                    var attData = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
+                    exportToCsv.exportForDay(attData, starttime + endtime);
                 }
             }));
 

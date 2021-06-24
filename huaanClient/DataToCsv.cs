@@ -360,9 +360,9 @@ namespace huaanClient
 
 
 
-        public static void ExportDataToCSVforDay(string fileName, AttendanceData[] data)
+        public static void ExportDataToCSVforDay(string fileName, AttendanceData[] data, string selectedColumns = null)
         {
-            var keys = new [] { "name", "department", "Employee_code", "Date", "Punchinformation", "Punchinformation1", "Shiftinformation", "Duration", "late", "Leaveearly", "workOvertime", "isAbsenteeism", "temperature" };
+            var keys = selectedColumns?.Split(',') ?? new [] { "name", "department", "Employee_code", "Date", "Punchinformation", "Punchinformation1", "Shiftinformation", "Duration", "late", "Leaveearly", "workOvertime", "isAbsenteeism", "temperature" };
             if (data.Length == 0)
             {
                 return;
@@ -399,7 +399,7 @@ namespace huaanClient
                             {
                                 case "Punchinformation":
                                 case "Punchinformation1":
-                                    line.Add(att.Remarks == "3" ? Properties.Strings.DayOff : "");
+                                    line.Add(att.Remarks == "3" ? Properties.Strings.DayOff : v.ToString());
                                     break;
                                 case "Remarks":
                                     line.Add(att.Remarks == "0" ? Properties.Strings.Absent : "");
