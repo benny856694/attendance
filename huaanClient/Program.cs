@@ -1,4 +1,5 @@
 ﻿using CefSharp.WinForms;
+using huaanClient.Database;
 using InsuranceBrowser;
 using InsuranceBrowserLib;
 using Newtonsoft.Json;
@@ -21,6 +22,8 @@ namespace huaanClient
         [STAThread]
         static void Main()
         {
+            DapperExtensions.DapperExtensions.SetMappingAssemblies(new[] { typeof(StaffMapper).Assembly });
+
             if (System.Diagnostics.Process.GetProcessesByName("FaceRASystem").ToList().Count > 1)
             {
                 //获取地区自动显示中英日文

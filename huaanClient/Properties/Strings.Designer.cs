@@ -61,6 +61,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 旷工.
+        /// </summary>
+        internal static string Absent {
+            get {
+                return ResourceManager.GetString("Absent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 没有可用的磁盘，无法保存数据.
         /// </summary>
         internal static string AllDriveIsNotAvailable {
@@ -70,11 +79,38 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to name,department,Employee_code,Date,Punchinformation,Punchinformation1,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature.
+        /// </summary>
+        internal static string AttendanceKeys {
+            get {
+                return ResourceManager.GetString("AttendanceKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 姓名,部门,员工编号,考勤日期,上班打卡,下班打卡,班次信息,应出勤时间(小时),迟到(分钟),早退(分钟),加班(分钟),是否旷工,体温(℃).
+        /// </summary>
+        internal static string AttendanceNames {
+            get {
+                return ResourceManager.GetString("AttendanceNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 相机.
         /// </summary>
         internal static string Camera {
             get {
                 return ResourceManager.GetString("Camera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 请假.
+        /// </summary>
+        internal static string DayOff {
+            get {
+                return ResourceManager.GetString("DayOff", resourceCulture);
             }
         }
         

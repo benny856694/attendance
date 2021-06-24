@@ -102,6 +102,7 @@ namespace huaanClient
                 {
                     try
                     {
+                        //todo: System.ObjectDisposedException
                         int readLen = _clientSocket.EndReceive(asyncResult);
                         if (readLen == 0)
                         {

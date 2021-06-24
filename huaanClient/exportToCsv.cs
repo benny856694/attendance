@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using huaanClient.Database;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -162,17 +163,16 @@ namespace huaanClient
             DataToCsv.ExportDataToCSV(getGoupname()+"-"+msg, dataTable, date);
         }
 
-        public static void exportForDay(string data,string te)
+        public static void exportForDay(AttendanceData[] data,string te)
         {
-            DataTable dataTable = ToDataTable(data);
-
 
             string msg = "每日考勤表";
             if (ApplicationData.LanguageSign.Contains("English"))
                 msg = "Daily attendance sheet";
             else if (ApplicationData.LanguageSign.Contains("日本語"))
                 msg = "毎日勤務評定表";
-            DataToCsv.ExportDataToCSVforDay(getGoupname()+"-" + msg +"-"+ te, dataTable);
+            //todo
+            DataToCsv.ExportDataToCSVforDay(getGoupname()+"-" + msg +"-"+ te, data);
         }
 
         public static void exportFor(string type, string data, string te)

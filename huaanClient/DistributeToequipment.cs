@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Dapper;
-using Dapper.Contrib.Extensions;
+//using Dapper.Contrib.Extensions;
 using System.Dynamic;
 
 namespace huaanClient

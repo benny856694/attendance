@@ -16,10 +16,11 @@ using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using Dapper;
-using Dapper.Contrib.Extensions;
+//using Dapper.Contrib.Extensions;
 using System.Data;
 using System.Dynamic;
 using System.Threading;
+using DapperExtensions;
 
 namespace huaanClient
 {
@@ -825,7 +826,38 @@ namespace huaanClient
             }
         }
 
-        public static string queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism)
+
+        public static AttendanceData[] queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism)
+        {
+            var pg = new PredicateGroup() { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
+            pg.Predicates.Add(Predicates.Between<AttendanceData>(
+                a => a.Date,
+                new BetweenValues { Value1 = starttime, Value2 = endtime }) );
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                pg.Predicates.Add(Predicates.Field<AttendanceData>(a => a.name, Operator.Like, $"%{name}%"));
+            }
+            if (late.Trim().Equals("1"))
+            {
+                pg.Predicates.Add(Predicates.Field<AttendanceData>(a => a.late, Operator.Gt, 0));
+            }
+            if (Leaveearly.Trim().Equals("1"))
+            {
+                pg.Predicates.Add(Predicates.Field<AttendanceData>(a => a.Leaveearly, Operator.Gt, 0));
+            }
+            if (isAbsenteeism.Trim().Equals("1"))
+            {
+                pg.Predicates.Add(Predicates.Field<AttendanceData>(a => a.isAbsenteeism, Operator.Eq, 0));
+            }
+
+            using (var con = SQLiteHelper.GetConnection())
+            {
+                return con.GetList<AttendanceData>(pg).ToArray();
+            }
+
+        }
+        public static string queryAttendanceinformation_deprecated(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism)
         {
 
             StringBuilder commandText = new StringBuilder("SELECT * FROM  Attendance_Data  att WHERE att.Date>='" + starttime.Trim() + "' AND att.Date<='" + endtime.Trim() + "' AND");
@@ -1017,9 +1049,11 @@ namespace huaanClient
 
                 using (var conn = SQLiteHelper.GetConnection())
                 {
-                    devices = conn.GetAll<MyDevice>();
-                    staffs = conn.Query<Staff>("SELECT * from staff" +
-                        " where picture!='' OR picture!=NULL ");
+                    
+                    devices = conn.GetList<MyDevice>();
+
+                    var predicte = Predicates.Field<Staff>(s=>string.IsNullOrEmpty(s.picture), Operator.Eq, true);
+                    staffs = conn.GetList<Staff>(predicte);
                     foreach (var device in devices)
                     {
                         foreach (var staff in staffs)
@@ -1050,7 +1084,7 @@ namespace huaanClient
                 Staff staff = null;
                 using (var conn = SQLiteHelper.GetConnection())
                 {
-                    myDevices = conn.GetAll<MyDevice>();
+                    myDevices = conn.GetList<MyDevice>();
                     staff = conn.Get<Staff>(id);
                     foreach (var d in myDevices)
                     {

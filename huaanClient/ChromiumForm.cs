@@ -996,14 +996,14 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     }
                     else
                     {
-                        data=GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
-                        exportToCsv.exportForDay(data, starttime + endtime);
+                        //data=GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
+                        //exportToCsv.exportForDay(data, starttime + endtime);
                     }
                 }
                 else
                 {
-                    data = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
-                    exportToCsv.exportForDay(data, starttime + endtime);
+                    var attendance_Datas = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
+                    exportToCsv.exportForDay(attendance_Datas, starttime + endtime);
                 }
             }));
 

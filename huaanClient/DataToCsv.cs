@@ -1,5 +1,7 @@
-﻿using System;
+﻿using huaanClient.Database;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -344,7 +346,98 @@ namespace huaanClient
         }
 
 
-        public static void ExportDataToCSVforDay(string fileName, DataTable table)
+        public static Dictionary<string, string> GetAttendanceKVPair()
+        {
+            var result = new Dictionary<string, string>();
+            var keys = Properties.Strings.AttendanceKeys.Split(',');
+            var names = Properties.Strings.AttendanceNames.Split(',');
+            for (int i = 0; i < keys.Length; i++)
+            {
+                result.Add(keys[i], names[i]);  
+            }
+            return result;
+        }
+
+
+
+        public static void ExportDataToCSVforDay(string fileName, AttendanceData[] data)
+        {
+            var keys = new [] { "name", "department", "Employee_code", "Date", "Punchinformation", "Punchinformation1", "Shiftinformation", "Duration", "late", "Leaveearly", "workOvertime", "isAbsenteeism", "temperature" };
+            if (data.Length == 0)
+            {
+                return;
+            }
+
+            SaveFileDialog saveDlg = new SaveFileDialog();
+            saveDlg.Filter = "CSV文件(*.csv)|*.csv";
+            saveDlg.FileName = fileName;
+
+            if (saveDlg.ShowDialog() == DialogResult.OK)
+            {
+                var kv = GetAttendanceKVPair();
+                FileStream fs = new FileStream(saveDlg.FileName, FileMode.Create);
+                StreamWriter writer = new StreamWriter(fs, Encoding.Default);
+                try
+                {
+                    var title = new List<string>();
+
+                    foreach (var key in keys)
+                    {
+                        title.Add(kv[key]);
+                    }
+
+                    var titleLine = string.Join(",", title.ToArray());
+                    writer.WriteLine(titleLine);
+
+                    foreach (var att in data)
+                    {
+                        var line = new List<string>();
+                        foreach (var key in keys)
+                        {
+                            var v = att.GetType().GetProperty(key).GetValue(att);
+                            switch (key)
+                            {
+                                case "Punchinformation":
+                                case "Punchinformation1":
+                                    line.Add(att.Remarks == "3" ? Properties.Strings.DayOff : "");
+                                    break;
+                                case "Remarks":
+                                    line.Add(att.Remarks == "0" ? Properties.Strings.Absent : "");
+                                    break;
+                                default:
+                                    line.Add(v == null ? "" : v.ToString());
+                                    break;
+                            }
+                        }
+
+                        var s = string.Join(",", line.ToArray());
+                        writer.WriteLine(s);
+                    }
+                   
+                    writer.Flush();
+                    writer.Close();
+
+                    string msg = "导出成功：";
+                    if (ApplicationData.LanguageSign.Contains("English"))
+                        msg = "Export succeeded：";
+                    else if (ApplicationData.LanguageSign.Contains("日本語"))
+                        msg = "エクスポート成功：";
+                    MessageBox.Show(msg + saveDlg.FileName.ToString().Trim());
+                }
+                catch (Exception ex)
+                {
+                    string msg = "导出失败：";
+                    if (ApplicationData.LanguageSign.Contains("English"))
+                        msg = "Export failed：";
+                    else if (ApplicationData.LanguageSign.Contains("日本語"))
+                        msg = "エクスポート失敗：";
+                    MessageBox.Show(msg);
+                    writer.Close();
+                }
+            }
+        }
+
+        public static void ExportDataToCSVforDay_deprecated(string fileName, DataTable table)
         {
             //Thread.SetApartmentState(ApartmentState.STA);
             if (table == null || table.Rows.Count == 0)
