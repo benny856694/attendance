@@ -397,15 +397,15 @@ namespace huaanClient
                             var v = att.GetType().GetProperty(key).GetValue(att);
                             switch (key)
                             {
-                                case "Punchinformation":
-                                case "Punchinformation1":
+                                case nameof(att.Punchinformation):
+                                case nameof(att.Punchinformation1):
                                     line.Add(att.Remarks == "3" ? Properties.Strings.DayOff : v.ToString());
                                     break;
-                                case "Remarks":
-                                    line.Add(att.Remarks == "0" ? Properties.Strings.Absent : "");
+                                case nameof(att.isAbsenteeism):
+                                    line.Add(v.ToString() == "0" ? Properties.Strings.Absent : "");
                                     break;
                                 default:
-                                    line.Add(v == null ? "" : v.ToString());
+                                    line.Add(v == null ? "" : $"=\"{v}\"");
                                     break;
                             }
                         }
