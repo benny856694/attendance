@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
 
 namespace huaanClient
 {
@@ -7,8 +10,8 @@ namespace huaanClient
         //是否为测试
         public static bool IsTest => Properties.Settings.Default.debug;
 
-        public static string MyAppVersion = "2.7.2.0";
-
+        public static string MyAppVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        
         //默认语言 0 中文 1 英文 2日文
         public static int defaultLanguage = 0;
 
