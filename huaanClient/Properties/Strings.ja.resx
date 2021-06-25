@@ -127,4 +127,16 @@
 	<data name="SaveSuccess" xml:space="preserve">
 		<value>保存に成功しました</value>
 	</data>
+	<data name="Absent" xml:space="preserve">
+		<value>無届け欠勤</value>
+	</data>
+	<data name="AttendanceKeys" xml:space="preserve">
+		<value>name,department,Employee_code,Date,Punchinformation,Punchinformation1,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature</value>
+	</data>
+	<data name="AttendanceNames" xml:space="preserve">
+		<value>名前,部門,社員番号,出勤日,出勤カード,退勤カード,便情報,出勤時間(時間),遅刻(分),早退(分),残業(分),欠勤,体温(℃)</value>
+	</data>
+	<data name="DayOff" xml:space="preserve">
+		<value>休暇をとる</value>
+	</data>
 </root>

@@ -147,4 +147,16 @@
 	<data name="SaveSuccess" xml:space="preserve">
 		<value>Save failed</value>
 	</data>
+	<data name="Absent" xml:space="preserve">
+		<value>Yes</value>
+	</data>
+	<data name="AttendanceKeys" xml:space="preserve">
+		<value>name,department,Employee_code,Date,Punchinformation,Punchinformation1,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature</value>
+	</data>
+	<data name="AttendanceNames" xml:space="preserve">
+		<value>Name,Department,Employee Number,Attendance Date,Clock in,Clock out,Shift Information,Attendance Time (hours),Late (minutes),Early Leave (minutes),Overtime (minutes),Absenteeism,Body Temperature (℃)</value>
+	</data>
+	<data name="DayOff" xml:space="preserve">
+		<value>Yes</value>
+	</data>
 </root>

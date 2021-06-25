@@ -404,6 +404,9 @@ namespace huaanClient
                                 case nameof(att.isAbsenteeism):
                                     line.Add(v.ToString() == "0" ? Properties.Strings.Absent : "");
                                     break;
+                                case nameof(att.Date):
+                                    line.Add(((DateTime)v).ToString("d"));
+                                    break;
                                 default:
                                     line.Add(v == null ? "" : $"=\"{v}\"");
                                     break;

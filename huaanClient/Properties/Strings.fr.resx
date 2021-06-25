@@ -112,4 +112,28 @@
 	<data name="TakePicture" xml:space="preserve">
 		<value>Prendre des photos</value>
 	</data>
+	<data name="Absent" xml:space="preserve">
+		<value>Absence</value>
+	</data>
+	<data name="AttendanceKeys" xml:space="preserve">
+		<value>name,department,Employee_code,Date,Punchinformation,Punchinformation1,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature</value>
+	</data>
+	<data name="AttendanceNames" xml:space="preserve">
+		<value>Nom, Département, numéro de l'employé, date de présence, horloge au travail, horloge au travail, information sur le poste, heure de présence requise (heures), retard (minutes), départ anticipé (minutes), heures supplémentaires (minutes), absentéisme, température corporelle (°C)</value>
+	</data>
+	<data name="DayOff" xml:space="preserve">
+		<value>Congé</value>
+	</data>
+	<data name="SaveFailed" xml:space="preserve">
+		<value>Enregistrer avec succès</value>
+	</data>
+	<data name="SaveSuccess" xml:space="preserve">
+		<value>Échec de l'enregistrement</value>
+	</data>
+	<data name="StaffCodeExists" xml:space="preserve">
+		<value>Le numéro d'employé existe déjà</value>
+	</data>
+	<data name="StaffCodeIsEmpty" xml:space="preserve">
+		<value>Le numéro d'employé ne peut pas être vide</value>
+	</data>
 </root>
