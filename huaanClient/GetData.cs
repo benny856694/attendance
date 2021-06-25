@@ -16,11 +16,10 @@ using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using Dapper;
-//using Dapper.Contrib.Extensions;
+using Dapper.Contrib.Extensions;
 using System.Data;
 using System.Dynamic;
 using System.Threading;
-using DapperExtensions;
 
 namespace huaanClient
 {
@@ -829,31 +828,31 @@ namespace huaanClient
 
         public static AttendanceData[] queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism)
         {
-            var pg = new PredicateGroup() { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
-            pg.Predicates.Add(Predicates.Between<AttendanceData>(
+            var pg = new  DapperExtensions.PredicateGroup() { Operator = DapperExtensions.GroupOperator.And, Predicates = new List<DapperExtensions.IPredicate>() };
+            pg.Predicates.Add(DapperExtensions.Predicates.Between<AttendanceData>(
                 a => a.Date,
-                new BetweenValues { Value1 = starttime, Value2 = endtime }) );
+                new DapperExtensions.BetweenValues { Value1 = starttime, Value2 = endtime }) );
 
             if (!string.IsNullOrEmpty(name))
             {
-                pg.Predicates.Add(Predicates.Field<AttendanceData>(a => a.name, Operator.Like, $"%{name}%"));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.name, DapperExtensions.Operator.Like, $"%{name}%"));
             }
             if (late.Trim().Equals("1"))
             {
-                pg.Predicates.Add(Predicates.Field<AttendanceData>(a => a.late, Operator.Gt, 0));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.late, DapperExtensions.Operator.Gt, 0));
             }
             if (Leaveearly.Trim().Equals("1"))
             {
-                pg.Predicates.Add(Predicates.Field<AttendanceData>(a => a.Leaveearly, Operator.Gt, 0));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.Leaveearly, DapperExtensions.Operator.Gt, 0));
             }
             if (isAbsenteeism.Trim().Equals("1"))
             {
-                pg.Predicates.Add(Predicates.Field<AttendanceData>(a => a.isAbsenteeism, Operator.Eq, 0));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.isAbsenteeism, DapperExtensions.Operator.Eq, 0));
             }
 
             using (var con = SQLiteHelper.GetConnection())
             {
-                return con.GetList<AttendanceData>(pg).ToArray();
+                return DapperExtensions.DapperExtensions.GetList<AttendanceData>(con, pg).ToArray();
             }
 
         }
@@ -1050,10 +1049,10 @@ namespace huaanClient
                 using (var conn = SQLiteHelper.GetConnection())
                 {
                     
-                    devices = conn.GetList<MyDevice>();
+                    devices = DapperExtensions.DapperExtensions.GetList<MyDevice>(conn);
 
-                    var predicte = Predicates.Field<Staff>(s=>string.IsNullOrEmpty(s.picture), Operator.Eq, true);
-                    staffs = conn.GetList<Staff>(predicte);
+                    var predicte = DapperExtensions.Predicates.Field<Staff>(s=>string.IsNullOrEmpty(s.picture), DapperExtensions.Operator.Eq, true);
+                    staffs = DapperExtensions.DapperExtensions.GetList<Staff>(conn, predicte);
                     foreach (var device in devices)
                     {
                         foreach (var staff in staffs)
@@ -1084,7 +1083,7 @@ namespace huaanClient
                 Staff staff = null;
                 using (var conn = SQLiteHelper.GetConnection())
                 {
-                    myDevices = conn.GetList<MyDevice>();
+                    myDevices = conn.GetAll<MyDevice>();
                     staff = conn.Get<Staff>(id);
                     foreach (var d in myDevices)
                     {
@@ -1123,7 +1122,7 @@ namespace huaanClient
                         distro.employeeCode = staff.Employee_code;
                     }
 
-                    conn.Insert(distro);
+                    Dapper.Contrib.Extensions.SqlMapperExtensions.Insert(conn, distro);
                 }
                 else
                 {
@@ -1841,7 +1840,7 @@ namespace huaanClient
             {
                 using (var con = SQLiteHelper.GetConnection())
                 {
-                    var id = con.Insert(staff);
+                    var id = SqlMapperExtensions.Insert(con, staff);
                     setAddPersonToEquipment(id.ToString());
                     return JsonConvert.SerializeObject(new
                     {

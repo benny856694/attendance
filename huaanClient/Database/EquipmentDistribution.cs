@@ -1,4 +1,4 @@
-﻿//using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Database
 {
-    //[Table("Equipment_distribution")]
+    [Table("Equipment_distribution")]
     class EquipmentDistribution
     {
-       // [Key]
+        [Key]
         public int id { get; set; }
         public int  userid { get; set; }
         public int  deviceid { get; set; }

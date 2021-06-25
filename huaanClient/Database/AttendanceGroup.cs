@@ -1,4 +1,4 @@
-﻿//using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Database
 {
-	//[Table("AttendanceGroup")]
+	[Table("AttendanceGroup")]
 	public class AttendanceGroup
 	{
-		//[Key]
+		[Key]
 		public long id { get; set; }
 		public string attribute { get; set; }
 		public string name { get; set; }
