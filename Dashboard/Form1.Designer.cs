@@ -39,6 +39,7 @@ namespace Dashboard
             this.bunifuImageButton1 = new Bunifu.UI.WinForms.BunifuImageButton();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.bunifuImageButtonFullScreen = new Bunifu.UI.WinForms.BunifuImageButton();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxRow = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -200,11 +201,45 @@ namespace Dashboard
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Controls.Add(this.bunifuImageButtonFullScreen);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.comboBoxRow);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.comboBoxCol);
             this.panel1.Name = "panel1";
+            // 
+            // bunifuImageButtonFullScreen
+            // 
+            resources.ApplyResources(this.bunifuImageButtonFullScreen, "bunifuImageButtonFullScreen");
+            this.bunifuImageButtonFullScreen.ActiveImage = null;
+            this.bunifuImageButtonFullScreen.AllowAnimations = true;
+            this.bunifuImageButtonFullScreen.AllowBuffering = false;
+            this.bunifuImageButtonFullScreen.AllowToggling = false;
+            this.bunifuImageButtonFullScreen.AllowZooming = false;
+            this.bunifuImageButtonFullScreen.AllowZoomingOnFocus = false;
+            this.bunifuImageButtonFullScreen.BackColor = System.Drawing.Color.Transparent;
+            this.bunifuImageButtonFullScreen.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.bunifuImageButtonFullScreen.ErrorImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageButtonFullScreen.ErrorImage")));
+            this.bunifuImageButtonFullScreen.FadeWhenInactive = false;
+            this.bunifuImageButtonFullScreen.Flip = Bunifu.UI.WinForms.BunifuImageButton.FlipOrientation.Normal;
+            this.bunifuImageButtonFullScreen.Image = ((System.Drawing.Image)(resources.GetObject("bunifuImageButtonFullScreen.Image")));
+            this.bunifuImageButtonFullScreen.ImageActive = null;
+            this.bunifuImageButtonFullScreen.ImageLocation = null;
+            this.bunifuImageButtonFullScreen.ImageMargin = 0;
+            this.bunifuImageButtonFullScreen.ImageSize = new System.Drawing.Size(47, 47);
+            this.bunifuImageButtonFullScreen.ImageZoomSize = new System.Drawing.Size(47, 47);
+            this.bunifuImageButtonFullScreen.InitialImage = ((System.Drawing.Image)(resources.GetObject("bunifuImageButtonFullScreen.InitialImage")));
+            this.bunifuImageButtonFullScreen.Name = "bunifuImageButtonFullScreen";
+            this.bunifuImageButtonFullScreen.Rotation = 0;
+            this.bunifuImageButtonFullScreen.ShowActiveImage = true;
+            this.bunifuImageButtonFullScreen.ShowCursorChanges = true;
+            this.bunifuImageButtonFullScreen.ShowImageBorders = true;
+            this.bunifuImageButtonFullScreen.ShowSizeMarkers = false;
+            this.bunifuImageButtonFullScreen.ToolTipText = "";
+            this.bunifuImageButtonFullScreen.WaitOnLoad = false;
+            this.bunifuImageButtonFullScreen.Zoom = 0;
+            this.bunifuImageButtonFullScreen.ZoomSpeed = 10;
+            this.bunifuImageButtonFullScreen.Click += new System.EventHandler(this.bunifuImageButtonFullScreen_Click);
             // 
             // label3
             // 
@@ -248,9 +283,11 @@ namespace Dashboard
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.splitContainer1);
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -280,6 +317,7 @@ namespace Dashboard
         private Bunifu.UI.WinForms.BunifuImageButton bunifuImageButton1;
         private Bunifu.UI.WinForms.BunifuImageButton bunifuImageButtonOptions;
         private Bunifu.UI.WinForms.BunifuImageButton bunifuImageSyncFace;
+        private Bunifu.UI.WinForms.BunifuImageButton bunifuImageButtonFullScreen;
     }
 }
 

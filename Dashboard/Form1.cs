@@ -30,7 +30,7 @@ namespace Dashboard
 
         FaceRegitration[] _faces = new FaceRegitration[0];
         Dictionary<string, string[]> _pairing = new Dictionary<string, string[]>();
-
+        private FormWindowState PreviousWindowState;
 
         public string[] ConnectedDeviceIps
         {
@@ -469,6 +469,44 @@ namespace Dashboard
                 StartRow = 1
             };
             return (Pair[])provider.ExtractRecords();
+        }
+
+        private void bunifuImageButtonFullScreen_Click(object sender, EventArgs e)
+        {
+            FullScreen();
+        }
+
+        private void FullScreen(bool enable = true)
+        {
+            this.SuspendLayout();
+
+            if (enable)
+            {
+
+                PreviousWindowState = this.WindowState;
+                this.splitContainer1.Panel1Collapsed = true;
+                this.WindowState = FormWindowState.Normal;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.WindowState = FormWindowState.Maximized;
+                this.TopMost = true;
+            }
+            else
+            {
+                this.splitContainer1.Panel1Collapsed = false;
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+                this.TopMost = false;
+                this.WindowState = PreviousWindowState;
+
+            }
+            this.ResumeLayout();
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.FullScreen(false);
+            }
         }
     }
 }
