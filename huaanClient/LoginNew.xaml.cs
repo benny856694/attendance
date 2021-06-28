@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -238,23 +239,31 @@ namespace huaanClient
 
         private void SetCurrentLanguage()
         {
+            CultureInfo culture = null;
+
             switch (Language_Selection1.SelectedIndex)
             {
                 case 0: //chinese
-                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh");
+                    culture = CultureInfo.GetCultureInfo("zh");
                     break;
                 case 1: //english
-                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+                    culture = CultureInfo.GetCultureInfo("en");
                     break;
                 case 2: //japaness
-                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja");
+                    culture = CultureInfo.GetCultureInfo("ja");
                     break;
                 case 3: //french
-                    Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("fr");
+                    culture = CultureInfo.GetCultureInfo("fr");
                     break;
                 default:
                     throw new InvalidOperationException();
             }
+
+            //Culture for any thread
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+
+            //Culture for UI in any thread
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
         }
 
         public  void changeLable(string value)
