@@ -1127,13 +1127,16 @@ namespace huaanClient
                     distro.employeeCode = staff.Employee_code;
                 }
 
-                Dapper.Contrib.Extensions.SqlMapperExtensions.Insert(conn, distro);
+                SqlMapperExtensions.Insert(conn, distro);
             }
             else
             {
                 foreach (var distro in distributions)
                 {
                     distro.status = "";
+                    distro.errMsg = "";
+                    distro.code = "";
+                    distro.type = "0";
                 }
                 conn.Update(distributions);
             }

@@ -28,6 +28,7 @@ namespace huaanClient.Database
 
         //错误描述
         public string errMsg { get; set; }
+        public int retryCount { get; set; }
 
     }
 }

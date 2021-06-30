@@ -321,7 +321,8 @@ namespace huaanClient.DatabaseTool
   "code TEXT",
   "isDistributedByEmployeeCode INTEGER default 0",
   "employeeCode TEXT DEFAULT ''",
-  "errMsg TEXT DEFAULT ''"
+  "errMsg TEXT DEFAULT ''",
+  "retryCount INTEGER DEFAULT 0",
         };
 
         public static string[] LineFor_list =

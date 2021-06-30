@@ -23,7 +23,7 @@ namespace huaanClient
         {
             //string connectionString = "Data Source=" + Application.StartupPath + @"\huaanDatabase.sqlite;Version=3;";
             string connectionString = ApplicationData.connectionString;
-            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success'";
+            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2";
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
 
             if (!string.IsNullOrEmpty(sr))
@@ -183,7 +183,7 @@ namespace huaanClient
                     var picturePath = distributeParams["picture"]?.ToString();
 
                     //判断图片是否存在 如果不存在直接更新信息
-                    if (picturePath == null)
+                    if (string.IsNullOrEmpty(picturePath))
                     {
                         dynamic o = new ExpandoObject();
                         o.version = "0.2";
@@ -213,7 +213,7 @@ namespace huaanClient
                     {
                         if (!File.Exists(picturePath))
                         {
-                            string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.ImageMissing}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
+                            string updatessql = $"UPDATE Equipment_distribution SET status='fail', type='2', errMsg='{Properties.Strings.ImageMissing}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                             SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                             return;
 
