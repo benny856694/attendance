@@ -115,6 +115,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 图片缺失.
+        /// </summary>
+        internal static string ImageMissing {
+            get {
+                return ResourceManager.GetString("ImageMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 正在切换....
         /// </summary>
         internal static string PromptSwitchingCamera {

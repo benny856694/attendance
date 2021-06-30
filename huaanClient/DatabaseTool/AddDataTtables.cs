@@ -320,7 +320,8 @@ namespace huaanClient.DatabaseTool
   "date TEXT",
   "code TEXT",
   "isDistributedByEmployeeCode INTEGER default 0",
-  "employeeCode TEXT DEFAULT ''"
+  "employeeCode TEXT DEFAULT ''",
+  "errMsg TEXT DEFAULT ''"
         };
 
         public static string[] LineFor_list =
@@ -419,7 +420,7 @@ namespace huaanClient.DatabaseTool
   "Employee_code TEXT",
   "status text",
   "department_id INTEGER NOT NULL DEFAULT ''",
-  "picture text",
+  "picture text DEFAULT ''",
   "publish_time TIMESTAMP NOT NULL DEFAULT ''",
   "Employetype_id integer",
   "AttendanceGroup_id INTEGER",

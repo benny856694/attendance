@@ -74,17 +74,21 @@ namespace huaanClient
             try
             {
                 //先判断是否存在
-                var drives = DriveInfo.GetDrives().Where(d=>d.IsReady && d.DriveType == DriveType.Fixed).OrderByDescending(x=>x.Name).ToList();
+                var drives = new List<DriveInfo>() { new DriveInfo("d:"), new DriveInfo("c:") };
                 foreach (var d in drives)
                 {
-                    var path = System.IO.Path.Combine(d.RootDirectory.FullName, "FaceRASystemTool");
-                    if (!Directory.Exists(path))
+                    if (d.IsReady && d.DriveType == DriveType.Fixed)
                     {
-                        Directory.CreateDirectory(path);
-                    }
+                        var path = System.IO.Path.Combine(d.RootDirectory.FullName, "FaceRASystemTool");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
 
-                    ApplicationData.FaceRASystemToolUrl = path;
-                    break;
+                        ApplicationData.FaceRASystemToolUrl = path;
+                        break;
+
+                    }
                 }
             }
             catch (Exception ex)

@@ -159,4 +159,7 @@
 	<data name="DayOff" xml:space="preserve">
 		<value>Yes</value>
 	</data>
+	<data name="ImageMissing" xml:space="preserve">
+		<value>Picture missing</value>
+	</data>
 </root>

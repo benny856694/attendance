@@ -139,4 +139,7 @@
 	<data name="DayOff" xml:space="preserve">
 		<value>休暇をとる</value>
 	</data>
+	<data name="ImageMissing" xml:space="preserve">
+		<value>画像がありません</value>
+	</data>
 </root>

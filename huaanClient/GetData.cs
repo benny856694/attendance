@@ -618,6 +618,11 @@ namespace huaanClient
                         }
 
                     }
+                    else
+                    {
+                        obj["result"] = "success";
+                        obj["name"] = name;
+                    }
                 }
             }
             return obj.ToString();
@@ -1051,8 +1056,8 @@ namespace huaanClient
                     
                     devices = DapperExtensions.DapperExtensions.GetList<MyDevice>(conn);
 
-                    var predicte = DapperExtensions.Predicates.Field<Staff>(s=>string.IsNullOrEmpty(s.picture), DapperExtensions.Operator.Eq, true);
-                    staffs = DapperExtensions.DapperExtensions.GetList<Staff>(conn, predicte);
+                    //var predicte = DapperExtensions.Predicates.Field<Staff>(s=>s.picture, DapperExtensions.Operator.Eq, null, true);
+                    staffs = DapperExtensions.DapperExtensions.GetList<Staff>(conn);
                     foreach (var device in devices)
                     {
                         foreach (var staff in staffs)
@@ -1103,35 +1108,35 @@ namespace huaanClient
         private static void DistributeStaffToDevice(Staff staff, MyDevice device,  bool distributeByCode, IDbConnection conn)
         {
             
-                var distributions = conn.Query<EquipmentDistribution>(
-                        "select * from Equipment_distribution " +
-                        "where userid = @userid and deviceid = @deviceid", 
-                        new { userid = staff.id, deviceid = device.id });
-                if (distributions.Count() == 0)
+            var distributions = conn.Query<EquipmentDistribution>(
+                    "select * from Equipment_distribution " +
+                    "where userid = @userid and deviceid = @deviceid", 
+                    new { userid = staff.id, deviceid = device.id });
+            if (distributions.Count() == 0)
+            {
+                var distro = new EquipmentDistribution()
                 {
-                    var distro = new EquipmentDistribution()
-                    {
-                        userid = staff.id,
-                        deviceid = device.id,
-                        status = "inprogress"
-                    };
+                    userid = staff.id,
+                    deviceid = device.id,
+                    status = "inprogress"
+                };
 
-                    if (distributeByCode)
-                    {
-                        distro.isDistributedByEmployeeCode = 1;
-                        distro.employeeCode = staff.Employee_code;
-                    }
-
-                    Dapper.Contrib.Extensions.SqlMapperExtensions.Insert(conn, distro);
-                }
-                else
+                if (distributeByCode)
                 {
-                    foreach (var distro in distributions)
-                    {
-                        distro.status = "";
-                    }
-                    conn.Update(distributions);
+                    distro.isDistributedByEmployeeCode = 1;
+                    distro.employeeCode = staff.Employee_code;
                 }
+
+                Dapper.Contrib.Extensions.SqlMapperExtensions.Insert(conn, distro);
+            }
+            else
+            {
+                foreach (var distro in distributions)
+                {
+                    distro.status = "";
+                }
+                conn.Update(distributions);
+            }
             
         }
 
@@ -3910,7 +3915,7 @@ namespace huaanClient
             StringBuilder commandText = new StringBuilder("" +
                 "SELECT " +
                 "my.DeviceName," +
-                "my.number,st.name,my.ipAddress,eq.status,eq.date " +
+                "my.number,st.name,my.ipAddress,eq.status,eq.date,eq.code, eq.errMsg " +
                 "from Equipment_distribution eq LEFT JOIN MyDevice my on my.id=eq.deviceid  LEFT JOIN staff st on st.id=eq.userid  WHERE type != '1' AND 1=1 AND");
             if (!string.IsNullOrEmpty(name))
             {

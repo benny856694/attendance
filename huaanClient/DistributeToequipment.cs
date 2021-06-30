@@ -180,9 +180,10 @@ namespace huaanClient
                     //PersonJson["name"] = sqldatajo[0]["name"].ToString().Trim();
 
                     string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
+                    var picturePath = distributeParams["picture"]?.ToString();
 
                     //判断图片是否存在 如果不存在直接更新信息
-                    if (!IsExis(distributeParams["picture"].ToString()))
+                    if (picturePath == null)
                     {
                         dynamic o = new ExpandoObject();
                         o.version = "0.2";
@@ -210,50 +211,61 @@ namespace huaanClient
                     }
                     else
                     {
-                        if (source.Length > 4)
+                        if (!File.Exists(picturePath))
                         {
+                            string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.ImageMissing}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
+                            SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                            return;
 
-                            string ss = distributeParams["picture"].ToString().Trim();
-                            string ss1 = distributeParams["picture"].ToString().Trim().Substring(0, distributeParams["picture"].ToString().Trim().Length - 4)
-                                + "reg_images" + ".jpg";
-                            thumb = Convert.ToBase64String(File.ReadAllBytes(distributeParams["picture"].ToString().Trim()));
-                            twis = Convert.ToBase64String(File.ReadAllBytes(distributeParams["picture"].ToString().Trim().Substring(0, distributeParams["picture"].ToString().Trim().Length - 4)
-                                + "reg_images" + ".jpg"));
-                            if (File.ReadAllBytes(distributeParams["picture"].ToString().Trim()).Length == 112 * 112 * 3)
-                            {
-                                norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", thumb);
-                            }
-                            else
-                                norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", thumb);
-                            reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", twis);
                         }
                         else
                         {
-                            //将图片转换成符合相机需求
-                            if (twistImageCore(File.ReadAllBytes(distributeParams["picture"].ToString().Trim()), CameraConfigPortlist.DevicVersion, out thumb, out twis, out bool IsNew))
+                            if (source.Length > 4)
                             {
-                                reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
 
-                                if (IsNew)
+                                string ss = distributeParams["picture"].ToString().Trim();
+                                string ss1 = distributeParams["picture"].ToString().Trim().Substring(0, distributeParams["picture"].ToString().Trim().Length - 4)
+                                    + "reg_images" + ".jpg";
+                                thumb = Convert.ToBase64String(File.ReadAllBytes(distributeParams["picture"].ToString().Trim()));
+                                twis = Convert.ToBase64String(File.ReadAllBytes(distributeParams["picture"].ToString().Trim().Substring(0, distributeParams["picture"].ToString().Trim().Length - 4)
+                                    + "reg_images" + ".jpg"));
+                                if (File.ReadAllBytes(distributeParams["picture"].ToString().Trim()).Length == 112 * 112 * 3)
                                 {
-                                    norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", twis);
+                                    norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", thumb);
                                 }
                                 else
-                                    norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
-
+                                    norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", thumb);
+                                reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", twis);
                             }
-                        }
-                        if (distributeParams["idcardtype"].ToString().Trim() == "64")
-                        {
-                            PersonJson = string.Format(UtilsJson.PersonJson64, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim());
-                        }
-                        else if (distributeParams["idcardtype"].ToString().Trim() == "32")
-                        {
-                            PersonJson = string.Format(UtilsJson.PersonJson32, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim());
-                        }
-                        else
-                        {
-                            PersonJson = string.Format(UtilsJson.PersonJson, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images);
+                            else
+                            {
+                                //将图片转换成符合相机需求
+                                if (twistImageCore(File.ReadAllBytes(distributeParams["picture"].ToString().Trim()), CameraConfigPortlist.DevicVersion, out thumb, out twis, out bool IsNew))
+                                {
+                                    reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
+
+                                    if (IsNew)
+                                    {
+                                        norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", twis);
+                                    }
+                                    else
+                                        norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
+
+                                }
+                            }
+                            if (distributeParams["idcardtype"].ToString().Trim() == "64")
+                            {
+                                PersonJson = string.Format(UtilsJson.PersonJson64, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim());
+                            }
+                            else if (distributeParams["idcardtype"].ToString().Trim() == "32")
+                            {
+                                PersonJson = string.Format(UtilsJson.PersonJson32, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim());
+                            }
+                            else
+                            {
+                                PersonJson = string.Format(UtilsJson.PersonJson, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images);
+                            }
+
                         }
 
 

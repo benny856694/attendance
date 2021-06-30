@@ -136,4 +136,7 @@
 	<data name="StaffCodeIsEmpty" xml:space="preserve">
 		<value>Le numéro d'employé ne peut pas être vide</value>
 	</data>
+	<data name="ImageMissing" xml:space="preserve">
+		<value>Image manquante</value>
+	</data>
 </root>

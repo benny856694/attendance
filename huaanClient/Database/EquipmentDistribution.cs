@@ -26,5 +26,8 @@ namespace huaanClient.Database
         public int isDistributedByEmployeeCode { get; set; }
         public string employeeCode { get; set; }
 
+        //错误描述
+        public string errMsg { get; set; }
+
     }
 }

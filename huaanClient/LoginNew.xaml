@@ -29,7 +29,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <ComboBox HorizontalAlignment="Left" FontSize="14" Background="Red" SelectionChanged="Language_Selection1_SelectionChanged_1" Name="Language_Selection1" Margin="346,223,0,0" VerticalAlignment="Top" Width="70" Height="24"/>
+        <ComboBox HorizontalAlignment="Right" FontSize="14" Background="Red" SelectionChanged="Language_Selection1_SelectionChanged_1" Name="Language_Selection1" Margin="0,223,134,0" VerticalAlignment="Top" Height="24"  Width="auto"/>
         <Label  FontSize="16"  Foreground="Red" Name="lbStatus" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  HorizontalAlignment="Left" Margin="41,261,0,0" VerticalAlignment="Top" Width="477" Height="27.5"/>
         <Image Name="colseBtn" Height="28" Margin="515,2,0,0" VerticalAlignment="Top" MouseLeave="colseBtn_MouseLeave" MouseEnter="Image_MouseEnter" MouseDown="Image_MouseDown" Source="close_norm.png"/>
     </Grid>
