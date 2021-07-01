@@ -293,7 +293,7 @@ namespace huaanClient
                     int code_int = int.Parse(code);
                     if (code_int == 0)
                     {
-                        string updatessql = "UPDATE Equipment_distribution SET status='success',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
+                        string updatessql = "UPDATE Equipment_distribution SET errMsg='', status='success',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
                         SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                     }
                     else
