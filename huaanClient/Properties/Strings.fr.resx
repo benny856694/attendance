@@ -139,4 +139,7 @@
 	<data name="ImageMissing" xml:space="preserve">
 		<value>Image manquante</value>
 	</data>
+	<data name="DeviceOffline" xml:space="preserve">
+		<value>Équipement hors ligne</value>
+	</data>
 </root>

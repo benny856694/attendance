@@ -312,6 +312,11 @@ namespace huaanClient
                     SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                 }
             }
+            else
+            {
+                string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.DeviceOffline}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
+                SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+            }
         }
 
 

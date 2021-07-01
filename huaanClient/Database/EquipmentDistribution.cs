@@ -30,5 +30,14 @@ namespace huaanClient.Database
         public string errMsg { get; set; }
         public int retryCount { get; set; }
 
+
+        public void MarkForDistribution()
+        {
+            status = "inprogress";
+            date = DateTime.Now;
+            errMsg = "";
+            code = "";
+            type = "0";
+        }
     }
 }

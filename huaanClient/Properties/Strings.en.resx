@@ -162,4 +162,7 @@
 	<data name="ImageMissing" xml:space="preserve">
 		<value>Picture missing</value>
 	</data>
+	<data name="DeviceOffline" xml:space="preserve">
+		<value>Device offline</value>
+	</data>
 </root>

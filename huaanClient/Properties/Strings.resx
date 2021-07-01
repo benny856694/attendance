@@ -135,6 +135,9 @@
 	<data name="DayOff" xml:space="preserve">
     <value>请假</value>
   </data>
+	<data name="DeviceOffline" xml:space="preserve">
+    <value>设备离线</value>
+  </data>
 	<data name="ImageMissing" xml:space="preserve">
     <value>图片缺失</value>
   </data>

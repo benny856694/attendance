@@ -142,4 +142,7 @@
 	<data name="ImageMissing" xml:space="preserve">
 		<value>画像がありません</value>
 	</data>
+	<data name="DeviceOffline" xml:space="preserve">
+		<value>設備がオフラインする</value>
+	</data>
 </root>

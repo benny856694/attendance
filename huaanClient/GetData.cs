@@ -1133,10 +1133,7 @@ namespace huaanClient
             {
                 foreach (var distro in distributions)
                 {
-                    distro.status = "";
-                    distro.errMsg = "";
-                    distro.code = "";
-                    distro.type = "0";
+                    distro.MarkForDistribution();
                 }
                 conn.Update(distributions);
             }

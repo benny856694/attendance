@@ -115,6 +115,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 设备离线.
+        /// </summary>
+        internal static string DeviceOffline {
+            get {
+                return ResourceManager.GetString("DeviceOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 图片缺失.
         /// </summary>
         internal static string ImageMissing {
