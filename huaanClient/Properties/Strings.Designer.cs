@@ -187,6 +187,24 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to name,Email,phone,Employee_code,picture,publish_time,IDcardNo,face_idcard,idcardtype,department_id,Employetype_id.
+        /// </summary>
+        internal static string StaffKeys {
+            get {
+                return ResourceManager.GetString("StaffKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 姓名,邮箱地址,电话号码,员工编号,照片路径,添加日期,身份证号码,门禁卡号,门禁卡号位数,部门,员工分类.
+        /// </summary>
+        internal static string StaffNames {
+            get {
+                return ResourceManager.GetString("StaffNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 切换.
         /// </summary>
         internal static string Switch {

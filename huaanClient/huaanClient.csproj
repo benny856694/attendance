@@ -271,9 +271,10 @@
     <Compile Include="Database\AttendanceData.cs" />
     <Compile Include="Database\AttendanceGroup.cs" />
     <Compile Include="Database\Capture_Data.cs" />
+    <Compile Include="Database\Employetype.cs" />
     <Compile Include="Database\ClassMappers.cs" />
     <Compile Include="Database\Shift.cs" />
-    <Compile Include="Database\department.cs" />
+    <Compile Include="Database\Department.cs" />
     <Compile Include="Database\DataSyn.cs" />
     <Compile Include="Database\MyDevice.cs" />
     <Compile Include="Database\DbConstants.cs" />
@@ -377,6 +378,7 @@
     <EmbeddedResource Include="Properties\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SearchFrom.resx">
       <DependentUpon>SearchFrom.cs</DependentUpon>

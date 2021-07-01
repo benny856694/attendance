@@ -1,4 +1,5 @@
-﻿using System;
+﻿using huaanClient.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,6 +60,35 @@ namespace huaanClient
             catch (Exception ex)
             {
                 result = false;
+            }
+            return result;
+        }
+
+        public static Dictionary<string, string> GetPropertyNames(string className)
+        {
+            var result = new Dictionary<string, string>();
+            string[] property = null;
+            string[] names = null;
+
+
+            switch (className)
+            {
+                case nameof(AttendanceData):
+                    property = Properties.Strings.AttendanceKeys.Split(',');
+                    names = Properties.Strings.AttendanceNames.Split(',');
+                    break;
+                case nameof(Staff):
+                    property = Properties.Strings.StaffKeys.Split(',');
+                    names = Properties.Strings.StaffNames.Split(',');
+                    break;
+                default:
+                    throw new InvalidOperationException();
+                    break;
+            }
+
+            for (int i = 0; i < property.Length; i++)
+            {
+                result.Add(property[i], names[i]);
             }
             return result;
         }

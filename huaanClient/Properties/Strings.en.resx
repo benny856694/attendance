@@ -165,4 +165,7 @@
 	<data name="DeviceOffline" xml:space="preserve">
 		<value>Device offline</value>
 	</data>
+	<data name="StaffNames" xml:space="preserve">
+		<value>Name,Email,Telephone number,Employee number,Photo path,Create date,ID number,Access control card number,Access control card length,Department,Staff type</value>
+	</data>
 </root>

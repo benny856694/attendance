@@ -1,4 +1,6 @@
-﻿using huaanClient.Database;
+﻿using Dapper.Contrib.Extensions;
+using DBUtility.SQLite;
+using huaanClient.Database;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -346,27 +348,24 @@ namespace huaanClient
         }
 
 
-        public static Dictionary<string, string> GetAttendanceKVPair()
+       
+
+
+
+        public static void ExportDataToCSV<T>(
+            string fileName, 
+            T[] data, 
+            Dictionary<string, string> propertyNames,
+            Func<T, string, object, string> convertValueToString,
+            string[] selectedPropertyNames = null
+        )
         {
-            var result = new Dictionary<string, string>();
-            var keys = Properties.Strings.AttendanceKeys.Split(',');
-            var names = Properties.Strings.AttendanceNames.Split(',');
-            for (int i = 0; i < keys.Length; i++)
-            {
-                result.Add(keys[i], names[i]);  
-            }
-            return result;
-        }
-
-
-
-        public static void ExportDataToCSVforDay(string fileName, AttendanceData[] data, string selectedColumns = null)
-        {
-            var keys = selectedColumns?.Split(',') ?? new [] { "name", "department", "Employee_code", "Date", "Punchinformation", "Punchinformation1", "Shiftinformation", "Duration", "late", "Leaveearly", "workOvertime", "isAbsenteeism", "temperature" };
             if (data.Length == 0)
             {
                 return;
             }
+
+            selectedPropertyNames = selectedPropertyNames ?? propertyNames.Keys.ToArray();
 
             SaveFileDialog saveDlg = new SaveFileDialog();
             saveDlg.Filter = "CSV文件(*.csv)|*.csv";
@@ -374,43 +373,28 @@ namespace huaanClient
 
             if (saveDlg.ShowDialog() == DialogResult.OK)
             {
-                var kv = GetAttendanceKVPair();
                 FileStream fs = new FileStream(saveDlg.FileName, FileMode.Create);
                 StreamWriter writer = new StreamWriter(fs, Encoding.Default);
                 try
                 {
                     var title = new List<string>();
 
-                    foreach (var key in keys)
+                    foreach (var p in selectedPropertyNames)
                     {
-                        title.Add(kv[key]);
+                        title.Add(propertyNames[p]);
                     }
 
                     var titleLine = string.Join(",", title.ToArray());
                     writer.WriteLine(titleLine);
 
-                    foreach (var att in data)
+                    foreach (var d in data)
                     {
                         var line = new List<string>();
-                        foreach (var key in keys)
+                        foreach (var propertyName in selectedPropertyNames)
                         {
-                            var v = att.GetType().GetProperty(key).GetValue(att);
-                            switch (key)
-                            {
-                                case nameof(att.Punchinformation):
-                                case nameof(att.Punchinformation1):
-                                    line.Add(att.Remarks == "3" ? Properties.Strings.DayOff : v.ToString());
-                                    break;
-                                case nameof(att.isAbsenteeism):
-                                    line.Add(v.ToString() == "0" ? Properties.Strings.Absent : "");
-                                    break;
-                                case nameof(att.Date):
-                                    line.Add(((DateTime)v).ToString("d"));
-                                    break;
-                                default:
-                                    line.Add(v == null ? "" : $"=\"{v}\"");
-                                    break;
-                            }
+                            var v = d.GetType().GetProperty(propertyName).GetValue(d);
+                            var str = convertValueToString(d, propertyName, v);
+                            line.Add(str);
                         }
 
                         var s = string.Join(",", line.ToArray());
@@ -885,6 +869,37 @@ namespace huaanClient
 
         public static void DataTabletoExcelforstaff(System.Data.DataTable table, string fileName)
         {
+
+            Staff[] data;
+            Employetype[] employeeTypes;
+            Department[] departments;
+
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                data = conn.GetAll<Staff>().ToArray();
+                employeeTypes = conn.GetAll<Employetype>().ToArray();
+                departments = conn.GetAll<Department>().ToArray();
+            }
+
+            var propertyNames = Tools.GetPropertyNames(nameof(Staff));
+            Func<Staff, string, object, string> converter = (staff, propertyName, value) =>
+            {
+                switch (propertyName)
+                {
+                    case nameof(staff.Employetype_id):
+                        return employeeTypes?.FirstOrDefault(x => x.id == (int)value)?.Employetype_name ?? "";
+                    case nameof(staff.department_id):
+                        return departments?.FirstOrDefault(x => x.id == (int)value)?.name ?? "";
+                    default:
+                        return value != null ? $"=\"{value}\"" : "";
+                }
+            };
+
+            var selectedProperties = new string[] { "name", "Email", "phone", "Employee_code", "picture", "publish_time", "IDcardNo", "face_idcard", "idcardtype", "department_id", "Employetype_id" };
+
+            ExportDataToCSV(fileName, data, propertyNames, converter, selectedProperties);
+            return;
+
             //Thread.SetApartmentState(ApartmentState.STA);
             if (table == null || table.Rows.Count == 0)
             {

@@ -142,4 +142,8 @@
 	<data name="DeviceOffline" xml:space="preserve">
 		<value>Équipement hors ligne</value>
 	</data>
+	<data name="StaffNames" xml:space="preserve">
+		<value>Nom,adresse électronique,numéro de téléphone,numéro d'employé,chemin de la photo,date d'ajout,numéro de carte d'identité,numéro de carte d'accès,numéro de carte d'accès,Ministère,classification des employés
+</value>
+	</data>
 </root>

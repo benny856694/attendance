@@ -145,4 +145,7 @@
 	<data name="DeviceOffline" xml:space="preserve">
 		<value>設備がオフラインする</value>
 	</data>
+	<data name="StaffNames" xml:space="preserve">
+		<value>名前,メールアドレス,電話番号,従業員番号,写真経路,日付,身分証番号,ゲートカード番号,ゲートカード番号の桁数,部門,従業員の分類</value>
+	</data>
 </root>

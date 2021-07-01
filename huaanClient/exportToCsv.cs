@@ -163,7 +163,7 @@ namespace huaanClient
             DataToCsv.ExportDataToCSV(getGoupname()+"-"+msg, dataTable, date);
         }
 
-        public static void exportForDay(AttendanceData[] data,string te, string selectedColumns = null)
+        public static void exportForDay(AttendanceData[] data,string te, string[] selectedProperties)
         {
 
             string msg = "每日考勤表";
@@ -171,8 +171,28 @@ namespace huaanClient
                 msg = "Daily attendance sheet";
             else if (ApplicationData.LanguageSign.Contains("日本語"))
                 msg = "毎日勤務評定表";
+
+
             //todo
-            DataToCsv.ExportDataToCSVforDay(getGoupname()+"-" + msg +"-"+ te, data, selectedColumns);
+            Func<AttendanceData, string, object, string> convert = (att, propertyName, value) =>
+            {
+                switch (propertyName)
+                {
+                    case nameof(att.Punchinformation):
+                    case nameof(att.Punchinformation1):
+                        return att.Remarks == "3" ? Properties.Strings.DayOff : value.ToString();
+                    case nameof(att.isAbsenteeism):
+                        return value.ToString() == "0" ? Properties.Strings.Absent : "";
+                    case nameof(att.Date):
+                        return ((DateTime)value).ToString("d");
+                    default:
+                        return value == null ? "" : $"=\"{value}\"";
+                }
+            };
+
+            var propertyNames = Tools.GetPropertyNames(nameof(AttendanceData));
+
+            DataToCsv.ExportDataToCSV(getGoupname()+"-" + msg +"-"+ te, data, propertyNames, convert, selectedProperties);
         }
 
         public static void exportFor(string type, string data, string te)
@@ -196,17 +216,15 @@ namespace huaanClient
             }  
         }
 
-        public static void exportForstaff(string data, string te)
+        public static void exportForstaff()
         {
-            DataTable dataTable = ToDataTable(data);
 
-            int s = dataTable.Rows.Count;
             string msg = "考勤系统人员信息";
             if (ApplicationData.LanguageSign.Contains("English"))
                 msg = "Attendance personnel information";
             else if (ApplicationData.LanguageSign.Contains("日本語"))
                 msg = "勤務者情報";
-            DataToCsv.DataTabletoExcelforstaff( dataTable, "-" + msg + "-" + te);
+            DataToCsv.DataTabletoExcelforstaff(null, msg);
         }
 
         public static void exportForDay1(string data, string te,string values)

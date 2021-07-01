@@ -472,10 +472,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         {
             form.Invoke(new Action(() =>
             {
-                string re = GetData.getStaffData();
-
-                re = re.Replace("null", "''");
-                exportToCsv.exportForstaff(re, "");
+                exportToCsv.exportForstaff();
 
             }));
 
@@ -990,8 +987,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     string values = jo[0]["valuesStr"].ToString();
                 }
 
+                var selectedProperties = new[] { "name", "department", "Employee_code", "Date", "Punchinformation", "Punchinformation1", "Shiftinformation", "Duration", "late", "Leaveearly", "workOvertime", "isAbsenteeism", "temperature" };
                 var attData = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
-                exportToCsv.exportForDay(attData, starttime + endtime, selectedColumns);
+                exportToCsv.exportForDay(attData, starttime + endtime, selectedProperties);
             }));
 
         }
