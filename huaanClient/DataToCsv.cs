@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -357,7 +358,8 @@ namespace huaanClient
             T[] data, 
             Dictionary<string, string> propertyNames,
             Func<T, string, object, string> convertValueToString,
-            string[] selectedPropertyNames = null
+            string[] selectedPropertyNames = null,
+            string separator = null
         )
         {
             if (data.Length == 0)
@@ -365,6 +367,7 @@ namespace huaanClient
                 return;
             }
 
+            separator = separator ?? CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             selectedPropertyNames = selectedPropertyNames ?? propertyNames.Keys.ToArray();
 
             SaveFileDialog saveDlg = new SaveFileDialog();
@@ -384,7 +387,7 @@ namespace huaanClient
                         title.Add(propertyNames[p]);
                     }
 
-                    var titleLine = string.Join(",", title.ToArray());
+                    var titleLine = string.Join(separator, title.ToArray());
                     writer.WriteLine(titleLine);
 
                     foreach (var d in data)
@@ -397,7 +400,7 @@ namespace huaanClient
                             line.Add(str);
                         }
 
-                        var s = string.Join(",", line.ToArray());
+                        var s = string.Join(separator, line.ToArray());
                         writer.WriteLine(s);
                     }
                    

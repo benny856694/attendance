@@ -114,18 +114,31 @@ namespace huaanClient
                         string reg_imagesfn = "";
                         try
                         {
-                            byte[] closeup = Convert.FromBase64String(jArray[0]["normal_images"][0]["image_data"].ToString());
-                            byte[] reg_imagescloseup = Convert.FromBase64String(jArray[0]["reg_images"][0]["image_data"].ToString());
-                            string imgename = MD5Util.MD5Encrypt32(Convert.FromBase64String(jArray[0]["normal_images"][0]["image_data"].ToString()));
-                            //string fn = $@"D:\FaceRASystemTool\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{DateTime.Now.Minute}_{DateTime.Now.Second}_{DateTime.Now.Millisecond}_{imgIdx++}.jpg";
-                            fn = $@"D:\FaceRASystemTool\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename}.jpg";
-                            reg_imagesfn = $@"D:\FaceRASystemTool\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename+"reg_images"}.jpg";
-                            Task.Factory.StartNew(new Action(() =>
+
+                            byte[] closeup = null;
+                            byte[] reg_imagescloseup = null;
+                            string imgename = null;
+
+                            var person = jArray[0];
+
+                            var closeupBase64 = person["normal_images"]?[0]["image_data"].ToString();
+                            if (closeupBase64 != null)
                             {
+                                closeup = Convert.FromBase64String(closeupBase64);
+                                imgename = MD5Util.MD5Encrypt32(Convert.FromBase64String(closeupBase64));
+                                fn = $@"{ApplicationData.FaceRASystemToolUrl}\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename}.jpg";
                                 Directory.CreateDirectory(Path.GetDirectoryName(fn));
                                 File.WriteAllBytes(fn, closeup);
+                            }
+
+                            var reg_imagescloseupBase64 = person["reg_images"]?[0]["image_data"].ToString();
+                            if (reg_imagescloseupBase64 != null && imgename != null)
+                            {
+                                reg_imagescloseup = Convert.FromBase64String(reg_imagescloseupBase64);
+                                reg_imagesfn = $@"{ApplicationData.FaceRASystemToolUrl}\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename + "reg_images"}.jpg";
                                 File.WriteAllBytes(reg_imagesfn, reg_imagescloseup);
-                            }));
+                            }
+
                         }
                         catch{}
                         //device_sn
