@@ -43,12 +43,20 @@ md Setup\InstallFiles\detached
 md Setup\InstallFiles\branding
 
 ::复制可执行文件(相对路径)
-xcopy CefSharpLib Setup\InstallFiles /e /y 
+
+ECHO copy  1
 xcopy huaanClient\bin\x86\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+ECHO copy 2
 xcopy InsuranceBrowserLib\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+ECHO copy 3
 xcopy MultiPlayer\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
-xcopy WinfromUI\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+ECHO copy 4
+xcopy WinFormUI\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+ECHO copy 5
 xcopy ..\HaSdkDemoCsharp\lib\ Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+ECHO copy 6
 xcopy ..\AttendanceWeb\dist Setup\InstallFiles\detached /e /y /exclude:copy_exclude.txt
+ECHO copy 7
 xcopy tool Setup\InstallFiles /e /y
+ECHO copy 8
 xcopy .\brandings\%brand%\ Setup\InstallFiles\branding /e /y
