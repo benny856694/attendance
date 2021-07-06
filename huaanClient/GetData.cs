@@ -4434,12 +4434,12 @@ namespace huaanClient
             catch { }
             return result;
         }
-        public static bool settime_syn(string nooff)
+        public static bool setIsNtpSync(string trurOrFalse)
         {
-            if (nooff.Contains("rue"))
-                nooff = "true";
+            if (trurOrFalse.Contains("true"))
+                trurOrFalse = "true";
             else
-                nooff = "false";
+                trurOrFalse = "false";
             bool result = false;
             try
             {
@@ -4451,7 +4451,7 @@ namespace huaanClient
                 //    result = true;
                 //}
                 Inihelper1.FileName = ApplicationData.FaceRASystemToolUrl + @"\\setting.ini";
-                if (nooff.Contains("true"))
+                if (trurOrFalse.Contains("true"))
                 {
                     Inihelper1.WriteBool("Setting", "time_syn", true);
                     result = true;
@@ -4514,7 +4514,7 @@ namespace huaanClient
             return result;
         }
 
-        public static bool gettime_syn()
+        public static bool getIsNtpSync()
         {
             bool result = false;
             try

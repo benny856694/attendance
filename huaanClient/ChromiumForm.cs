@@ -1422,12 +1422,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //写入软件开关
         public bool setSystem_setting(string nooff)
         {
-            return GetData.settime_syn(nooff);
+            return GetData.setIsNtpSync(nooff);
         }
         //获取开关
         public bool gettime_syn()
         {
-            return GetData.gettime_syn();
+            return GetData.getIsNtpSync();
         }
 
 

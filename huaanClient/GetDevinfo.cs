@@ -184,24 +184,35 @@ namespace huaanClient
         public static void timeSynchronization()
         {
             //先判断是否开启时间同步开关
-            if (!GetData.gettime_syn())
-            {
-                return;
-            }
+            var isSyncByNtp = GetData.getIsNtpSync();
+            
             for (var i=0;i< Deviceinfo.MyDevicelist.Count();i++)
             {
-                if (Deviceinfo.MyDevicelist[i].IsConnected)
+                var device = Deviceinfo.MyDevicelist[i];
+                if (device.IsConnected)
                 {
                     //获取ntp是否打开 如果打开则先关闭
-                    if (Deviceinfo.MyDevicelist[i].GetNtpOnoff())
+                    var isDeviceSyncByNtp = device.GetNtpOnoff();
+                    if (isDeviceSyncByNtp != isSyncByNtp)
                     {
                         //关两次
-                        Deviceinfo.MyDevicelist[i].ToggleNtpEnable(false);
-                        Deviceinfo.MyDevicelist[i].ToggleNtpEnable(false);
+                        Deviceinfo.MyDevicelist[i].ToggleNtpEnable(isSyncByNtp);
+                        //Deviceinfo.MyDevicelist[i].ToggleNtpEnable(isSyncByNtp);
                     }
 
                     //同步当前时间到相机 2020/03/18 16:00:00
-                    string s= request(Deviceinfo.MyDevicelist[i], "{\"cmd\":\"update date time\",\"date_time\":\""+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace("-", "/") + "\"}");
+                    if (!isSyncByNtp)
+                    {
+                        var cmd = new
+                        {
+                            version = "0.2",
+                            cmd = "update date time",
+                            date_time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+                        };
+
+                        var json = JsonConvert.SerializeObject(cmd);
+                        string s = request(device, json);
+                    }
                 }
             }
         }
