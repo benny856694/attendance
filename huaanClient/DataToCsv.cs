@@ -367,7 +367,8 @@ namespace huaanClient
                 return;
             }
 
-            separator = separator ?? CultureInfo.CurrentCulture.TextInfo.ListSeparator;
+            var cultureInfo = CultureInfo.CurrentCulture.TextInfo;
+            separator = separator ?? cultureInfo.ListSeparator;
             selectedPropertyNames = selectedPropertyNames ?? propertyNames.Keys.ToArray();
 
             SaveFileDialog saveDlg = new SaveFileDialog();
@@ -381,10 +382,11 @@ namespace huaanClient
                 try
                 {
                     var title = new List<string>();
+                    
 
                     foreach (var p in selectedPropertyNames)
                     {
-                        title.Add(propertyNames[p]);
+                        title.Add(cultureInfo.ToTitleCase(propertyNames[p]));
                     }
 
                     var titleLine = string.Join(separator, title.ToArray());
