@@ -1,6 +1,7 @@
 ﻿using Dapper.Contrib.Extensions;
 using DBUtility.SQLite;
 using huaanClient.Database;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -358,8 +359,7 @@ namespace huaanClient
             T[] data, 
             Dictionary<string, string> propertyNames,
             Func<T, string, object, string> convertValueToString,
-            string[] selectedPropertyNames = null,
-            string separator = null
+            string[] selectedPropertyNames = null
         )
         {
             if (data.Length == 0)
@@ -368,47 +368,45 @@ namespace huaanClient
             }
 
             var cultureInfo = CultureInfo.CurrentCulture.TextInfo;
-            separator = separator ?? cultureInfo.ListSeparator;
             selectedPropertyNames = selectedPropertyNames ?? propertyNames.Keys.ToArray();
 
             SaveFileDialog saveDlg = new SaveFileDialog();
-            saveDlg.Filter = "CSV文件(*.csv)|*.csv";
+            saveDlg.Filter = "Excel文件(*.xlsx)|*.xlsx";
             saveDlg.FileName = fileName;
 
             if (saveDlg.ShowDialog() == DialogResult.OK)
             {
-                FileStream fs = new FileStream(saveDlg.FileName, FileMode.Create);
-                StreamWriter writer = new StreamWriter(fs, Encoding.Default);
                 try
                 {
-                    var title = new List<string>();
+                    var workbook = new XSSFWorkbook();
+                    var sheet = workbook.CreateSheet();
+
+                    var title = sheet.CreateRow(0);
+                    for (var i = 0; i < selectedPropertyNames.Length; ++i)
+                    {
+                        title.CreateCell(i).SetCellValue(cultureInfo.ToTitleCase(propertyNames[selectedPropertyNames[i]]));
+                    }
+
                     
 
-                    foreach (var p in selectedPropertyNames)
+                    for (var i = 0; i < data.Length; ++i)
                     {
-                        title.Add(cultureInfo.ToTitleCase(propertyNames[p]));
-                    }
-
-                    var titleLine = string.Join(separator, title.ToArray());
-                    writer.WriteLine(titleLine);
-
-                    foreach (var d in data)
-                    {
-                        var line = new List<string>();
-                        foreach (var propertyName in selectedPropertyNames)
+                        var row = sheet.CreateRow(i + 1);
+                        var d = data[i];
+                        for (var j = 0; j < selectedPropertyNames.Length; ++j)
                         {
+                            var propertyName = selectedPropertyNames[j];
                             var v = d.GetType().GetProperty(propertyName).GetValue(d);
                             var str = convertValueToString(d, propertyName, v);
-                            line.Add(str);
+                            row.CreateCell(j).SetCellValue(str);
                         }
-
-                        var s = string.Join(separator, line.ToArray());
-                        writer.WriteLine(s);
                     }
-                   
-                    writer.Flush();
-                    writer.Close();
 
+
+                    FileStream fs = new FileStream(saveDlg.FileName, FileMode.Create);
+                    workbook.Write(fs);
+                    fs.Close();
+    
                     string msg = "导出成功：";
                     if (ApplicationData.LanguageSign.Contains("English"))
                         msg = "Export succeeded：";
@@ -418,13 +416,12 @@ namespace huaanClient
                 }
                 catch (Exception ex)
                 {
-                    string msg = "导出失败：";
+                    string msg = $"导出失败：{ex.Message}";
                     if (ApplicationData.LanguageSign.Contains("English"))
-                        msg = "Export failed：";
+                        msg = $"Export failed：{ex.Message}";
                     else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        msg = "エクスポート失敗：";
+                        msg = $"エクスポート失敗：{ex.Message}";
                     MessageBox.Show(msg);
-                    writer.Close();
                 }
             }
         }
@@ -896,7 +893,7 @@ namespace huaanClient
                     case nameof(staff.department_id):
                         return departments?.FirstOrDefault(x => x.id == (int)value)?.name ?? "";
                     default:
-                        return value != null ? $"=\"{value}\"" : "";
+                        return value != null ? $"{value}" : "";
                 }
             };
 

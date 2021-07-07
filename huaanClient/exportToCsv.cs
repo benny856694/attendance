@@ -186,7 +186,7 @@ namespace huaanClient
                     case nameof(att.Date):
                         return ((DateTime)value).ToString("d");
                     default:
-                        return value == null ? "" : $"=\"{value}\"";
+                        return value == null ? "" : $"{value}";
                 }
             };
 
