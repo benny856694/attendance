@@ -14,7 +14,7 @@ namespace huaanClient.Database
     {
         [Key]
         public int id { get; set; }
-        public int  userid { get; set; }
+        public long  userid { get; set; }
         public int  deviceid { get; set; }
         public string status { get; set; }
 

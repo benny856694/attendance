@@ -11,7 +11,7 @@ namespace huaanClient.Database
     class Staff
     {
         [Key]
-        public int id { get; set; }
+        public long id { get; set; }
         public string name { get; set; }
         public string Email { get; set; }
         public string phone { get; set; }
