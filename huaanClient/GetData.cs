@@ -1764,7 +1764,7 @@ namespace huaanClient
 
         }
 
-        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype)
+        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
 
             if (string.IsNullOrEmpty(staff_no))
@@ -1820,6 +1820,7 @@ namespace huaanClient
             staff.Employee_code = staff_no;
             staff.phone = phone;
             staff.Email = email;
+            staff.source = source;
             if (!string.IsNullOrEmpty(department))
             {
                 staff.department_id = int.Parse(department);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace huaanClient.Database
 {
     [Table("staff")]
-    class Staff
+    public class Staff
     {
         [Key]
         public long id { get; set; }
@@ -36,5 +36,10 @@ namespace huaanClient.Database
         {
             publish_time = DateTime.Now;
         }
+
+
+        public const string STAFF_SOURCE_MANUAL_ADD = "ManualAdd";
+        public const string STAFF_SOURCE_BATCH_IMPORT = "BatchImport";
+
     }
 }

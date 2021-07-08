@@ -1,4 +1,5 @@
 ﻿using HaSdkWrapper;
+using huaanClient.Database;
 using Newtonsoft.Json.Linq;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -532,11 +533,11 @@ namespace huaanClient
                         string data = "";
                         if (string.IsNullOrEmpty(idcardtype))
                         {
-                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", "", "");
+                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", "", "", Staff.STAFF_SOURCE_BATCH_IMPORT);
                         }
                         else
                         {
-                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", face_idcard, idcardtype);
+                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", face_idcard, idcardtype, Staff.STAFF_SOURCE_BATCH_IMPORT);
                         }
                         
 

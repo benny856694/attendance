@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System.Security.Cryptography.X509Certificates;
 using HaSdkWrapper;
 using CefSharp.ModelBinding;
+using huaanClient.Database;
 
 namespace InsuranceBrowser
 {
@@ -597,7 +598,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //添加新员工
         public string setStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard,string idcardtype)
         {
-            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim());
+            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), Staff.STAFF_SOURCE_MANUAL_ADD);
             return data;
         }
         public string setStaffForsynchronization(string ID,string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
