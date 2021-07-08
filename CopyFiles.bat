@@ -45,17 +45,17 @@ md Setup\InstallFiles\branding
 ::复制可执行文件(相对路径)
 
 ECHO copy  1
-xcopy huaanClient\bin\x86\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy huaanClient\bin\x86\Release Setup\InstallFiles /e /y /exclude:exclude.txt
 ECHO copy 2
-xcopy InsuranceBrowserLib\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy InsuranceBrowserLib\bin\Release Setup\InstallFiles /e /y /exclude:exclude.txt
 ECHO copy 3
-xcopy MultiPlayer\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy MultiPlayer\bin\Release Setup\InstallFiles /e /y /exclude:exclude.txt
 ECHO copy 4
-xcopy WinFormUI\bin\Release Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy WinFormUI\bin\Release Setup\InstallFiles /e /y /exclude:exclude.txt
 ECHO copy 5
-xcopy ..\HaSdkDemoCsharp\lib\ Setup\InstallFiles /e /y /exclude:copy_exclude.txt
+xcopy ..\HaSdkDemoCsharp\lib\ Setup\InstallFiles /e /y /exclude:exclude.txt
 ECHO copy 6
-xcopy ..\AttendanceWeb\dist Setup\InstallFiles\detached /e /y /exclude:copy_exclude.txt
+xcopy ..\AttendanceWeb\dist Setup\InstallFiles\detached /e /y /exclude:exclude.txt
 ECHO copy 7
 xcopy tool Setup\InstallFiles /e /y
 ECHO copy 8
