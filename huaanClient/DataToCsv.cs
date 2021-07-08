@@ -83,13 +83,14 @@ namespace huaanClient
             }
 
             SaveFileDialog saveDlg = new SaveFileDialog();
-            saveDlg.Filter = "CSV文件(*.csv)|*.csv";
+            saveDlg.Filter = "Excel文件(*.xlsx)|*.xlsx";
             saveDlg.FileName = fileName + "-" + date;
 
             if (saveDlg.ShowDialog() == DialogResult.OK)
             {
-                FileStream fs = new FileStream(saveDlg.FileName, FileMode.Create);
-                StreamWriter write = new StreamWriter(fs, Encoding.Default);
+                var workBook = new XSSFWorkbook();
+                var sheet = workBook.CreateSheet();
+                var titleRow = sheet.CreateRow(0);
                 try
                 {
                     //标题行
@@ -145,22 +146,23 @@ namespace huaanClient
                         LeaveCount = table.Columns["LeaveCount"].ColumnName = "请假天数";
                     }
 
-                    write.Write(name + ",");
-                    write.Write(department + ",");
-                    write.Write(Employee_code + ",");
-                    write.Write(nowdate + ",");
-                    write.Write(Attendance + ",");
+                    var col = 0;
+                    titleRow.CreateCell(col++).SetCellValue(name);
+                    titleRow.CreateCell(col++).SetCellValue(department);
+                    titleRow.CreateCell(col++).SetCellValue(Employee_code);
+                    titleRow.CreateCell(col++).SetCellValue(nowdate);
+                    titleRow.CreateCell(col++).SetCellValue(Attendance);
                     //write.Write(restcount + ",");
-                    write.Write(latedata + ",");
-                    write.Write(Leaveearlydata + ",");
-                    write.Write(AbsenteeismCount + ",");
-                    write.Write(LeaveCount + ",");
-                    write.WriteLine();
+                    titleRow.CreateCell(col++).SetCellValue(latedata);
+                    titleRow.CreateCell(col++).SetCellValue(Leaveearlydata);
+                    titleRow.CreateCell(col++).SetCellValue(AbsenteeismCount);
+                    titleRow.CreateCell(col++).SetCellValue(LeaveCount);
 
                     //明细行
                     for (int row = 0; row < table.Rows.Count; row++)
                     {
-                        string Tem = "";
+                        var sheetRow = sheet.CreateRow(row+1);
+                        col = 0;
                         for (int column = 0; column < table.Columns.Count - 1; column++)
                         {
                             if (column == 1 || column == 6)
@@ -178,29 +180,29 @@ namespace huaanClient
                                         LeaveCountforint = (float.Parse(table.Rows[row][column].ToString().Trim()) + float.Parse(table.Rows[row][table.Columns.Count - 1].ToString().Trim()) / 2).ToString();
                                     }
                                     catch { }
-
-                                    Tem += LeaveCountforint + "\t";
-                                    Tem += ",";
+                                    sheetRow.CreateCell(col++).SetCellValue(LeaveCountforint);
                                 }
                                 else
                                 {
                                     string TemString = table.Rows[row][column].ToString().Trim();
-                                    Tem += TemString + "\t";
-                                    Tem += ",";
+                                    
+                                    sheetRow.CreateCell(col++).SetCellValue(TemString);
                                 }
 
                             }
                             else
                             {
                                 string TemString = "";
-                                Tem += TemString;
-                                Tem += ",";
+                                sheetRow.CreateCell(col++).SetCellValue(TemString);
                             }
                         }
-                        write.WriteLine(Tem);
+                        
                     }
-                    write.Flush();
-                    write.Close();
+
+                    var fs = saveDlg.OpenFile();
+                    workBook.Write(fs);
+                    workBook.Close();
+                    
                     string msg = "导出成功：";
                     if (ApplicationData.LanguageSign.Contains("English"))
                         msg = "Export succeeded：";
@@ -210,13 +212,13 @@ namespace huaanClient
                 }
                 catch (Exception ex)
                 {
-                    string msg = "导出失败";
+                    string msg = $"导出失败:{ex.Message}";
                     if (ApplicationData.LanguageSign.Contains("English"))
-                        msg = "Export failed";
+                        msg = $"Export failed:{ex.Message}";
                     else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        msg = "エクスポート失敗";
+                        msg = $"エクスポート失敗:{ex.Message}";
                     MessageBox.Show(msg);
-                    write.Close();
+                    
                 }
             }
         }
