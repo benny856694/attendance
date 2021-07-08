@@ -220,7 +220,9 @@ namespace huaanClient
                         }
                         else
                         {
-                            if (source.Length > 4)
+                            //设备同步
+                            if (!string.Equals(source, Staff.STAFF_SOURCE_BATCH_IMPORT, StringComparison.InvariantCulture)
+                                && !string.Equals(source, Staff.STAFF_SOURCE_MANUAL_ADD, StringComparison.InvariantCulture))
                             {
 
                                 string ss = distributeParams["picture"].ToString().Trim();
