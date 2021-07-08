@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using System.Dynamic;
+using System.Text.RegularExpressions;
 
 namespace huaanClient
 {
@@ -220,9 +221,8 @@ namespace huaanClient
                         }
                         else
                         {
-                            //设备同步
-                            if (!string.Equals(source, Staff.STAFF_SOURCE_BATCH_IMPORT, StringComparison.InvariantCulture)
-                                && !string.Equals(source, Staff.STAFF_SOURCE_MANUAL_ADD, StringComparison.InvariantCulture))
+                            //来源于设备同步
+                            if (Regex.IsMatch(source, "^.{6,6}-.{6,6}-.{6,6}$"))
                             {
 
                                 string ss = distributeParams["picture"].ToString().Trim();
