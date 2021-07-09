@@ -4687,7 +4687,7 @@ namespace huaanClient
                                 string imge = jo[i]["imge"].ToString();
                                 string wg_card_id = jo[i]["wg_card_id"].ToString();
                                 string long_card_id = jo[i]["long_card_id"].ToString();
-                                string source= jo[i]["source"].ToString();
+                                string source= jo[i]["device_sn"].ToString();
                                 string card_id = "";
                                 if (string.IsNullOrEmpty(wg_card_id))
                                 {
