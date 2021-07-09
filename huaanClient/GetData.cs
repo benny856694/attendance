@@ -221,7 +221,7 @@ namespace huaanClient
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
 
-            string commandText = "SELECT staf.*,ifnull(de.id,0) as deid,de.name as departmentname ,em.Employetype_name as Employetypename, " +
+            string commandText = "SELECT cast(staf.id as text) id, staf.*,ifnull(de.id,0) as deid,de.name as departmentname ,em.Employetype_name as Employetypename, " +
                 " (SELECT COUNT(*) FROM MyDevice) as decount ,(SELECT COUNT(*) FROM Equipment_distribution WHERE userid=staf.id and status = 'success') as eqcount " +
                 "FROM staff staf " +
                 "LEFT JOIN department de ON de.id=staf.department_id  " +
@@ -651,6 +651,17 @@ namespace huaanClient
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
+        }
+
+        public static string getStaffIdsInAttendanceGroup(int attendanceGroupId)
+        {
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                var ids = conn.Query<string>($"SELECT cast(id as text)  from staff where {nameof(Staff.AttendanceGroup_id)} = {attendanceGroupId}").ToArray();
+                var json = JsonConvert.SerializeObject(ids);
+                return json;
+
+            }
         }
 
         public static string getGroupname()

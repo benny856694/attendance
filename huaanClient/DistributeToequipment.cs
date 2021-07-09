@@ -300,7 +300,7 @@ namespace huaanClient
                     }
                     else
                     {
-                        string updatessql = "UPDATE Equipment_distribution SET status='fail',code='" + code_int + "',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
+                        string updatessql = "UPDATE Equipment_distribution SET status='fail', type='2', code='" + code_int + "',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
                         SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                     }
                     //else if (code_int == 35 || code_int == 36 || code_int == 37 || code_int == 38 || code_int == 39 || code_int == 40 || code_int == 41)

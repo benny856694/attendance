@@ -848,6 +848,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string data = GetData.getGroup(id);
             return data;
         }
+        public string getStaffIdsInAttendanceGroup(int groupId)
+        {
+            return GetData.getStaffIdsInAttendanceGroup(groupId);
+        }
         public string getEffectiveTime(string Shift_id)
         {
             string data = GetData.getEffectiveTime(Shift_id);
