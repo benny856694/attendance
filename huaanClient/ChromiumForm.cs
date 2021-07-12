@@ -747,9 +747,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         {
             Task.Factory.StartNew(() =>
             {
-                string data = GetData.getallDeviceDiscover();
+                string data = GetData.getallDeviceDiscover().Result;
                 callback.ExecuteAsync(data);
             });
+
         }
         //获取当前设备列表
         public string getDeviceDiscover()

@@ -20,6 +20,7 @@ using Dapper.Contrib.Extensions;
 using System.Data;
 using System.Dynamic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace huaanClient
 {
@@ -475,11 +476,11 @@ namespace huaanClient
         }
 
 
-        public static string getallDeviceDiscover()
+        public static async Task<string> getallDeviceDiscover()
         {
-            GetDevinfo.getDevinfo();
-            List<(string mac, string ip, string mask, string platform, string system)> Devicelistdata = Deviceinfo.ds;
-            string DevicelistdataJsonStr = JsonConvert.SerializeObject(Devicelistdata);
+            var ips = await GetDevinfo.getDevinfo();
+            
+            string DevicelistdataJsonStr = JsonConvert.SerializeObject(ips);
 
             return DevicelistdataJsonStr;
         }

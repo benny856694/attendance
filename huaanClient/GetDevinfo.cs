@@ -1,17 +1,102 @@
-﻿using huaanClient.Database;
+﻿using HaSdkWrapper;
+using huaanClient.Database;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
 namespace huaanClient
 {
     class GetDevinfo
     {
-        public static  void getDevinfo()
+        private static DateTime _lastDeviceFound = DateTime.Now;
+        private static object _locker = new object();
+        private static ConcurrentStack<(string mac, string ip, string mask, string platform, string system)>
+            _ipsFound = new ConcurrentStack<(string mac, string ip, string mask, string platform, string system)>();
+        private static Timer t;
+        private static TaskCompletionSource<(string mac, string ip, string mask, string platform, string system)[]>
+            _tcs;
+
+        public static DateTime LastDeviceFound
+        {
+            get
+            {
+                lock (_locker)
+                {
+                    return _lastDeviceFound;
+
+                }
+            }
+
+            set
+            {
+                lock (_locker)
+                {
+                    _lastDeviceFound = value;
+                }
+            }
+        }
+
+        public static Task<(string mac, string ip, string mask, string platform, string system)[]> getDevinfo()
+        {
+            _ipsFound.Clear();
+            HaCamera.DeviceDiscovered += HaCamera_DeviceDiscovered;
+            HaCamera.DiscoverDevice();
+            LastDeviceFound = DateTime.Now;
+            t?.Dispose();
+            _tcs?.TrySetCanceled();
+            t = new Timer(callback, null, 2000, 2000);
+            _tcs = new TaskCompletionSource<(string mac, string ip, string mask, string platform, string system)[]>();
+            return _tcs.Task;
+
+        }
+
+        private static void callback(object state)
+        {
+            var noFoundingAnymore = (DateTime.Now - LastDeviceFound).Duration() > TimeSpan.FromSeconds(5);
+            if (noFoundingAnymore)
+            {
+                HaCamera.DeviceDiscovered -= HaCamera_DeviceDiscovered;
+                t?.Dispose();
+                var ds = getEffective(_ipsFound.ToList());
+                List<Mydeviceinfo> Mydevicelist = null;
+                string mydevice = GetData.getDeviceforMyDevice();
+                if (mydevice.Length > 2)
+                {
+                    int IndexofA = mydevice.IndexOf("[");
+                    int IndexofB = mydevice.IndexOf("]");
+                    string Ru = mydevice.Substring(IndexofA, IndexofB - IndexofA + 1);
+
+                    JavaScriptSerializer Serializer = new JavaScriptSerializer();
+                    Mydevicelist = Serializer.Deserialize<List<Mydeviceinfo>>(Ru);
+                }
+
+                if (Mydevicelist != null)
+                {
+                    Mydevicelist.ForEach(m =>
+                    {
+                        ds.RemoveAll(c => c.ip == m.ipAddress);
+                    });
+                }
+
+                _tcs.SetResult(ds.ToArray());
+            }
+
+        }
+
+        private static void HaCamera_DeviceDiscovered(object sender, DeviceDiscoverdEventArgs e)
+        {
+            LastDeviceFound = DateTime.Now;
+            _ipsFound.Push((e.Mac, e.IP, e.NetMask, e.Plateform, e.System));
+        }
+
+        public static  void getDevinfo_deprecated()
         {
 
             //List<CameraConfigPort> devicelist = new List<CameraConfigPort>();
@@ -44,7 +129,7 @@ namespace huaanClient
                 });
             }
 
-            Deviceinfo.ds = ds;
+            //Deviceinfo.ds = ds;
             //ds.ForEach(d => {
             //    var cam = Deviceinfo.Devicelist.Find(c => c.IP == d.ip);
             //    bool exists = true;

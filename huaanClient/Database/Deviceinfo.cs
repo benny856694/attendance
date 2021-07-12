@@ -8,7 +8,7 @@ namespace huaanClient.Database
 {
     class Deviceinfo
     {
-        public static List<(string mac, string ip, string mask, string platform, string system)> ds { get; set; }
+        //public static List<(string mac, string ip, string mask, string platform, string system)> ds { get; set; }
         //当前局域网下所有的IP
         public static List<CameraConfigPort> Devicelist { get; set; }
 
@@ -18,7 +18,7 @@ namespace huaanClient.Database
 
         static Deviceinfo()
         {
-            ds = new List<(string mac, string ip, string mask, string platform, string system)>();
+            //ds = new List<(string mac, string ip, string mask, string platform, string system)>();
             MyDevicelist = new List<CameraConfigPort>();
             Devicelist = new List<CameraConfigPort>();
         }
