@@ -142,6 +142,15 @@ namespace Dashboard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 密码不正确.
+        /// </summary>
+        internal static string PasswordIncorrect {
+            get {
+                return ResourceManager.GetString("PasswordIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 端口号.
         /// </summary>
         internal static string Port {

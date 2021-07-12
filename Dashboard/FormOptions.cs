@@ -26,6 +26,7 @@ namespace Dashboard
             checkBoxShowTemplateImage.Checked = Settings.ShowTemplateImage;
             checkBoxShowRealtimeImage.Checked = Settings.ShowRealtimeImage;
             bunifuTextBoxPairingFolder.Text = Settings.PairingFolder;
+            checkBoxPlaySound.Checked = Settings.PlayAudio;
         }
 
         private void FormOptions_FormClosed(object sender, FormClosedEventArgs e)
@@ -43,6 +44,7 @@ namespace Dashboard
             Settings.ShowTemplateImage = checkBoxShowTemplateImage.Checked;
             Settings.ShowRealtimeImage = checkBoxShowRealtimeImage.Checked;
             Settings.PairingFolder = bunifuTextBoxPairingFolder.Text;
+            Settings.PlayAudio = checkBoxPlaySound.Checked;
             Services.Tracker.Persist(Settings);
 
 

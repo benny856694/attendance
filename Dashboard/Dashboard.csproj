@@ -284,6 +284,12 @@
     <Compile Include="FormOptions.Designer.cs">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPassword.Designer.cs">
+      <DependentUpon>FormPassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSearchCamera.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -355,6 +361,12 @@
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormPassword.en.resx">
+      <DependentUpon>FormPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPassword.resx">
+      <DependentUpon>FormPassword.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormSearchCamera.en.resx">
       <DependentUpon>FormSearchCamera.cs</DependentUpon>
     </EmbeddedResource>
@@ -402,6 +414,12 @@
     <Content Include="logo.ico" />
     <Content Include="Resources\icons8_plus_math_32px.png" />
     <Content Include="Resources\icons8_subtract_32px.png" />
+    <Content Include="Sound\identified.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\unidentified.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\Spin-1s-200px.gif" />
   </ItemGroup>
   <ItemGroup />

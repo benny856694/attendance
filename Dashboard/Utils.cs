@@ -18,7 +18,7 @@ namespace Dashboard
         {
             id = null;
             name = null;
-            var match = Regex.Match(fileName, @"^\s*(\S*)\s+(.*?)\s*$");
+            var match = Regex.Match(fileName, @"^\s*(\S*)\W+(.*?)\s*$");
             if (match.Success)
             {
                 id = match.Groups[1].Value;

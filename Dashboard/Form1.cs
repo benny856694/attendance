@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using Dashboard.Model;
 using Jot.Configuration;
 using FileHelpers.ExcelNPOIStorage;
+using System.Media;
 
 namespace Dashboard
 {
@@ -31,6 +32,8 @@ namespace Dashboard
         FaceRegitration[] _faces = new FaceRegitration[0];
         Dictionary<string, string[]> _pairing = new Dictionary<string, string[]>();
         private FormWindowState PreviousWindowState;
+        private SoundPlayer _identified;
+        private SoundPlayer _unIdentified;
 
         public string[] ConnectedDeviceIps
         {
@@ -72,8 +75,22 @@ namespace Dashboard
             }
             
             ShowAddedCameras();
+            LoadAudios();
             ConnectCameras();
             //gridControl1.SetRowCol(2, 2);
+        }
+
+        private void LoadAudios()
+        {
+            var identifiedPath = Path.Combine(Directory.GetCurrentDirectory(), "Sound/identified.wav");
+            var unidentifiedPath = Path.Combine(Directory.GetCurrentDirectory(), "sound/unidentified.wav");
+
+            _identified = new SoundPlayer();
+            _identified.SoundLocation = identifiedPath;
+            _identified.Load();
+            _unIdentified = new SoundPlayer();
+            _unIdentified.SoundLocation = unidentifiedPath;
+            _unIdentified.Load();
         }
 
         private void ShowAddedCameras()
@@ -249,7 +266,11 @@ namespace Dashboard
                 {
                     var mode = _setting.ShowRealtimeImage != _setting.ShowTemplateImage
                      ? DisplayMode.Single : DisplayMode.Double;
-                    
+                    if (_setting.PlayAudio)
+                    {
+                        var p = e.IsPersonMatched ? _identified : _unIdentified;
+                        p.Play();
+                    }
 
                     ShowImages(e, control, mode);
 

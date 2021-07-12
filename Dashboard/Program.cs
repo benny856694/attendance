@@ -16,6 +16,28 @@ namespace Dashboard
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            var setting = new Model.Settings();
+            Services.Tracker.Track(setting);
+            if (!setting.PasswordChecked)
+            {
+                using (var pwd = new FormPassword())
+                {
+                    pwd.Password = setting.DefaultPassword;
+                    var dr = pwd.ShowDialog();
+                    if (dr == DialogResult.Cancel)
+                    {
+                        return;
+                    }
+
+                }
+            }
+
+            setting.PasswordChecked = true;
+            Services.Tracker.Persist(setting);
+
+
+
             Application.Run(new Form1());
         }
     }
