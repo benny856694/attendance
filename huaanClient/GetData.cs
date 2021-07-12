@@ -3126,8 +3126,7 @@ namespace huaanClient
 
         public static string editGroup(string attribute, string name, string isdefault, string ids, string id)
         {
-            obj = new JObject();
-            string sr = "";
+            var obj = new JObject();
 
             if (string.IsNullOrEmpty(name))
             {
@@ -3137,57 +3136,40 @@ namespace huaanClient
             }
             else
             {
-                if (isdefault.Trim() == "0")
-                {
-                    string sql = @"SELECT id FROM AttendanceGroup WHERE isdefault='1'";
-                    string isdefaultdata= SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, sql);
-                    JArray jo = (JArray)JsonConvert.DeserializeObject(isdefaultdata);
-                    string isdefaultid = jo[0]["id"].ToString();
-                    if (int.Parse(isdefaultid) > 0)
-                    {
-                        obj["result"] = 0;
-                        obj["data"] = "必须有一个默认考勤组!";
-                        return obj.ToString();
-                    }
-                }
+
+                string publish_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
                 if (isdefault.Trim() == "1")
                 {
                     SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "UPDATE AttendanceGroup SET isdefault=0");
+                    string commandText = @"UPDATE AttendanceGroup SET attribute='" + attribute + "',name='" + name + "',isdefault='" + isdefault + "',publishtime='" + publish_time + "' WHERE id=" + id;
+                    int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
+                    if (re == 1)
+                    {
+                        obj["result"] = 2;
+                        obj["data"] = "成功";
+                    }
+                    else
+                    {
+                        obj["result"] = 1;
+                        obj["data"] = "失败";
+                    }
                 }
-                string publish_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                string commandText = @"UPDATE AttendanceGroup SET attribute='" + attribute + "',name='" + name + "',isdefault='" + isdefault + "',publishtime='" + publish_time + "' WHERE id=" + id;
-                int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
-                if (re == 1)
-                {
-                    obj["result"] = 2;
-                    obj["data"] = "成功";
-                }
-                else
-                {
-                    obj["result"] = 1;
-                    obj["data"] = "失败";
-                }
+                
 
                 if (ids.Trim().Length > 0)
                 {
-                    //将绑定的员工的AttendanceGroup_id添加进去
-                    string commandTextdepartmentid = "SELECT id FROM AttendanceGroup  WHERE publishtime='" + publish_time + "'";
-                    sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
-                    if (!string.IsNullOrEmpty(sr))
+                    var userIds = ids.Split(',');
+                    foreach (var userId in userIds)
                     {
-                        JArray jo = (JArray)JsonConvert.DeserializeObject(sr);
-                        string userid = jo[0]["id"].ToString();
-                        //封装sql
-                        string arrayids = ids.Replace("{", "").Replace("}", "");
-                        string[] s = arrayids.Split(',');
-                        for (int i = 0; i < s.Length; i++)
-                        {
-                            string sql = "UPDATE staff SET AttendanceGroup_id='" + userid + "' WHERE id='" + s[i].Trim() + "'";
-                            int ret = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-                        }
+                        string sql = $"UPDATE staff SET AttendanceGroup_id='{id}' WHERE id='{userId}'";
+                        int ret = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
                     }
                 }
-            }
+
+                obj["result"] = 2;
+                obj["data"] = Properties.Strings.SaveSuccess;
+             }
             return obj.ToString();
         }
 
