@@ -1441,11 +1441,11 @@ namespace huaanClient
 
                     byte[] bytes = e._closeup;
                     e._closeup = null;
-                    Task.Factory.StartNew(new Action(() =>
+                    Task.Factory.StartNew(() =>
                     {
                         Directory.CreateDirectory(Path.GetDirectoryName(fn));
                         File.WriteAllBytes(fn, bytes);
-                    }));
+                    });
                 }
                 CaptureData?.Invoke(this, e);
                 try

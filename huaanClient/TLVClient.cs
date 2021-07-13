@@ -102,7 +102,6 @@ namespace huaanClient
                 {
                     try
                     {
-                        //todo: System.ObjectDisposedException
                         int readLen = _clientSocket.EndReceive(asyncResult);
                         if (readLen == 0)
                         {
@@ -262,6 +261,7 @@ namespace huaanClient
         ~TLVClient()
         {
             OnDisConnect();
+            _clientSocket.Dispose();
         }
 
         public void DisConnect()
@@ -280,7 +280,7 @@ namespace huaanClient
                     _clientSocket.Disconnect(true);
                 }
                 _clientSocket.Close();
-                _clientSocket.Dispose();
+                
             }
             catch { }
             Disconnected?.Invoke(this);
