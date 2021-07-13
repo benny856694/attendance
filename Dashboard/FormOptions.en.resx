@@ -137,7 +137,7 @@
     <value>Show Template Image</value>
   </data>
   <data name="checkBoxShowRealtimeImage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>101, 62</value>
+    <value>101, 73</value>
   </data>
   <data name="checkBoxShowRealtimeImage.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 17</value>
@@ -203,6 +203,9 @@
   </data>
   <data name="checkBoxPlaySound.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="checkBoxPlaySound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>101, 110</value>
   </data>
   <data name="checkBoxPlaySound.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 17</value>

@@ -78,11 +78,11 @@ namespace Dashboard
             // 
             this.bunifuTextBoxPairingFolder.AcceptsReturn = false;
             this.bunifuTextBoxPairingFolder.AcceptsTab = false;
+            resources.ApplyResources(this.bunifuTextBoxPairingFolder, "bunifuTextBoxPairingFolder");
             this.bunifuTextBoxPairingFolder.AnimationSpeed = 200;
             this.bunifuTextBoxPairingFolder.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
             this.bunifuTextBoxPairingFolder.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
             this.bunifuTextBoxPairingFolder.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.bunifuTextBoxPairingFolder, "bunifuTextBoxPairingFolder");
             this.bunifuTextBoxPairingFolder.BorderColorActive = System.Drawing.Color.DodgerBlue;
             this.bunifuTextBoxPairingFolder.BorderColorDisabled = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
             this.bunifuTextBoxPairingFolder.BorderColorHover = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(181)))), ((int)(((byte)(255)))));
@@ -149,6 +149,10 @@ namespace Dashboard
             this.buttonSelPairingFolder.Name = "buttonSelPairingFolder";
             this.buttonSelPairingFolder.UseVisualStyleBackColor = true;
             this.buttonSelPairingFolder.Click += new System.EventHandler(this.buttonSelPairingFolder_Click);
+            // 
+            // folderBrowserDialog1
+            // 
+            resources.ApplyResources(this.folderBrowserDialog1, "folderBrowserDialog1");
             // 
             // checkBoxPlaySound
             // 
