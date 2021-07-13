@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -19,10 +21,15 @@ namespace huaanClient
         public object Tag { get; set; }
         private IPEndPoint ip;
 
+        public Guid id { get; private set; }
+
         public TLVClient(string _ip, int _port)
         {
             ip = new IPEndPoint(IPAddress.Parse(_ip), _port);
             _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            id = Guid.NewGuid();
+
+            Debug.WriteLine($"=====create new socket:{id}=========");
         }
 
 
@@ -51,7 +58,7 @@ namespace huaanClient
                 bool success = result.AsyncWaitHandle.WaitOne(1000, true);
                 if (!success)
                 {
-                    _clientSocket.Close();
+                    ShutDown();
                     return false;
                 }
             }
@@ -62,18 +69,19 @@ namespace huaanClient
             if (_clientSocket.Connected)
             {
                 OnStart();
+                Interlocked.Exchange(ref _connected, 1);
                 return true;
             }
             return false;
         }
 
         private volatile bool recvData = false;
-        private Timer heartBeatS;
-        private Timer heartBeatR;
+        private System.Timers.Timer heartBeatS;
+        private System.Timers.Timer heartBeatR;
         protected virtual void OnStart()
         {
             Recv();
-            heartBeatR = new Timer();
+            heartBeatR = new System.Timers.Timer();
             heartBeatR.Interval = 15 * 1000;
             heartBeatR.Elapsed += HeartBeatR_Elapsed;
             heartBeatR.Start();
@@ -102,6 +110,7 @@ namespace huaanClient
                 {
                     try
                     {
+                        Debug.WriteLine($"======beging recv {id}==========");
                         int readLen = _clientSocket.EndReceive(asyncResult);
                         if (readLen == 0)
                         {
@@ -211,7 +220,7 @@ namespace huaanClient
                     catch (Exception ex)
                     {
                         StringBuilder msg = new StringBuilder();
-                        msg.Append("*************************************** \n");
+                        msg.Append($"******************{id}********************* \n");
                         msg.AppendFormat(" 异常发生时间： {0} \n", DateTime.Now);
                         msg.AppendFormat(" 导致当前异常的 Exception 实例： {0} \n", ex.InnerException);
                         msg.AppendFormat(" 导致异常的应用程序或对象的名称： {0} \n", ex.Source);
@@ -219,7 +228,8 @@ namespace huaanClient
                         msg.AppendFormat(" 异常堆栈信息： {0} \n", ex.StackTrace);
                         msg.AppendFormat(" 异常消息： {0} \n", ex.Message);
                         msg.Append("***************************************");
-                        Console.WriteLine(msg); OnDisConnect();
+                        Console.WriteLine(msg);
+                        OnDisConnect();
                     }
                     //catch { OnDisConnect(); }
                 }, null);
@@ -260,12 +270,33 @@ namespace huaanClient
 
         ~TLVClient()
         {
+            Debug.WriteLine($"=========finalize {id}==============");
+            ShutDown();
             OnDisConnect();
             _clientSocket.Dispose();
         }
 
+        private void ShutDown()
+        {
+            if (Interlocked.CompareExchange(ref _shutdown, 1, 0) == 0)
+            {
+                Debug.WriteLine($"========shutdown {id}===========");
+                try
+                {
+                    _clientSocket.Shutdown(SocketShutdown.Both);
+                }
+                finally
+                {
+                    _clientSocket.Close();
+                }
+            }
+
+           
+        }
+
         public void DisConnect()
         {
+            ShutDown();
             OnDisConnect();
         }
 
@@ -273,20 +304,16 @@ namespace huaanClient
         {
             heartBeatR?.Stop();
             heartBeatS?.Stop();
-            try
+            if (Interlocked.CompareExchange(ref _connected, 0, 1) == 1)
             {
-                if (_clientSocket.Connected)
-                {
-                    _clientSocket.Disconnect(true);
-                }
-                _clientSocket.Close();
-                
+                Disconnected?.Invoke(this);
             }
-            catch { }
-            Disconnected?.Invoke(this);
         }
 
         private object writeLocker = new object();
+        private int _connected = 0;
+        private int _shutdown = 0;
+
         public void Write(int sysType, int majorVersion, int minorVersion, int msgType, byte[] v)
         {
             try
