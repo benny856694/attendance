@@ -59,6 +59,7 @@ namespace huaanClient
                 if (!success)
                 {
                     ShutDown();
+                    _clientSocket?.Close();
                     return false;
                 }
             }
@@ -114,7 +115,10 @@ namespace huaanClient
                         int readLen = _clientSocket.EndReceive(asyncResult);
                         if (readLen == 0)
                         {
+                            ShutDown();
                             OnDisConnect();
+                            _clientSocket?.Close();
+                            
                             return;
                         }
                         recvData = true;
@@ -278,16 +282,12 @@ namespace huaanClient
 
         private void ShutDown()
         {
-            if (Interlocked.CompareExchange(ref _shutdown, 1, 0) == 0)
+            if (Interlocked.Exchange(ref _shutdown, 1) == 0)
             {
                 Debug.WriteLine($"========shutdown {id}===========");
-                try
+                if (_clientSocket.Connected)
                 {
                     _clientSocket.Shutdown(SocketShutdown.Both);
-                }
-                finally
-                {
-                    _clientSocket.Close();
                 }
             }
 
@@ -304,7 +304,7 @@ namespace huaanClient
         {
             heartBeatR?.Stop();
             heartBeatS?.Stop();
-            if (Interlocked.CompareExchange(ref _connected, 0, 1) == 1)
+            if (Interlocked.Exchange(ref _connected, 0) == 1)
             {
                 Disconnected?.Invoke(this);
             }
