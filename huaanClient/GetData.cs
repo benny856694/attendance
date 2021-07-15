@@ -346,7 +346,7 @@ namespace huaanClient
                 if (!string.IsNullOrEmpty(name))
 
                 {
-                    commandText = commandText + " 	AND name = '" + name.Trim() + "'";
+                    commandText = commandText + $" 	AND name LIKE '%{name.Trim()}%'";
                 }
                 commandText = commandText + " GROUP BY name,personId,strftime( '%Y-%m', date )";
                 string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);

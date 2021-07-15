@@ -396,10 +396,10 @@ namespace huaanClient
             }
             else if (Language_Selection1.SelectedIndex == 4)
             {
-                usernamelable.Content = "tên người dùng";
-                passwordlable.Content = "mật khẩu";
-                login.Content = "Ký vô.";
-                title.Content = "Hệ thống bộ mặt bộ lệnh";
+                usernamelable.Content = "Tên Người Dùng";
+                passwordlable.Content = "Mật Khẩu";
+                login.Content = "Đăng Nhập";
+                title.Content = "Hệ Thống Nhận Dạng Khuôn Mặt";
 
                 title.Visibility = Visibility.Visible;
                 jPlogo.Visibility = Visibility.Collapsed;

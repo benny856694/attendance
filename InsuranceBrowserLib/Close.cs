@@ -14,10 +14,12 @@ namespace InsuranceBrowserLib
     public partial class Close : ZForm
     {
         string language;
+        private int l;
         public Close(string language)
         {
             this.language = language;
             InitializeComponent();
+            this.l = zCheckBox1.Left;
         }
 
         private void Close_Load(object sender, EventArgs e)
@@ -51,6 +53,9 @@ namespace InsuranceBrowserLib
                 zButton1.Text = "C'est sûr";
                 zButton2.Text = "Annulation";
             }
+
+
+
             zCheckBox2.Checked = true;    
         }
 
@@ -101,6 +106,34 @@ namespace InsuranceBrowserLib
         {
             zCheckBox2.Focus();
             zButton1.Focus();
+        }
+
+        private void Close_Shown(object sender, EventArgs e)
+        {
+            var maxWidth = CalcMaxRight();
+
+            if (maxWidth > this.Width)
+            {
+                var deltaWidth = maxWidth - this.Width + 20;
+                this.Width += deltaWidth;
+                this.Left -= deltaWidth / 2;
+            }
+
+
+            //if (this.labelX1.Bottom > this.ok.Top)
+            //{
+            //    var delta = this.labelX1.Bottom - this.bottom;
+            //    this.Height += delta;
+            //    this.Top -= delta / 2;
+            //}
+        }
+
+        private int CalcMaxRight()
+        {
+            var w = 0;
+            var ctrls = new Control[] { this.zCheckBox1, this.zCheckBox2, this.label1 };
+            w = ctrls.Max(c => c.Right);
+            return w;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace huaanClient
         public const string LANG_NAME_ENGLISH = "English";
         public const string LANG_NAME_JAPANESE = "日本語";
         public const string LANG_NAME_FRENCH = "Français";
-        public const string LANG_NAME_VIETNAMESE = "ViệtName";
+        public const string LANG_NAME_VIETNAMESE = "Tiếng Việt";
 
 
         public const string LANG_LOCALE_CHINESE = "zh";
