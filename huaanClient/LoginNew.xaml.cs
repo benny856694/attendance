@@ -32,9 +32,15 @@ namespace huaanClient
         public LoginNew()
         {
             InitializeComponent();
-            Dictionary<int, string> mydic = new Dictionary<int, string>() { { 0, "中文" }, { 1, "English" }, { 2, "日本語" }, { 3, "French" } };
+            Dictionary<int, string> mydic = new Dictionary<int, string>() {
+                { 0, Constants.LANG_NAME_CHINESE }, 
+                { 1, Constants.LANG_NAME_ENGLISH }, 
+                { 2, Constants.LANG_NAME_JAPANESE }, 
+                { 3, Constants.LANG_NAME_FRENCH }, 
+                { 4, Constants.LANG_NAME_VIETNAMESE } 
+            };
             Language_Selection1.ItemsSource = mydic;
-            Language_Selection1.SelectedValuePath = "Key";
+            Language_Selection1.SelectedValuePath = "Value";
             Language_Selection1.DisplayMemberPath = "Value";
         }
 
@@ -245,19 +251,22 @@ namespace huaanClient
         {
             CultureInfo culture = null;
 
-            switch (Language_Selection1.SelectedIndex)
+            switch (Language_Selection1.SelectedValue)
             {
-                case 0: //chinese
-                    culture = CultureInfo.GetCultureInfo("zh");
+                case Constants.LANG_NAME_CHINESE: //chinese
+                    culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_CHINESE);
                     break;
-                case 1: //english
-                    culture = CultureInfo.GetCultureInfo("en");
+                case Constants.LANG_NAME_ENGLISH: //english
+                    culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_ENGLISH);
                     break;
-                case 2: //japaness
-                    culture = CultureInfo.GetCultureInfo("ja");
+                case Constants.LANG_NAME_JAPANESE: //japaness
+                    culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_JAPANESE);
                     break;
-                case 3: //french
-                    culture = CultureInfo.GetCultureInfo("fr");
+                case Constants.LANG_NAME_FRENCH: //french
+                    culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_FRENCH);
+                    break;
+                case Constants.LANG_NAME_VIETNAMESE: //french
+                    culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_VIETNAMESE);
                     break;
                 default:
                     throw new InvalidOperationException();
@@ -384,6 +393,18 @@ namespace huaanClient
                 title.Visibility = Visibility.Visible;
                 jPlogo.Visibility = Visibility.Collapsed;
                 title.Margin = new Thickness(10,52,10,0);
+            }
+            else if (Language_Selection1.SelectedIndex == 4)
+            {
+                usernamelable.Content = "tên người dùng";
+                passwordlable.Content = "mật khẩu";
+                login.Content = "Ký vô.";
+                title.Content = "Hệ thống bộ mặt bộ lệnh";
+
+                title.Visibility = Visibility.Visible;
+                jPlogo.Visibility = Visibility.Collapsed;
+                title.Margin = new Thickness(10, 52, 10, 0);
+
             }
         }
 

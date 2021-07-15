@@ -259,7 +259,10 @@ namespace huaanClient
                         cam.DeviceName = d.DeviceName;
                     }
                     if (!exists)
+                    {
                         Deviceinfo.MyDevicelist.Add(cam);
+                    }
+                        
                 });
             }
         }

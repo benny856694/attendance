@@ -266,7 +266,7 @@ namespace huaanClient
                     IsBackground = true
                 }.Start();
             }
-            else if (ApplicationData.LanguageSign.Contains("French"))
+            else if (ApplicationData.LanguageSign == Constants.LANG_NAME_FRENCH)
             {
                 isZn = "FR";
             }

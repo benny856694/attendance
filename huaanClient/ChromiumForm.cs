@@ -376,9 +376,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 language = "Jan_JPN";
             }
-            else if (ApplicationData.LanguageSign.Contains("French"))
+            else if (ApplicationData.LanguageSign == Constants.LANG_NAME_FRENCH)
             {
                 language = "Fr_fr";
+            }
+            else if (ApplicationData.LanguageSign == Constants.LANG_NAME_VIETNAMESE)
+            {
+                language = Constants.LANG_LOCALE_VIETNAMESE;
             }
             return language;
         }

@@ -17,7 +17,7 @@
         <PasswordBox CaretBrush="White" Password="123456" Name="password" Background="Transparent"  BorderThickness="0,0,0,2" BorderBrush="White" VerticalContentAlignment="Center" Foreground="#FFFFFF" FontSize="12" HorizontalAlignment="Left" Margin="138,181,0,0" VerticalAlignment="Top" Width="278" Height="24"/>
         <Image HorizontalAlignment="Left" Name="jPlogo" Height="42" Margin="124,10,0,0" VerticalAlignment="Top" Width="305" Source="logonew.png"/>
         <Label Content="智慧人脸考勤门禁系统" Name="title" Foreground="#FFFFFF"  FontSize="24" FontStretch="Medium"
-                HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="10,52,10,0" VerticalAlignment="Top" Width="530"/>
+                HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,52,0,0" VerticalAlignment="Top"/>
         <Label Content="用户名" Name="usernamelable" FontSize="12" Foreground="#758092" HorizontalAlignment="Left" Margin="134,101,0,0" VerticalAlignment="Top"/>
         <Label Content="密码" Name="passwordlable" FontSize="12" Foreground="#758092" HorizontalAlignment="Left" Margin="134,160,0,0" VerticalAlignment="Top" />
         <Button Content="登录" Name="login" Margin="223,290,221,46"  FontSize="15" IsDefault="True" FontStretch="Medium" Click="Button_Click" FontFamily="SimSun" FontWeight="Bold" Foreground="#363636">
