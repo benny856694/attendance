@@ -171,4 +171,34 @@
 	<data name="TakePicture" xml:space="preserve">
     <value>拍照</value>
   </data>
+	<data name="InitializingDb" xml:space="preserve">
+    <value>初始化数据库</value>
+  </data>
+	<data name="InitializeDbFailed" xml:space="preserve">
+    <value>初始化数据库错误</value>
+  </data>
+	<data name="LoginInProgress" xml:space="preserve">
+    <value>正在登录...</value>
+  </data>
+	<data name="LoginSucceed" xml:space="preserve">
+    <value>登录成功</value>
+  </data>
+	<data name="LoginFailed" xml:space="preserve">
+    <value>登录失败</value>
+  </data>
+	<data name="ConnectDbFailed" xml:space="preserve">
+    <value>连接数据库失败: {0}</value>
+  </data>
+	<data name="UsernameOrPasswordIncorrect" xml:space="preserve">
+    <value>用户名或者密码错误</value>
+  </data>
+	<data name="UsernameEmpty" xml:space="preserve">
+    <value>用户名不能为空</value>
+  </data>
+	<data name="PasswordEmpty" xml:space="preserve">
+    <value>密码不能为空</value>
+  </data>
+	<data name="ExceptionOccurred" xml:space="preserve">
+    <value>发生错误：{0}</value>
+  </data>
 </root>

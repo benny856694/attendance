@@ -168,4 +168,34 @@
 	<data name="StaffNames" xml:space="preserve">
 		<value>Name,Email,Telephone number,Employee number,Photo path,Create date,ID number,Access control card number,Access control card length,Department,Staff type</value>
 	</data>
+	<data name="InitializingDb" xml:space="preserve">
+		<value>Initializing Database...</value>
+	</data>
+	<data name="InitializeDbFailed" xml:space="preserve">
+		<value>Initialize Database Error</value>
+	</data>
+	<data name="LoginInProgress" xml:space="preserve">
+		<value>Login...</value>
+	</data>
+	<data name="LoginSucceed" xml:space="preserve">
+		<value>Login Succeed</value>
+	</data>
+	<data name="LoginFailed" xml:space="preserve">
+		<value>Login Failed</value>
+	</data>
+	<data name="ConnectDbFailed" xml:space="preserve">
+		<value>Connect Database Failed: {0}</value>
+	</data>
+	<data name="UsernameOrPasswordIncorrect" xml:space="preserve">
+		<value>User Name or Password Error</value>
+	</data>
+	<data name="UsernameEmpty" xml:space="preserve">
+		<value>Username Can't be empty</value>
+	</data>
+	<data name="PasswordEmpty" xml:space="preserve">
+		<value>Password can't be empty</value>
+	</data>
+	<data name="ExceptionOccurred" xml:space="preserve">
+		<value>Exception: {0}</value>
+	</data>
 </root>

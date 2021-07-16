@@ -1,4 +1,5 @@
 ﻿using huaanClient.DatabaseTool;
+using huaanClient.Properties;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -55,26 +56,8 @@ namespace huaanClient
 
         public  async void LoginForm()
         {
-            SetCurrentLanguage();
 
-            bool isZn;
-            if (Language_Selection1.SelectedIndex == 0)
-            {
-                isZn = true;
-            }
-            else
-            {
-                isZn = false;
-            }
-
-            if (isZn)
-            {
-                changeLable("正在初始化数据库");
-            }
-            else
-            {
-                changeLable("Initializing database");
-            }
+            changeLable(Strings.InitializingDb);
 
 
             try
@@ -100,7 +83,7 @@ namespace huaanClient
             catch (Exception ex)
             {
                 Logger.Error(ex, "Init error");
-                MessageBox.Show($"Error:({ex.Message})\r\nPlease contact customer service");
+                MessageBox.Show(string.Format(Strings.ExceptionOccurred, ex.Message));
                 return;
             }
 
@@ -114,29 +97,16 @@ namespace huaanClient
             catch (Exception ex)
             {
                 Logger.Error(ex, "init db error");
-                if (isZn)
-                {
-                    changeLable("数据库初始化失败。");
-                    return;
-                }
-                else
-                {
-                    changeLable("Database initialization failed");
-                    return;
-                }
+                
+                changeLable(Strings.InitializeDbFailed);
+                return;
+                
             }
 
             //登录检测
             try
             {
-                if (isZn)
-                {
-                    changeLable("正在登陆....");
-                }
-                else
-                {
-                    changeLable("Landing in progress");
-                }
+                changeLable(Strings.LoginInProgress);
                 //Application.StartupPath Directory.GetCurrentDirectory()
                 string dbPath = ApplicationData.connectionString;
                 using (SQLiteConnection conn = new SQLiteConnection(dbPath))
@@ -146,26 +116,12 @@ namespace huaanClient
                     string upwd = password.Password.Trim();
                     if (string.IsNullOrEmpty(uname))
                     {
-                        if (isZn)
-                        {
-                            changeLable("请输入账号");
-                        }
-                        else
-                        {
-                            changeLable("Please enter your account number");
-                        }
+                        changeLable(Strings.UsernameEmpty);
                         return;
                     }
                     if (string.IsNullOrEmpty(upwd))
                     {
-                        if (isZn)
-                        {
-                            changeLable("请输入密码");
-                        }
-                        else
-                        {
-                            changeLable("Please input a password");
-                        }
+                        changeLable(Strings.PasswordEmpty);
                         return;
                     }
                     string sql_select = "select count(0) from user where username =@uname and password =@upwd ";
@@ -185,14 +141,7 @@ namespace huaanClient
                         int result = Convert.ToInt16(reader.GetValue(0));
                         if (result == 0)
                         {
-                            if (isZn)
-                            {
-                                changeLable("用户名或者密码错误，请重新输入");
-                            }
-                            else
-                            {
-                                changeLable("Wrong user name or password, please re-enter");
-                            }
+                            changeLable(Strings.UsernameOrPasswordIncorrect);
                         }
                         else if (result == 1)
                         {
@@ -204,27 +153,12 @@ namespace huaanClient
                             cfa.Save();
 
                             ApplicationData.LanguageSign = Language_Selection1.Text;
-                            if (isZn)
-                            {
-                                changeLable("登录成功");
-
-                            }
-                            else
-                            {
-                                changeLable("Login successfu");
-                            }
+                            changeLable(Strings.LoginSucceed);
                             this.Close();
                         }
                         else
                         {
-                            if (isZn)
-                            {
-                                changeLable("登录失败");
-                            }
-                            else
-                            {
-                                changeLable("Login failed, please contact the customer");
-                            }
+                            changeLable(Strings.LoginFailed);
 
                         }
                     }
@@ -236,14 +170,7 @@ namespace huaanClient
             catch (Exception ex)
             {
                 lbStatus.Content = "";
-                if (isZn)
-                {
-                    MessageBox.Show("连接数据库失败：" + ex.Message);
-                }
-                else
-                {
-                    MessageBox.Show("Failed to connect to database：" + ex.Message);
-                }
+                MessageBox.Show(string.Format(Strings.ConnectDbFailed, ex.Message));
             }
         }
 
@@ -274,9 +201,11 @@ namespace huaanClient
 
             //Culture for any thread
             CultureInfo.DefaultThreadCurrentCulture = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
 
             //Culture for UI in any thread
             CultureInfo.DefaultThreadCurrentUICulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
         }
 
         public  void changeLable(string value)
@@ -350,6 +279,9 @@ namespace huaanClient
 
         private void Language_Selection1_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
+            SetCurrentLanguage();
+
+            changeLable("");
             if (Language_Selection1.SelectedIndex == 0)
             {
                 usernamelable.Content = "账号";

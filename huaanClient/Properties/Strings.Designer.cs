@@ -106,6 +106,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 连接数据库失败: {0}.
+        /// </summary>
+        internal static string ConnectDbFailed {
+            get {
+                return ResourceManager.GetString("ConnectDbFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 请假.
         /// </summary>
         internal static string DayOff {
@@ -124,11 +133,74 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 发生错误：{0}.
+        /// </summary>
+        internal static string ExceptionOccurred {
+            get {
+                return ResourceManager.GetString("ExceptionOccurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 图片缺失.
         /// </summary>
         internal static string ImageMissing {
             get {
                 return ResourceManager.GetString("ImageMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 初始化数据库错误.
+        /// </summary>
+        internal static string InitializeDbFailed {
+            get {
+                return ResourceManager.GetString("InitializeDbFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 初始化数据库.
+        /// </summary>
+        internal static string InitializingDb {
+            get {
+                return ResourceManager.GetString("InitializingDb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 登录失败.
+        /// </summary>
+        internal static string LoginFailed {
+            get {
+                return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 正在登录....
+        /// </summary>
+        internal static string LoginInProgress {
+            get {
+                return ResourceManager.GetString("LoginInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 登录成功.
+        /// </summary>
+        internal static string LoginSucceed {
+            get {
+                return ResourceManager.GetString("LoginSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 密码不能为空.
+        /// </summary>
+        internal static string PasswordEmpty {
+            get {
+                return ResourceManager.GetString("PasswordEmpty", resourceCulture);
             }
         }
         
@@ -219,6 +291,24 @@ namespace huaanClient.Properties {
         internal static string TakePicture {
             get {
                 return ResourceManager.GetString("TakePicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 用户名不能为空.
+        /// </summary>
+        internal static string UsernameEmpty {
+            get {
+                return ResourceManager.GetString("UsernameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 用户名或者密码错误.
+        /// </summary>
+        internal static string UsernameOrPasswordIncorrect {
+            get {
+                return ResourceManager.GetString("UsernameOrPasswordIncorrect", resourceCulture);
             }
         }
     }
