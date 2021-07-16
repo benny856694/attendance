@@ -198,4 +198,22 @@
 	<data name="ExceptionOccurred" xml:space="preserve">
 		<value>Exception: {0}</value>
 	</data>
+	<data name="ChangePassword" xml:space="preserve">
+		<value>Change Password</value>
+	</data>
+	<data name="ConfirmNewPassword" xml:space="preserve">
+		<value>Confirm New Password</value>
+	</data>
+	<data name="ConfirmNewPasswordMismatch" xml:space="preserve">
+		<value>New Password doesn't match</value>
+	</data>
+	<data name="NewPassword" xml:space="preserve">
+		<value>New Password</value>
+	</data>
+	<data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
+		<value>New password is same as old password</value>
+	</data>
+	<data name="RememberPassword" xml:space="preserve">
+		<value>Remember Password</value>
+	</data>
 </root>

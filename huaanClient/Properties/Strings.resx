@@ -201,4 +201,22 @@
 	<data name="ExceptionOccurred" xml:space="preserve">
     <value>发生错误：{0}</value>
   </data>
+	<data name="ChangePassword" xml:space="preserve">
+    <value>修改密码</value>
+  </data>
+	<data name="ConfirmNewPassword" xml:space="preserve">
+    <value>确认新密码</value>
+  </data>
+	<data name="ConfirmNewPasswordMismatch" xml:space="preserve">
+    <value>两次输入的新密码不同</value>
+  </data>
+	<data name="NewPassword" xml:space="preserve">
+    <value>新密码</value>
+  </data>
+	<data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
+    <value>新密码不能和旧密码相同</value>
+  </data>
+	<data name="RememberPassword" xml:space="preserve">
+    <value>记住密码</value>
+  </data>
 </root>

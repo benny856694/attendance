@@ -145,4 +145,52 @@
 	<data name="TakePicture" xml:space="preserve">
 		<value>chụp</value>
 	</data>
+	<data name="InitializingDb" xml:space="preserve">
+		<value>Đang khởi tạo cơ sở dữ liệu ...</value>
+	</data>
+	<data name="InitializeDbFailed" xml:space="preserve">
+		<value>Lỗi khởi tạo cơ sở dữ liệu</value>
+	</data>
+	<data name="LoginInProgress" xml:space="preserve">
+		<value>Đăng nhập...</value>
+	</data>
+	<data name="LoginSucceed" xml:space="preserve">
+		<value>Đăng nhập thành công</value>
+	</data>
+	<data name="LoginFailed" xml:space="preserve">
+		<value>Đăng nhập thất bại</value>
+	</data>
+	<data name="ConnectDbFailed" xml:space="preserve">
+		<value>Kết nối Cơ sở dữ liệu không thành công: {0}</value>
+	</data>
+	<data name="UsernameOrPasswordIncorrect" xml:space="preserve">
+		<value>Tên người dùng hoặc lỗi mật khẩu</value>
+	</data>
+	<data name="UsernameEmpty" xml:space="preserve">
+		<value>Tên người dùng không được để trống</value>
+	</data>
+	<data name="PasswordEmpty" xml:space="preserve">
+		<value>Mật khẩu không được để trống</value>
+	</data>
+	<data name="ExceptionOccurred" xml:space="preserve">
+		<value>Ngoại lệ: {0}</value>
+	</data>
+	<data name="ChangePassword" xml:space="preserve">
+		<value>Đổi mật khẩu</value>
+	</data>
+	<data name="ConfirmNewPassword" xml:space="preserve">
+		<value>Xác nhận mật khẩu mới</value>
+	</data>
+	<data name="ConfirmNewPasswordMismatch" xml:space="preserve">
+		<value>Mật khẩu mới không khớp</value>
+	</data>
+	<data name="NewPassword" xml:space="preserve">
+		<value>Mật khẩu mới</value>
+	</data>
+	<data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
+		<value>Mật khẩu mới giống với mật khẩu cũ</value>
+	</data>
+	<data name="RememberPassword" xml:space="preserve">
+		<value>Nhớ mật khẩu</value>
+	</data>
 </root>

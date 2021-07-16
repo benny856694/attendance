@@ -146,4 +146,52 @@
 		<value>Nom,adresse électronique,numéro de téléphone,numéro d'employé,chemin de la photo,date d'ajout,numéro de carte d'identité,numéro de carte d'accès,numéro de carte d'accès,Ministère,classification des employés
 </value>
 	</data>
+	<data name="InitializingDb" xml:space="preserve">
+		<value>Initialisation de la base de données...</value>
+	</data>
+	<data name="InitializeDbFailed" xml:space="preserve">
+		<value>Erreur d'initialisation de la base de Erreur d'initialisation de la base de données</value>
+	</data>
+	<data name="LoginInProgress" xml:space="preserve">
+		<value>Connectez - vous...</value>
+	</data>
+	<data name="LoginSucceed" xml:space="preserve">
+		<value>Connexion réussie</value>
+	</data>
+	<data name="LoginFailed" xml:space="preserve">
+		<value>Échec de la connexion</value>
+	</data>
+	<data name="ConnectDbFailed" xml:space="preserve">
+		<value>Impossible de se connecter à la base de données: {0}</value>
+	</data>
+	<data name="UsernameOrPasswordIncorrect" xml:space="preserve">
+		<value>Mauvais nom d'utilisateur ou mot de passe</value>
+	</data>
+	<data name="UsernameEmpty" xml:space="preserve">
+		<value>Le nom d'utilisateur ne peut pas être vide</value>
+	</data>
+	<data name="PasswordEmpty" xml:space="preserve">
+		<value>Le mot de passe ne peut pas être vide</value>
+	</data>
+	<data name="ExceptionOccurred" xml:space="preserve">
+		<value>Anomalie: {0}</value>
+	</data>
+	<data name="ChangePassword" xml:space="preserve">
+		<value>Modifier le mot de passe</value>
+	</data>
+	<data name="ConfirmNewPassword" xml:space="preserve">
+		<value>Confirmer le nouveau mot de passe</value>
+	</data>
+	<data name="ConfirmNewPasswordMismatch" xml:space="preserve">
+		<value>Le nouveau mot de passe ne correspond pas</value>
+	</data>
+	<data name="NewPassword" xml:space="preserve">
+		<value>Nouveau mot de passe</value>
+	</data>
+	<data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
+		<value>Le nouveau mot de passe est le même que l'ancien mot de passe</value>
+	</data>
+	<data name="RememberPassword" xml:space="preserve">
+		<value>Rappelez - vous le mot de passe.</value>
+	</data>
 </root>

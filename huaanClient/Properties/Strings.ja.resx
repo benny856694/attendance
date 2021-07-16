@@ -148,4 +148,52 @@
 	<data name="StaffNames" xml:space="preserve">
 		<value>名前,メールアドレス,電話番号,従業員番号,写真経路,日付,身分証番号,ゲートカード番号,ゲートカード番号の桁数,部門,従業員の分類</value>
 	</data>
+	<data name="InitializingDb" xml:space="preserve">
+		<value>データベースの初期化.</value>
+	</data>
+	<data name="InitializeDbFailed" xml:space="preserve">
+		<value>データベースエラーの初期化</value>
+	</data>
+	<data name="LoginInProgress" xml:space="preserve">
+		<value>ログイン.</value>
+	</data>
+	<data name="LoginSucceed" xml:space="preserve">
+		<value>ログイン成功</value>
+	</data>
+	<data name="LoginFailed" xml:space="preserve">
+		<value>ログイン失敗</value>
+	</data>
+	<data name="ConnectDbFailed" xml:space="preserve">
+		<value>接続失敗データベース: {0}</value>
+	</data>
+	<data name="UsernameOrPasswordIncorrect" xml:space="preserve">
+		<value>ユーザ名またはパスワードエラー</value>
+	</data>
+	<data name="UsernameEmpty" xml:space="preserve">
+		<value>ユーザ名は空にできません</value>
+	</data>
+	<data name="PasswordEmpty" xml:space="preserve">
+		<value>パスワードを空にすることはできません</value>
+	</data>
+	<data name="ExceptionOccurred" xml:space="preserve">
+		<value>異常: {0}</value>
+	</data>
+	<data name="ChangePassword" xml:space="preserve">
+		<value>パスワード変更</value>
+	</data>
+	<data name="ConfirmNewPassword" xml:space="preserve">
+		<value>新しいパスワードの確認</value>
+	</data>
+	<data name="ConfirmNewPasswordMismatch" xml:space="preserve">
+		<value>新しいパスワードが一致しません</value>
+	</data>
+	<data name="NewPassword" xml:space="preserve">
+		<value>新しいパスワード</value>
+	</data>
+	<data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
+		<value>新しいパスワードは古いパスワードと同じです</value>
+	</data>
+	<data name="RememberPassword" xml:space="preserve">
+		<value>パスワードを覚えて</value>
+	</data>
 </root>

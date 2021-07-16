@@ -1,4 +1,6 @@
-﻿using huaanClient.DatabaseTool;
+﻿using Dapper;
+using DBUtility.SQLite;
+using huaanClient.DatabaseTool;
 using huaanClient.Properties;
 using System;
 using System.Collections.Generic;
@@ -30,9 +32,41 @@ namespace huaanClient
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        private double? height;
+
+
+        IList<Control> _heightControls = new List<Control>();
+
+        private bool ShowChangePassword
+        {
+            set
+            {
+                var visible = value ? Visibility.Visible : Visibility.Collapsed;
+                NewPasswordlable.Visibility = visible;
+                NewPassword.Visibility = visible;
+                ConfirmNewPasswordlable.Visibility = visible;
+                confirmNewPassword.Visibility = visible;
+                if (!height.HasValue)
+                {
+                    height = 0;
+                    foreach (var item in _heightControls)
+                    {
+                        height += item.ActualHeight + item.Margin.Top + item.Margin.Bottom;
+                    }
+                }
+
+                this.Height += value ? height.Value : -height.Value;
+            }
+        }
+
         public LoginNew()
         {
             InitializeComponent();
+            _heightControls.Add(NewPasswordlable);
+            _heightControls.Add(NewPassword);
+            _heightControls.Add(ConfirmNewPasswordlable);
+            _heightControls.Add(confirmNewPassword);
+
             Dictionary<int, string> mydic = new Dictionary<int, string>() {
                 { 0, Constants.LANG_NAME_CHINESE }, 
                 { 1, Constants.LANG_NAME_ENGLISH }, 
@@ -51,13 +85,60 @@ namespace huaanClient
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            LoginForm();
+            try
+            {
+                changePassword.IsEnabled = false;
+                NewPassword.IsEnabled = false;
+                var valid = ValidateInput();
+                if (valid)
+                {
+                    Login();
+                }
+            }
+            finally
+            {
+                changePassword.IsEnabled = true;
+                NewPassword.IsEnabled = true;
+            }
+            
         }
 
-        public  async void LoginForm()
+        private bool ValidateInput()
+        {
+            if (changePassword.IsChecked == true)
+            {
+                if (string.IsNullOrEmpty(NewPassword.Password))
+                {
+                    ShowStatus(Strings.PasswordEmpty);
+                    return false;
+                }
+
+                if (string.IsNullOrEmpty(confirmNewPassword.Password))
+                {
+                    ShowStatus(Strings.PasswordEmpty);
+                    return false;
+                }
+
+                if (!string.Equals(NewPassword.Password, confirmNewPassword.Password, StringComparison.InvariantCulture))
+                {
+                    ShowStatus(Strings.ConfirmNewPasswordMismatch);
+                    return false;
+                }
+
+                if (string.Equals(NewPassword.Password, password.Password, StringComparison.InvariantCulture))
+                {
+                    ShowStatus(Strings.NewPasswordCanotBeSameAsOld);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public  async void Login()
         {
 
-            changeLable(Strings.InitializingDb);
+            ShowStatus(Strings.InitializingDb);
 
 
             try
@@ -98,7 +179,7 @@ namespace huaanClient
             {
                 Logger.Error(ex, "init db error");
                 
-                changeLable(Strings.InitializeDbFailed);
+                ShowStatus(Strings.InitializeDbFailed);
                 return;
                 
             }
@@ -106,7 +187,7 @@ namespace huaanClient
             //登录检测
             try
             {
-                changeLable(Strings.LoginInProgress);
+                ShowStatus(Strings.LoginInProgress);
                 //Application.StartupPath Directory.GetCurrentDirectory()
                 string dbPath = ApplicationData.connectionString;
                 using (SQLiteConnection conn = new SQLiteConnection(dbPath))
@@ -116,12 +197,12 @@ namespace huaanClient
                     string upwd = password.Password.Trim();
                     if (string.IsNullOrEmpty(uname))
                     {
-                        changeLable(Strings.UsernameEmpty);
+                        ShowStatus(Strings.UsernameEmpty);
                         return;
                     }
                     if (string.IsNullOrEmpty(upwd))
                     {
-                        changeLable(Strings.PasswordEmpty);
+                        ShowStatus(Strings.PasswordEmpty);
                         return;
                     }
                     string sql_select = "select count(0) from user where username =@uname and password =@upwd ";
@@ -141,30 +222,37 @@ namespace huaanClient
                         int result = Convert.ToInt16(reader.GetValue(0));
                         if (result == 0)
                         {
-                            changeLable(Strings.UsernameOrPasswordIncorrect);
+                            ShowStatus(Strings.UsernameOrPasswordIncorrect);
                         }
                         else if (result == 1)
                         {
                             Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                            //Language_Selection1.SelectedIndex
+                            cfa.AppSettings.Settings["rememberPassword"].Value = RememberPassword.IsChecked.ToString();
                             cfa.AppSettings.Settings["select"].Value = Language_Selection1.SelectedIndex.ToString();
                             cfa.AppSettings.Settings["name"].Value = uname;
-                            cfa.AppSettings.Settings["password"].Value = upwd;
+                            if (RememberPassword.IsChecked == true)
+                            {
+                                cfa.AppSettings.Settings["password"].Value = upwd;
+                            }
+                            
                             cfa.Save();
 
+                            if (changePassword.IsChecked == true)
+                            {
+                                conn.Execute($"UPDATE user SET password = '{NewPassword.Password}' WHERE id = 1");
+
+                            }
+
                             ApplicationData.LanguageSign = Language_Selection1.Text;
-                            changeLable(Strings.LoginSucceed);
+                            ShowStatus(Strings.LoginSucceed);
                             this.Close();
                         }
                         else
                         {
-                            changeLable(Strings.LoginFailed);
-
+                            ShowStatus(Strings.LoginFailed);
                         }
                     }
-                    //关闭数据库连接
-                    //reader.Close();
-                    //conn.Close();
+                    
                 }
             }
             catch (Exception ex)
@@ -208,7 +296,7 @@ namespace huaanClient
             Thread.CurrentThread.CurrentUICulture = culture;
         }
 
-        public  void changeLable(string value)
+        public  void ShowStatus(string value)
         {
             this.Dispatcher.BeginInvoke(new Action(() => {
                 lbStatus.Content = value;
@@ -231,27 +319,31 @@ namespace huaanClient
                 {
                     jPlogo.Visibility = Visibility.Collapsed;
                     title.Visibility = Visibility.Visible;
-                    title.Margin = new Thickness(97, 52, 95, 0);
+                    //title.Margin = new Thickness(97, 52, 95, 0);
                     Language_Selection1.SelectedIndex = 0;
                 }
                 else if (ss.Contains("ja-JP"))
                 {
                     jPlogo.Visibility = Visibility.Visible;
                     title.Visibility = Visibility.Collapsed;
-                    jPlogo.Margin = new Thickness(124, 52, 95, 0);
+                    //jPlogo.Margin = new Thickness(124, 52, 95, 0);
                     Language_Selection1.SelectedIndex = 1;
                 }
                 else
                 {
                     title.Visibility = Visibility.Visible;
                     jPlogo.Visibility = Visibility.Collapsed;
-                    title.Margin = new Thickness(97, 52, 95, 0);
+                    //title.Margin = new Thickness(97, 52, 95, 0);
                     Language_Selection1.SelectedIndex = 2;
                 }
 
                 Language_Selection1.SelectedIndex = int.Parse(ConfigurationManager.AppSettings["select"]);
                 username.Text = ConfigurationManager.AppSettings["name"];
-                password.Password = ConfigurationManager.AppSettings["password"];
+                var rememberPassword = string.Equals(ConfigurationManager.AppSettings["rememberPassword"], "true", StringComparison.InvariantCultureIgnoreCase);
+                RememberPassword.IsChecked = rememberPassword;
+                
+                password.Password = rememberPassword ?
+                    ConfigurationManager.AppSettings["password"] : "";
 
             }
             catch
@@ -271,17 +363,14 @@ namespace huaanClient
             //CSQLiteHelper.NewTable(dbPath, tableName);
         }
 
-        private void Language_Selection1_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            
-        }
+        
 
 
         private void Language_Selection1_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             SetCurrentLanguage();
 
-            changeLable("");
+            ShowStatus("");
             if (Language_Selection1.SelectedIndex == 0)
             {
                 usernamelable.Content = "账号";
@@ -291,7 +380,7 @@ namespace huaanClient
 
                 jPlogo.Visibility = Visibility.Collapsed;
                 title.Visibility = Visibility.Visible;
-                title.Margin = new Thickness(97, 52, 95, 0);
+                //title.Margin = new Thickness(97, 52, 95, 0);
             }
             else if (Language_Selection1.SelectedIndex == 1)
             {
@@ -302,7 +391,7 @@ namespace huaanClient
 
                 title.Visibility = Visibility.Visible;
                 jPlogo.Visibility = Visibility.Collapsed;
-                title.Margin = new Thickness(97, 52, 95, 0);
+                //title.Margin = new Thickness(97, 52, 95, 0);
             }
             else if (Language_Selection1.SelectedIndex == 2)
             {
@@ -313,7 +402,7 @@ namespace huaanClient
 
                 jPlogo.Visibility = Visibility.Visible;
                 title.Visibility = Visibility.Collapsed;
-                jPlogo.Margin = new Thickness(124, 52, 95, 0);
+                //jPlogo.Margin = new Thickness(124, 52, 95, 0);
             }
             else if (Language_Selection1.SelectedIndex == 3)
             {
@@ -324,7 +413,7 @@ namespace huaanClient
 
                 title.Visibility = Visibility.Visible;
                 jPlogo.Visibility = Visibility.Collapsed;
-                title.Margin = new Thickness(10,52,10,0);
+                //title.Margin = new Thickness(10,52,10,0);
             }
             else if (Language_Selection1.SelectedIndex == 4)
             {
@@ -335,9 +424,13 @@ namespace huaanClient
 
                 title.Visibility = Visibility.Visible;
                 jPlogo.Visibility = Visibility.Collapsed;
-                title.Margin = new Thickness(10, 52, 10, 0);
-
+                //title.Margin = new Thickness(10, 52, 10, 0);
             }
+
+            changePassword.Content = Strings.ChangePassword;
+            NewPasswordlable.Content = Strings.NewPassword;
+            ConfirmNewPasswordlable.Content = Strings.ConfirmNewPassword;
+            RememberPassword.Content = Strings.RememberPassword;
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
@@ -358,6 +451,11 @@ namespace huaanClient
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        private void changePassword_Click(object sender, RoutedEventArgs e)
+        {
+            ShowChangePassword = changePassword.IsChecked == true;
         }
     }
 }

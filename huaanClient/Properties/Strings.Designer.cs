@@ -106,6 +106,33 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 修改密码.
+        /// </summary>
+        internal static string ChangePassword {
+            get {
+                return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 确认新密码.
+        /// </summary>
+        internal static string ConfirmNewPassword {
+            get {
+                return ResourceManager.GetString("ConfirmNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 两次输入的新密码不同.
+        /// </summary>
+        internal static string ConfirmNewPasswordMismatch {
+            get {
+                return ResourceManager.GetString("ConfirmNewPasswordMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 连接数据库失败: {0}.
         /// </summary>
         internal static string ConnectDbFailed {
@@ -196,6 +223,24 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 新密码.
+        /// </summary>
+        internal static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 新密码不能和旧密码相同.
+        /// </summary>
+        internal static string NewPasswordCanotBeSameAsOld {
+            get {
+                return ResourceManager.GetString("NewPasswordCanotBeSameAsOld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 密码不能为空.
         /// </summary>
         internal static string PasswordEmpty {
@@ -210,6 +255,15 @@ namespace huaanClient.Properties {
         internal static string PromptSwitchingCamera {
             get {
                 return ResourceManager.GetString("PromptSwitchingCamera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 记住密码.
+        /// </summary>
+        internal static string RememberPassword {
+            get {
+                return ResourceManager.GetString("RememberPassword", resourceCulture);
             }
         }
         
