@@ -45,13 +45,21 @@ namespace InsuranceBrowserLib
             }
             else if (language.Contains("FR"))
             {
-                this.Size = new System.Drawing.Size(700, 214);
                 this.Text = " Conseils chaleureux";
                 label1.Text = "Vous avez sélectionné le bouton Fermer et vous voulez";
                 zCheckBox1.Text = "Réduire au minimum la zone du plateau système sans quitter le programme";
                 zCheckBox2.Text = "Procédure de sortie";
                 zButton1.Text = "C'est sûr";
                 zButton2.Text = "Annulation";
+            }
+            else if (language.Contains("vi"))
+            {
+                this.Text = "Nhắc lại";
+                label1.Text = "Bạn đã chọn nút đóng và bạn muốn";
+                zCheckBox1.Text = "Thu nhỏ vùng khay hệ thống, không được thoát khỏi chương trình.";
+                zCheckBox2.Text = "Thoát chương trình.";
+                zButton1.Text = "Phải.";
+                zButton2.Text = "Không";
             }
 
 

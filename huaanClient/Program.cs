@@ -270,6 +270,10 @@ namespace huaanClient
             {
                 isZn = "FR";
             }
+            else if (ApplicationData.LanguageSign == Constants.LANG_NAME_VIETNAMESE)
+            {
+                isZn = "vi";
+            }
             ChromiumForm chromiumForm = new ChromiumForm(url);
             chromiumForm.Text = ". . .";
             Application.Run(new MainForm(chromiumForm, isZn));
