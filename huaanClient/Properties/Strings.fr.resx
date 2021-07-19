@@ -143,8 +143,7 @@
 		<value>Équipement hors ligne</value>
 	</data>
 	<data name="StaffNames" xml:space="preserve">
-		<value>Nom,adresse électronique,numéro de téléphone,numéro d'employé,chemin de la photo,date d'ajout,numéro de carte d'identité,numéro de carte d'accès,numéro de carte d'accès,Ministère,classification des employés
-</value>
+		<value>Nom,adresse électronique,numéro de téléphone,numéro d'employé,chemin de la photo,date d'ajout,numéro de carte d'identité,numéro de carte d'accès,numéro de carte d'accès,Ministère,classification des employés</value>
 	</data>
 	<data name="InitializingDb" xml:space="preserve">
 		<value>Initialisation de la base de données...</value>
@@ -193,5 +192,8 @@
 	</data>
 	<data name="RememberPassword" xml:space="preserve">
 		<value>Rappelez - vous le mot de passe.</value>
+	</data>
+	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
+		<value>Dossiers de présence</value>
 	</data>
 </root>

@@ -106,6 +106,33 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 考勤记录.
+        /// </summary>
+        internal static string CaptureDataExportDefaultFileName {
+            get {
+                return ResourceManager.GetString("CaptureDataExportDefaultFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string CaptureDataKeys {
+            get {
+                return ResourceManager.GetString("CaptureDataKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string CaptureDataNames {
+            get {
+                return ResourceManager.GetString("CaptureDataNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 修改密码.
         /// </summary>
         internal static string ChangePassword {

@@ -462,9 +462,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 }
                 else
                 {
-                    string re = GetData.getCapture_Data1(statime, endtime, name, devname, stranger, HealthCodeType);
+                    var data = GetData.getCapture_Data1(statime, endtime, name, devname, stranger, HealthCodeType);
 
-                    re = re.Replace("null","''") ;
+                    DataToCsv.ExportDataToXlsx<Capture_Data>(
+                        huaanClient.Properties.Strings.CaptureDataExportDefaultFileName,
+                        data,
+
+                        )
                     exportToCsv.exportFor(type,re, statime.Split(' ')[0] +"-"+ endtime.Split(' ')[0]);
                 }
                 //选择路径进行导出

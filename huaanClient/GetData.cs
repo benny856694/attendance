@@ -3568,62 +3568,124 @@ namespace huaanClient
             return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
         }
 
-        public static string getCapture_Data1(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType)
+        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType)
         {
-            StringBuilder commandText = new StringBuilder("SELECT ca.addr_name as addr_name"+
-", ca.time as time" + 
-", ca.match_status as match_status" + 
-", ca.person_name as person_name" + 
-", ca.wg_card_id as wg_card_id" + 
-", ca.match_failed_reson as match_failed_reson" + 
-", ca.exist_mask as exist_mask" + 
-", ca.body_temp as body_temp" + 
-", ca.device_sn as device_sn" + 
-", ca.idcard_number as idcard_number" + 
-", ca.idcard_name as idcard_name" + 
-", ca.QRcodestatus as QRcodestatus "+
-", ca.trip_infor as trip_infor " +
-", ca.closeup as closeup " +
-" FROM Capture_Data ca LEFT JOIN staff sta on sta.id=ca.person_id WHERE 1=1 AND");
+            var pg = new DapperExtensions.PredicateGroup 
+            { 
+                Operator = DapperExtensions.GroupOperator.And, 
+                Predicates = new List<DapperExtensions.IPredicate>()
+            };
+
             if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
             {
-                commandText.Append(" '" + statime + "' < time AND  time < '" + endtime + "' AND");
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.time, DapperExtensions.Operator.Gt, statime));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.time, DapperExtensions.Operator.Lt, endtime));
             }
+
             if (!string.IsNullOrEmpty(name))
             {
-                commandText.Append(" person_name LIKE '%" + name.Trim() + "%' AND");
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_name, DapperExtensions.Operator.Like, $"%{name}%"));
             }
+
             if (!string.IsNullOrEmpty(devname))
             {
-                commandText.Append(" device_sn='" + devname + "' AND");
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.device_sn, DapperExtensions.Operator.Eq, devname));
             }
+
             if (HealthCodeType != "0")
             {
                 if (HealthCodeType == "1")
                 {
-                    commandText.Append(" QRcodestatus LIKE '%绿码%' AND");
+                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Operator.Like, "%绿码%"));
                 }
                 else if (HealthCodeType == "2")
                 {
-                    commandText.Append(" QRcodestatus LIKE '%黄码%' AND");
+                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Operator.Like, "%黄码%"));
                 }
                 else if (HealthCodeType == "3")
                 {
-                    commandText.Append(" QRcodestatus LIKE '%红码%' AND");
+                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Operator.Like, "%红码%"));
                 }
             }
             if (!string.IsNullOrEmpty(stranger))
             {
                 if (stranger.Trim() == "1")
                 {
-                    commandText.Append(" match_status='0' or match_status='-1' AND");
+                    var strangerGroup = new DapperExtensions.PredicateGroup()
+                    {
+                        Operator = DapperExtensions.GroupOperator.Or,
+                        Predicates = new List<DapperExtensions.IPredicate>()
+                    };
+                    strangerGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.match_status, DapperExtensions.Operator.Eq, "0"));
+                    strangerGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.match_status, DapperExtensions.Operator.Eq, "-1"));
+                    pg.Predicates.Add(strangerGroup);
                 }
             }
 
-            string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
-            commandText2 = commandText2 +
-                "order by ca.id DESC";
-            return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                return DapperExtensions.DapperExtensions.GetList<Capture_Data>(
+                    conn, 
+                    pg, 
+                    new List<DapperExtensions.ISort>() { new DapperExtensions.Sort() { PropertyName = nameof(Capture_Data.id), Ascending = false } }
+                    ).ToArray();
+            }
+            
+
+//            StringBuilder commandText = new StringBuilder("SELECT ca.addr_name as addr_name"+
+//", ca.time as time" + 
+//", ca.match_status as match_status" + 
+//", ca.person_name as person_name" + 
+//", ca.wg_card_id as wg_card_id" + 
+//", ca.match_failed_reson as match_failed_reson" + 
+//", ca.exist_mask as exist_mask" + 
+//", ca.body_temp as body_temp" + 
+//", ca.device_sn as device_sn" + 
+//", ca.idcard_number as idcard_number" + 
+//", ca.idcard_name as idcard_name" + 
+//", ca.QRcodestatus as QRcodestatus "+
+//", ca.trip_infor as trip_infor " +
+//", ca.closeup as closeup " +
+//" FROM Capture_Data ca LEFT JOIN staff sta on sta.id=ca.person_id WHERE 1=1 AND");
+//            if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
+//            {
+//                commandText.Append(" '" + statime + "' < time AND  time < '" + endtime + "' AND");
+//            }
+//            if (!string.IsNullOrEmpty(name))
+//            {
+//                commandText.Append(" person_name LIKE '%" + name.Trim() + "%' AND");
+//            }
+//            if (!string.IsNullOrEmpty(devname))
+//            {
+//                commandText.Append(" device_sn='" + devname + "' AND");
+//            }
+//            if (HealthCodeType != "0")
+//            {
+//                if (HealthCodeType == "1")
+//                {
+//                    commandText.Append(" QRcodestatus LIKE '%绿码%' AND");
+//                }
+//                else if (HealthCodeType == "2")
+//                {
+//                    commandText.Append(" QRcodestatus LIKE '%黄码%' AND");
+//                }
+//                else if (HealthCodeType == "3")
+//                {
+//                    commandText.Append(" QRcodestatus LIKE '%红码%' AND");
+//                }
+//            }
+//            if (!string.IsNullOrEmpty(stranger))
+//            {
+//                if (stranger.Trim() == "1")
+//                {
+//                    commandText.Append(" match_status='0' or match_status='-1' AND");
+//                }
+//            }
+
+//            string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
+//            commandText2 = commandText2 +
+//                "order by ca.id DESC";
+//            return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
         }
 
         public static bool delCapture_DataForid(string id)

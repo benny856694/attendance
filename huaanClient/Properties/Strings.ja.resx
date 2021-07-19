@@ -196,4 +196,7 @@
 	<data name="RememberPassword" xml:space="preserve">
 		<value>パスワードを覚えて</value>
 	</data>
+	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
+		<value>出席記録</value>
+	</data>
 </root>

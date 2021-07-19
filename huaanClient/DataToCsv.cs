@@ -356,7 +356,7 @@ namespace huaanClient
 
 
 
-        public static void ExportDataToCSV<T>(
+        public static void ExportDataToXlsx<T>(
             string fileName, 
             T[] data, 
             Dictionary<string, string> propertyNames,
@@ -901,145 +901,9 @@ namespace huaanClient
 
             var selectedProperties = new string[] { "name", "Email", "phone", "Employee_code", "picture", "publish_time", "IDcardNo", "face_idcard", "idcardtype", "department_id", "Employetype_id" };
 
-            ExportDataToCSV(fileName, data, propertyNames, converter, selectedProperties);
-            return;
+            ExportDataToXlsx(fileName, data, propertyNames, converter, selectedProperties);
 
-            //Thread.SetApartmentState(ApartmentState.STA);
-            if (table == null || table.Rows.Count == 0)
-            {
-                return;
-            }
-
-            SaveFileDialog saveDlg = new SaveFileDialog();
-            saveDlg.Filter = "CSV文件(*.csv)|*.csv";
-            saveDlg.FileName = fileName;
-
-            if (saveDlg.ShowDialog() == DialogResult.OK)
-            {
-                FileStream fs = new FileStream(saveDlg.FileName, FileMode.Create);
-                StreamWriter write = new StreamWriter(fs, Encoding.Default);
-                try
-                {
-                    //标题行
-                    string name = "";
-                    string Email = "";
-                    string phone = "";
-                    string Employee_code = "";
-                    string picture = "";
-                    string publish_time = "";
-                    string IDcardNo = "";
-                    string face_idcard = "";
-                    string idcardtype = "";
-                    string departmentname = "";
-                    string Employetypename = "";
-
-                    if (ApplicationData.LanguageSign.Contains("English"))
-                    {
-                        name = table.Columns["name"].ColumnName = "Name";
-                        Email = table.Columns["Email"].ColumnName = "Email";
-                        //string personId = table.Columns["UserKey"].ColumnName = "用户编码";
-                        phone = table.Columns["phone"].ColumnName = "Phone";
-                        Employee_code = table.Columns["Employee_code"].ColumnName = "Employee Code";
-                        picture = table.Columns["picture"].ColumnName = "Picture";
-                        publish_time = table.Columns["publish_time"].ColumnName = "Publish Time";
-                        IDcardNo = table.Columns["IDcardNo"].ColumnName = "IDcardNo";
-                        face_idcard = table.Columns["face_idcard"].ColumnName = "Face Idcard";
-                        idcardtype = table.Columns["idcardtype"].ColumnName = "Idcardtype";
-                        departmentname = table.Columns["departmentname"].ColumnName = "Department Name";
-                        Employetypename = table.Columns["Employetypename"].ColumnName = "Employetype Name";
-                    }
-                    else if (ApplicationData.LanguageSign.Contains("日本語"))
-                    {
-                        name = table.Columns["name"].ColumnName = "Name";
-                        Email = table.Columns["Email"].ColumnName = "Email";
-                        //string personId = table.Columns["UserKey"].ColumnName = "用户编码";
-                        phone = table.Columns["phone"].ColumnName = "Phone";
-                        Employee_code = table.Columns["Employee_code"].ColumnName = "Employee Code";
-                        picture = table.Columns["picture"].ColumnName = "Picture";
-                        publish_time = table.Columns["publish_time"].ColumnName = "Publish Time";
-                        IDcardNo = table.Columns["IDcardNo"].ColumnName = "IDcardNo";
-                        face_idcard = table.Columns["face_idcard"].ColumnName = "Face Idcard";
-                        idcardtype = table.Columns["idcardtype"].ColumnName = "Idcardtype";
-                        departmentname = table.Columns["departmentname"].ColumnName = "Department Name";
-                        Employetypename = table.Columns["Employetypename"].ColumnName = "Employetype Name";
-                    }
-                    else
-                    {
-                        name = table.Columns["name"].ColumnName = "姓名";
-                        Email = table.Columns["Email"].ColumnName = "邮箱地址";
-                        //string personId = table.Columns["UserKey"].ColumnName = "用户编码";
-                        phone = table.Columns["phone"].ColumnName = "电话号码";
-                        Employee_code = table.Columns["Employee_code"].ColumnName = "员工编号";
-                        picture = table.Columns["picture"].ColumnName = "照片路径";
-                        publish_time = table.Columns["publish_time"].ColumnName = "添加日期";
-                        IDcardNo = table.Columns["IDcardNo"].ColumnName = "身份证号码";
-                        face_idcard = table.Columns["face_idcard"].ColumnName = "门禁卡号";
-                        idcardtype = table.Columns["idcardtype"].ColumnName = "门禁卡号位数";
-                        departmentname = table.Columns["departmentname"].ColumnName = "部门";
-                        Employetypename = table.Columns["Employetypename"].ColumnName = "员工分类";
-                    }
-
-
-                    write.Write(name + ",");
-                    write.Write(Email + ",");
-                    write.Write(phone + ",");
-                    write.Write(Employee_code + ",");
-                    //write.Write(hatColor + ",");
-                    write.Write(picture + ",");
-                    write.Write(publish_time + ",");
-                    write.Write(IDcardNo + ",");
-                    write.Write(face_idcard + ",");
-                    write.Write(idcardtype + ",");
-                    write.Write(departmentname + ",");
-                    write.Write(Employetypename + ",");
-
-                    write.WriteLine();
-                    //明细行
-                    for (int row = 0; row < table.Rows.Count; row++)
-                    {
-                        string Tem = "";
-                        for (int column = 1; column < table.Columns.Count; column++)
-                        {
-                            if (column == 5 || column == 6 || column == 9 || column == 10 ||
-                                column == 12 || column == 13
-                                || column == 14 || column == 16 || column == 15
-                                || column == 19|| column == 22|| column == 23)
-                                continue;
-                            if (table.Rows[row][column] != DBNull.Value)
-                            {
-                                string TemString = table.Rows[row][column].ToString().Trim();
-                                Tem += TemString + "\t";
-                                Tem += ",";
-                            }
-                            else
-                            {
-                                string TemString = "";
-                                Tem += TemString;
-                                Tem += ",";
-                            }
-                        }
-                        write.WriteLine(Tem);
-                    }
-                    write.Flush();
-                    write.Close();
-                    string msg = "导出成功：";
-                    if (ApplicationData.LanguageSign.Contains("English"))
-                        msg = "Export succeeded：";
-                    else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        msg = "エクスポート成功：";
-                    MessageBox.Show(msg + saveDlg.FileName.ToString().Trim());
-                }
-                catch (Exception ex)
-                {
-                    string msg = "导出失败：";
-                    if (ApplicationData.LanguageSign.Contains("English"))
-                        msg = "Export failed：";
-                    else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        msg = "エクスポート失敗：";
-                    MessageBox.Show(msg);
-                    write.Close();
-                }
-            }
+           
         }
 
         /// <summary>

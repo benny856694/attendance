@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Database
 {
+    [Table("Capture_Data")]
     public class Capture_Data
     {
+        [Key]
         public long id { get; set; }
         public string sequnce { get; set; }
         public string device_id { get; set; }

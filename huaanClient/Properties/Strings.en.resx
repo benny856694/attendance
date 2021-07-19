@@ -216,4 +216,7 @@
 	<data name="RememberPassword" xml:space="preserve">
 		<value>Remember Password</value>
 	</data>
+	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
+		<value>Attendance Record</value>
+	</data>
 </root>

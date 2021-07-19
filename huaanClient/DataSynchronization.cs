@@ -104,9 +104,11 @@ namespace huaanClient
                         //name, imge,personid,publishtime,role," +
                         //"term_start,term,wg_card_id,long_card_id,addr_name
                         JArray jArray = (JArray)jToken["persons"];
-
+                        if (jArray == null) continue;
+                        
 
                         JObject jObject = new JObject();
+                        //todo: jArray could be null
                         jObject["name"] = jArray[0]["name"].ToString();
 
                         jObject["device_sn"] = jToken["device_sn"].ToString();

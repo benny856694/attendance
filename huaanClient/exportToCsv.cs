@@ -192,7 +192,7 @@ namespace huaanClient
 
             var propertyNames = Tools.GetPropertyNames(nameof(AttendanceData));
 
-            DataToCsv.ExportDataToCSV(getGoupname()+"-" + msg +"-"+ te, data, propertyNames, convert, selectedProperties);
+            DataToCsv.ExportDataToXlsx(getGoupname()+"-" + msg +"-"+ te, data, propertyNames, convert, selectedProperties);
         }
 
         public static void exportFor(string type, string data, string te)

@@ -104,7 +104,7 @@
 		<value>Không có đĩa để lưu dữ liệu</value>
 	</data>
 	<data name="AttendanceNames" xml:space="preserve">
-		<value>Tên,bộ phận,số nhân viên,ngày tham gia,giờ đồng hồ,giờ làm việc,giờ học (giờ),muộn (phút),giờ làm thêm (phút),giờ làm thêm,mất tích,nhiệt độ cơ thể.</value>
+		<value>Tên,Bộ phận,Số nhân viên,Ngày tham dự,Giờ vào,Giờ ra,Thông tin ca làm việc,Thời gian tham dự (giờ),Muộn (phút),Nghỉ sớm (phút),Làm thêm giờ (phút),Vắng mặt,Nhiệt độ cơ thể (℃)</value>
 	</data>
 	<data name="Camera" xml:space="preserve">
 		<value>máy ảnh</value>
@@ -137,7 +137,7 @@
 		<value>Tấm ảnh không đáp ứng yêu cầu</value>
 	</data>
 	<data name="StaffNames" xml:space="preserve">
-		<value>Tên,địa chỉ email,số điện thoại,số nhân viên,đường ảnh,cộng ngày tháng,số thẻ căn cước,số thẻ truy cập,bộ phận,phân hạng nhân viên</value>
+		<value>Tên,Email,Số điện thoại,Số nhân viên,Đường dẫn ảnh,Ngày tạo,Số ID,Số thẻ kiểm soát truy cập,Độ dài thẻ kiểm soát truy cập,Bộ phận,Loại nhân viên</value>
 	</data>
 	<data name="Switch" xml:space="preserve">
 		<value>công</value>
@@ -192,5 +192,8 @@
 	</data>
 	<data name="RememberPassword" xml:space="preserve">
 		<value>Nhớ mật khẩu</value>
+	</data>
+	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
+		<value>danh sách tham dự</value>
 	</data>
 </root>
