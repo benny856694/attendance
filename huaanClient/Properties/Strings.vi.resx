@@ -196,4 +196,28 @@
 	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
 		<value>danh sách tham dự</value>
 	</data>
+	<data name="CaptureRecordColumnNames" xml:space="preserve">
+		<value>tên đầy đủ,Tên trang bị,Thời gian thẻ tín dụng,Điểm tương phản,Số thẻ truy cập,Lý do gây thất bại,Anh có đeo mặt nạ không?,Nhiệt,Số seri Thiết bị,Số chứng nhận,Tên của chứng nhận,Hệ thống Y tế,Thông tin mật,Vẽ đường dẫn</value>
+	</data>
+	<data name="GreenCode" xml:space="preserve">
+		<value>  </value>
+	</data>
+	<data name="RedCode" xml:space="preserve">
+		<value>  </value>
+	</data>
+	<data name="YellowCode" xml:space="preserve">
+		<value>  </value>
+	</data>
+	<data name="Yes" xml:space="preserve">
+		<value>Phải.</value>
+	</data>
+	<data name="ExportFileFailedWithError" xml:space="preserve">
+		<value>Lỗi xuất tập tin: {0}</value>
+	</data>
+	<data name="ExportFileSucceed" xml:space="preserve">
+		<value>Xuất tập tin thành công</value>
+	</data>
+	<data name="ExcelFile" xml:space="preserve">
+		<value>Xoá tập tin (*.xlsx)|*.xlsx</value>
+	</data>
 </root>

@@ -133,6 +133,24 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to person_name,addr_name,time,match_status,wg_card_id,match_failed_reson,exist_mask,body_temp,device_sn,idcard_number,idcard_name,QRcodestatus,trip_infor,closeup.
+        /// </summary>
+        internal static string CaptureRecordColumnKeys {
+            get {
+                return ResourceManager.GetString("CaptureRecordColumnKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 姓名,设备名称,刷卡时间,对比分数,门禁卡号,比对失败原因,是否佩戴口罩,体温,设备序列号,证件编号,证件姓名,健康码状态,行程信息,抓拍图片路径.
+        /// </summary>
+        internal static string CaptureRecordColumnNames {
+            get {
+                return ResourceManager.GetString("CaptureRecordColumnNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 修改密码.
         /// </summary>
         internal static string ChangePassword {
@@ -187,11 +205,47 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Excel文件 (*.xlsx)|*.xlsx.
+        /// </summary>
+        internal static string ExcelFile {
+            get {
+                return ResourceManager.GetString("ExcelFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 发生错误：{0}.
         /// </summary>
         internal static string ExceptionOccurred {
             get {
                 return ResourceManager.GetString("ExceptionOccurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 导出文件失败：{0}.
+        /// </summary>
+        internal static string ExportFileFailedWithError {
+            get {
+                return ResourceManager.GetString("ExportFileFailedWithError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 导出文件成功.
+        /// </summary>
+        internal static string ExportFileSucceed {
+            get {
+                return ResourceManager.GetString("ExportFileSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 绿码.
+        /// </summary>
+        internal static string GreenCode {
+            get {
+                return ResourceManager.GetString("GreenCode", resourceCulture);
             }
         }
         
@@ -282,6 +336,15 @@ namespace huaanClient.Properties {
         internal static string PromptSwitchingCamera {
             get {
                 return ResourceManager.GetString("PromptSwitchingCamera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 红码.
+        /// </summary>
+        internal static string RedCode {
+            get {
+                return ResourceManager.GetString("RedCode", resourceCulture);
             }
         }
         
@@ -390,6 +453,24 @@ namespace huaanClient.Properties {
         internal static string UsernameOrPasswordIncorrect {
             get {
                 return ResourceManager.GetString("UsernameOrPasswordIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 黄码.
+        /// </summary>
+        internal static string YellowCode {
+            get {
+                return ResourceManager.GetString("YellowCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 是.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

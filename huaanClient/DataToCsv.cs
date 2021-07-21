@@ -1,6 +1,7 @@
 ﻿using Dapper.Contrib.Extensions;
 using DBUtility.SQLite;
 using huaanClient.Database;
+using huaanClient.Properties;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections;
@@ -373,7 +374,7 @@ namespace huaanClient
             selectedPropertyNames = selectedPropertyNames ?? propertyNames.Keys.ToArray();
 
             SaveFileDialog saveDlg = new SaveFileDialog();
-            saveDlg.Filter = "Excel文件(*.xlsx)|*.xlsx";
+            saveDlg.Filter = Strings.ExcelFile;
             saveDlg.FileName = fileName;
 
             if (saveDlg.ShowDialog() == DialogResult.OK)
@@ -402,6 +403,7 @@ namespace huaanClient
                             var str = convertValueToString(d, propertyName, v);
                             row.CreateCell(j).SetCellValue(str);
                         }
+                        Application.DoEvents();
                     }
 
 
@@ -409,20 +411,12 @@ namespace huaanClient
                     workbook.Write(fs);
                     fs.Close();
     
-                    string msg = "导出成功：";
-                    if (ApplicationData.LanguageSign.Contains("English"))
-                        msg = "Export succeeded：";
-                    else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        msg = "エクスポート成功：";
-                    MessageBox.Show(msg + saveDlg.FileName.ToString().Trim());
+                    
+                    MessageBox.Show($"{Strings.ExportFileSucceed}: {saveDlg.FileName}");
                 }
                 catch (Exception ex)
                 {
-                    string msg = $"导出失败：{ex.Message}";
-                    if (ApplicationData.LanguageSign.Contains("English"))
-                        msg = $"Export failed：{ex.Message}";
-                    else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        msg = $"エクスポート失敗：{ex.Message}";
+                    var msg = string.Format(Strings.ExportFileFailedWithError, ex.Message);
                     MessageBox.Show(msg);
                 }
             }

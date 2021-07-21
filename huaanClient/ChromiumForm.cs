@@ -21,6 +21,7 @@ using System.Security.Cryptography.X509Certificates;
 using HaSdkWrapper;
 using CefSharp.ModelBinding;
 using huaanClient.Database;
+using huaanClient.Properties;
 
 namespace InsuranceBrowser
 {
@@ -463,13 +464,51 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 else
                 {
                     var data = GetData.getCapture_Data1(statime, endtime, name, devname, stranger, HealthCodeType);
+                    var propertyNames = Tools.GetPropertyNames(nameof(Capture_Data));
+                    Func<Capture_Data, string, object, string> convertProperty = (d, pname, v) =>
+                    {
+                        switch (pname)
+                        {
+                            case nameof(Capture_Data.body_temp):
+                                if (v is string val)
+                                {
+                                    return val.Length > 3 ? val.Substring(0, 4) : val;
+                                }
+                                return "";
+                                break;
+                            case nameof(Capture_Data.exist_mask):
+                                return v == "1" ? Strings.Yes : "";
+                                break;
+                            case nameof(Capture_Data.QRcodestatus):
+                                switch (v)
+                                {
+                                    case "0"://绿
+                                        return Strings.GreenCode;
+                                        break;
+                                    case "1"://红
+                                        return Strings.RedCode;
+                                        break;
+                                    case "2"://黄
+                                        return Strings.YellowCode;
+                                        break;
+                                    default:
+                                        return v?.ToString().Split(';')[0] ?? "";
+                                        break;
+                                }
+                                break;
+                            default:
+                                return v?.ToString() ?? "";
+                                break;
+                        }
+                    };
 
                     DataToCsv.ExportDataToXlsx<Capture_Data>(
-                        huaanClient.Properties.Strings.CaptureDataExportDefaultFileName,
+                        Strings.CaptureDataExportDefaultFileName,
                         data,
-
-                        )
-                    exportToCsv.exportFor(type,re, statime.Split(' ')[0] +"-"+ endtime.Split(' ')[0]);
+                        propertyNames,
+                        convertProperty
+                        );
+                    //exportToCsv.exportFor(type,re, statime.Split(' ')[0] +"-"+ endtime.Split(' ')[0]);
                 }
                 //选择路径进行导出
 

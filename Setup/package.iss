@@ -2,7 +2,7 @@
 ; 有关创建 Inno Setup 脚本文件的详细资料请查阅帮助文档！
 
 #define MyAppName "FaceRASystem"
-#define MyAppVersion "2.7.6.0"
+#define MyAppVersion "2.7.7.0"
 #define MyAppPublisher "FaceRASystem"
 #define MyAppURL "http://www.huaanvision.com/"
 #define MyAppExeName "FaceRASystem.exe"
