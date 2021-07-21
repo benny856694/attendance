@@ -1122,8 +1122,8 @@ namespace huaanClient
             
             var distributions = conn.Query<EquipmentDistribution>(
                     "select * from Equipment_distribution " +
-                    "where userid = @userid and deviceid = @deviceid", 
-                    new { userid = staff.id, deviceid = device.id });
+                    "where userid = @userid and deviceid = @deviceid and isDistributedByEmployeeCode = @distributeByCode", 
+                    new { userid = staff.id, deviceid = device.id, distributeByCode });
             if (distributions.Count() == 0)
             {
                 var distro = new EquipmentDistribution()
