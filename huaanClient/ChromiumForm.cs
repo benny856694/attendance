@@ -477,7 +477,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                                 return "";
                                 break;
                             case nameof(Capture_Data.exist_mask):
-                                return v == "1" ? Strings.Yes : "";
+                                return v?.ToString() == "1" ? Strings.Yes : "";
                                 break;
                             case nameof(Capture_Data.QRcodestatus):
                                 switch (v)

@@ -1223,11 +1223,10 @@ namespace huaanClient
                         {
                             e.trip_infor = Encoding.UTF8.GetString(_v, idx, 512).TrimEnd('\0').Trim();
                         }
+
                         idx += 512;
-                        if (idx < _v.Length)
-                        {
-                            e.exist_mask = BitConverter.ToInt32(_v, idx) == 1;
-                        }
+                        e.exist_mask = BitConverter.ToInt32(_v, idx) == 1;
+                        
                         
                     }
                     catch (IndexOutOfRangeException)
