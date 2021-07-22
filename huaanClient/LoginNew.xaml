@@ -19,7 +19,7 @@
             <TextBox CaretBrush="White" Text="admin" x:Name="username" BorderBrush="White" VerticalContentAlignment="Center" Foreground="#FFFFFF" FontSize="12" Background="Transparent"  BorderThickness="0,0,0,2" TextWrapping="Wrap"/>
 
             <Label Content="密码" x:Name="passwordlable" FontSize="12" Foreground="#758092" HorizontalAlignment="Left" Margin="0,5,0,0" />
-            <PasswordBox CaretBrush="White"  x:Name="password" Background="Transparent"  BorderThickness="0,0,0,2" BorderBrush="White" VerticalContentAlignment="Center" Foreground="#FFFFFF" FontSize="12"/>
+            <PasswordBox Password="123456" CaretBrush="White"  x:Name="password" Background="Transparent"  BorderThickness="0,0,0,2" BorderBrush="White" VerticalContentAlignment="Center" Foreground="#FFFFFF" FontSize="12"/>
 
             <Label Content="新密码" x:Name="NewPasswordlable" Visibility="Collapsed" FontSize="12" Foreground="#758092" HorizontalAlignment="Left" Margin="0,5,0,0" />
             <PasswordBox CaretBrush="White"  Visibility="Collapsed" x:Name="NewPassword" Background="Transparent"  BorderThickness="0,0,0,2" BorderBrush="White" VerticalContentAlignment="Center" Foreground="#FFFFFF" FontSize="12"/>
@@ -37,7 +37,7 @@
                 <CheckBox Grid.Column="0" x:Name="changePassword" Content="修改密码" Foreground="White" VerticalAlignment="Center" Click="changePassword_Click"  />
                 <ComboBox Grid.Column="2" FontSize="14" Background="Red" SelectionChanged="Language_Selection1_SelectionChanged_1" x:Name="Language_Selection1" Height="auto"  Width="auto" HorizontalAlignment="Left"/>
             </Grid>
-            <CheckBox Grid.Column="0" x:Name="RememberPassword"  Content="记住密码" Foreground="White" VerticalAlignment="Center" Click="changePassword_Click" Margin="0,5,0,0"  />
+            <CheckBox Grid.Column="0" x:Name="RememberPassword"  Content="记住密码" Foreground="White" IsChecked="true" VerticalAlignment="Center" Click="changePassword_Click" Margin="0,5,0,0"  />
             <Label  FontSize="16"  Foreground="Red" x:Name="lbStatus" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="auto" Height="auto" Margin="0,20,0,0"/>
             <Button Style="{DynamicResource ButtonStyle1}" Content="登录" x:Name="login"  FontSize="15" IsDefault="True"  Click="Button_Click" FontFamily="SimSun" FontWeight="Bold" Foreground="#363636" Padding="20,5,20,5" HorizontalAlignment="Center"/>
         </StackPanel>
