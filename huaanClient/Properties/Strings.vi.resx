@@ -197,7 +197,7 @@
 		<value>danh sách tham dự</value>
 	</data>
 	<data name="CaptureRecordColumnNames" xml:space="preserve">
-		<value>tên đầy đủ,Tên trang bị,Thời gian thẻ tín dụng,Điểm tương phản,Số thẻ truy cập,Lý do gây thất bại,Anh có đeo mặt nạ không?,Nhiệt,Số seri Thiết bị,Số chứng nhận,Tên của chứng nhận,Hệ thống Y tế,Thông tin mật,Vẽ đường dẫn</value>
+		<value>tên đầy đủ,ID,Tên trang bị,Thời gian thẻ tín dụng,Điểm tương phản,Số thẻ truy cập,Lý do gây thất bại,Anh có đeo mặt nạ không?,Nhiệt,Số seri Thiết bị,Số chứng nhận,Tên của chứng nhận,Hệ thống Y tế,Thông tin mật,Vẽ đường dẫn</value>
 	</data>
 	<data name="GreenCode" xml:space="preserve">
 		<value>  </value>

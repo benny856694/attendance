@@ -197,7 +197,7 @@
 		<value>Dossiers de présence</value>
 	</data>
 	<data name="CaptureRecordColumnNames" xml:space="preserve">
-		<value>Nom,Nom du matériel,Temps de lecture de la carte,Score de comparaison,Numéro de la carte de contrôle d'accès,Raison de l'échec de la comparaison,Portez - vous un masque?,Température corporelle,Numéro de série du dispositif,Numéro du certificat,Nom du certificat,Statut du Code de santé,Informations sur l'itinéraire,Chemin de capture d'image</value>
+		<value>Nom,ID,Nom du matériel,Temps de lecture de la carte,Score de comparaison,Numéro de la carte de contrôle d'accès,Raison de l'échec de la comparaison,Portez - vous un masque?,Température corporelle,Numéro de série du dispositif,Numéro du certificat,Nom du certificat,Statut du Code de santé,Informations sur l'itinéraire,Chemin de capture d'image</value>
 	</data>
 	<data name="GreenCode" xml:space="preserve">
 		<value>  </value>

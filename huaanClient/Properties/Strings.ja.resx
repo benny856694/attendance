@@ -200,7 +200,7 @@
 		<value>出席記録</value>
 	</data>
 	<data name="CaptureRecordColumnNames" xml:space="preserve">
-		<value>名前,デバイス名,カードの時間,比較点,ゲートカード番号,失敗の原因に対して,マスクをしていますか,体温,デバイスシリアル番号,証明書番号,証明書の名前,健康コードの状態,ストローク情報,写真の撮り方</value>
+		<value>名前,ID,デバイス名,カードの時間,比較点,ゲートカード番号,失敗の原因に対して,マスクをしていますか,体温,デバイスシリアル番号,証明書番号,証明書の名前,健康コードの状態,ストローク情報,写真の撮り方</value>
 	</data>
 	<data name="GreenCode" xml:space="preserve">
 		<value>  </value>

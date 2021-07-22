@@ -78,6 +78,8 @@ namespace huaanClient
 
         private object reconnectLocker = new object();
         private Timer reconnectTimer;
+
+        NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         /// <summary>
         /// <para>尝试连接到设备</para>
         /// <para>如果当前设备不可达，程序会在后台尝试重连，直至连接成功或者调用Disconnect</para>
@@ -1243,8 +1245,16 @@ namespace huaanClient
                         byte[] bytes = e._closeup;
                         e._closeup = null;
                         Task.Factory.StartNew(new Action(() => {
-                            Directory.CreateDirectory(Path.GetDirectoryName(fn));
-                            File.WriteAllBytes(fn, bytes);
+                            try
+                            {
+                                Directory.CreateDirectory(Path.GetDirectoryName(fn));
+                                File.WriteAllBytes(fn, bytes);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex,  "save image exception");
+                            }
+                           
                         }));
                     }
                 }

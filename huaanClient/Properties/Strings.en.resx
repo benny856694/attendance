@@ -220,7 +220,7 @@
 		<value>Attendance Record</value>
 	</data>
 	<data name="CaptureRecordColumnNames" xml:space="preserve">
-		<value>full name,device name,clock-in time,match score,Access card number,match fail reason,mask,temperature,device serial number,ID card number,ID card name,Health code status,trip information,image path</value>
+		<value>full name,ID,device name,clock-in time,match score,Access card number,match fail reason,mask,temperature,device serial number,ID card number,ID card name,Health code status,trip information,image path</value>
 	</data>
 	<data name="GreenCode" xml:space="preserve">
 		<value>  </value>
