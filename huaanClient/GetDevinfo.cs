@@ -23,6 +23,8 @@ namespace huaanClient
         private static TaskCompletionSource<(string mac, string ip, string mask, string platform, string system)[]>
             _tcs;
 
+        static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public static DateTime LastDeviceFound
         {
             get
@@ -279,28 +281,36 @@ namespace huaanClient
                 var device = Deviceinfo.MyDevicelist[i];
                 if (device.IsConnected)
                 {
-                    //获取ntp是否打开 如果打开则先关闭
-                    var isDeviceSyncByNtp = device.GetNtpOnoff();
-                    if (isDeviceSyncByNtp != isSyncByNtp)
+                    try
                     {
-                        //关两次
-                        Deviceinfo.MyDevicelist[i].ToggleNtpEnable(isSyncByNtp);
-                        //Deviceinfo.MyDevicelist[i].ToggleNtpEnable(isSyncByNtp);
-                    }
-
-                    //同步当前时间到相机 2020/03/18 16:00:00
-                    if (!isSyncByNtp)
-                    {
-                        var cmd = new
+                        //获取ntp是否打开 如果打开则先关闭
+                        var isDeviceSyncByNtp = device.GetNtpOnoff();
+                        if (isDeviceSyncByNtp != isSyncByNtp)
                         {
-                            version = "0.2",
-                            cmd = "update date time",
-                            date_time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
-                        };
+                            //关两次
+                            Deviceinfo.MyDevicelist[i].ToggleNtpEnable(isSyncByNtp);
+                            //Deviceinfo.MyDevicelist[i].ToggleNtpEnable(isSyncByNtp);
+                        }
 
-                        var json = JsonConvert.SerializeObject(cmd);
-                        string s = request(device, json);
+                        //同步当前时间到相机 2020/03/18 16:00:00
+                        if (!isSyncByNtp)
+                        {
+                            var cmd = new
+                            {
+                                version = "0.2",
+                                cmd = "update date time",
+                                date_time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+                            };
+
+                            var json = JsonConvert.SerializeObject(cmd);
+                            string s = request(device, json);
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, $"同步时间：{device.IP}");
+                    }
+                    
                 }
             }
         }
