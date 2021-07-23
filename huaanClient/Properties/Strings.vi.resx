@@ -223,4 +223,10 @@
 	<data name="No" xml:space="preserve">
 		<value>không</value>
 	</data>
+	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
+		<value>tên đầy đủ,Mã người dùng,Bộ,Số nhân viên,Ngày tham dự,Tham dự (ngày),Số lần trễ/ toàn bộ thời gian (phút),Thời gian nghỉ sớm/ toàn bộ (phút),Ngày vắng mặt,Nghỉ phép</value>
+	</data>
+	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
+		<value>Báo cáo tham dự tháng</value>
+	</data>
 </root>

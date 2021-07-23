@@ -226,4 +226,10 @@
 	<data name="No" xml:space="preserve">
 		<value>いいえ、</value>
 	</data>
+	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
+		<value>名前,ユーザーコード,部門,従業員番号,勤務時間,出勤（日）,遅刻回数/総時間長（分）,早退回数/総時間長（分）,欠勤日数,休暇日数</value>
+	</data>
+	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
+		<value>月間勤務評定表</value>
+	</data>
 </root>

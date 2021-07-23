@@ -264,4 +264,7 @@
 	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
     <value>姓名,用户编码,部门,员工编号,考勤日期,出勤(天),迟到次数/总时长(分钟),早退次数/总时长(分钟),旷工天数,请假天数</value>
   </data>
+	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
+    <value>月度考勤报表</value>
+  </data>
 </root>

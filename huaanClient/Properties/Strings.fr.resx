@@ -223,4 +223,10 @@
 	<data name="No" xml:space="preserve">
 		<value>Non</value>
 	</data>
+	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
+		<value>Nom,Code d'utilisateur,Ministère,numéro d'employé,date de présence,présence (jour),temps de retard / durée totale (minutes),temps de départ anticipé / durée totale (minutes),jours d'absence,jours de congé</value>
+	</data>
+	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
+		<value>Rapport mensuel de présence</value>
+	</data>
 </root>

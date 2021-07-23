@@ -986,8 +986,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     }
 
                 };
+
+                
                 DataToCsv.ExportDataToXlsx(
-                    "monthly attendance",
+                    $"{Strings.AttendanceDataMonthlyExportFileName}({date})",
                     data,
                     pnames,
                     convertPropertyToString,

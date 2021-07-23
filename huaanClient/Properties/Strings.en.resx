@@ -246,4 +246,10 @@
 	<data name="No" xml:space="preserve">
 		<value>No</value>
 	</data>
+	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
+		<value>Name,user code,Department,employee number,attendance date,attendance (day),number of latecomers / total time (minutes),number of early leave / total time (minutes),days of absenteeism,leave days</value>
+	</data>
+	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
+		<value>Monthly attendance report</value>
+	</data>
 </root>
