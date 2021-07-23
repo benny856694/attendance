@@ -176,8 +176,8 @@ namespace huaanClient
                                     string LeaveCountforint = string.Empty;
                                     try
                                     {
-                                        int sss = int.Parse(table.Rows[row][column].ToString().Trim());
-                                        float ssss = float.Parse(table.Rows[row][table.Columns.Count - 1].ToString().Trim()) / 2;
+                                        //int sss = int.Parse(table.Rows[row][column].ToString().Trim());
+                                        //float ssss = float.Parse(table.Rows[row][table.Columns.Count - 1].ToString().Trim()) / 2;
                                         LeaveCountforint = (float.Parse(table.Rows[row][column].ToString().Trim()) + float.Parse(table.Rows[row][table.Columns.Count - 1].ToString().Trim()) / 2).ToString();
                                     }
                                     catch { }

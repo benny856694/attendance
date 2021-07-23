@@ -1227,9 +1227,10 @@ namespace huaanClient
                         }
 
                         idx += 512;
-                        e.exist_mask = BitConverter.ToInt32(_v, idx) == 1;
-                        
-                        
+                        if (idx < _v.Length)
+                        {
+                            e.exist_mask = BitConverter.ToInt32(_v, idx) == 1;
+                        }
                     }
                     catch (IndexOutOfRangeException)
                     {

@@ -335,10 +335,10 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getMonthlyData(string date, string name)
+        public static AttendanceDataMonthly[] getMonthlyData(string date, string name)
         {
             if (string.IsNullOrEmpty(date))
-                return "";
+                return new AttendanceDataMonthly[0];
             else
             {
                 string commandText = "SELECT name,personId,department,Employee_code,strftime( '%Y-%m', date ) as nowdate,count( isAbsenteeism != '0' OR isAbsenteeism !=NULL ) AS Attendance,(julianday( strftime( '%Y-%m-%d', '" + DateTime.Parse(date).AddMonths(1).ToShortDateString() + "' ) ) - julianday( strftime( '%Y-%m', date ) || '-01' ) ) -count ( name ) as restcount,count( CASE WHEN late != '' THEN 0 ELSE NULL END ) || '/' || sum( late ) as latedata,count( CASE WHEN Leaveearly != '' THEN 0 ELSE NULL END ) || '/' || sum( Leaveearly ) as Leaveearlydata,count( CASE WHEN isAbsenteeism == '0' THEN 0 ELSE NULL END ) as AbsenteeismCount," +
@@ -349,9 +349,11 @@ namespace huaanClient
                     commandText = commandText + $" 	AND name LIKE '%{name.Trim()}%'";
                 }
                 commandText = commandText + " GROUP BY name,personId,strftime( '%Y-%m', date )";
-                string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
-
-                return sr;
+                using (var conn = SQLiteHelper.GetConnection())
+                {
+                    var data = conn.Query<AttendanceDataMonthly>(commandText).ToArray();
+                    return data;
+                }
             }
         }
 

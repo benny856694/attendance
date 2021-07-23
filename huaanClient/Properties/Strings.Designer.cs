@@ -79,6 +79,24 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to name,personId,department,Employee_code,nowdate,Attendance,latedata,Leaveearlydata,AbsenteeismCount,LeaveCount.
+        /// </summary>
+        internal static string AttendanceDataMonthlyKeys {
+            get {
+                return ResourceManager.GetString("AttendanceDataMonthlyKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 姓名,部门,用户编码,员工编号,考勤日期,出勤(天),迟到次数/总时长(分钟),早退次数/总时长(分钟),旷工天数,请假天数.
+        /// </summary>
+        internal static string AttendanceDataMonthlyNames {
+            get {
+                return ResourceManager.GetString("AttendanceDataMonthlyNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to name,department,Employee_code,Date,Punchinformation,Punchinformation1,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature.
         /// </summary>
         internal static string AttendanceKeys {

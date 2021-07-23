@@ -270,6 +270,7 @@
     </Compile>
     <Compile Include="Constants.cs" />
     <Compile Include="Database\AttendanceData.cs" />
+    <Compile Include="Database\AttendanceDataMonthly.cs" />
     <Compile Include="Database\AttendanceGroup.cs" />
     <Compile Include="Database\Capture_Data.cs" />
     <Compile Include="Database\Employetype.cs" />

@@ -959,17 +959,41 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public string getMonthlyData(string date, string name)
         {
             date = date.Replace(@"/", "-");
-            string data = GetData.getMonthlyData(date, name);
-            return data;
+            var data = GetData.getMonthlyData(date, name);
+            return JsonConvert.SerializeObject(data);
         }
-        //导出
+        //导出月度考勤报表
         public void exportMonthlyData(string date, string name)
         {
             form.Invoke(new Action(() =>
             {
                 date = date.Replace(@"/", "-");
-                string data = GetData.getMonthlyData(date, name);
-                exportToCsv.export(data, date);
+                var data = GetData.getMonthlyData(date, name);
+                var pnames = Tools.GetPropertyNames(nameof(AttendanceDataMonthly));
+                var selectedProperty = new string[] { "name", "department", "Employee_code", "nowdate", "Attendance", "latedata", "Leaveearlydata", "AbsenteeismCount", "LeaveCount"};
+                Func<AttendanceDataMonthly, string, object, string> convertPropertyToString = (obj, pname, pvalue) =>
+                {
+                    switch (pname)
+                    {
+                        case nameof(AttendanceDataMonthly.LeaveCount)://请假天数
+                            var LeaveCountforint = string.Empty;
+                            LeaveCountforint = ((obj.LeaveCount + obj.LeaveCount1) / 2).ToString();
+                            return LeaveCountforint;
+                            break;
+                        default:
+                            return pvalue?.ToString() ?? "";
+                            break;
+                    }
+
+                };
+                DataToCsv.ExportDataToXlsx(
+                    "monthly attendance",
+                    data,
+                    pnames,
+                    convertPropertyToString,
+                    selectedProperty
+                    );
+                //exportToCsv.export(data, date);
             }));
 
         }

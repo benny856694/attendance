@@ -258,4 +258,10 @@
 	<data name="No" xml:space="preserve">
     <value>否</value>
   </data>
+	<data name="AttendanceDataMonthlyKeys" xml:space="preserve">
+    <value>name,personId,department,Employee_code,nowdate,Attendance,latedata,Leaveearlydata,AbsenteeismCount,LeaveCount</value>
+  </data>
+	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
+    <value>姓名,用户编码,部门,员工编号,考勤日期,出勤(天),迟到次数/总时长(分钟),早退次数/总时长(分钟),旷工天数,请假天数</value>
+  </data>
 </root>

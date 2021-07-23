@@ -85,6 +85,10 @@ namespace huaanClient
                     property = Properties.Strings.CaptureRecordColumnKeys.Split(',');
                     names = Properties.Strings.CaptureRecordColumnNames.Split(',');
                     break;
+                case nameof(AttendanceDataMonthly):
+                    property = Properties.Strings.AttendanceDataMonthlyKeys.Split(',');
+                    names = Properties.Strings.AttendanceDataMonthlyNames.Split(',');
+                    break;
 
                 default:
                     throw new InvalidOperationException();
