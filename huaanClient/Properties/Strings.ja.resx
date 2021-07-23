@@ -223,4 +223,7 @@
 	<data name="ExcelFile" xml:space="preserve">
 		<value>エクセルファイル  (*.xlsx)|*.xlsx</value>
 	</data>
+	<data name="No" xml:space="preserve">
+		<value>いいえ、</value>
+	</data>
 </root>

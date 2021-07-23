@@ -133,7 +133,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to person_name,addr_name,time,match_status,wg_card_id,match_failed_reson,exist_mask,body_temp,device_sn,idcard_number,idcard_name,QRcodestatus,trip_infor,closeup.
+        ///   Looks up a localized string similar to person_name,person_id,addr_name,time,match_status,wg_card_id,match_failed_reson,exist_mask,body_temp,device_sn,idcard_number,idcard_name,QRcodestatus,trip_infor,closeup.
         /// </summary>
         internal static string CaptureRecordColumnKeys {
             get {
@@ -142,7 +142,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 姓名,设备名称,刷卡时间,对比分数,门禁卡号,比对失败原因,是否佩戴口罩,体温,设备序列号,证件编号,证件姓名,健康码状态,行程信息,抓拍图片路径.
+        ///   Looks up a localized string similar to 姓名,ID,设备名称,刷卡时间,对比分数,门禁卡号,比对失败原因,是否佩戴口罩,体温,设备序列号,证件编号,证件姓名,健康码状态,行程信息,抓拍图片路径.
         /// </summary>
         internal static string CaptureRecordColumnNames {
             get {
@@ -318,6 +318,15 @@ namespace huaanClient.Properties {
         internal static string NewPasswordCanotBeSameAsOld {
             get {
                 return ResourceManager.GetString("NewPasswordCanotBeSameAsOld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 否.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         

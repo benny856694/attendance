@@ -243,4 +243,7 @@
 	<data name="ExcelFile" xml:space="preserve">
 		<value>Excel File (*.xlsx)|*.xlsx</value>
 	</data>
+	<data name="No" xml:space="preserve">
+		<value>No</value>
+	</data>
 </root>

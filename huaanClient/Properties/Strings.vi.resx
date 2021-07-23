@@ -220,4 +220,7 @@
 	<data name="ExcelFile" xml:space="preserve">
 		<value>Xoá tập tin (*.xlsx)|*.xlsx</value>
 	</data>
+	<data name="No" xml:space="preserve">
+		<value>không</value>
+	</data>
 </root>

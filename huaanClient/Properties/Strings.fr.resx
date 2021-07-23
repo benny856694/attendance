@@ -220,4 +220,7 @@
 	<data name="ExcelFile" xml:space="preserve">
 		<value>Fichier Excel (*.xlsx)|*.xlsx</value>
 	</data>
+	<data name="No" xml:space="preserve">
+		<value>Non</value>
+	</data>
 </root>
