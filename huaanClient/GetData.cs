@@ -1690,7 +1690,7 @@ namespace huaanClient
                             {
                                 if (!string.IsNullOrEmpty(late))
                                 {
-                                    late = (int.Parse(AttendanceAlgorithm.DateDiff(Punch2.Replace(":", ""), stagotowork1)) + int.Parse(late)).ToString();
+                                    late = (int.Parse(AttendanceAlgorithm.DateDiff(Punch2.Replace(":", ""), stagotowork2)) + int.Parse(late)).ToString();
                                 }
                                 else
                                 {

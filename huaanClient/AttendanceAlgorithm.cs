@@ -301,7 +301,15 @@ namespace huaanClient
             return re;
         }
         //根据personId找到对应的考勤组
-        public static void getEffectiveTime(string starttime, string endtime,string personId,string AttendanceGroup_id,string Employee_code, string  name,string department,int day)
+        public static void getEffectiveTime(
+            string starttime, 
+            string endtime,
+            string personId,
+            string AttendanceGroup_id,
+            string Employee_code, 
+            string  name,
+            string department,
+            int day)
         {
             if (DateTimeFormatInfo.CurrentInfo != null)
             {

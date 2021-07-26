@@ -46,7 +46,12 @@ namespace huaanClient
 
             //LoginForm f = new LoginForm();
             //f.ShowDialog();
-            Cef_Initialize(); 
+            Cef_Initialize();
+
+            //todo: 考勤计算
+            //AttendanceAlgorithm.getpersonnel("2021-07-01 00:00:00", "2021-07-02 00:00:00", 1);
+
+            
             //连接设备
             Thread thread = new Thread(() =>
             {
