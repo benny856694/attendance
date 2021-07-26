@@ -4585,11 +4585,14 @@ namespace huaanClient
             catch { }
             return result;
         }
-        public static string getIDsforstaffAndDataSyn()
+        public static string[] getIDsforstaffAndDataSyn()
         {
-            string sql = "SELECT id FROM staff UNION SELECT personid FROM DataSyn";
-            string re = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, sql);
-            return re;
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                string sql = "SELECT id FROM staff UNION SELECT personid FROM DataSyn";
+                return conn.Query<string>(sql).ToArray();
+
+            }
         }
 
         public static bool deleteDataSyn(string id,string device_sn)

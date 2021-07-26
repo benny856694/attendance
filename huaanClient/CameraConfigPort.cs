@@ -101,17 +101,21 @@ namespace huaanClient
                 SendAuth();
                 //取回设备版本
                 string re = JsonInteractive("{\"cmd\": \"get version\",\"version\":123}");
-                try
+                if (!string.IsNullOrEmpty(re))
                 {
-                    JObject jObject = (JObject)JsonConvert.DeserializeObject(re);
-                    JToken alg_version = jObject["alg_version"];
-                    if (alg_version!=null)
+                    try
                     {
-                        m_DevicVersion = jObject["alg_version"].ToString().Trim();
+                        JObject jObject = (JObject)JsonConvert.DeserializeObject(re);
+                        JToken alg_version = jObject["alg_version"];
+                        if (alg_version != null)
+                        {
+                            m_DevicVersion = jObject["alg_version"].ToString().Trim();
+                        }
+
                     }
-                    
+                    catch { }
                 }
-                catch { }
+                
                 
             }
 
