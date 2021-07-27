@@ -240,7 +240,7 @@ namespace huaanClient
             //    }
             //}
         }
-        public static string getAtt_attribute(string AttendanceGroup_id,string date)
+        public static string GetShiftId(string AttendanceGroup_id,string date)
         {
             string attribute_str = "";
             string re = "0";
@@ -324,26 +324,29 @@ namespace huaanClient
             for (int i = 0; i < day+1; i++)
             {
                 reData reData = new reData();
-                DateTime dq = sta.AddDays(i);
-                string dtdate = dq.ToString("yyyy-MM-dd").Replace(@"\", "-");
+                DateTime today = sta.AddDays(i);
+                string strToday = today.ToString("yyyy-MM-dd").Replace(@"\", "-");
 
                 //昨天的时间
-                string dtlastdate = dq.AddDays(-1).ToString("yyyy-MM-dd").Replace(@"\", "-");
+                string strYesterday = today.AddDays(-1).ToString("yyyy-MM-dd").Replace(@"\", "-");
 
                 //根据当前人员从考勤组找到今天的考勤班次
-                string id = getAtt_attribute(AttendanceGroup_id, dtdate);
-
-                if (id == "0" && getAtt_attribute(AttendanceGroup_id, dtlastdate)=="0")
+                string idToday = GetShiftId(AttendanceGroup_id, strToday);
+                if (idToday == "0" && GetShiftId(AttendanceGroup_id, strYesterday)=="0")
                     continue;
-                string re = GetData.getShift(id);
-                if (id == "0")
+                var strDateBeingCalculated = strToday;
+                var dateBeingCalculated = today;
+                string shiftInfo = GetData.GetShiftById(idToday);
+                if (idToday == "0")
                 {
-                    re = GetData.getShift(getAtt_attribute(AttendanceGroup_id, dtlastdate));
+                    shiftInfo = GetData.GetShiftById(GetShiftId(AttendanceGroup_id, strYesterday));
+                    strDateBeingCalculated = strYesterday;
+                    dateBeingCalculated = today.AddDays(-1);
                 }
                 
-                if (!string.IsNullOrEmpty(re))
+                if (!string.IsNullOrEmpty(shiftInfo))
                 {
-                    JArray jArray1 = (JArray)JsonConvert.DeserializeObject(re);
+                    JArray jArray1 = (JArray)JsonConvert.DeserializeObject(shiftInfo);
                     if (jArray1.Count > 0)
                     {
                         //后期根据考勤组表找到这个班次id
@@ -400,7 +403,7 @@ namespace huaanClient
                             reData.Shiftinformation = Shiftinformation + "-" + gotowork1;
 
                             reData.Duration = personIds["Duration"].ToString();
-                            reData.Date = dtdate;
+                            reData.Date = strDateBeingCalculated;
 
                             reData.personId =personId;
                             reData.name = name;
@@ -414,7 +417,7 @@ namespace huaanClient
                             List<data> listone = new List<data>();
 
                             //声明次日的数据list 需要跨夜打卡的时候 需要
-                            List<data> listonefornext = new List<data>();
+                            //List<data> listonefornext = new List<data>();
 
                             //声明上班时段的list
                             List<data> liststa = new List<data>();
@@ -429,7 +432,7 @@ namespace huaanClient
                             //获取当天的数据list
                             listPerson.ForEach(s =>
                             {
-                                if (s.captureTime.ToString("yyyy-MM-dd").Trim() == dq.ToString("yyyy-MM-dd").Trim())
+                                if (s.captureTime.ToString("yyyy-MM-dd").Trim() == dateBeingCalculated.ToString("yyyy-MM-dd").Trim())
                                 {
                                     listone.Add(s);
                                 }
@@ -493,7 +496,7 @@ namespace huaanClient
 
                                             //处理是否是上周
 
-                                            string lastdate = dq.AddDays(-1).ToString("yyyy-MM-dd").Trim().Replace(@"\", "-");
+                                            string lastdate = today.AddDays(-1).ToString("yyyy-MM-dd").Trim().Replace(@"\", "-");
 
                                             reDataLast.Date = lastdate;
 
@@ -510,7 +513,7 @@ namespace huaanClient
                                     }
 
                                     //在写 当天的 上班时间
-                                    if (id != "0")
+                                    if (idToday != "0")
                                     {
                                         //筛选上班有效班时间
                                         if (listone.Count > 0)
@@ -555,9 +558,9 @@ namespace huaanClient
                                         //如果下一天不上班 则一并处理今天的下班时间
                                         listPerson.ForEach(s =>
                                         {
-                                            if (s.captureTime.ToString("yyyy-MM-dd").Trim() == dq.ToString("yyyy-MM-dd").Trim())
+                                            //if (s.captureTime.ToString("yyyy-MM-dd").Trim() == today.ToString("yyyy-MM-dd").Trim())
                                             {
-                                                listonefornext.Add(s);
+                                                //listonefornext.Add(s);
                                             }
                                         });
 
@@ -569,7 +572,7 @@ namespace huaanClient
                                         }
                                     }
                                 }
-                                else if (id != "0")
+                                else if (idToday != "0")
                                 {
                                     reData.IsAcrossNight = false;
                                     //筛选上下班有效班时间

@@ -49,8 +49,8 @@ namespace huaanClient
             Cef_Initialize();
 
             //todo: 考勤计算
-            //AttendanceAlgorithm.getpersonnel("2021-07-01 00:00:00", "2021-07-02 00:00:00", 1);
-
+            //AttendanceAlgorithm.getpersonnel("2021-07-01 00:00:00", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), 1);
+            //return;
             
             //连接设备
             Thread thread = new Thread(() =>

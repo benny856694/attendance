@@ -380,7 +380,7 @@ namespace huaanClient
 
             return sr;
         }
-        public static string getShift(string Id)
+        public static string GetShiftById(string Id)
         {
 
             string commandText = "SELECT * FROM Shift WHERE id=" + Id;
