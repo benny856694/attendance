@@ -2,7 +2,7 @@
 ; 有关创建 Inno Setup 脚本文件的详细资料请查阅帮助文档！
 
 #define MyAppName "FaceRASystem"
-#define MyAppVersion "2.8.0.0"
+#define MyAppVersion "2.8.1.0"
 #define MyAppPublisher "FaceRASystem"
 #define MyAppURL "http://www.huaanvision.com/"
 #define MyAppExeName "FaceRASystem.exe"
@@ -60,7 +60,7 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
 
 [Run]
-;Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [code]
 
