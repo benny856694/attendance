@@ -252,4 +252,22 @@
 	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
 		<value>Monthly attendance report</value>
 	</data>
+	<data name="ExcelCantBeAccessed" xml:space="preserve">
+		<value>The file can't be opened, make sure it is not opened by other program</value>
+	</data>
+	<data name="ExcelImportLogFileName" xml:space="preserve">
+		<value>Log of batch import</value>
+	</data>
+	<data name="ExcelIsEmpty" xml:space="preserve">
+		<value>The file is empty</value>
+	</data>
+	<data name="Fail" xml:space="preserve">
+		<value>Fail</value>
+	</data>
+	<data name="MessageSaveImportLog" xml:space="preserve">
+		<value>Save import log?</value>
+	</data>
+	<data name="Success" xml:space="preserve">
+		<value>Success</value>
+	</data>
 </root>

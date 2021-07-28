@@ -229,4 +229,25 @@
 	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
 		<value>Rapport mensuel de présence</value>
 	</data>
+	<data name="StaffImageInValid" xml:space="preserve">
+		<value>Photo non valable</value>
+	</data>
+	<data name="ExcelCantBeAccessed" xml:space="preserve">
+		<value>Impossible d'ouvrir le fichier, assurez - vous qu'il n'est pas ouvert par un autre programme</value>
+	</data>
+	<data name="ExcelImportLogFileName" xml:space="preserve">
+		<value>Journal d'importation par lots</value>
+	</data>
+	<data name="ExcelIsEmpty" xml:space="preserve">
+		<value>Le fichier est vide</value>
+	</data>
+	<data name="Fail" xml:space="preserve">
+		<value>Échec</value>
+	</data>
+	<data name="MessageSaveImportLog" xml:space="preserve">
+		<value>Enregistrer le Journal d'importation?</value>
+	</data>
+	<data name="Success" xml:space="preserve">
+		<value>Succès</value>
+	</data>
 </root>

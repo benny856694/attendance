@@ -232,4 +232,22 @@
 	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
 		<value>月間勤務評定表</value>
 	</data>
+	<data name="ExcelCantBeAccessed" xml:space="preserve">
+		<value>ファイルを開くことができない、それが他のプログラム</value>
+	</data>
+	<data name="ExcelImportLogFileName" xml:space="preserve">
+		<value>バッチ輸入のログ</value>
+	</data>
+	<data name="ExcelIsEmpty" xml:space="preserve">
+		<value>ファイルが空です</value>
+	</data>
+	<data name="Fail" xml:space="preserve">
+		<value>失敗</value>
+	</data>
+	<data name="MessageSaveImportLog" xml:space="preserve">
+		<value>インポートログを保存?</value>
+	</data>
+	<data name="Success" xml:space="preserve">
+		<value>成功</value>
+	</data>
 </root>

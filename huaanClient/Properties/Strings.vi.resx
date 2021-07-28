@@ -229,4 +229,22 @@
 	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
 		<value>Báo cáo tham dự tháng</value>
 	</data>
+	<data name="ExcelCantBeAccessed" xml:space="preserve">
+		<value>Không mở được t ập tin, đảm bảo nó không được mở bởi chương trình khác.</value>
+	</data>
+	<data name="ExcelImportLogFileName" xml:space="preserve">
+		<value>Sản phẩm phụ gốc</value>
+	</data>
+	<data name="ExcelIsEmpty" xml:space="preserve">
+		<value>tập tin rỗng</value>
+	</data>
+	<data name="Fail" xml:space="preserve">
+		<value>hỏng</value>
+	</data>
+	<data name="MessageSaveImportLog" xml:space="preserve">
+		<value>Lưu bản nhập khẩu?</value>
+	</data>
+	<data name="Success" xml:space="preserve">
+		<value>thành công</value>
+	</data>
 </root>

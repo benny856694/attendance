@@ -142,24 +142,6 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string CaptureDataKeys {
-            get {
-                return ResourceManager.GetString("CaptureDataKeys", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string CaptureDataNames {
-            get {
-                return ResourceManager.GetString("CaptureDataNames", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to person_name,person_id,addr_name,time,match_status,wg_card_id,match_failed_reson,exist_mask,body_temp,device_sn,idcard_number,idcard_name,QRcodestatus,trip_infor,closeup.
         /// </summary>
         internal static string CaptureRecordColumnKeys {
@@ -232,11 +214,38 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 无法打开文件，请确保文件没有被其他程序打开.
+        /// </summary>
+        internal static string ExcelCantBeAccessed {
+            get {
+                return ResourceManager.GetString("ExcelCantBeAccessed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Excel文件 (*.xlsx)|*.xlsx.
         /// </summary>
         internal static string ExcelFile {
             get {
                 return ResourceManager.GetString("ExcelFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 批量导入结果.
+        /// </summary>
+        internal static string ExcelImportLogFileName {
+            get {
+                return ResourceManager.GetString("ExcelImportLogFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 文件为空.
+        /// </summary>
+        internal static string ExcelIsEmpty {
+            get {
+                return ResourceManager.GetString("ExcelIsEmpty", resourceCulture);
             }
         }
         
@@ -264,6 +273,15 @@ namespace huaanClient.Properties {
         internal static string ExportFileSucceed {
             get {
                 return ResourceManager.GetString("ExportFileSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 失败.
+        /// </summary>
+        internal static string Fail {
+            get {
+                return ResourceManager.GetString("Fail", resourceCulture);
             }
         }
         
@@ -327,6 +345,15 @@ namespace huaanClient.Properties {
         internal static string LoginSucceed {
             get {
                 return ResourceManager.GetString("LoginSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 导入完成，是否需要保存导入结果？.
+        /// </summary>
+        internal static string MessageSaveImportLog {
+            get {
+                return ResourceManager.GetString("MessageSaveImportLog", resourceCulture);
             }
         }
         
@@ -453,6 +480,15 @@ namespace huaanClient.Properties {
         internal static string StaffNames {
             get {
                 return ResourceManager.GetString("StaffNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 成功.
+        /// </summary>
+        internal static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
             }
         }
         

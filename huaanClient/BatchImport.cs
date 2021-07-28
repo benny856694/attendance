@@ -290,8 +290,7 @@ namespace huaanClient
             obj["data"] = "";
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "请选择文件";
-            openFileDialog.Filter = "Excel 工作簿(*xls*)|*.xls*"; //设置要选择的文件的类型
+            openFileDialog.Filter = Properties.Strings.ExcelFile; //设置要选择的文件的类型
             string filePath = "";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -312,30 +311,14 @@ namespace huaanClient
 
             if (dataTable==null)
             {
-                string mes = "无法访问Excel表格，请确认是否在其他程序打开！";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    mes = "Unable to access excel form, please make sure to open it in other programs!";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    mes = "Excelテーブルにアクセスできませんでした。他のプログラムで開くかどうか確認してください";
-                }
+                string mes = Properties.Strings.ExcelCantBeAccessed; 
                 MessageBox.Show(mes);
                 return obj.ToString();
             }
             if (dataTable.Rows.Count == 0)
             {
                 obj["result"] = 1;
-                obj["data"] = "选择的Excel文档为空";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "The selected excel document is empty";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = "選択したExcelドキュメントは空です";
-                }
+                obj["data"] = Properties.Strings.ExcelIsEmpty;
                 return obj.ToString();
             }
             int lastcell = dataTable.Columns.Count;
@@ -454,19 +437,9 @@ namespace huaanClient
 
                             if (imgData == null)
                             {
-                                dataTable.Rows[i][lastcell - 2] = "失败";
-                                dataTable.Rows[i][lastcell - 1] = "未找到图片";
+                                dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
+                                dataTable.Rows[i][lastcell - 1] = Properties.Strings.ImageMissing;
 
-                                if (ApplicationData.LanguageSign.Contains("English"))
-                                {
-                                    dataTable.Rows[i][lastcell - 2] = "fail";
-                                    dataTable.Rows[i][lastcell - 1] = "Picture not found";
-                                }
-                                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                                {
-                                    dataTable.Rows[i][lastcell - 2] = "失敗";
-                                    dataTable.Rows[i][lastcell - 1] = "画像が見つかりませんでした";
-                                }
                                 continue;
                             }
                             //判断是否合格
@@ -475,19 +448,9 @@ namespace huaanClient
 
                             if (re[2][0] != 0)
                             {
-                                dataTable.Rows[i][lastcell - 2] = "失败";
-                                dataTable.Rows[i][lastcell - 1] = "图片不合法";
+                                dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
+                                dataTable.Rows[i][lastcell - 1] = Properties.Strings.StaffImageInValid;
 
-                                if (ApplicationData.LanguageSign.Contains("English"))
-                                {
-                                    dataTable.Rows[i][lastcell - 2] = "fail";
-                                    dataTable.Rows[i][lastcell - 1] = "Illegal picture";
-                                }
-                                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                                {
-                                    dataTable.Rows[i][lastcell - 2] = "失敗";
-                                    dataTable.Rows[i][lastcell - 1] = "写真は非合法です";
-                                }
                                 continue;
                             }
                         }
@@ -495,19 +458,9 @@ namespace huaanClient
                         imgeurl = copyfile.copyimge(imge, copyfile.GetTimeStamp());
                         if (string.IsNullOrEmpty(imgeurl))
                         {
-                            dataTable.Rows[i][lastcell - 2] = "失败";
-                            dataTable.Rows[i][lastcell - 1] = "未找到图片";
+                            dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
+                            dataTable.Rows[i][lastcell - 1] = Properties.Strings.ImageMissing;
 
-                            if (ApplicationData.LanguageSign.Contains("English"))
-                            {
-                                dataTable.Rows[i][lastcell - 2] = "fail";
-                                dataTable.Rows[i][lastcell - 1] = "Picture not found";
-                            }
-                            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                            {
-                                dataTable.Rows[i][lastcell - 2] = "失敗";
-                                dataTable.Rows[i][lastcell - 1] = "画像が見つかりませんでした";
-                            }
                             continue;
                         }
 
@@ -544,112 +497,55 @@ namespace huaanClient
                         JObject jObject = JObject.Parse(data);
                         if (jObject["result"].ToString() == "2")
                         {
-                            dataTable.Rows[i][lastcell - 2] = "成功";
-                            if (ApplicationData.LanguageSign.Contains("English"))
-                            {
-                                dataTable.Rows[i][lastcell - 2] = "success";
-                            }
-                            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                            {
-                                dataTable.Rows[i][lastcell - 2] = "成功";
-                            }
+                            dataTable.Rows[i][lastcell - 2] = Properties.Strings.Success;
                             dataTable.Rows[i][lastcell - 1] = jObject["data"].ToString();
                         }
                         else if (jObject["result"].ToString() != "2")
                         {
-                            dataTable.Rows[i][lastcell - 2] = "失败";
-                            if (ApplicationData.LanguageSign.Contains("English"))
-                            {
-                                dataTable.Rows[i][lastcell - 2] = "fail";
-                            }
-                            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                            {
-                                dataTable.Rows[i][lastcell - 2] = "失敗";
-                            }
+                            dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
                             dataTable.Rows[i][lastcell - 1] = jObject["data"].ToString();
                         }
                     }
                     catch (Exception e)
                     {
-                        dataTable.Rows[i][lastcell - 2] = "失败";
-                        if (ApplicationData.LanguageSign.Contains("English"))
-                        {
-                            dataTable.Rows[i][lastcell - 2] = "fail";
-                        }
-                        else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        {
-                            dataTable.Rows[i][lastcell - 2] = "失敗";
-                        }
-                        dataTable.Rows[i][lastcell - 1] = e.ToString();
+                        dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
+                        dataTable.Rows[i][lastcell - 1] = e.Message;
                     }
                 }
             });
 
-            string sss = "导入完成，是否需要保存日志Excel？";
-            if (ApplicationData.LanguageSign.Contains("English"))
-            {
-                sss = "Import completed, do you want to save excel log?";
-            }
-            else if (ApplicationData.LanguageSign.Contains("日本語"))
-            {
-                sss = "導入が完了しました。ログExcelを保存する必要がありますか？";
-            }
-            DialogResult dr = MessageBox.Show(sss, "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            string sss = Properties.Strings.MessageSaveImportLog;
+            DialogResult dr = MessageBox.Show(sss, "", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             if (dr == DialogResult.OK)
             {
-                string Description = "选择保存路径";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    Description = "保存先を選択";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    Description = "保存先を選択";
-                }
 
-                string path=ChoosePath(Description);
+                string path=ChoosePath();
 
                 if(string.IsNullOrEmpty(path))
                     return obj.ToString();
 
-                string mes = "批量导入结果";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    mes = "BatchImportResults";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    mes = "一括インポート結果";
-                }
 
-                if (DataTableToExcel(dataTable, path, mes) == true)
+                try
                 {
-                    obj["result"] = 2;
-                    obj["data"] = path + "/"+ mes + ".xls";
-                    return obj.ToString();
+                    var fileName = Properties.Strings.ExcelImportLogFileName;
+                    DataTableToExcel(dataTable, path, fileName);
+                        obj["result"] = 2;
+                    obj["data"] = path + "/" + fileName + ".xls";
                 }
-                else
+                catch (Exception ex)
                 {
                     obj["result"] = 1;
-                    obj["data"] = "写入日志失败，请确认是否已经打开";
-                    if (ApplicationData.LanguageSign.Contains("English"))
-                    {
-                        obj["data"] = "Failed to write to excel log. Please confirm whether to open it";
-                    }
-                    else if (ApplicationData.LanguageSign.Contains("日本語"))
-                    {
-                        obj["data"] = "ログExcelの書き込みに失敗しました。開くかどうか確認してください";
-                    }
-                    return obj.ToString();
+                    obj["data"] = string.Format(Properties.Strings.ExportFileFailedWithError, ex.Message);
                 }
+                
+                
             }
             return obj.ToString();
         }
 
         //生成一个datatable
-        public static bool DataTableToExcel(DataTable dt,string path,string mes)
+        public static void DataTableToExcel(DataTable dt,string path,string mes)
         {
-            bool result = false;
             IWorkbook workbook = null;
             FileStream fs = null;
             IRow row = null;
@@ -687,25 +583,18 @@ namespace huaanClient
                     using (fs = File.OpenWrite(path + "/BatchImportResults.xls"))
                     {
                         workbook.Write(fs);//向打开的这个xls文件中写入数据  
-                        result = true;
                     }
                 }
-                return result;
             }
-            catch (Exception ex)
+            finally
             {
-                if (fs != null)
-                {
-                    fs.Close();
-                }
-                return false;
+                fs?.Close();
             }
         }
 
-        private static string ChoosePath(string Description)
+        private static string ChoosePath()
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.Description = Description;
             if (fbd.ShowDialog() == DialogResult.OK)
             {
                 string path= fbd.SelectedPath;
@@ -721,18 +610,7 @@ namespace huaanClient
         {
             try
             {
-
-                string Description = "选择保存路径";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    Description = "保存先を選択";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    Description = "保存先を選択";
-                }
-
-                string path = ChoosePath(Description);
+                string path = ChoosePath();
 
                 if (path != null)
                 {
