@@ -242,9 +242,12 @@
 		<value>hỏng</value>
 	</data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-		<value>Lưu bản nhập khẩu?</value>
+		<value>Nhập thành công, Lưu bản nhập khẩu?</value>
 	</data>
 	<data name="Success" xml:space="preserve">
 		<value>thành công</value>
+	</data>
+	<data name="SrcStaffTemplateFileName" xml:space="preserve">
+		<value>TemplateEn.xlsx</value>
 	</data>
 </root>

@@ -245,9 +245,12 @@
 		<value>失敗</value>
 	</data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-		<value>インポートログを保存?</value>
+		<value>インポート成功, インポートログを保存?</value>
 	</data>
 	<data name="Success" xml:space="preserve">
 		<value>成功</value>
+	</data>
+	<data name="SrcStaffTemplateFileName" xml:space="preserve">
+		<value>TemplateJap.xlsx</value>
 	</data>
 </root>

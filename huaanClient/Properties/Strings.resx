@@ -279,4 +279,7 @@
 	<data name="Success" xml:space="preserve">
     <value>成功</value>
   </data>
+	<data name="SrcStaffTemplateFileName" xml:space="preserve">
+    <value>TemplateZn.xlsx</value>
+  </data>
 </root>

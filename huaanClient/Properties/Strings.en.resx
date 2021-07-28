@@ -265,9 +265,12 @@
 		<value>Fail</value>
 	</data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-		<value>Save import log?</value>
+		<value>Import succeed, save import log?</value>
 	</data>
 	<data name="Success" xml:space="preserve">
 		<value>Success</value>
+	</data>
+	<data name="SrcStaffTemplateFileName" xml:space="preserve">
+		<value>TemplateEn.xlsx</value>
 	</data>
 </root>

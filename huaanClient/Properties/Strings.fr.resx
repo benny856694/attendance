@@ -245,9 +245,12 @@
 		<value>Échec</value>
 	</data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-		<value>Enregistrer le Journal d'importation?</value>
+		<value>Importation réussie, Enregistrer le Journal d'importation?</value>
 	</data>
 	<data name="Success" xml:space="preserve">
 		<value>Succès</value>
+	</data>
+	<data name="SrcStaffTemplateFileName" xml:space="preserve">
+		<value>TemplateEn.xlsx</value>
 	</data>
 </root>

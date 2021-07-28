@@ -439,6 +439,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TemplateZn.xlsx.
+        /// </summary>
+        internal static string SrcStaffTemplateFileName {
+            get {
+                return ResourceManager.GetString("SrcStaffTemplateFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 员工编号已经存在.
         /// </summary>
         internal static string StaffCodeExists {

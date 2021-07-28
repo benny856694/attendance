@@ -11,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -275,11 +276,13 @@ namespace huaanClient
             }
             catch (Exception ex)
             {
-                if (fs != null)
-                {
-                    fs.Close();
-                }
                 return null;
+            }
+            finally
+            {
+                workbook?.Close();
+                fs?.Close();
+                
             }
         }
 
@@ -521,16 +524,11 @@ namespace huaanClient
 
                 string path=ChoosePath();
 
-                if(string.IsNullOrEmpty(path))
-                    return obj.ToString();
-
-
                 try
                 {
-                    var fileName = Properties.Strings.ExcelImportLogFileName;
-                    DataTableToExcel(dataTable, path, fileName);
+                    DataTableToExcel(dataTable, path);
                         obj["result"] = 2;
-                    obj["data"] = path + "/" + fileName + ".xls";
+                    obj["data"] = path;
                 }
                 catch (Exception ex)
                 {
@@ -544,7 +542,7 @@ namespace huaanClient
         }
 
         //生成一个datatable
-        public static void DataTableToExcel(DataTable dt,string path,string mes)
+        public static void DataTableToExcel(DataTable dt,string path)
         {
             IWorkbook workbook = null;
             FileStream fs = null;
@@ -555,8 +553,8 @@ namespace huaanClient
             {
                 if (dt != null && dt.Rows.Count > 0)
                 {
-                    workbook = new HSSFWorkbook();
-                    sheet = workbook.CreateSheet(mes);//创建一个名称为Sheet0的表  
+                    workbook = new XSSFWorkbook();
+                    sheet = workbook.CreateSheet();//创建一个名称为Sheet0的表  
                     int rowCount = dt.Rows.Count;//行数  
                     int columnCount = dt.Columns.Count;//列数  
 
@@ -580,7 +578,7 @@ namespace huaanClient
                     }
 
                     
-                    using (fs = File.OpenWrite(path + "/BatchImportResults.xls"))
+                    using (fs = File.OpenWrite(path))
                     {
                         workbook.Write(fs);//向打开的这个xls文件中写入数据  
                     }
@@ -594,113 +592,32 @@ namespace huaanClient
 
         private static string ChoosePath()
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() == DialogResult.OK)
-            {
-                string path= fbd.SelectedPath;
-                return path;
-            }
-            else
-            {
-                return null;
-            }
+            var sfd = new SaveFileDialog();
+            sfd.Filter = Properties.Strings.ExcelFile;
+            return sfd.ShowDialog() == DialogResult.OK ? sfd.FileName : null;
         }
 
         public static void Download()
         {
-            try
+            var sfd = new SaveFileDialog();
+            sfd.Filter = Properties.Strings.ExcelFile;
+            sfd.CheckFileExists = true;
+            sfd.FileName = "Template";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
-                string path = ChoosePath();
-
-                if (path != null)
+                try
                 {
-                    string Excelurl = "TemplateZn.xlsx";
-                    string Excelname = "批量导入模板.xlsx";
-                    if (ApplicationData.LanguageSign.Contains("English"))
-                    {
-                        Excelurl = "TemplateEn.xlsx";
-                        Excelname = "BatchImportTemplate.xlsx";
-                    }
-                    else if (ApplicationData.LanguageSign.Contains("日本語"))
-                    {
-                        Excelurl = "TemplateJap.xlsx";
-                        Excelname = "一括インポートテンプレート.xlsx";
-                    }
-                    if (System.IO.File.Exists(path + "\\" + Excelname))
-                    {
-                        string tishi = "提示";
-                        string meg = "文件已经存在，是否进行覆盖？";
-                        if (ApplicationData.LanguageSign.Contains("English"))
-                        {
-                            meg = "The file already exists. Do you want to replace it？";
-                            tishi = "Tips";
-                        }
-                        else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        {
-                            meg = "ファイルは既に存在します。上書きしますか？";
-                            tishi = "ヒント";
-                        }
-                        DialogResult dr=MessageBox.Show(meg, tishi, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (dr==DialogResult.No)
-                        {
-                            return;
-                        }
-                    }
-                    bool re = copyfile.Copyfile(Application.StartupPath + "\\Template\\" + Excelurl, path + "\\" + Excelname, Excelname);
-                    if (re == true)
-                    {
-                        string tishi = "提示";
-                        string meg = "下载成功";
-                        if (ApplicationData.LanguageSign.Contains("English"))
-                        {
-                            meg = "Download Successful";
-                            tishi = "Tips";
-                        }
-                        else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        {
-                            meg = "ダウンロード成功";
-                            tishi = "ヒント";
-                        }
-                        DialogResult dr = MessageBox.Show(meg, tishi, MessageBoxButtons.OK, MessageBoxIcon.None);
-                        if (dr == DialogResult.OK)
-                            System.Diagnostics.Process.Start(path + "\\" + Excelname);
-
-                    }
-                    else
-                    {
-                        string tishi = "提示";
-                        string meg = "下载失败";
-                        if (ApplicationData.LanguageSign.Contains("English"))
-                        {
-                            meg = "Download failed";
-                            tishi = "Tips";
-                        }
-                        else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        {
-                            meg = "ダウンロード失敗";
-                            tishi = "ヒント";
-                        }
-                        DialogResult dr = MessageBox.Show(meg, tishi, MessageBoxButtons.OK, MessageBoxIcon.None);
-                    }
+                    var srcPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"Template\{Properties.Strings.SrcStaffTemplateFileName}" );
+                    File.Copy(srcPath, sfd.FileName, true);
+                    MessageBox.Show(Properties.Strings.ExportFileSucceed);
+                }
+                catch (Exception ex)
+                {
+                    var errMsg = string.Format(Properties.Strings.ExportFileFailedWithError, ex.Message);
+                    MessageBox.Show(errMsg);
                 }
             }
-            catch
-            {
-                string tishi = "提示";
-                string meg = "下载成功";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    meg = "Download failed";
-                    tishi = "Tips";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    meg = "ダウンロード失敗";
-                    tishi = "ヒント";
-                }
-                MessageBox.Show(meg, tishi, MessageBoxButtons.OK, MessageBoxIcon.None);
-            }
-            
         }
     }
 }
