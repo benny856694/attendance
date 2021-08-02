@@ -1065,9 +1065,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 using (var conn = SQLiteHelper.GetConnection())
                 {
                     var csvSetting = (IDictionary<string, object>) conn.QueryFirstOrDefault("select * from CsvSettings");
-                    if (csvSetting?.TryGetValue("keyStr", out var keys) == true)
+                    object keyStr = null;
+                    if (csvSetting?.TryGetValue("keyStr", out keyStr) == true)
                     {
-                        userSelProp = keys.ToString().Split(',');
+                        userSelProp = keyStr.ToString().Split(',');
                     }
                 }
                 
