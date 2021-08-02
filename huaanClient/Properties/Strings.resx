@@ -124,10 +124,10 @@
     <value>没有可用的磁盘，无法保存数据</value>
   </data>
 	<data name="AttendanceKeys" xml:space="preserve">
-    <value>name,department,Employee_code,Date,Punchinformation,Punchinformation1,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature</value>
+    <value>name,department,Employee_code,Date,Punchinformation,Punchinformation1,Punchinformation2,Punchinformation22,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature</value>
   </data>
 	<data name="AttendanceNames" xml:space="preserve">
-    <value>姓名,部门,员工编号,考勤日期,上班打卡,下班打卡,班次信息,应出勤时间(小时),迟到(分钟),早退(分钟),加班(分钟),是否旷工,体温(℃)</value>
+    <value>姓名,部门,员工编号,考勤日期,上班打卡,下班打卡,上班打卡2,下班打卡2,班次信息,应出勤时间(小时),迟到(分钟),早退(分钟),加班(分钟),是否旷工,体温(℃)</value>
   </data>
 	<data name="Camera" xml:space="preserve">
     <value>相机</value>

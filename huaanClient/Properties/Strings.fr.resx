@@ -115,11 +115,8 @@
 	<data name="Absent" xml:space="preserve">
 		<value>Absence</value>
 	</data>
-	<data name="AttendanceKeys" xml:space="preserve">
-		<value>name,department,Employee_code,Date,Punchinformation,Punchinformation1,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature</value>
-	</data>
 	<data name="AttendanceNames" xml:space="preserve">
-		<value>Nom, Département, numéro de l'employé, date de présence, horloge au travail, horloge au travail, information sur le poste, heure de présence requise (heures), retard (minutes), départ anticipé (minutes), heures supplémentaires (minutes), absentéisme, température corporelle (°C)</value>
+		<value>Nom,Département,numéro de l'employé,date de présence,horloge au travail,horloge au travail,horloge au travail 2,horloge au travail 2,information sur le poste,heure de présence requise (heures),retard (minutes),départ anticipé (minutes),heures supplémentaires (minutes),absentéisme,température corporelle (°C)</value>
 	</data>
 	<data name="DayOff" xml:space="preserve">
 		<value>Congé</value>

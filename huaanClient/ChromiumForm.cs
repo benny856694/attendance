@@ -22,6 +22,10 @@ using HaSdkWrapper;
 using CefSharp.ModelBinding;
 using huaanClient.Database;
 using huaanClient.Properties;
+using DBUtility.SQLite;
+using DapperExtensions;
+using Dapper;
+using System.Collections.Generic;
 
 namespace InsuranceBrowser
 {
@@ -1055,20 +1059,22 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 starttime = starttime.Replace(@"/", "-");
                 endtime = endtime.Replace(@"/", "-");
-                string selectedColumns = null;
-               
-                //判断是否有默认
-                string isSetdefault = GetData.getCsvSettings();
-                JArray jo = (JArray)JsonConvert.DeserializeObject(isSetdefault);
-                if (jo.Count > 0)
+
+
+                string[] userSelProp  = null;
+                using (var conn = SQLiteHelper.GetConnection())
                 {
-                    selectedColumns = jo[0]["keyStr"].ToString();
-                    string values = jo[0]["valuesStr"].ToString();
+                    var csvSetting = (IDictionary<string, object>) conn.QueryFirstOrDefault("select * from CsvSettings");
+                    if (csvSetting?.TryGetValue("keyStr", out var keys) == true)
+                    {
+                        userSelProp = keys.ToString().Split(',');
+                    }
                 }
+                
 
                 var selectedProperties = new[] { "name", "department", "Employee_code", "Date", "Punchinformation", "Punchinformation1", "Shiftinformation", "Duration", "late", "Leaveearly", "workOvertime", "isAbsenteeism", "temperature" };
                 var attData = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
-                exportToCsv.exportForDay(attData, starttime + endtime, selectedProperties);
+                exportToCsv.exportForDay(attData, starttime + endtime, userSelProp ?? selectedProperties);
             }));
 
         }

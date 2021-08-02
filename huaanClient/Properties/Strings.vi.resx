@@ -104,7 +104,7 @@
 		<value>Không có đĩa để lưu dữ liệu</value>
 	</data>
 	<data name="AttendanceNames" xml:space="preserve">
-		<value>Tên,Bộ phận,Số nhân viên,Ngày tham dự,Giờ vào,Giờ ra,Thông tin ca làm việc,Thời gian tham dự (giờ),Muộn (phút),Nghỉ sớm (phút),Làm thêm giờ (phút),Vắng mặt,Nhiệt độ cơ thể (℃)</value>
+		<value>Tên,Bộ phận,Số nhân viên,Ngày tham dự,Giờ vào,Giờ ra,Giờ vào 2,Giờ ra 2,Thông tin ca làm việc,Thời gian tham dự (giờ),Muộn (phút),Nghỉ sớm (phút),Làm thêm giờ (phút),Vắng mặt,Nhiệt độ cơ thể (℃)</value>
 	</data>
 	<data name="Camera" xml:space="preserve">
 		<value>máy ảnh</value>
