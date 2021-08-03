@@ -65,7 +65,7 @@ namespace huaanClient
                     }
                     catch (Exception ex)
                     {
-
+                        Logger.Error(ex, "连接设备线程异常");
                     }
                 }
             });
@@ -82,7 +82,7 @@ namespace huaanClient
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex, "deploy face exception");
+                        Logger.Error(ex, "下发人像异常");
                     }
                 }
             });
@@ -102,8 +102,9 @@ namespace huaanClient
                         GetDevinfo.timeSynchronization();
                         Thread.Sleep(60 * 1000 * 2);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Logger.Error(ex, "时间同步异常");
                     }
                 }
             })
@@ -119,8 +120,9 @@ namespace huaanClient
                     DataSynchronization.DataSynchronizationtask();
                     Thread.Sleep(60 * 1000 * 5);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger.Error(ex, "数据同步异常");
                 }
             })
             {
@@ -138,7 +140,7 @@ namespace huaanClient
                     }
                     catch (Exception ex)
                     {
-
+                        Logger.Error(ex, "获取抓拍记录异常");
                     }
                 }
             })
