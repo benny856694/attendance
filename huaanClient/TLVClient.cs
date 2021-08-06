@@ -29,7 +29,6 @@ namespace huaanClient
             _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             id = Guid.NewGuid();
 
-            Debug.WriteLine($"=====create new socket:{id}=========");
         }
 
 
@@ -111,7 +110,6 @@ namespace huaanClient
                 {
                     try
                     {
-                        Debug.WriteLine($"======beging recv {id}==========");
                         int readLen = _clientSocket.EndReceive(asyncResult);
                         if (readLen == 0)
                         {
@@ -274,7 +272,6 @@ namespace huaanClient
 
         ~TLVClient()
         {
-            Debug.WriteLine($"=========finalize {id}==============");
             ShutDown();
             OnDisConnect();
             _clientSocket.Dispose();
@@ -284,7 +281,6 @@ namespace huaanClient
         {
             if (Interlocked.Exchange(ref _shutdown, 1) == 0)
             {
-                Debug.WriteLine($"========shutdown {id}===========");
                 if (_clientSocket.Connected)
                 {
                     _clientSocket.Shutdown(SocketShutdown.Both);
