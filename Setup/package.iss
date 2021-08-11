@@ -24,8 +24,9 @@ VersionInfoVersion={#MyAppVersion}
 VersionInfoTextVersion={#MyAppVersion}
 
 ;默认安装路径
-DefaultDirName=D:\Program Files\{#MyAppName}
+DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
+DisableDirPage=no
 DirExistsWarning=no
 OutputDir=Output
 OutputBaseFilename={#MyAppName}{#MyAppVersion}
@@ -33,6 +34,7 @@ SetupIconFile=InstallFiles\branding\logo.ico
 WizardSmallImageFile=InstallFiles\branding\logo.bmp
 Compression=lzma
 SolidCompression=yes
+
 
 [Languages]
 Name: "chinesesimp"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
