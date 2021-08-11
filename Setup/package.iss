@@ -24,8 +24,9 @@ VersionInfoVersion={#MyAppVersion}
 VersionInfoTextVersion={#MyAppVersion}
 
 ;默认安装路径
-DefaultDirName=D:\Program Files\{#MyAppName}
+DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
+DisableDirPage=no
 DirExistsWarning=no
 OutputDir=Output
 OutputBaseFilename={#MyAppName}{#MyAppVersion}
