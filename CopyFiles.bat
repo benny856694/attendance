@@ -8,6 +8,7 @@ ECHO 0. 缺省(Tommi)
 ECHO 1. Mox
 ECHO 2. SmartSchoolNetwork
 ECHO 3. Deepleeds
+ECHO 4. 云卡通
 set choice=
 set /p choice=请输入数字选择品牌.
 if not '%choice%'=='' set choice=%choice:~0,1%
@@ -15,6 +16,7 @@ if '%choice%'=='0' goto default
 if '%choice%'=='1' goto mox
 if '%choice%'=='2' goto SmartSchoolNetwork
 if '%choice%'=='3' goto Deepleeds
+if '%choice%'=='4' goto YunKaTong
 ECHO "%choice%" 无效, 请重新输入
 ECHO.
 goto menu
@@ -29,6 +31,9 @@ set brand=smartschoolnetwork
 goto start
 :Deepleeds
 set brand=deepleeds
+goto start
+:YunKaTong
+set brand=云卡通
 goto start
 
 :start
