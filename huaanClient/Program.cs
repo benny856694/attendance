@@ -111,7 +111,7 @@ namespace huaanClient
             {
                 IsBackground = true
             }.Start();
-            //数据同步线程
+            //同步设备人员
             new Thread(() =>
             {
                 try
@@ -122,13 +122,13 @@ namespace huaanClient
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex, "数据同步异常");
+                    Logger.Error(ex, "设备人员同步异常");
                 }
             })
             {
                 IsBackground = true
             }.Start();
-            //ntp时间同步
+            //抓拍记录下载
             new Thread(() =>
             {
                 while (true)

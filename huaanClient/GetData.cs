@@ -3323,7 +3323,7 @@ namespace huaanClient
             return result;
         }
 
-        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType)
+        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, float? tempFrom, float? tempTo)
         {
 
             StringBuilder commandText = new StringBuilder("SELECT COUNT(*) as count FROM Capture_Data  WHERE 1=1 AND");
@@ -3360,6 +3360,16 @@ namespace huaanClient
                 {
                     commandText.Append(" match_status='0' or match_status='-1' AND");
                 }
+            }
+
+            if (tempFrom != null)
+            {
+                commandText.Append($" body_temp >= {tempFrom} AND");
+            }
+
+            if (tempTo != null)
+            {
+                commandText.Append($" body_temp <= {tempTo} AND");
             }
 
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
@@ -3483,7 +3493,7 @@ namespace huaanClient
             }
         }
 
-        public static string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string page, string limt)
+        public static string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, float? tempFrom, float? tempTo, string page, string limt)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
@@ -3522,6 +3532,17 @@ namespace huaanClient
                     commandText.Append(" match_status='0' or  match_status='-1' AND");
                 }
             }
+
+            if (tempFrom != null)
+            {
+                commandText.Append($" body_temp >= {tempFrom} AND");
+            }
+
+            if (tempTo != null)
+            {
+                commandText.Append($" body_temp <= {tempTo} AND");
+            }
+
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
             commandText2 = commandText2 +
                 "order by ca.id DESC LIMIT " + pageint + "," + limt;

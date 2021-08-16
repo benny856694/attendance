@@ -448,10 +448,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
         //批量导出门禁记录
-        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string type)
+        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string type, string tempFrom, string tempTo)
         {
 
-            string result = GetData.getCapture_Datacuont(statime, endtime, name, devname, stranger, HealthCodeType);
+            string result = GetData.getCapture_Datacuont(statime, endtime, name, devname, stranger, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat());
             form.Invoke(new Action(() =>
             {
                 JArray jo = (JArray)JsonConvert.DeserializeObject(result);
@@ -1201,7 +1201,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //getCapture_Data(string statime,string endtime,string name,string devname,string pageint,string limt)
-        public string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string pageint, string limt)
+        public string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt)
         {
             //Task.Factory.StartNew(() =>
             //{
@@ -1219,7 +1219,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 try
                 {
                     form.ShowLayer();
-                    result = GetData.getCapture_Data(statime, endtime, name, devname, stranger,HealthCodeType, pageint, limt);
+                    result = GetData.getCapture_Data(statime, endtime, name, devname, stranger,HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt);
                     form.HideLayer();
                 }
                 catch
@@ -1230,7 +1230,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return result;
         }
         //首页调用
-        public void getCapture_Dataforindex(IJavascriptCallback callback,string statime, string endtime, string name, string devname, string stranger, string HealthCodeType, string pageint, string limt)
+        public void getCapture_Dataforindex(IJavascriptCallback callback,string statime, string endtime, string name, string devname, string stranger, string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt)
         {
             //Task.Factory.StartNew(() =>
             //{
@@ -1245,7 +1245,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string result = string.Empty;
             Task.Factory.StartNew(() =>
             {
-                string data = GetData.getCapture_Data(statime, endtime, name, devname, stranger, HealthCodeType, pageint, limt);
+                string data = GetData.getCapture_Data(statime, endtime, name, devname, stranger, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt);
                 callback.ExecuteAsync(data);
             });
 
@@ -1297,10 +1297,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             bool re = GetData.delCapture_DataForid(id);
             return re;
         }
-        public string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType)
+        public string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo)
         {
-
-            string result = GetData.getCapture_Datacuont(statime, endtime, name, devname, stranger, HealthCodeType);
+            
+            string result = GetData.getCapture_Datacuont(statime, endtime, name, devname, stranger, HealthCodeType,
+                tempFrom.toFloat(), tempTo.toFloat());
 
             return result;
         }
