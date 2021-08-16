@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("FaceRASystem")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("成都华安视讯科技有限公司")]
+[assembly: AssemblyCompany("Face Attendance Management System")]
 [assembly: AssemblyProduct("FaceRASystem")]
 [assembly: AssemblyCopyright("Copyright © 2020")]
 [assembly: AssemblyTrademark("")]
