@@ -26,6 +26,7 @@ using DBUtility.SQLite;
 using DapperExtensions;
 using Dapper;
 using System.Collections.Generic;
+using huaanClient.Services;
 
 namespace InsuranceBrowser
 {
@@ -35,7 +36,9 @@ namespace InsuranceBrowser
         private string url = "about:blank";
         private bool isHide = false;
         InsuranceBrowserLib.MainForm mainForm;
+        public UserSettings userSettings = new UserSettings();
 
+        
         public ChromiumForm()
         {
             InitializeComponent();
@@ -59,14 +62,7 @@ namespace InsuranceBrowser
         private void ChromiumForm_Load(object sender, EventArgs e)
         {
             initWeb();
-            //ShowLayer();
-
-            //Thread t = new Thread(() =>
-            //{
-            //    Thread.Sleep(1500);
-            //    HideLayer();
-            //});
-            //t.Start();
+            Services.Tracker.Track(userSettings);
         }
 
 
@@ -78,6 +74,8 @@ namespace InsuranceBrowser
 
             if (mainForm != null)
             {
+
+
                 this.BeginInvoke(new Action(() =>
                 {
                     mainForm.SetToolBarVisible(true);
@@ -94,7 +92,12 @@ namespace InsuranceBrowser
                     {
                         mainForm.Text = " Face Recognition System" + " " + ApplicationData.MyAppVersion;
                     }
-                    
+
+                    if (userSettings.EnableTitleLong && !string.IsNullOrEmpty(userSettings.TitleLong))
+                    {
+                        mainForm.Text = userSettings.TitleLong;
+                    }
+
                 }));
 
             }
@@ -179,7 +182,7 @@ namespace InsuranceBrowser
         {
             this.BeginInvoke(new Action(() =>
             {
-                this.Text = e.Title;
+                //this.Text = e.Title;
             }));
 
         }
@@ -343,12 +346,13 @@ namespace InsuranceBrowser
             return true;
         }
 
-
-
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    webBrowser.ShowDevTools();
-        //}
+        public void setText(string text)
+        {
+            if (mainForm != null)
+            {
+                mainForm.Text = text;
+            }
+        }
     }
 
 
@@ -1575,6 +1579,36 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             }
 
             return "";
+        }
+
+        public void enableLongTitle(string enable)
+        {
+            form.userSettings.EnableTitleLong = enable == "true" || enable == "1";
+            Services.Tracker.Persist(form.userSettings);
+        }
+
+        public string getEnableLongTitle()
+        {
+            return form.userSettings.EnableTitleLong ? "true" : "";
+            
+        }
+
+        public void setLongTitle(string title)
+        {
+            form.userSettings.TitleLong = title;
+            Services.Tracker.Persist(form.userSettings);
+
+            if (form.userSettings.EnableTitleLong)
+            {
+                form.BeginInvoke((Action)(()=>form.setText(title)));
+            }
+            
+        }
+
+        public string getLongTitle()
+        {
+            return form.userSettings.TitleLong;
+
         }
 
         //控制寻轮调用getCapture_Datacuont
