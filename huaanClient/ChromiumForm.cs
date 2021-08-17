@@ -1587,11 +1587,6 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             Services.Tracker.Persist(form.userSettings);
         }
 
-        public string getEnableLongTitle()
-        {
-            return form.userSettings.EnableTitleLong ? "true" : "";
-            
-        }
 
         public void setLongTitle(string title)
         {
@@ -1605,26 +1600,25 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             
         }
 
-        public string getLongTitle()
+        public void enableShortTitle(string enable)
         {
-            return form.userSettings.TitleLong;
-
+            form.userSettings.EnableTitleShort = enable == "true" || enable == "1";
+            Services.Tracker.Persist(form.userSettings);
         }
 
-        //控制寻轮调用getCapture_Datacuont
-        //public string getCapture_Datacuontfortime(string statime, string endtime, string name, string devname, string stranger)
-        //{
-        //    if (!ApplicationData.isrealtime)
-        //    {
-        //        return "[]";
-        //    }
-        //    else
-        //    {
-        //        string result = GetData.getCapture_Datacuont(statime, endtime, name, devname, stranger);
-        //        ApplicationData.isrealtime = false;
-        //        return result;
-        //    }
-        //}
+        public void setShortTitle(string title)
+        {
+            form.userSettings.TitleShort = title;
+            Services.Tracker.Persist(form.userSettings);
+        }
+
+        public string getUserConfigObject()
+        {
+            var json = JsonConvert.SerializeObject(form.userSettings);
+            return json;
+        }
+
+       
     }
 
     class KeyboardHandler : IKeyboardHandler
