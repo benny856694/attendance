@@ -1234,7 +1234,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return result;
         }
         //首页调用
-        public void getCapture_Dataforindex(IJavascriptCallback callback,string statime, string endtime, string name, string devname, string stranger, string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt)
+        public void getCapture_Dataforindex(IJavascriptCallback callback,string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt)
         {
             //Task.Factory.StartNew(() =>
             //{
@@ -1249,7 +1249,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string result = string.Empty;
             Task.Factory.StartNew(() =>
             {
-                string data = GetData.getCapture_Data(statime, endtime, name, devname, stranger, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt);
+                string data = GetData.getCapture_Data(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt);
                 callback.ExecuteAsync(data);
             });
 

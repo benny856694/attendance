@@ -3331,7 +3331,7 @@ namespace huaanClient
             return result;
         }
 
-        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, float? tempFrom, float? tempTo)
+        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo)
         {
 
             StringBuilder commandText = new StringBuilder("SELECT COUNT(*) as count FROM Capture_Data  WHERE 1=1 AND");
@@ -3362,12 +3362,17 @@ namespace huaanClient
                     commandText.Append(" QRcodestatus LIKE '%红码%' AND");
                 }
             }
-            if (!string.IsNullOrEmpty(stranger))
+            if (!string.IsNullOrEmpty(selectedPersonTypes))
             {
-                if (stranger.Trim() == "1")
-                {
-                    commandText.Append(" match_status='0' or match_status='-1' AND");
-                }
+                var sb = new StringBuilder(" ");
+                var sections = selectedPersonTypes.Split(',')
+                    .Select(x => x == "1" ? " person_id is not null" : " person_id is null");
+                var s = String.Join(" or ", sections);
+
+                sb.AppendFormat("{0} AND", s);
+                
+                commandText.Append(sb.ToString());
+                
             }
 
             if (tempFrom != null)
@@ -3501,7 +3506,7 @@ namespace huaanClient
             }
         }
 
-        public static string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, float? tempFrom, float? tempTo, string page, string limt)
+        public static string getCapture_Data(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string page, string limt)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
@@ -3533,12 +3538,15 @@ namespace huaanClient
                     commandText.Append(" QRcodestatus LIKE '%红码%' AND");
                 }
             }
-            if (!string.IsNullOrEmpty(stranger))
+            if (!string.IsNullOrEmpty(selectedPersonTypes))
             {
-                if (stranger.Trim() == "1")
-                {
-                    commandText.Append(" match_status='0' or  match_status='-1' AND");
-                }
+                var sb = new StringBuilder(" ");
+                var sections = selectedPersonTypes.Split(',')
+                    .Select(x => x == "1" ? " person_id is not null" : " person_id is null");
+                var s = String.Join(" or ", sections);
+
+                sb.AppendFormat("{0} AND", s);
+                commandText.Append(sb.ToString());
             }
 
             if (tempFrom != null)
