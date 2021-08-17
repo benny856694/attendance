@@ -496,6 +496,14 @@ namespace huaanClient
             return sr;
         }
 
+        public static MyDevice[] getAllMyDevice()
+        {
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                return conn.GetAll<MyDevice>().ToArray();
+            }
+        }
+
         //更新编号和名字
         public static void setDevicenumber(string number, string id)
         {

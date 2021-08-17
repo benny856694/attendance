@@ -1630,6 +1630,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return json;
         }
 
+        //获取数据库中的设备列表
+        public string getAllMyDevices()
+        {
+            var json = JsonConvert.SerializeObject(GetData.getAllMyDevice());
+            return json;
+        }
        
     }
 
