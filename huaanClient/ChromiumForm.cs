@@ -1612,6 +1612,18 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             Services.Tracker.Persist(form.userSettings);
         }
 
+        public void hideAttendanceManagementPage(string hide)
+        {
+            form.userSettings.HideAttendanceManagementPage = hide == "true" || hide == "1";
+            Services.Tracker.Persist(form.userSettings);
+        }
+
+        public void hideAttendanceConfigPage(string hide)
+        {
+            form.userSettings.HideAttendanceConfigPage = hide == "true" || hide == "1";
+            Services.Tracker.Persist(form.userSettings);
+        }
+
         public string getUserConfigObject()
         {
             var json = JsonConvert.SerializeObject(form.userSettings);

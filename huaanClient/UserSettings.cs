@@ -13,6 +13,8 @@ namespace huaanClient
         public string TitleShort {  get; set; }
         public bool EnableTitleLong { get; set; }
         public bool EnableTitleShort { get; set; }
+        public bool HideAttendanceManagementPage { get; set; } = false;
+        public bool HideAttendanceConfigPage { get; set; } = false;
 
         public void ConfigureTracking(TrackingConfiguration configuration)
         {
@@ -23,7 +25,9 @@ namespace huaanClient
                     setting.TitleLong,
                     setting.TitleShort,
                     setting.EnableTitleLong,
-                    setting.EnableTitleShort
+                    setting.EnableTitleShort,
+                    setting.HideAttendanceManagementPage,
+                    setting.HideAttendanceConfigPage
                 });
         }
     }
