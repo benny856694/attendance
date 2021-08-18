@@ -106,7 +106,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to name,department,Employee_code,Date,Punchinformation,Punchinformation1,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature.
+        ///   Looks up a localized string similar to name,department,Employee_code,Date,Punchinformation,Punchinformation1,Punchinformation2,Punchinformation22,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature.
         /// </summary>
         internal static string AttendanceKeys {
             get {
@@ -115,7 +115,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 姓名,部门,员工编号,考勤日期,上班打卡,下班打卡,班次信息,应出勤时间(小时),迟到(分钟),早退(分钟),加班(分钟),是否旷工,体温(℃).
+        ///   Looks up a localized string similar to 姓名,部门,员工编号,考勤日期,上班打卡,下班打卡,上班打卡2,下班打卡2,班次信息,应出勤时间(小时),迟到(分钟),早退(分钟),加班(分钟),是否旷工,体温(℃).
         /// </summary>
         internal static string AttendanceNames {
             get {
@@ -133,7 +133,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 考勤记录.
+        ///   Looks up a localized string similar to 抓拍记录.
         /// </summary>
         internal static string CaptureDataExportDefaultFileName {
             get {
@@ -318,6 +318,15 @@ namespace huaanClient.Properties {
         internal static string InitializingDb {
             get {
                 return ResourceManager.GetString("InitializingDb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP已存在.
+        /// </summary>
+        internal static string IPAlreadyExists {
+            get {
+                return ResourceManager.GetString("IPAlreadyExists", resourceCulture);
             }
         }
         

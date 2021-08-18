@@ -18,5 +18,8 @@ namespace huaanClient.Database
         public string Last_query { get; set; }
         public string time_syn { get; set; }
 
+        //-1: undefined, 1: enter, 0: exit
+        public int IsEnter { get; set; }
+
     }
 }

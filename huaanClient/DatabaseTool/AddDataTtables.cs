@@ -371,7 +371,8 @@ namespace huaanClient.DatabaseTool
   "number text",
   "ipAddress TEXT",
   "Last_query TEXT",
-  "time_syn TEXT"
+  "time_syn TEXT",
+  "IsEnter INTEGER DEFAULT -1", //设备进出标志，-1：未定义，1：进，0：出
         };
 
         public static string[] Shift =

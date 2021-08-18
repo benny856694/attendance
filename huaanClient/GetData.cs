@@ -21,6 +21,7 @@ using System.Data;
 using System.Dynamic;
 using System.Threading;
 using System.Threading.Tasks;
+using huaanClient.Properties;
 
 namespace huaanClient
 {
@@ -512,7 +513,7 @@ namespace huaanClient
             SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
         }
 
-        public static string AddIPtoMydevice(string IP, string DeviceName)
+        public static string AddIPtoMydevice(string IP, string DeviceName, int inout)
         {
             obj = new JObject();
             obj["result"] = 0;
@@ -530,30 +531,39 @@ namespace huaanClient
                     if (int.Parse(reint) > 0)
                     {
                         obj["result"] = 1;
-                        obj["data"] = "IP地址已经存在";
+                        obj["data"] = Strings.IPAlreadyExists;
                         return obj.ToString();
                     }
                     else
                     {
-                        string commandText = "INSERT into MyDevice (ipAddress,DeviceName) VALUES ('" + IP.Trim() + "','" + DeviceName + "')";
-                        int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
-                        if (re == 1)
+                        var myDev = new MyDevice
                         {
-                            obj["result"] = 2;
-                            obj["data"] = "保存成功";
+                            ipAddress = IP,
+                            DeviceName = DeviceName,
+                            IsEnter = inout
+                        };
+                        using (var conn = SQLiteHelper.GetConnection())
+                        {
+                            var re = conn.Insert(myDev);
+                            if (re != 0)
+                            {
+                                obj["result"] = 2;
+                                obj["data"] = Strings.SaveSuccess;
+                            }
                         }
+                        
                     }
                 }
                 else
                 {
                     obj["result"] = 3;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
             }
             return obj.ToString();
         }
 
-        public static string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName)
+        public static string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout)
         {
             obj = new JObject();
             obj["result"] = 0;

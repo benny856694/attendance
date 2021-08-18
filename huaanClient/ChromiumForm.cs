@@ -814,14 +814,14 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
 
-        public string AddIPtoMydevice(string IP, string DeviceName)
+        public string AddIPtoMydevice(string IP, string DeviceName, int inout)
         {
-            string data = GetData.AddIPtoMydevice(IP, DeviceName);
+            string data = GetData.AddIPtoMydevice(IP, DeviceName, inout);
             return data;
         }
-        public string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName)
+        public string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout)
         {
-            string data = GetData.UpdatIPtoMydevice(oldIp, IP, DeviceName);
+            string data = GetData.UpdatIPtoMydevice(oldIp, IP, DeviceName, inout);
             return data;
         }
         public bool DeleteIPtoMydevice(string IP)
