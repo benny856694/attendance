@@ -3369,7 +3369,7 @@ namespace huaanClient
                     .Select(x => x == "1" ? " person_id is not null" : " person_id is null");
                 var s = String.Join(" or ", sections);
 
-                sb.AppendFormat("{0} AND", s);
+                sb.AppendFormat(" ( {0} ) AND", s);
                 
                 commandText.Append(sb.ToString());
                 
@@ -3545,7 +3545,7 @@ namespace huaanClient
                     .Select(x => x == "1" ? " person_id is not null" : " person_id is null");
                 var s = String.Join(" or ", sections);
 
-                sb.AppendFormat("{0} AND", s);
+                sb.AppendFormat(" ({0}) AND", s);
                 commandText.Append(sb.ToString());
             }
 
