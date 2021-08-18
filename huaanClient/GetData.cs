@@ -3607,7 +3607,7 @@ namespace huaanClient
             return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
         }
 
-        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType)
+        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes,string HealthCodeType, float? tempFrom, float? tempTo)
         {
             var pg = new DapperExtensions.PredicateGroup 
             { 
@@ -3646,20 +3646,39 @@ namespace huaanClient
                     pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Operator.Like, "%红码%"));
                 }
             }
-            if (!string.IsNullOrEmpty(stranger))
+            if (!string.IsNullOrEmpty(selectedPersonTypes))
             {
-                if (stranger.Trim() == "1")
+                var personTypeGroup = new DapperExtensions.PredicateGroup()
                 {
-                    var strangerGroup = new DapperExtensions.PredicateGroup()
+                    Operator = DapperExtensions.GroupOperator.Or,
+                    Predicates = new List<DapperExtensions.IPredicate>()
+                };
+                var sections = selectedPersonTypes.Split(',');
+                foreach (var personType in sections)
+                {
+                    switch (personType)
                     {
-                        Operator = DapperExtensions.GroupOperator.Or,
-                        Predicates = new List<DapperExtensions.IPredicate>()
-                    };
-                    strangerGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.match_status, DapperExtensions.Operator.Eq, "0"));
-                    strangerGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.match_status, DapperExtensions.Operator.Eq, "-1"));
-                    pg.Predicates.Add(strangerGroup);
+                        case "1":
+                            personTypeGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_id, DapperExtensions.Operator.Eq, null, true));
+                            break;
+                        case "0":
+                            personTypeGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_id, DapperExtensions.Operator.Eq, null));
+                            break;
+                    }
                 }
+                pg.Predicates.Add(personTypeGroup);
             }
+
+            if (tempFrom != null)
+            {
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.body_temp, DapperExtensions.Operator.Ge, tempFrom.Value));
+            }
+
+            if (tempTo != null)
+            {
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.body_temp, DapperExtensions.Operator.Le, tempTo.Value));
+            }
+
 
             using (var conn = SQLiteHelper.GetConnection())
             {

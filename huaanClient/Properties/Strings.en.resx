@@ -217,7 +217,7 @@
 		<value>Remember Password</value>
 	</data>
 	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
-		<value>Attendance Record</value>
+		<value>Capture Record</value>
 	</data>
 	<data name="CaptureRecordColumnNames" xml:space="preserve">
 		<value>full name,ID,device name,clock-in time,match score,Access card number,match fail reason,mask,temperature,device serial number,ID card number,ID card name,Health code status,trip information,image path</value>

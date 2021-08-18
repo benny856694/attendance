@@ -220,7 +220,7 @@
     <value>记住密码</value>
   </data>
 	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
-    <value>考勤记录</value>
+    <value>抓拍记录</value>
   </data>
 	<data name="CaptureRecordColumnKeys" xml:space="preserve">
     <value>person_name,person_id,addr_name,time,match_status,wg_card_id,match_failed_reson,exist_mask,body_temp,device_sn,idcard_number,idcard_name,QRcodestatus,trip_infor,closeup</value>
