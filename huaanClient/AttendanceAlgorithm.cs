@@ -21,6 +21,7 @@ namespace huaanClient
         static List<data> listPerson = new List<data>();
         //reData
         static List<reData> relistAll = new List<reData>();
+        static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public static string getpersonnel(string starttime, string endtime,int type)
         {
             try
@@ -150,6 +151,7 @@ namespace huaanClient
             }
             catch (Exception ex)
             {
+                Logger.Error(ex, "考勤计算异常");
                 return "";
             } 
         }
