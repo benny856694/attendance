@@ -4895,5 +4895,32 @@ namespace huaanClient
                 File.Delete(fileFullPath);
             }
         }
+
+        public static (int In, int Out) getInOutCount(DateTime day)
+        {
+            var i = 0;
+            var o = 0;
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                var res = conn.Query($"select count(ca.id) as count, dev.IsEnter from Capture_Data ca LEFT JOIN MyDevice dev " +
+                    $"on ca.device_sn = dev.number where ca.time like '{day:yyyy-MM-dd}%' group by dev.IsEnter");
+                foreach (dynamic item in res)
+                {
+                    var v = Convert.ToInt32(item.count);
+                    switch (item.IsEnter)
+                    {
+                        case 1L:
+                            i = v;
+                            break;
+                        case 0L:
+                            o = v;
+                            break;
+                    }
+                }
+            }
+
+            return (i, o);
+
+        }
     }
 }
