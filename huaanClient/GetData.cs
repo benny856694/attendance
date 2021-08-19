@@ -575,13 +575,13 @@ namespace huaanClient
             }
             if (!string.IsNullOrEmpty(IP))
             {
-                string commandText = "UPDATE  MyDevice  SET ipAddress='" + IP + "',DeviceName='" + DeviceName + "' WHERE ipAddress='" + oldIp + "'";
+                string commandText = $"UPDATE  MyDevice  SET ipAddress='{IP}', DeviceName='{DeviceName}', IsEnter={inout} WHERE ipAddress='{oldIp}'";
                 int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
                 if (re == 1)
                 {
                     Deviceinfo.MyDevicelist.RemoveAll(c => c.IP == oldIp.Trim());
                     obj["result"] = 2;
-                    obj["data"] = "保存成功";
+                    obj["data"] = Strings.SaveSuccess;
                 }
             }
             return obj.ToString();
