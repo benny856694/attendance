@@ -1,4 +1,5 @@
-﻿using DBUtility.SQLite;
+﻿using Dapper;
+using DBUtility.SQLite;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -27,12 +28,42 @@ namespace huaanClient.DatabaseTool
             await Task.Factory.StartNew(() =>
             {
                 //添加Capture_Data 先判断是否存在 如果不存在就创建
+                dynamic tableColumns = null;
+                using (var conn = SQLiteHelper.GetConnection())
+                {
+                     tableColumns = conn.Query("SELECT m.name AS TableName, p.name AS ColumnName " +
+                        "FROM sqlite_master AS m JOIN pragma_table_info(m.name) AS p ORDER BY m.name, p.cid");
+                }
+
+                bool TableColumnExists(string tableName, string columnName = null)
+                {
+                    foreach (var item in tableColumns)
+                    {
+                        if (columnName == null)
+                        {
+                            if (item.TableName == tableName)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (item.TableName == tableName && item.ColumnName == columnName)
+                            {
+                                return true;
+                            }
+                        }
+                        
+                    }
+
+                    return false;
+                }
 
                 for (int i = 0; i < tableName.tablename.Length; i++)
                 {
                     try
                     {
-                        if (!Isexistence(tableName.tablename[i].Trim()))
+                        if (!TableColumnExists(tableName.tablename[i].Trim()))
                         {
                             Logger.Debug($"create table {tableName.tablename[i]}");
                             //如果不存在创建数据库
@@ -49,7 +80,7 @@ namespace huaanClient.DatabaseTool
                                     }
                                     catch (Exception ex)
                                     {
-                                        Logger.Error(ex, "swallow exception on purpose");
+                                        Logger.Error(ex, "创建数据库表异常");
                                     }
                                 }
                             }
@@ -63,22 +94,28 @@ namespace huaanClient.DatabaseTool
                             {
                                 for (int m = 0; m < g.Length; m++)
                                 {
-                                    try
+                                    var t = tableName.tablename[i].Trim();
+                                    var c = g[m].Trim();
+                                    var columnName = c.Split(' ')[0];
+                                    if (!TableColumnExists(t, columnName))
                                     {
-                                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
+                                        try
+                                        {
+                                            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + t + " ADD " + c);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Logger.Error(ex, $"add column({t}.{c}) exception");
+                                        }
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        Logger.Error(ex, "swallow exception on purpose");
-                                    }
+                                    
                                 }
                             }
                         }
-                        Logger.Debug($"table create succeed");
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex, "swallow exception on purpose");
+                        Logger.Error(ex, "创建数据库异常");
                     }
                 }
             });
@@ -182,7 +219,7 @@ namespace huaanClient.DatabaseTool
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex, "swallow exception on purpose");
+                    Logger.Error(ex, "初始化数据库异常");
                 }
                 
                 Inihelper.WriteBool("Setting", "FirstRun", true);
@@ -200,36 +237,7 @@ namespace huaanClient.DatabaseTool
             var result = field.GetValue(null) as string[];
             return result;
         }
-
-
-        public static bool Isexistence(string table_name)
-        {
-            bool re = false;
-            string sql = "select count(*) as count from "+ table_name ;
-
-            try
-            {
-                string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, sql);
-                if (!string.IsNullOrEmpty(sr))
-                {
-                    JArray jo = (JArray)JsonConvert.DeserializeObject(sr);
-                    string reint = jo[0]["count"].ToString();
-                    if (int.Parse(reint) >= 0)
-                    {
-                        re = true;
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-                if (ex.ToString().Contains("such table"))
-                {
-                    re = false;
-                }   
-            }
-            
-            return re;
-        }
+        
     }
     class tableName
     {
