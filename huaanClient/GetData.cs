@@ -779,8 +779,10 @@ namespace huaanClient
             {
                 commandText.Append(" att.isAbsenteeism==0 AND");
             }
+
+
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString()
-                + " LIMIT " + pageint + "," + limt;
+                + " ORDER BY name, date LIMIT " + pageint + "," + limt;
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
             return sr;
         }
@@ -887,9 +889,13 @@ namespace huaanClient
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.isAbsenteeism, DapperExtensions.Operator.Eq, 0));
             }
 
+            var sort = new List<DapperExtensions.ISort>();
+            sort.Add(new DapperExtensions.Sort { PropertyName = nameof(AttendanceData.name), Ascending = true });
+            sort.Add(new DapperExtensions.Sort { PropertyName = nameof(AttendanceData.Date), Ascending = true });
+
             using (var con = SQLiteHelper.GetConnection())
             {
-                return DapperExtensions.DapperExtensions.GetList<AttendanceData>(con, pg).ToArray();
+                return DapperExtensions.DapperExtensions.GetList<AttendanceData>(con, pg, sort).ToArray();
             }
 
         }
