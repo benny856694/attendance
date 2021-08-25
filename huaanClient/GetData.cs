@@ -4931,7 +4931,7 @@ namespace huaanClient
 
         public static dynamic[] getCaptureDataByIdForDate(string personId, DateTime date)
         {
-            var sql = $"SELECT ca.time, dev.DeviceName, dev.number, dev.IsEnter from Capture_Data ca LEFT JOIN MyDevice dev ON ca.device_sn = dev.number WHERE person_id = {personId} and time LIKE '{date:yyyy-MM-dd}%' ORDER BY time";
+            var sql = $"SELECT ca.closeup, ca.time, dev.DeviceName, dev.number, dev.IsEnter from Capture_Data ca LEFT JOIN MyDevice dev ON ca.device_sn = dev.number WHERE person_id = {personId} and time LIKE '{date:yyyy-MM-dd}%' ORDER BY time";
             using (var conn = SQLiteHelper.GetConnection())
             {
                 return conn.Query(sql).ToArray();
