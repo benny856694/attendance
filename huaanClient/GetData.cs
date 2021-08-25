@@ -4928,5 +4928,14 @@ namespace huaanClient
             return (i, o);
 
         }
+
+        public static dynamic[] getCaptureDataByIdForDate(string personId, DateTime date)
+        {
+            var sql = $"SELECT ca.closeup, ca.time, ca.body_temp, dev.DeviceName, dev.number, dev.IsEnter from Capture_Data ca LEFT JOIN MyDevice dev ON ca.device_sn = dev.number WHERE person_id = {personId} and time LIKE '{date:yyyy-MM-dd}%' ORDER BY time";
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                return conn.Query(sql).ToArray();
+            }
+        }
     }
 }
