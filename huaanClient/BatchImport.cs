@@ -601,7 +601,6 @@ namespace huaanClient
         {
             var sfd = new SaveFileDialog();
             sfd.Filter = Properties.Strings.ExcelFile;
-            sfd.CheckFileExists = true;
             sfd.FileName = "Template";
 
             if (sfd.ShowDialog() == DialogResult.OK)
