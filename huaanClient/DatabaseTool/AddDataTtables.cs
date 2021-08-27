@@ -28,16 +28,16 @@ namespace huaanClient.DatabaseTool
             await Task.Factory.StartNew(() =>
             {
                 //添加Capture_Data 先判断是否存在 如果不存在就创建
-                dynamic tableColumns = null;
+                dynamic TableColumns = null;
                 using (var conn = SQLiteHelper.GetConnection())
                 {
-                     tableColumns = conn.Query("SELECT m.name AS TableName, p.name AS ColumnName " +
+                     TableColumns = conn.Query("SELECT m.name AS TableName, p.name AS ColumnName, p.type AS ColumnType " +
                         "FROM sqlite_master AS m JOIN pragma_table_info(m.name) AS p ORDER BY m.name, p.cid");
                 }
 
                 bool TableColumnExists(string tableName, string columnName = null)
                 {
-                    foreach (var item in tableColumns)
+                    foreach (var item in TableColumns)
                     {
                         if (columnName == null)
                         {
@@ -58,6 +58,28 @@ namespace huaanClient.DatabaseTool
 
                     return false;
                 }
+
+                string TableColumnType(string tableName, string columnName)
+                {
+                    //Func<string, string, bool> = 
+                    var column = ((IEnumerable<dynamic>)TableColumns).FirstOrDefault(x => (string)x.TableName == tableName && (string)x.ColumnName == columnName);
+                    return column?.ColumnType;
+                }
+
+
+                //升级现有数据库
+                //if (TableColumnType("staff", "id") == "integer")
+                //{
+                //    var changeIdToStringOfStaffTable = "CREATE TABLE IF NOT EXISTS staff_tmp(id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text, Email text, phone TEXT, Employee_code TEXT, status text, department_id INTEGER NOT NULL DEFAULT '', picture text DEFAULT '', publish_time TIMESTAMP NOT NULL DEFAULT '', Employetype_id integer, AttendanceGroup_id INTEGER, IDcardNo text, line_userid text, line_code TEXT, line_type TEXT, line_codemail TEXT, islineAdmin TEXT, face_idcard TEXT, source TEXT, idcardtype TEXT);" +
+                //    "INSERT INTO TEMP_TABLE SELECT *FROM EXISTING_TABLE;" +
+                //    "DROP TABLE staff;" +
+                //    "ALTER TABLE staff_tmp RENAME TO staff;";
+                //    using (var conn = SQLiteHelper.GetConnection())
+                //    {
+                //        conn.Execute(changeIdToStringOfStaffTable);
+                //    }
+                //}
+
 
                 for (int i = 0; i < tableName.tablename.Length; i++)
                 {
@@ -228,6 +250,7 @@ namespace huaanClient.DatabaseTool
             return true;
         }
 
+       
 
         private static string[] GetDatas(string name)
         {
