@@ -1854,6 +1854,7 @@ namespace huaanClient
             }
 
             var staff = new Staff();
+            staff.id = staff_no;
             staff.name = name;
             staff.Employee_code = staff_no;
             staff.phone = phone;
@@ -1885,7 +1886,7 @@ namespace huaanClient
                 using (var con = SQLiteHelper.GetConnection())
                 {
                     var id = SqlMapperExtensions.Insert(con, staff);
-                    setAddPersonToEquipment(id.ToString());
+                    setAddPersonToEquipment(staff.id);
                     return JsonConvert.SerializeObject(new
                     {
                         result = 2,

@@ -68,17 +68,29 @@ namespace huaanClient.DatabaseTool
 
 
                 //升级现有数据库
-                //if (TableColumnType("staff", "id") == "integer")
-                //{
-                //    var changeIdToStringOfStaffTable = "CREATE TABLE IF NOT EXISTS staff_tmp(id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text, Email text, phone TEXT, Employee_code TEXT, status text, department_id INTEGER NOT NULL DEFAULT '', picture text DEFAULT '', publish_time TIMESTAMP NOT NULL DEFAULT '', Employetype_id integer, AttendanceGroup_id INTEGER, IDcardNo text, line_userid text, line_code TEXT, line_type TEXT, line_codemail TEXT, islineAdmin TEXT, face_idcard TEXT, source TEXT, idcardtype TEXT);" +
-                //    "INSERT INTO TEMP_TABLE SELECT *FROM EXISTING_TABLE;" +
-                //    "DROP TABLE staff;" +
-                //    "ALTER TABLE staff_tmp RENAME TO staff;";
-                //    using (var conn = SQLiteHelper.GetConnection())
-                //    {
-                //        conn.Execute(changeIdToStringOfStaffTable);
-                //    }
-                //}
+                if (string.Compare(TableColumnType("staff", "id"), "integer", true) == 0)
+                {
+                    var changeIdToStringOfStaffTable = "CREATE TABLE IF NOT EXISTS staff_tmp(id text NOT NULL PRIMARY KEY, name text, Email text, phone TEXT, Employee_code TEXT, status text, department_id INTEGER NOT NULL DEFAULT '', picture text DEFAULT '', publish_time TIMESTAMP NOT NULL DEFAULT '', Employetype_id integer, AttendanceGroup_id INTEGER, IDcardNo text, line_userid text, line_code TEXT, line_type TEXT, line_codemail TEXT, islineAdmin TEXT, face_idcard TEXT, source TEXT, idcardtype TEXT);" +
+                    "INSERT INTO staff_tmp SELECT * FROM staff;" +
+                    "DROP TABLE staff;" +
+                    "ALTER TABLE staff_tmp RENAME TO staff;";
+                    using (var conn = SQLiteHelper.GetConnection())
+                    {
+                        conn.Execute(changeIdToStringOfStaffTable);
+                    }
+                }
+
+                if (string.Compare(TableColumnType("Equipment_distribution", "userid"), "integer", true) == 0)
+                {
+                    var changeUserIdToStringOfEquipmentDistributionTable = "CREATE TABLE IF NOT EXISTS Equipment_distribution_tmp(id integer NOT NULL PRIMARY KEY AUTOINCREMENT, userid text NOT NULL  DEFAULT '', deviceid INTEGER NOT NULL  DEFAULT '', status TEXT, type TEXT, date TEXT, code TEXT, isDistributedByEmployeeCode INTEGER default 0, employeeCode TEXT DEFAULT '', errMsg TEXT DEFAULT '', retryCount INTEGER DEFAULT 0);" +
+                    "INSERT INTO Equipment_distribution_tmp SELECT * FROM Equipment_distribution;" +
+                    "DROP TABLE Equipment_distribution;" +
+                    "ALTER TABLE Equipment_distribution_tmp RENAME TO Equipment_distribution;";
+                    using (var conn = SQLiteHelper.GetConnection())
+                    {
+                        conn.Execute(changeUserIdToStringOfEquipmentDistributionTable);
+                    }
+                }
 
 
                 for (int i = 0; i < tableName.tablename.Length; i++)
