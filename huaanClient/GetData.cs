@@ -22,6 +22,7 @@ using System.Dynamic;
 using System.Threading;
 using System.Threading.Tasks;
 using huaanClient.Properties;
+using System.Globalization;
 
 namespace huaanClient
 {
@@ -3393,12 +3394,12 @@ namespace huaanClient
 
             if (tempFrom != null)
             {
-                commandText.Append($" body_temp >= {tempFrom} AND");
+                commandText.Append($" body_temp >= {tempFrom.Value.ToString(CultureInfo.InvariantCulture)} AND");
             }
 
             if (tempTo != null)
             {
-                commandText.Append($" body_temp <= {tempTo} AND");
+                commandText.Append($" body_temp <= {tempTo.Value.ToString(CultureInfo.InvariantCulture)} AND");
             }
 
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
@@ -3567,12 +3568,12 @@ namespace huaanClient
 
             if (tempFrom != null)
             {
-                commandText.Append($" body_temp >= {tempFrom} AND");
+                commandText.Append($" body_temp >= {tempFrom.Value.ToString(CultureInfo.InvariantCulture)} AND");
             }
 
             if (tempTo != null)
             {
-                commandText.Append($" body_temp <= {tempTo} AND");
+                commandText.Append($" body_temp <= {tempTo.Value.ToString(CultureInfo.InvariantCulture)} AND");
             }
 
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
