@@ -16,9 +16,9 @@ namespace huaanClient
 {
     class AttendanceAlgorithm
     {
-        static List<data> listAll = new List<data>();
+        static List<data> allCaptureData = new List<data>();
         //每个人的数据
-        static List<data> listPerson = new List<data>();
+        static List<data> captureDataForOneStaff = new List<data>();
         //reData
         static List<reData> relistAll = new List<reData>();
         static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
@@ -27,20 +27,20 @@ namespace huaanClient
             try
             {
                 relistAll.Clear();
-                listAll.Clear();
+                allCaptureData.Clear();
                 string re = GetData.getStaffa();
  
                 string data = "";
-                JArray jArray = (JArray)JsonConvert.DeserializeObject(re);
+                JArray staffs = (JArray)JsonConvert.DeserializeObject(re);
 
                 //主动从设备获取数据
                 if (type == 0)
                 {
                     //getpersondata(personIds["personId"].ToString().Trim(), starttime, endtime);
-                    Task[] tasks = new Task[jArray.Count];
-                    for (int i = 0; i < jArray.Count; i++)
+                    Task[] tasks = new Task[staffs.Count];
+                    for (int i = 0; i < staffs.Count; i++)
                     {
-                        var personId = jArray[i];
+                        var personId = staffs[i];
                         tasks[i] = Task.Factory.StartNew(() => getpersondata(personId["personId"].ToString().Trim(), starttime, endtime, personId["Employee_code"].ToString().Trim()));
                     }
                     Task.WaitAll(tasks);
@@ -72,7 +72,7 @@ namespace huaanClient
                             da.closeup= Capture_DatajArray[i]["closeup"].ToString().Trim();
                             if (!string.IsNullOrEmpty(da.personId) )
                             {
-                                listAll.Add(da);
+                                allCaptureData.Add(da);
                             } 
                         }
 
@@ -94,28 +94,29 @@ namespace huaanClient
                 //    return data;
                 //}
                 //每个人的数据
-                if (jArray.Count > 0)
+                if (staffs.Count > 0)
                 {
-                    for (int i = 0; i < jArray.Count; i++)
+                    for (int i = 0; i < staffs.Count; i++)
                     {
-                        listPerson.Clear();
-                        listAll.ForEach(s => {
-                            if (!string.IsNullOrEmpty(s.personId.ToString().Trim()))
+                        captureDataForOneStaff.Clear();
+                        JToken staff = staffs[i];
+                        allCaptureData.ForEach(captureData => {
+                            if (!string.IsNullOrEmpty(captureData.personId.ToString().Trim()))
                             {
-                                if (!s.personId.ToString().Contains("*") && !s.personId.ToString().Trim().Equals("0"))
+                                if (!captureData.personId.ToString().Contains("*") && !captureData.personId.ToString().Trim().Equals("0"))
                                 {
-                                    if (s.personId.Trim() == jArray[i]["personId"].ToString().Trim())
+                                    if (captureData.personId.Trim() == staff["personId"].ToString().Trim())
                                     {
-                                        listPerson.Add(s);
+                                        captureDataForOneStaff.Add(captureData);
                                     }
                                     else
                                     {
-                                        if (!string.IsNullOrEmpty(jArray[i]["Employee_code"].ToString().Trim()))
+                                        if (!string.IsNullOrEmpty(staff["Employee_code"].ToString().Trim()))
                                         {
-                                            if (Tools.CheckChinaIDCardNumberFormat(jArray[i]["Employee_code"].ToString().Trim()))
+                                            if (Tools.CheckChinaIDCardNumberFormat(staff["Employee_code"].ToString().Trim()))
                                             {
-                                                if(s.personId.Trim() == jArray[i]["Employee_code"].ToString().Trim())
-                                                    listPerson.Add(s);
+                                                if(captureData.personId.Trim() == staff["Employee_code"].ToString().Trim())
+                                                    captureDataForOneStaff.Add(captureData);
                                             }
                                         }
                                     }
@@ -130,14 +131,14 @@ namespace huaanClient
                         TimeSpan sp = end.Subtract(sta);
                         int day = sp.Days;
 
-                        if (day == 0 && listPerson.Count == 0)
+                        if (day == 0 && captureDataForOneStaff.Count == 0)
                         {
                             continue;
                         }
 
-                        if (!string.IsNullOrEmpty(jArray[i]["AttendanceGroup_id"].ToString()))
+                        if (!string.IsNullOrEmpty(staff["AttendanceGroup_id"].ToString()))
                         {
-                            getEffectiveTime(starttime, endtime, jArray[i]["personId"].ToString(), jArray[i]["AttendanceGroup_id"].ToString(), jArray[i]["Employee_code"].ToString(), jArray[i]["name"].ToString(), jArray[i]["department"].ToString(), day);
+                            getEffectiveTime(starttime, endtime, staff["personId"].ToString(), staff["AttendanceGroup_id"].ToString(), staff["Employee_code"].ToString(), staff["name"].ToString(), staff["department"].ToString(), day);
                         }
                     }
                 }
@@ -216,7 +217,7 @@ namespace huaanClient
                         da.temperature = list[i].temperature;
                         da.Employee_code = Employee_code;
                         da.personId = personId;
-                        listAll.Add(da);
+                        allCaptureData.Add(da);
                     }
 
                 }
@@ -432,7 +433,7 @@ namespace huaanClient
                             //List<data> listend3 = new List<data>();
 
                             //获取当天的数据list
-                            listPerson.ForEach(s =>
+                            captureDataForOneStaff.ForEach(s =>
                             {
                                 if (s.captureTime.ToString("yyyy-MM-dd").Trim() == dateBeingCalculated.ToString("yyyy-MM-dd").Trim())
                                 {
@@ -558,7 +559,7 @@ namespace huaanClient
                                         }
 
                                         //如果下一天不上班 则一并处理今天的下班时间
-                                        listPerson.ForEach(s =>
+                                        captureDataForOneStaff.ForEach(s =>
                                         {
                                             //if (s.captureTime.ToString("yyyy-MM-dd").Trim() == today.ToString("yyyy-MM-dd").Trim())
                                             {
