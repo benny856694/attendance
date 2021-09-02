@@ -10,8 +10,8 @@ namespace huaanClient.Database
     [Table("staff")]
     public class Staff
     {
-        [Key]
-        public long id { get; set; }
+        [ExplicitKey]
+        public string id { get; set; }
         public string name { get; set; }
         public string Email { get; set; }
         public string phone { get; set; }

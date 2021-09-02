@@ -619,10 +619,10 @@ namespace huaanClient
             obj = new JObject();
             obj["result"] = "error";
             obj["data"] = "";
-            if (!string.IsNullOrEmpty(id) && Regex.IsMatch(id, @"^[+-]?\d*$"))
+            if (!string.IsNullOrEmpty(id))
             {
 
-                string commandText = "SELECT sta.name,sta.picture  as imgeurl FROM staff sta WHERE sta.id= " + id;
+                string commandText = $"SELECT sta.name,sta.picture  as imgeurl FROM staff sta WHERE sta.id= '{id}'";
                 string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
                 JArray jArray = (JArray)JsonConvert.DeserializeObject(sr);
@@ -1855,6 +1855,7 @@ namespace huaanClient
             }
 
             var staff = new Staff();
+            staff.id = staff_no;
             staff.name = name;
             staff.Employee_code = staff_no;
             staff.phone = phone;
@@ -1886,7 +1887,7 @@ namespace huaanClient
                 using (var con = SQLiteHelper.GetConnection())
                 {
                     var id = SqlMapperExtensions.Insert(con, staff);
-                    setAddPersonToEquipment(id.ToString());
+                    setAddPersonToEquipment(staff.id);
                     return JsonConvert.SerializeObject(new
                     {
                         result = 2,
@@ -3012,7 +3013,7 @@ namespace huaanClient
                     JArray jo = (JArray)JsonConvert.DeserializeObject(sr);
                     string reint = jo[0]["len"].ToString();
                     string reid = jo[0]["id"].ToString();
-                    if (int.Parse(reint) > 0 && Int64.Parse(id) != Int64.Parse(reid))
+                    if (int.Parse(reint) > 0 && string.Compare(id, reid, true) != 0)
                      {
                         obj["result"] = 1;
                         obj["data"] = "员工编号已经存在";
@@ -3038,11 +3039,11 @@ namespace huaanClient
                         {
                             if (!string.IsNullOrEmpty(imge))
                             {
-                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "' WHERE id=" + id + "";
+                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "' WHERE id=" + $"'{id}'";
                             }
                             else
                             {
-                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "'  WHERE id=" + id + "";
+                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "'  WHERE id=" + $"'{id}'";
                             }
                         }
 
@@ -3053,7 +3054,7 @@ namespace huaanClient
                             obj["data"] = "保存成功";
 
                             //修改成功后 修改考勤表中的名字
-                            string sql1 = "UPDATE Attendance_Data set name = '" + name + "' WHERE personId =" + id;
+                            string sql1 = $"UPDATE Attendance_Data set name = '{name}' WHERE personId = '{id}' ";
                             SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql1);
 
                             //自动下发
@@ -3473,20 +3474,16 @@ namespace huaanClient
             }
             try
             {
-
-
                 try
                 {
-                    string getImgeUrlCommandText = "SELECT sta.picture as ImgeUrl FROM staff sta WHERE sta.id=" + id;
-                    string re = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, getImgeUrlCommandText);
-                    if (!string.IsNullOrEmpty(re))
+                    Staff staff = null;
+                    using (var conn = SQLiteHelper.GetConnection())
                     {
-                        JArray jo = (JArray)JsonConvert.DeserializeObject(re);
-                        string fileFullPath = jo[0]["ImgeUrl"].ToString();
-                        DeleteFile(fileFullPath);
+                        staff = conn.Get<Staff>( id );
                     }
+                    DeleteFile(staff?.picture);
                 }
-                catch
+                catch(IOException)
                 {
                 }
 
@@ -3501,21 +3498,13 @@ namespace huaanClient
                 //    if(s.IsConnected)
                 //        GetDevinfo.request(s, deleteJson.ToString());
                 //});
-                string updatessql = "UPDATE Equipment_distribution SET type=1,status='' WHERE userid=" + id;
-                int DetoeqRe = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
-                if (DetoeqRe >= 0)
+                using (var conn = SQLiteHelper.GetConnection())
                 {
-                    string commandText = "DELETE  from staff where id = " + id;
-                    int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
-                    if (sr == 1)
-                    {
-                        return true;
-                    }
-                    else
-                        return false;
+                    conn.Execute($"UPDATE Equipment_distribution SET type=1,status='' WHERE userid='{id}'");
+                    conn.Delete<Staff>(new Staff { id = id });
                 }
-                else
-                    return false;
+                return true;
+
             }
             catch (Exception)
             {
@@ -4932,7 +4921,7 @@ namespace huaanClient
 
         public static dynamic[] getCaptureDataByIdForDate(string personId, DateTime date)
         {
-            var sql = $"SELECT ca.closeup, ca.time, ca.body_temp, dev.DeviceName, dev.number, dev.IsEnter from Capture_Data ca LEFT JOIN MyDevice dev ON ca.device_sn = dev.number WHERE person_id = {personId} and time LIKE '{date:yyyy-MM-dd}%' ORDER BY time";
+            var sql = $"SELECT ca.closeup, ca.time, ca.body_temp, dev.DeviceName, dev.number, dev.IsEnter from Capture_Data ca LEFT JOIN MyDevice dev ON ca.device_sn = dev.number WHERE person_id = '{personId}' and time LIKE '{date:yyyy-MM-dd}%' ORDER BY time";
             using (var conn = SQLiteHelper.GetConnection())
             {
                 return conn.Query(sql).ToArray();
