@@ -3012,7 +3012,7 @@ namespace huaanClient
                     JArray jo = (JArray)JsonConvert.DeserializeObject(sr);
                     string reint = jo[0]["len"].ToString();
                     string reid = jo[0]["id"].ToString();
-                    if (int.Parse(reint) > 0 && Int64.Parse(id) != Int64.Parse(reid))
+                    if (int.Parse(reint) > 0 && string.Compare(id, reid, true) != 0)
                      {
                         obj["result"] = 1;
                         obj["data"] = "员工编号已经存在";
@@ -3038,11 +3038,11 @@ namespace huaanClient
                         {
                             if (!string.IsNullOrEmpty(imge))
                             {
-                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "' WHERE id=" + id + "";
+                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "' WHERE id=" + $"'{id}'";
                             }
                             else
                             {
-                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "'  WHERE id=" + id + "";
+                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "'  WHERE id=" + $"'{id}'";
                             }
                         }
 
@@ -3053,7 +3053,7 @@ namespace huaanClient
                             obj["data"] = "保存成功";
 
                             //修改成功后 修改考勤表中的名字
-                            string sql1 = "UPDATE Attendance_Data set name = '" + name + "' WHERE personId =" + id;
+                            string sql1 = $"UPDATE Attendance_Data set name = '{name}' WHERE personId = '{id}' ";
                             SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql1);
 
                             //自动下发
