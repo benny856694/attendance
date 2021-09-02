@@ -100,7 +100,7 @@ namespace huaanClient
                     {
                         listPerson.Clear();
                         listAll.ForEach(s => {
-                            if (IsNumber(s.personId.ToString().Trim()))
+                            if (!string.IsNullOrEmpty(s.personId.ToString().Trim()))
                             {
                                 if (!s.personId.ToString().Contains("*") && !s.personId.ToString().Trim().Equals("0"))
                                 {
