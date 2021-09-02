@@ -70,7 +70,7 @@ namespace huaanClient.DatabaseTool
                 //升级现有数据库
                 if (string.Compare(TableColumnType("staff", "id"), "integer", true) == 0)
                 {
-                    var changeIdToStringOfStaffTable = "CREATE TABLE IF NOT EXISTS staff_tmp(id text NOT NULL PRIMARY KEY, name text, Email text, phone TEXT, Employee_code TEXT, status text, department_id INTEGER NOT NULL DEFAULT '', picture text DEFAULT '', publish_time TIMESTAMP NOT NULL DEFAULT '', Employetype_id integer, AttendanceGroup_id INTEGER, IDcardNo text, line_userid text, line_code TEXT, line_type TEXT, line_codemail TEXT, islineAdmin TEXT, face_idcard TEXT, source TEXT, idcardtype TEXT);" +
+                    var changeIdToStringOfStaffTable = $"CREATE TABLE IF NOT EXISTS staff_tmp({string.Join(" ", tablecolumn.staff)});" +
                     "INSERT INTO staff_tmp SELECT * FROM staff;" +
                     "DROP TABLE staff;" +
                     "ALTER TABLE staff_tmp RENAME TO staff;";
@@ -82,7 +82,7 @@ namespace huaanClient.DatabaseTool
 
                 if (string.Compare(TableColumnType("Equipment_distribution", "userid"), "integer", true) == 0)
                 {
-                    var changeUserIdToStringOfEquipmentDistributionTable = "CREATE TABLE IF NOT EXISTS Equipment_distribution_tmp(id integer NOT NULL PRIMARY KEY AUTOINCREMENT, userid text NOT NULL  DEFAULT '', deviceid INTEGER NOT NULL  DEFAULT '', status TEXT, type TEXT, date TEXT, code TEXT, isDistributedByEmployeeCode INTEGER default 0, employeeCode TEXT DEFAULT '', errMsg TEXT DEFAULT '', retryCount INTEGER DEFAULT 0);" +
+                    var changeUserIdToStringOfEquipmentDistributionTable = $"CREATE TABLE IF NOT EXISTS Equipment_distribution_tmp({string.Join(" ", tablecolumn.Equipment_distribution)});" +
                     "INSERT INTO Equipment_distribution_tmp SELECT * FROM Equipment_distribution;" +
                     "DROP TABLE Equipment_distribution;" +
                     "ALTER TABLE Equipment_distribution_tmp RENAME TO Equipment_distribution;";
@@ -356,7 +356,7 @@ namespace huaanClient.DatabaseTool
         public static string[] Equipment_distribution =
         {
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
-  "userid INTEGER NOT NULL  DEFAULT ''",
+  "userid text NOT NULL  DEFAULT ''",
   "deviceid INTEGER NOT NULL  DEFAULT ''",
   "status TEXT",
   "type TEXT",
@@ -458,7 +458,7 @@ namespace huaanClient.DatabaseTool
 
         public static string[] staff =
         {
-             "id integer NOT NULL PRIMARY KEY AUTOINCREMENT",
+             "id text NOT NULL PRIMARY KEY",
   "name text",
   "Email text",
   "phone TEXT",
