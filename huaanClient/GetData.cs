@@ -618,10 +618,10 @@ namespace huaanClient
             obj = new JObject();
             obj["result"] = "error";
             obj["data"] = "";
-            if (!string.IsNullOrEmpty(id) && Regex.IsMatch(id, @"^[+-]?\d*$"))
+            if (!string.IsNullOrEmpty(id))
             {
 
-                string commandText = "SELECT sta.name,sta.picture  as imgeurl FROM staff sta WHERE sta.id= " + id;
+                string commandText = $"SELECT sta.name,sta.picture  as imgeurl FROM staff sta WHERE sta.id= '{id}'";
                 string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
                 JArray jArray = (JArray)JsonConvert.DeserializeObject(sr);
@@ -3473,20 +3473,16 @@ namespace huaanClient
             }
             try
             {
-
-
                 try
                 {
-                    string getImgeUrlCommandText = "SELECT sta.picture as ImgeUrl FROM staff sta WHERE sta.id=" + id;
-                    string re = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, getImgeUrlCommandText);
-                    if (!string.IsNullOrEmpty(re))
+                    Staff staff = null;
+                    using (var conn = SQLiteHelper.GetConnection())
                     {
-                        JArray jo = (JArray)JsonConvert.DeserializeObject(re);
-                        string fileFullPath = jo[0]["ImgeUrl"].ToString();
-                        DeleteFile(fileFullPath);
+                        staff = conn.Get<Staff>( id );
                     }
+                    DeleteFile(staff?.picture);
                 }
-                catch
+                catch(IOException)
                 {
                 }
 
@@ -3501,21 +3497,13 @@ namespace huaanClient
                 //    if(s.IsConnected)
                 //        GetDevinfo.request(s, deleteJson.ToString());
                 //});
-                string updatessql = "UPDATE Equipment_distribution SET type=1,status='' WHERE userid=" + id;
-                int DetoeqRe = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
-                if (DetoeqRe >= 0)
+                using (var conn = SQLiteHelper.GetConnection())
                 {
-                    string commandText = "DELETE  from staff where id = " + id;
-                    int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
-                    if (sr == 1)
-                    {
-                        return true;
-                    }
-                    else
-                        return false;
+                    conn.Execute($"UPDATE Equipment_distribution SET type=1,status='' WHERE userid='{id}'");
+                    conn.Delete<Staff>(new Staff { id = id });
                 }
-                else
-                    return false;
+                return true;
+
             }
             catch (Exception)
             {

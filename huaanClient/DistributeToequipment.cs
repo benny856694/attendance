@@ -59,7 +59,7 @@ namespace huaanClient
 
                 string downid = userid;
                 //获取对应的名字和IP地址
-                string sql = "SELECT staff.face_idcard,staff.source,staff.Employee_code,staff.idcardtype,staff.name,staff.picture,MyDevice.ipAddress FROM staff LEFT JOIN MyDevice WHERE staff.id=" + userid + " AND MyDevice.id=" + deviceid;
+                string sql = $"SELECT staff.face_idcard,staff.source,staff.Employee_code,staff.idcardtype,staff.name,staff.picture,MyDevice.ipAddress FROM staff LEFT JOIN MyDevice WHERE staff.id = '{userid}' AND MyDevice.id={deviceid}";
                 string sqldata = SQLiteHelper.SQLiteDataReader(connectionString, sql);
                 JArray sqldatajo = (JArray)JsonConvert.DeserializeObject(sqldata);
                 var distroParams = sqldatajo.FirstOrDefault() as JObject;
