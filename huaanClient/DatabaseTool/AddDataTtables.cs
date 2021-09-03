@@ -70,7 +70,7 @@ namespace huaanClient.DatabaseTool
                 //升级现有数据库
                 if (string.Compare(TableColumnType("staff", "id"), "integer", true) == 0)
                 {
-                    var changeIdToStringOfStaffTable = "CREATE TABLE IF NOT EXISTS staff_tmp(id text NOT NULL PRIMARY KEY, name text, Email text, phone TEXT, Employee_code TEXT, status text, department_id INTEGER NOT NULL DEFAULT '', picture text DEFAULT '', publish_time TIMESTAMP NOT NULL DEFAULT '', Employetype_id integer, AttendanceGroup_id INTEGER, IDcardNo text, line_userid text, line_code TEXT, line_type TEXT, line_codemail TEXT, islineAdmin TEXT, face_idcard TEXT, source TEXT, idcardtype TEXT);" +
+                    var changeIdToStringOfStaffTable = $"CREATE TABLE IF NOT EXISTS staff_tmp({string.Join(", ", tablecolumn.staff)});" +
                     "INSERT INTO staff_tmp SELECT * FROM staff;" +
                     "DROP TABLE staff;" +
                     "ALTER TABLE staff_tmp RENAME TO staff;";
@@ -82,7 +82,7 @@ namespace huaanClient.DatabaseTool
 
                 if (string.Compare(TableColumnType("Equipment_distribution", "userid"), "integer", true) == 0)
                 {
-                    var changeUserIdToStringOfEquipmentDistributionTable = "CREATE TABLE IF NOT EXISTS Equipment_distribution_tmp(id integer NOT NULL PRIMARY KEY AUTOINCREMENT, userid text NOT NULL  DEFAULT '', deviceid INTEGER NOT NULL  DEFAULT '', status TEXT, type TEXT, date TEXT, code TEXT, isDistributedByEmployeeCode INTEGER default 0, employeeCode TEXT DEFAULT '', errMsg TEXT DEFAULT '', retryCount INTEGER DEFAULT 0);" +
+                    var changeUserIdToStringOfEquipmentDistributionTable = $"CREATE TABLE IF NOT EXISTS Equipment_distribution_tmp({string.Join(", ", tablecolumn.Equipment_distribution)});" +
                     "INSERT INTO Equipment_distribution_tmp SELECT * FROM Equipment_distribution;" +
                     "DROP TABLE Equipment_distribution;" +
                     "ALTER TABLE Equipment_distribution_tmp RENAME TO Equipment_distribution;";
@@ -100,24 +100,17 @@ namespace huaanClient.DatabaseTool
                         if (!TableColumnExists(tableName.tablename[i].Trim()))
                         {
                             Logger.Debug($"create table {tableName.tablename[i]}");
-                            //如果不存在创建数据库
-                            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "CREATE TABLE " + tableName.tablename[i].Trim() + " (id integer NOT NULL PRIMARY KEY AUTOINCREMENT)");
-                            //添加列
-                            string[] g = GetDatas(tableName.tablename[i].Trim());
-                            if (g.Length > 0)
+                            try
                             {
-                                for (int m = 0; m < g.Length; m++)
-                                {
-                                    try
-                                    {
-                                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + tableName.tablename[i].Trim() + " ADD " + g[m].Trim());
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Logger.Error(ex, "创建数据库表异常");
-                                    }
-                                }
+                                var sql = $"CREATE TABLE {tableName.tablename[i]}({string.Join(", ", tablecolumn.ColumnsOfTable[i])});";
+                                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
                             }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex, $"创建数据库表{tableName.tablename[i]}异常");
+                                throw;
+                            }
+                            
                         }
                         //存在就直接添加
                         else
@@ -276,15 +269,30 @@ namespace huaanClient.DatabaseTool
     }
     class tableName
     {
-        public static string[] tablename = { "AttendanceGroup", "Attendance_Data", "Capture_Data", "Employetype",
-            "Equipment_distribution", "LineFor_list", "Linefor_", "MyDevice", "Shift", "Special_date", "department"
-        , "staff"
-        , "user","CsvSettings","Pdfconfiguration","Visitor","DataSyn"}; 
+        public static string[] tablename = { 
+            "AttendanceGroup", 
+            "Attendance_Data", 
+            "Capture_Data", 
+            "Employetype",
+            "Equipment_distribution", 
+            "LineFor_list", 
+            "Linefor_", 
+            "MyDevice", 
+            "Shift", 
+            "Special_date", 
+            "department",
+            "staff",
+            "user",
+            "CsvSettings",
+            "Pdfconfiguration",
+            "Visitor",
+            "DataSyn"
+        }; 
     }
 
-    class tablecolumn
+    static class tablecolumn
     {
-
+      
         public static string[] AttendanceGroup =
         {
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
@@ -356,7 +364,7 @@ namespace huaanClient.DatabaseTool
         public static string[] Equipment_distribution =
         {
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
-  "userid INTEGER NOT NULL  DEFAULT ''",
+  "userid text NOT NULL  DEFAULT ''",
   "deviceid INTEGER NOT NULL  DEFAULT ''",
   "status TEXT",
   "type TEXT",
@@ -385,6 +393,7 @@ namespace huaanClient.DatabaseTool
 
         public static string[] Linefor_ =
         {
+            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
             "userid text",
   "temperature TEXT",
   "Message TEXT",
@@ -458,7 +467,7 @@ namespace huaanClient.DatabaseTool
 
         public static string[] staff =
         {
-             "id integer NOT NULL PRIMARY KEY AUTOINCREMENT",
+             "id text NOT NULL PRIMARY KEY",
   "name text",
   "Email text",
   "phone TEXT",
@@ -483,24 +492,26 @@ namespace huaanClient.DatabaseTool
 
         public static string[] user =
         {
+            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
                "username text NOT NULL DEFAULT ''",
   "password text NOT NULL DEFAULT ''"
         };
 
         public static string[] CsvSettings =
         {
+            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
                "keyStr text",
   "valuesStr text"
         };
         //
         public static string[] Pdfconfiguration =
         {
+            "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
                "pdftitle text",
                "rows1 text",
                "rows2 text",
                "rows3 text",
                "rows4 text",
-               "rows5 text",
                "rows5 text",
                "rows6 text",
                "rows7 text",
@@ -540,5 +551,25 @@ namespace huaanClient.DatabaseTool
   "model TEXT",
   "stutas TEXT"
         };
+
+        public static string[][] ColumnsOfTable = {
+            AttendanceGroup,
+            Attendance_Data,
+            Capture_Data,
+            Employetype,
+            Equipment_distribution,
+            LineFor_list,
+            Linefor_,
+            MyDevice,
+            Shift,
+            Special_date,
+            department,
+            staff,
+            user,
+            CsvSettings,
+            Pdfconfiguration,
+            Visitor,
+            DataSyn,
+            };
     }
 }
