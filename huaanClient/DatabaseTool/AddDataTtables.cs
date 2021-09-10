@@ -552,6 +552,32 @@ namespace huaanClient.DatabaseTool
   "stutas TEXT"
         };
 
+        //时间段
+        public static string[] TimeSpan =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "From TEXT",
+            "To TEXT",
+            "DayOfWeekId INTEGER",
+        };
+
+        //星期
+        public static string[] DayOfWeek =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "DayOfWeek INTEGER",
+            "AccessRuleId INTEGER"
+        };
+
+        //规则
+        public static string[] AccessRule =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "Index INTEGER",
+            "Name TEXT",
+
+        };
+ 
         public static string[][] ColumnsOfTable = {
             AttendanceGroup,
             Attendance_Data,
