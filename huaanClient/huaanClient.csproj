@@ -279,6 +279,12 @@
     <Compile Include="Database\AttendanceDataMonthly.cs" />
     <Compile Include="Database\AttendanceGroup.cs" />
     <Compile Include="Database\Capture_Data.cs" />
+    <Compile Include="Database\AccessRule.cs" />
+    <Compile Include="Database\RuleDistributionDevice.cs" />
+    <Compile Include="Database\RuleDistributionItem.cs" />
+    <Compile Include="Database\RuleDistribution.cs" />
+    <Compile Include="Database\TimeSegment.cs" />
+    <Compile Include="Database\Day.cs" />
     <Compile Include="Database\Employetype.cs" />
     <Compile Include="Database\ClassMappers.cs" />
     <Compile Include="Database\Shift.cs" />

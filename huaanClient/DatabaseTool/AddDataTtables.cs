@@ -287,8 +287,8 @@ namespace huaanClient.DatabaseTool
             "Pdfconfiguration",
             "Visitor",
             "DataSyn",
-            "TimeSpan",
-            "DayOfWeek",
+            "TimeSegment",
+            "Day",
             "AccessRule",
             "RuleDistributionItem",
             "RuleDistributionDevice",
@@ -559,7 +559,7 @@ namespace huaanClient.DatabaseTool
         };
 
         //时间段
-        public static string[] TimeSpan =
+        public static string[] TimeSegment =
         {
             "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
             "Start TEXT",
@@ -568,7 +568,7 @@ namespace huaanClient.DatabaseTool
         };
 
         //星期
-        public static string[] DayOfWeek =
+        public static string[] Day =
         {
             "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
             "DayOfWeek INTEGER",
@@ -626,8 +626,8 @@ namespace huaanClient.DatabaseTool
             Pdfconfiguration,
             Visitor,
             DataSyn,
-            TimeSpan,
-            DayOfWeek,
+            TimeSegment,
+            Day,
             AccessRule,
             RuleDistributionItem,
             RuleDistributionDevice,
