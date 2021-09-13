@@ -604,6 +604,7 @@ namespace huaanClient.DatabaseTool
         public static string[] RuleDistribution =
         {
             "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "Name TEXT",
             "AccessRuleId INTEGER",
             "Priority INTEGER",
         };
