@@ -286,7 +286,13 @@ namespace huaanClient.DatabaseTool
             "CsvSettings",
             "Pdfconfiguration",
             "Visitor",
-            "DataSyn"
+            "DataSyn",
+            "TimeSpan",
+            "DayOfWeek",
+            "AccessRule",
+            "RuleDistributionItem",
+            "RuleDistributionDevice",
+            "RuleDistribution",
         }; 
     }
 
@@ -556,8 +562,8 @@ namespace huaanClient.DatabaseTool
         public static string[] TimeSpan =
         {
             "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
-            "From TEXT",
-            "To TEXT",
+            "Start TEXT",
+            "End TEXT",
             "DayOfWeekId INTEGER",
         };
 
@@ -573,9 +579,33 @@ namespace huaanClient.DatabaseTool
         public static string[] AccessRule =
         {
             "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
-            "Index INTEGER",
+            "RuleNumber INTEGER",
             "Name TEXT",
+            "RepeatType INTEGER",
+        };
 
+        public static string[] RuleDistributionItem =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "StaffId TEXT default ''",
+            "GroupId INTEGER default -1",
+            "GroupType INTEGER default -1",
+            "RuleDistributionId INTEGER",
+
+        };
+
+        public static string[] RuleDistributionDevice =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "DeviceId INTEGER default -1",
+            "RuleDistributionId INTEGER",
+        };
+
+        public static string[] RuleDistribution =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "AccessRuleId INTEGER",
+            "Priority INTEGER",
         };
  
         public static string[][] ColumnsOfTable = {
@@ -596,6 +626,13 @@ namespace huaanClient.DatabaseTool
             Pdfconfiguration,
             Visitor,
             DataSyn,
+            TimeSpan,
+            DayOfWeek,
+            AccessRule,
+            RuleDistributionItem,
+            RuleDistributionDevice,
+            RuleDistribution,
+
             };
     }
 }
