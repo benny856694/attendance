@@ -39,6 +39,9 @@ namespace huaanClient
                     return;
                 }
             }
+
+            TestMethod();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             LoginNew loginNew = new LoginNew();
@@ -320,7 +323,6 @@ namespace huaanClient
             //}   
         }
 
-
         static void Cef_Initialize()
         {
             CefSettings setting = new CefSettings();
@@ -339,6 +341,37 @@ namespace huaanClient
             setting.CefCommandLineArgs.Add("disable-gpu", "1");
 
             CefSharp.Cef.Initialize(setting);
+
+        }
+
+
+        static void TestMethod()
+        {
+            var rule = GetData.AddAccessRule("rule1", RepeatType.RepeatByDay);
+            var day = GetData.AddDayToAccessRule(rule.Id, DayOfWeek.Monday);
+            var ts = GetData.AddTimeSegmentToDay(day.Id, "18:00", "19:00");
+
+            rule = GetData.AddAccessRule("rule2", RepeatType.RepeatByWeek);
+            day = GetData.AddDayToAccessRule(rule.Id, DayOfWeek.Monday);
+
+            rule = GetData.AddAccessRule("rule1", RepeatType.RepeatByDay);
+
+            var rules = GetData.GetAllAccessRules();
+
+            var rd = GetData.AddRuleDistribution("dist1");
+            GetData.AddDeviceToRuleDistribution(rd.Id, 1);
+            GetData.AddStaffToRuleDistribution(rd.Id, "1631008646026");
+
+            var rd2 = GetData.AddRuleDistribution("dist2");
+            GetData.AddDeviceToRuleDistribution(rd2.Id, 1);
+            
+
+            var rd3 = GetData.AddRuleDistribution("dist3");
+            GetData.AddStaffToRuleDistribution(rd3.Id, "1631008646026");
+
+            rd3 = GetData.AddRuleDistribution("dist4");
+            var rds = GetData.GetAllRuleDistribution();
+
 
         }
     }

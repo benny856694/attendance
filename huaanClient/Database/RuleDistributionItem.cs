@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Database
 {
+	[Table("RuleDistributionItem")]
 	public class RuleDistributionItem
 	{
-		public long Id { get; set; }
+		[Key]
+		public int Id { get; set; }
 		public string StaffId { get; set; }
-		public long GroupId { get; set; }
-		public long GroupType { get; set; }
-		public long RuleDistributionId { get; set; }
+		public int GroupId { get; set; }
+		public GroupIdType GroupType { get; set; }
+		public int RuleDistributionId { get; set; }
 	}
 }

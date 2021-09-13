@@ -31,6 +31,8 @@ namespace huaanClient
         //返回json
         public static JObject obj = null;
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        private static IDbConnection GetConnection() => SQLiteHelper.GetConnection();
         public static string getDepartmentDataI()
         {
 
@@ -229,7 +231,7 @@ namespace huaanClient
                 "FROM staff staf " +
                 "LEFT JOIN department de ON de.id=staf.department_id  " +
                 "LEFT JOIN Employetype em ON em.id = staf.Employetype_id " +
-                "LIMIT " + pageint + "," + limt ;
+                "LIMIT " + pageint + "," + limt;
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
@@ -483,7 +485,7 @@ namespace huaanClient
         public static async Task<string> getallDeviceDiscover()
         {
             var ips = await GetDevinfo.getDevinfo();
-            
+
             string DevicelistdataJsonStr = JsonConvert.SerializeObject(ips);
 
             return DevicelistdataJsonStr;
@@ -552,7 +554,7 @@ namespace huaanClient
                                 obj["data"] = Strings.SaveSuccess;
                             }
                         }
-                        
+
                     }
                 }
                 else
@@ -791,9 +793,9 @@ namespace huaanClient
         public static string queryAttendanceinformation(string personId)
         {
             DateTime dateTime = DateTime.Now;
-            string end = dateTime.ToString("yyyy-MM-dd") +" 23:59:59";
-            string sta = dateTime.AddDays(-(dateTime.Day+1)).ToString("yyyy-MM-dd") + " 00:00:00";
-            StringBuilder commandText = new StringBuilder("SELECT * FROM  Attendance_Data  att WHERE att.Date>='" + sta.Trim() + "' AND att.Date<='" + end.Trim() + "' AND personId='"+ personId + "'");
+            string end = dateTime.ToString("yyyy-MM-dd") + " 23:59:59";
+            string sta = dateTime.AddDays(-(dateTime.Day + 1)).ToString("yyyy-MM-dd") + " 00:00:00";
+            StringBuilder commandText = new StringBuilder("SELECT * FROM  Attendance_Data  att WHERE att.Date>='" + sta.Trim() + "' AND att.Date<='" + end.Trim() + "' AND personId='" + personId + "'");
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText.ToString());
             return sr;
         }
@@ -818,13 +820,13 @@ namespace huaanClient
                 if (jo.Count > 0)
                 {
                     string len = jo[0]["len"].ToString();
-                    if (int.Parse(len) ==0)
+                    if (int.Parse(len) == 0)
                     {
-                        sql = "INSERT INTO CsvSettings (keyStr, valuesStr) VALUES ('"+ key + "', '"+ values + "')";
+                        sql = "INSERT INTO CsvSettings (keyStr, valuesStr) VALUES ('" + key + "', '" + values + "')";
                         int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
                         if (re > 0)
                         {
-                            result=true;
+                            result = true;
                         }
                     }
                     else if (int.Parse(len) == 1)
@@ -832,7 +834,7 @@ namespace huaanClient
                         sql = "SELECT id FROM CsvSettings";
                         sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, sql);
                         jo = (JArray)JsonConvert.DeserializeObject(sr);
-                        string id= jo[0]["id"].ToString();
+                        string id = jo[0]["id"].ToString();
                         sql = "UPDATE CsvSettings SET keyStr = '" + key + "' ,valuesStr='" + values + "' WHERE id =" + id;
                         int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
                         if (re > 0)
@@ -844,7 +846,7 @@ namespace huaanClient
                     {
                         //先全部删除
                         sql = "DELETE FROM CsvSettings";
-                        int re= SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+                        int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
                         if (re > 0)
                         {
                             sql = "INSERT INTO CsvSettings (keyStr, valuesStr) VALUES ('" + key + "', '" + values + "')";
@@ -856,7 +858,7 @@ namespace huaanClient
                         }
                     }
                 }
-                return result; 
+                return result;
 
             }
             catch (Exception ex)
@@ -868,10 +870,10 @@ namespace huaanClient
 
         public static AttendanceData[] queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism)
         {
-            var pg = new  DapperExtensions.PredicateGroup() { Operator = DapperExtensions.GroupOperator.And, Predicates = new List<DapperExtensions.IPredicate>() };
+            var pg = new DapperExtensions.PredicateGroup() { Operator = DapperExtensions.GroupOperator.And, Predicates = new List<DapperExtensions.IPredicate>() };
             pg.Predicates.Add(DapperExtensions.Predicates.Between<AttendanceData>(
                 a => a.Date,
-                new DapperExtensions.BetweenValues { Value1 = starttime, Value2 = endtime }) );
+                new DapperExtensions.BetweenValues { Value1 = starttime, Value2 = endtime }));
 
             if (!string.IsNullOrEmpty(name))
             {
@@ -1077,7 +1079,7 @@ namespace huaanClient
                         DistributeStaffToDevice(staff, device, distributeByCode, conn);
                     }
 
-                    
+
                 }
             }
         }
@@ -1092,7 +1094,7 @@ namespace huaanClient
 
                 using (var conn = SQLiteHelper.GetConnection())
                 {
-                    
+
                     devices = DapperExtensions.DapperExtensions.GetList<MyDevice>(conn);
 
                     //var predicte = DapperExtensions.Predicates.Field<Staff>(s=>s.picture, DapperExtensions.Operator.Eq, null, true);
@@ -1106,7 +1108,7 @@ namespace huaanClient
                     }
                 }
 
-                
+
 
                 return true;
             }
@@ -1134,7 +1136,7 @@ namespace huaanClient
                         DistributeStaffToDevice(staff, d, distributeByCode, conn);
                     }
                 }
-                
+
 
             }
             catch (Exception ex)
@@ -1144,12 +1146,12 @@ namespace huaanClient
             }
         }
 
-        private static void DistributeStaffToDevice(Staff staff, MyDevice device,  bool distributeByCode, IDbConnection conn)
+        private static void DistributeStaffToDevice(Staff staff, MyDevice device, bool distributeByCode, IDbConnection conn)
         {
-            
+
             var distributions = conn.Query<EquipmentDistribution>(
                     "select * from Equipment_distribution " +
-                    "where userid = @userid and deviceid = @deviceid and isDistributedByEmployeeCode = @distributeByCode", 
+                    "where userid = @userid and deviceid = @deviceid and isDistributedByEmployeeCode = @distributeByCode",
                     new { userid = staff.id, deviceid = device.id, distributeByCode });
             if (distributions.Count() == 0)
             {
@@ -1176,7 +1178,7 @@ namespace huaanClient
                 }
                 conn.Update(distributions);
             }
-            
+
         }
 
         public static void setAddPersonToEquipmentOld(string id)
@@ -1619,7 +1621,7 @@ namespace huaanClient
                             else if (!string.IsNullOrEmpty(reData.Punchinformation1))
                                 commandText = commandText + li.Key + "='" + li.Value + "',";
                         }
-                        else if(li.Key == "Punchinformation2")
+                        else if (li.Key == "Punchinformation2")
                         {
                             if (!string.IsNullOrEmpty(Punch2) && !string.IsNullOrEmpty(reData.Punchinformation2))
                             {
@@ -1688,9 +1690,9 @@ namespace huaanClient
                         string Punch2 = sssjo[0]["Punchinformation2"].ToString().Trim();
                         string Punch22 = sssjo[0]["Punchinformation22"].ToString().Trim();
 
-                        if (!string.IsNullOrEmpty(Punch) && !string.IsNullOrEmpty(Punch1)&& !string.IsNullOrEmpty(Punch2) && !string.IsNullOrEmpty(Punch22))
+                        if (!string.IsNullOrEmpty(Punch) && !string.IsNullOrEmpty(Punch1) && !string.IsNullOrEmpty(Punch2) && !string.IsNullOrEmpty(Punch22))
                         {
-                            string late = "", Leaveearly = "",sql1="", workOvertime="";
+                            string late = "", Leaveearly = "", sql1 = "", workOvertime = "";
                             //更新sql操作
                             if (int.Parse(Punch.Replace(":", "")) > int.Parse(stagotowork1))
                             {
@@ -1818,7 +1820,7 @@ namespace huaanClient
             {
                 using (var con = SQLiteHelper.GetConnection())
                 {
-                    var codeExists =  con.Query<Staff>("SELECT Employee_code from staff where Employee_code = @code", new { code = staff_no })
+                    var codeExists = con.Query<Staff>("SELECT Employee_code from staff where Employee_code = @code", new { code = staff_no })
                         .Any();
                     if (codeExists)
                     {
@@ -1839,11 +1841,11 @@ namespace huaanClient
 
                 if (re[2][0] != 0)
                 {
-                    return JsonConvert.SerializeObject(new 
-                    { 
-                        result = 1, 
+                    return JsonConvert.SerializeObject(new
+                    {
+                        result = 1,
                         data = Properties.Strings.StaffImageInValid
-                    }); 
+                    });
                 }
             }
 
@@ -1867,7 +1869,7 @@ namespace huaanClient
 
             }
             staff.Employetype_id = int.Parse(string.IsNullOrEmpty(Employetype) ? "1" : Employetype);
-            
+
             staff.idcardtype = idcardtype;
             staff.face_idcard = face_idcard;
             staff.picture = imge;
@@ -1909,7 +1911,7 @@ namespace huaanClient
 
 
         //0未传值 1保存失败 2成功
-        public static string setStaf_Deprecated(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard,string idcardtype)
+        public static string setStaf_Deprecated(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype)
         {
             if (string.IsNullOrEmpty(Employetype))
             {
@@ -2011,7 +2013,7 @@ namespace huaanClient
                                 else
                                 {
                                     commandText = @"Insert into staff (publish_time,name, Employee_code, phone, Email, line_userid,department_id,Employetype_id,idcardtype,face_idcard) " +
-                                "values('" + publish_time + "','" + name + "', '" + staff_no + "','" + phone + "',' " + email + "', '" + line_userid + "','" + lineType + "','" + department + "','" + Employetype+"','" + idcardtype + "','" + face_idcard + "')";
+                                "values('" + publish_time + "','" + name + "', '" + staff_no + "','" + phone + "',' " + email + "', '" + line_userid + "','" + lineType + "','" + department + "','" + Employetype + "','" + idcardtype + "','" + face_idcard + "')";
                                 }
 
                             }
@@ -2070,13 +2072,13 @@ namespace huaanClient
                             if (!string.IsNullOrEmpty(sr))
                             {
                                 JArray restr = (JArray)JsonConvert.DeserializeObject(sr);
-                                if (restr.Count>0)
+                                if (restr.Count > 0)
                                 {
                                     string reid = restr[0]["id"].ToString();
 
                                     setAddPersonToEquipment(reid);
                                 }
-                                
+
                             }
                         }
                         else
@@ -2105,7 +2107,7 @@ namespace huaanClient
             return obj.ToString();
         }
 
-        public static string setStafforDataSyn(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype,string source)
+        public static string setStafforDataSyn(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
             if (string.IsNullOrEmpty(Employetype))
             {
@@ -2279,7 +2281,7 @@ namespace huaanClient
         }
 
         //0未传值 1保存失败 2成功
-        public static string setStaf(string id,string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
+        public static string setStaf(string id, string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
             if (string.IsNullOrEmpty(Employetype))
             {
@@ -2414,13 +2416,13 @@ namespace huaanClient
             return obj.ToString();
         }
 
-        public static void setStaf(string id, string name, string imge,string face_idcard, string source)
+        public static void setStaf(string id, string name, string imge, string face_idcard, string source)
         {
             string staff_no = GetTimeStamp().Trim();
             string idcardtype = "";
             if (!string.IsNullOrEmpty(face_idcard))
             {
-                if (Int64.Parse(face_idcard)> 4294967296)
+                if (Int64.Parse(face_idcard) > 4294967296)
                 {
                     idcardtype = "64";
                 }
@@ -2446,7 +2448,7 @@ namespace huaanClient
                 if (!string.IsNullOrEmpty(Groupid))
                 {
                     commandText = @"Insert into staff (id,Employetype_id,department_id,publish_time,source,name,  Employee_code,face_idcard,idcardtype,picture,AttendanceGroup_id) " +
-                "values('" + id + "','1','1','" + publish_time + "','" + source + "','" + name + "', '" + staff_no + "','" + face_idcard + "','" + idcardtype + "','"  + imge + "'," + Groupid + ")";
+                "values('" + id + "','1','1','" + publish_time + "','" + source + "','" + name + "', '" + staff_no + "','" + face_idcard + "','" + idcardtype + "','" + imge + "'," + Groupid + ")";
                 }
                 else
                 {
@@ -2586,7 +2588,7 @@ namespace huaanClient
                 }
             }
 
-            string commandText = @"UPDATE Visitor SET phone='" + phone + "',name='" + name + "', staTime='" + staTime + "', endTime='" + endTime + "', imge='" + imge + "'"+ "  WHERE id=" + id + "";
+            string commandText = @"UPDATE Visitor SET phone='" + phone + "',name='" + name + "', staTime='" + staTime + "', endTime='" + endTime + "', imge='" + imge + "'" + "  WHERE id=" + id + "";
 
             int reint = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
             if (reint == 1)
@@ -2766,7 +2768,7 @@ namespace huaanClient
 
         public static string getwg_card_id(string userid)
         {
-            string commandText = "SELECT face_idcard FROM staff WHERE id='"+userid+"'";
+            string commandText = "SELECT face_idcard FROM staff WHERE id='" + userid + "'";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
@@ -2783,7 +2785,7 @@ namespace huaanClient
         public static string getindexforlate()
         {
             string tody = DateTime.Now.ToString("yyyy-MM-dd");
-            string commandText = "SELECT COUNT(*) AS count  FROM Attendance_Data WHERE Date ='"+ tody + "' AND late!=''";
+            string commandText = "SELECT COUNT(*) AS count  FROM Attendance_Data WHERE Date ='" + tody + "' AND late!=''";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
@@ -2815,7 +2817,7 @@ namespace huaanClient
         }
         public static string getindexforNumberequipment()
         {
-            string re = Deviceinfo.MyDevicelist.Count(t=>t.IsConnected==true).ToString();
+            string re = Deviceinfo.MyDevicelist.Count(t => t.IsConnected == true).ToString();
             return re;
         }
 
@@ -2867,7 +2869,7 @@ namespace huaanClient
                     ",Message10='" + Message10.Trim() + "' " +
                     ",Message11='" + Message11.Trim() + "' " +
                     ",line_url='" + line_url.Trim() + "' " +
-                    ",Message12='" + Message12.Trim() + "' "+
+                    ",Message12='" + Message12.Trim() + "' " +
 
                     ",ftpserver='" + ftpserver.Trim() + "' " +
                     ",ftppassword='" + ftppassword.Trim() + "' " +
@@ -2913,7 +2915,7 @@ namespace huaanClient
         public static string EdPdfconfiguration(string pdftitle, string rows1, string rows2, string rows3, string rows4
             , string rows5
             , string rows6
-            , string rows7, string rows8, string rows9, string rows10, string rows11,string rows12)
+            , string rows7, string rows8, string rows9, string rows10, string rows11, string rows12)
         {
             obj = new JObject();
 
@@ -2952,8 +2954,8 @@ namespace huaanClient
                     {
                         commandText = @"INSERT INTO Pdfconfiguration 
 (pdftitle, rows1,rows2,rows3,rows4,rows5,rows6,rows7,rows8,rows9,rows10,rows11,rows12) VALUES 
-('" + pdftitle.Trim() + "', '" + rows1.Trim() + "','" + rows2.Trim() + "','" + rows3.Trim() + "','" + rows4.Trim() + "','" + rows5.Trim() 
-+ "','" + rows6.Trim() + "','" + rows7.Trim() + "','" + rows8.Trim() + "','" + rows9.Trim() 
+('" + pdftitle.Trim() + "', '" + rows1.Trim() + "','" + rows2.Trim() + "','" + rows3.Trim() + "','" + rows4.Trim() + "','" + rows5.Trim()
++ "','" + rows6.Trim() + "','" + rows7.Trim() + "','" + rows8.Trim() + "','" + rows9.Trim()
 + "','" + rows10.Trim() + "','" + rows11.Trim() + "','" + rows12.Trim() + "')";
                     }
                 }
@@ -3014,7 +3016,7 @@ namespace huaanClient
                     string reint = jo[0]["len"].ToString();
                     string reid = jo[0]["id"].ToString();
                     if (int.Parse(reint) > 0 && string.Compare(id, reid, true) != 0)
-                     {
+                    {
                         obj["result"] = 1;
                         obj["data"] = "员工编号已经存在";
                         return obj.ToString();
@@ -3063,13 +3065,13 @@ namespace huaanClient
                             if (!string.IsNullOrEmpty(sr))
                             {
                                 JArray restr = (JArray)JsonConvert.DeserializeObject(sr);
-                                if (restr.Count>0)
+                                if (restr.Count > 0)
                                 {
                                     string staffid = restr[0]["id"].ToString();
 
                                     setAddPersonToEquipment(staffid);
                                 }
-                                
+
                             }
                         }
                         else
@@ -3183,7 +3185,7 @@ namespace huaanClient
                         obj["data"] = "失败";
                     }
                 }
-                
+
 
                 if (ids.Trim().Length > 0)
                 {
@@ -3197,7 +3199,7 @@ namespace huaanClient
 
                 obj["result"] = 2;
                 obj["data"] = Properties.Strings.SaveSuccess;
-             }
+            }
             return obj.ToString();
         }
 
@@ -3281,7 +3283,7 @@ namespace huaanClient
         public static string getEmail(string id)
         {
 
-            string commandText = "SELECT IFNULL(Email,'') as Email FROM staff  WHERE id="+id;
+            string commandText = "SELECT IFNULL(Email,'') as Email FROM staff  WHERE id=" + id;
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
@@ -3323,7 +3325,7 @@ namespace huaanClient
         {
             bool result = false;
 
-            
+
             string sql1 = "UPDATE staff SET islineAdmin  = '0'";
             int re1 = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql1);
 
@@ -3344,7 +3346,7 @@ namespace huaanClient
                 //再次将管理员写到本地静态数据
                 HandleCaptureData.getstaffforlineAdminEmail();
             }
-               
+
 
             return result;
         }
@@ -3365,9 +3367,9 @@ namespace huaanClient
             {
                 commandText.Append(" device_sn='" + devname + "' AND");
             }
-            if (HealthCodeType!="0")
+            if (HealthCodeType != "0")
             {
-                if (HealthCodeType=="1")
+                if (HealthCodeType == "1")
                 {
                     commandText.Append(" QRcodestatus LIKE '%绿码%' AND");
                 }
@@ -3388,9 +3390,9 @@ namespace huaanClient
                 var s = String.Join(" or ", sections);
 
                 sb.AppendFormat(" ( {0} ) AND", s);
-                
+
                 commandText.Append(sb.ToString());
-                
+
             }
 
             if (tempFrom != null)
@@ -3434,7 +3436,7 @@ namespace huaanClient
             {
                 if (isDown.Trim() != "2")
                 {
-                    commandText.Append(" isDown='"+isDown .Trim()+ "' AND");
+                    commandText.Append(" isDown='" + isDown.Trim() + "' AND");
                 }
             }
 
@@ -3479,11 +3481,11 @@ namespace huaanClient
                     Staff staff = null;
                     using (var conn = SQLiteHelper.GetConnection())
                     {
-                        staff = conn.Get<Staff>( id );
+                        staff = conn.Get<Staff>(id);
                     }
                     DeleteFile(staff?.picture);
                 }
-                catch(IOException)
+                catch (IOException)
                 {
                 }
 
@@ -3613,11 +3615,11 @@ namespace huaanClient
             return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
         }
 
-        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes,string HealthCodeType, float? tempFrom, float? tempTo)
+        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo)
         {
-            var pg = new DapperExtensions.PredicateGroup 
-            { 
-                Operator = DapperExtensions.GroupOperator.And, 
+            var pg = new DapperExtensions.PredicateGroup
+            {
+                Operator = DapperExtensions.GroupOperator.And,
                 Predicates = new List<DapperExtensions.IPredicate>()
             };
 
@@ -3689,67 +3691,67 @@ namespace huaanClient
             using (var conn = SQLiteHelper.GetConnection())
             {
                 return DapperExtensions.DapperExtensions.GetList<Capture_Data>(
-                    conn, 
-                    pg, 
+                    conn,
+                    pg,
                     new List<DapperExtensions.ISort>() { new DapperExtensions.Sort() { PropertyName = nameof(Capture_Data.id), Ascending = false } }
                     ).ToArray();
             }
-            
 
-//            StringBuilder commandText = new StringBuilder("SELECT ca.addr_name as addr_name"+
-//", ca.time as time" + 
-//", ca.match_status as match_status" + 
-//", ca.person_name as person_name" + 
-//", ca.wg_card_id as wg_card_id" + 
-//", ca.match_failed_reson as match_failed_reson" + 
-//", ca.exist_mask as exist_mask" + 
-//", ca.body_temp as body_temp" + 
-//", ca.device_sn as device_sn" + 
-//", ca.idcard_number as idcard_number" + 
-//", ca.idcard_name as idcard_name" + 
-//", ca.QRcodestatus as QRcodestatus "+
-//", ca.trip_infor as trip_infor " +
-//", ca.closeup as closeup " +
-//" FROM Capture_Data ca LEFT JOIN staff sta on sta.id=ca.person_id WHERE 1=1 AND");
-//            if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
-//            {
-//                commandText.Append(" '" + statime + "' < time AND  time < '" + endtime + "' AND");
-//            }
-//            if (!string.IsNullOrEmpty(name))
-//            {
-//                commandText.Append(" person_name LIKE '%" + name.Trim() + "%' AND");
-//            }
-//            if (!string.IsNullOrEmpty(devname))
-//            {
-//                commandText.Append(" device_sn='" + devname + "' AND");
-//            }
-//            if (HealthCodeType != "0")
-//            {
-//                if (HealthCodeType == "1")
-//                {
-//                    commandText.Append(" QRcodestatus LIKE '%绿码%' AND");
-//                }
-//                else if (HealthCodeType == "2")
-//                {
-//                    commandText.Append(" QRcodestatus LIKE '%黄码%' AND");
-//                }
-//                else if (HealthCodeType == "3")
-//                {
-//                    commandText.Append(" QRcodestatus LIKE '%红码%' AND");
-//                }
-//            }
-//            if (!string.IsNullOrEmpty(stranger))
-//            {
-//                if (stranger.Trim() == "1")
-//                {
-//                    commandText.Append(" match_status='0' or match_status='-1' AND");
-//                }
-//            }
 
-//            string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
-//            commandText2 = commandText2 +
-//                "order by ca.id DESC";
-//            return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
+            //            StringBuilder commandText = new StringBuilder("SELECT ca.addr_name as addr_name"+
+            //", ca.time as time" + 
+            //", ca.match_status as match_status" + 
+            //", ca.person_name as person_name" + 
+            //", ca.wg_card_id as wg_card_id" + 
+            //", ca.match_failed_reson as match_failed_reson" + 
+            //", ca.exist_mask as exist_mask" + 
+            //", ca.body_temp as body_temp" + 
+            //", ca.device_sn as device_sn" + 
+            //", ca.idcard_number as idcard_number" + 
+            //", ca.idcard_name as idcard_name" + 
+            //", ca.QRcodestatus as QRcodestatus "+
+            //", ca.trip_infor as trip_infor " +
+            //", ca.closeup as closeup " +
+            //" FROM Capture_Data ca LEFT JOIN staff sta on sta.id=ca.person_id WHERE 1=1 AND");
+            //            if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
+            //            {
+            //                commandText.Append(" '" + statime + "' < time AND  time < '" + endtime + "' AND");
+            //            }
+            //            if (!string.IsNullOrEmpty(name))
+            //            {
+            //                commandText.Append(" person_name LIKE '%" + name.Trim() + "%' AND");
+            //            }
+            //            if (!string.IsNullOrEmpty(devname))
+            //            {
+            //                commandText.Append(" device_sn='" + devname + "' AND");
+            //            }
+            //            if (HealthCodeType != "0")
+            //            {
+            //                if (HealthCodeType == "1")
+            //                {
+            //                    commandText.Append(" QRcodestatus LIKE '%绿码%' AND");
+            //                }
+            //                else if (HealthCodeType == "2")
+            //                {
+            //                    commandText.Append(" QRcodestatus LIKE '%黄码%' AND");
+            //                }
+            //                else if (HealthCodeType == "3")
+            //                {
+            //                    commandText.Append(" QRcodestatus LIKE '%红码%' AND");
+            //                }
+            //            }
+            //            if (!string.IsNullOrEmpty(stranger))
+            //            {
+            //                if (stranger.Trim() == "1")
+            //                {
+            //                    commandText.Append(" match_status='0' or match_status='-1' AND");
+            //                }
+            //            }
+
+            //            string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
+            //            commandText2 = commandText2 +
+            //                "order by ca.id DESC";
+            //            return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
         }
 
         public static bool delCapture_DataForid(string id)
@@ -3776,7 +3778,8 @@ namespace huaanClient
                 return false;
             }
 
-            Deviceinfo.MyDevicelist.ForEach(d => {
+            Deviceinfo.MyDevicelist.ForEach(d =>
+            {
                 if (d.IsConnected == true)
                 {
                     JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
@@ -3788,7 +3791,7 @@ namespace huaanClient
                     string sss = GetDevinfo.request(d, deleteJson.ToString());
                 }
             });
-           
+
             string sql = "DELETE FROM Visitor WHERE id in (" + id.ToString().Substring(0, id.ToString().Length - 1).ToString() + ")";
 
             int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
@@ -3802,12 +3805,12 @@ namespace huaanClient
 
         public static void ubpdateEquipment_distributionfordel(string id)
         {
-            string updatessql = "UPDATE Equipment_distribution SET type=1,status='success',date='"+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +"' WHERE userid=" + id;
+            string updatessql = "UPDATE Equipment_distribution SET type=1,status='success',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE userid=" + id;
             SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
         }
 
 
-        public static bool CardReplacement(string type, string id, string staTime, string endTime,string timeInterval,string number)
+        public static bool CardReplacement(string type, string id, string staTime, string endTime, string timeInterval, string number)
         {
             string disparity = string.Empty;
             if (!string.IsNullOrEmpty(staTime) && !string.IsNullOrEmpty(endTime))
@@ -3816,7 +3819,7 @@ namespace huaanClient
             }
 
             string updatessql = string.Empty;
-            if (timeInterval.Trim()=="1")
+            if (timeInterval.Trim() == "1")
             {
                 if (type == "01")
                 {
@@ -3828,17 +3831,18 @@ namespace huaanClient
                 }
                 else if (type == "1")
                 {
-                    updatessql = "UPDATE Attendance_Data SET late='" + (int.Parse(disparity)+int.Parse(number)).ToString()  + "',Punchinformation='" + staTime + "' WHERE id=" + id;
+                    updatessql = "UPDATE Attendance_Data SET late='" + (int.Parse(disparity) + int.Parse(number)).ToString() + "',Punchinformation='" + staTime + "' WHERE id=" + id;
                 }
                 else if (type == "2")
                 {
-                    updatessql = "UPDATE Attendance_Data SET Leaveearly='" + (int.Parse(disparity) + int.Parse(number)).ToString()  + "',Punchinformation1='" + staTime + "'  WHERE id=" + id;
+                    updatessql = "UPDATE Attendance_Data SET Leaveearly='" + (int.Parse(disparity) + int.Parse(number)).ToString() + "',Punchinformation1='" + staTime + "'  WHERE id=" + id;
                 }
                 else if (type == "3")
                 {
                     updatessql = "UPDATE Attendance_Data SET Remarks=3,isAbsenteeism='' WHERE id=" + id;
                 }
-            }else if (timeInterval.Trim() == "2")
+            }
+            else if (timeInterval.Trim() == "2")
             {
                 if (type == "01")
                 {
@@ -3866,7 +3870,7 @@ namespace huaanClient
             {
 
             }
-            
+
             int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
             if (re > 0)
             {
@@ -3944,7 +3948,7 @@ namespace huaanClient
                         string updatessql = "UPDATE Attendance_Data SET Remarks='',isAbsenteeism='' WHERE id=" + id;
                         SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
                     }
-                } 
+                }
             }
         }
 
@@ -3986,7 +3990,7 @@ namespace huaanClient
         }
 
         //获取下发记录总数
-        public static string getcountforEquipment_distribution(string name, string ip, string status,string DeviceName)
+        public static string getcountforEquipment_distribution(string name, string ip, string status, string DeviceName)
         {
             StringBuilder commandText = new StringBuilder("SELECT COUNT(*) as count from Equipment_distribution eq LEFT JOIN MyDevice my on my.id=eq.deviceid  LEFT JOIN staff st on st.id=eq.userid  WHERE type != '1' AND 1=1 AND");
             if (!string.IsNullOrEmpty(name))
@@ -4025,7 +4029,7 @@ namespace huaanClient
         }
 
         //获取下发列表数据
-        public static string getEquipment_distribution(string page, string limt, string name, string ip, string status,string DeviceName)
+        public static string getEquipment_distribution(string page, string limt, string name, string ip, string status, string DeviceName)
         {
             if (string.IsNullOrEmpty(page) || string.IsNullOrEmpty(limt))
                 return "";
@@ -4320,7 +4324,7 @@ namespace huaanClient
                     return false;
                 }
             }
-            catch(Exception x)
+            catch (Exception x)
             {
                 volume = "";
                 return false;
@@ -4372,12 +4376,12 @@ namespace huaanClient
                                 JObject jObj = JObject.Parse(re.Trim());
                                 jObj.Add(new JProperty("volume", outstr));
 
-                                if (getlcdscreensaver(out screensaver_mode,s))
+                                if (getlcdscreensaver(out screensaver_mode, s))
                                 {
                                     jObj.Add(new JProperty("screensaver_mode", screensaver_mode));
                                 }
-                                re=jObj.ToString();
-                            }    
+                                re = jObj.ToString();
+                            }
                         }
                         catch
                         {
@@ -4438,7 +4442,7 @@ namespace huaanClient
                                     //在设置基础参数
                                     if (output_not_matched.Contains("no"))
                                     {
-                                        CameraParameter= UtilsJson.CameraParameter;
+                                        CameraParameter = UtilsJson.CameraParameter;
                                         CameraParameter = string.Format(CameraParameter,
                                             dereplication, enable_alive,
                                             enable, limit, led_mode,
@@ -4448,7 +4452,7 @@ namespace huaanClient
                                     {
                                         CameraParameter = UtilsJson.CameraParameter_output_not_matched;
                                         CameraParameter = string.Format(CameraParameter,
-                                            dereplication, output_not_matched,enable_alive,
+                                            dereplication, output_not_matched, enable_alive,
                                             enable, limit, led_mode,
                                             led_brightness, led_sensitivity);
                                     }
@@ -4512,11 +4516,11 @@ namespace huaanClient
                 {
                     if (s.IP == oldip.Trim())
                     {
-                        re = s.SetNetworkInfo(ip,  gateway,  netmask,  dns);
-                    }  
+                        re = s.SetNetworkInfo(ip, gateway, netmask, dns);
+                    }
                 });
             }
-            catch {}
+            catch { }
             return re;
         }
         public static bool getIscode_syn()
@@ -4619,7 +4623,7 @@ namespace huaanClient
                         {
                             result = result + UnicastIPAddressInformation.Address.ToString() + ";";
                             cou++;
-                            if (cou==2)
+                            if (cou == 2)
                             {
                                 if (!string.IsNullOrEmpty(result))
                                     result = result.Remove(result.Length - 1, 1);
@@ -4657,11 +4661,11 @@ namespace huaanClient
             }
         }
 
-        public static bool deleteDataSyn(string id,string device_sn)
+        public static bool deleteDataSyn(string id, string device_sn)
         {
             bool re = false;
-            CameraConfigPort cameraConfigPort= Deviceinfo.MyDevicelist.Find(a=> a.DeviceNo==device_sn);
-            if (cameraConfigPort!=null)
+            CameraConfigPort cameraConfigPort = Deviceinfo.MyDevicelist.Find(a => a.DeviceNo == device_sn);
+            if (cameraConfigPort != null)
             {
                 //先刪除相机上的人员
                 JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
@@ -4705,7 +4709,7 @@ namespace huaanClient
                 + jObject["addr_name"] + "')";
             SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
         }
-        public static string getDataSyn(string name,string role,string stutas,string addr_name, string page, string limt)
+        public static string getDataSyn(string name, string role, string stutas, string addr_name, string page, string limt)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
@@ -4734,7 +4738,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getDataSynCount(string name, string role, string stutas,string addr_name)
+        public static string getDataSynCount(string name, string role, string stutas, string addr_name)
         {
             StringBuilder st = new StringBuilder("SELECT COUNT(*) as count FROM DataSyn WHERE 1=1  AND");
             if (!string.IsNullOrEmpty(name))
@@ -4787,7 +4791,7 @@ namespace huaanClient
 
             string commandText = st.ToString().Substring(0, st.ToString().Length - 3).ToString();
 
-            string data = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, sql+ commandText);
+            string data = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, sql + commandText);
             if (!string.IsNullOrEmpty(data))
             {
                 JArray jo = (JArray)JsonConvert.DeserializeObject(data);
@@ -4797,9 +4801,9 @@ namespace huaanClient
                     sql = "SELECT * FROM DataSyn";
                     data = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, sql + commandText);
                     jo = (JArray)JsonConvert.DeserializeObject(data);
-                    if (jo.Count>0)
+                    if (jo.Count > 0)
                     {
-                        for (var i=0;i<jo.Count;i++)
+                        for (var i = 0; i < jo.Count; i++)
                         {
                             try
                             {
@@ -4810,7 +4814,7 @@ namespace huaanClient
                                 string imge = jo[i]["imge"].ToString();
                                 string wg_card_id = jo[i]["wg_card_id"].ToString();
                                 string long_card_id = jo[i]["long_card_id"].ToString();
-                                string source= jo[i]["device_sn"].ToString();
+                                string source = jo[i]["device_sn"].ToString();
                                 string card_id = "";
                                 if (string.IsNullOrEmpty(wg_card_id))
                                 {
@@ -4837,11 +4841,11 @@ namespace huaanClient
         public static string getCapture_Data7day()
         {
             DateTime newdate = DateTime.Now;
-            JObject obj = new JObject(); 
-            for (var i=0;i<7;i++)
+            JObject obj = new JObject();
+            for (var i = 0; i < 7; i++)
             {
                 string dateTime = newdate.AddDays(-i).ToString("yyyy-MM-dd");
-                string sql = "SELECT COUNT(*) as count FROM Capture_Data WHERE time>'"+ dateTime + " 00:00:00' AND time<'" + dateTime + " 23:59:59'";
+                string sql = "SELECT COUNT(*) as count FROM Capture_Data WHERE time>'" + dateTime + " 00:00:00' AND time<'" + dateTime + " 23:59:59'";
 
                 string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, sql);
                 JArray jo = (JArray)JsonConvert.DeserializeObject(sr);
@@ -4928,6 +4932,170 @@ namespace huaanClient
             }
         }
 
+        public static AccessRule AddAccessRule(string name, RepeatType repeatType)
+        {
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                var ar = new AccessRule { Name = name, RepeatType = repeatType };
+                conn.Insert(ar);
+                return ar;
+            }
+        }
 
+        public static Database.Day AddDayToAccessRule(int accessRuleId, DayOfWeek day)
+        {
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                var d = new Database.Day { DayOfWeek = day, AccessRuleId = accessRuleId };
+                conn.Insert(d);
+                return d;
+            }
+        }
+
+        public static TimeSegment AddTimeSegmentToDay(int dayId, string from, string to)
+        {
+            using (var conn = SQLiteHelper.GetConnection())
+            {
+                var seg = new TimeSegment { DayOfWeekId = dayId, Start = from, End = to };
+                conn.Insert(seg);
+                return seg;
+            }
+        }
+
+        public static AccessRule[] GetAllAccessRules()
+        {
+            var sql = "SELECT * FROM AccessRule AS ar LEFT JOIN Day AS d ON ar.Id = d.AccessRuleId LEFT JOIN TimeSegment AS ts ON ts.DayOfWeekId = d.Id;";
+            using (var conn = GetConnection())
+            {
+                var accessRuleDictionary = new Dictionary<int, AccessRule>();
+                var dayDictionary = new Dictionary<int, Database.Day>();
+
+                return conn.Query<AccessRule, Database.Day, TimeSegment, AccessRule>(
+                    sql,
+                    (accessRule, day, timeSegment) =>
+                    {
+                        if (!accessRuleDictionary.TryGetValue(accessRule.Id, out var accessRuleEntry))
+                        {
+                            accessRuleEntry = accessRule;
+                            accessRuleEntry.Days = new List<Database.Day>();
+                            accessRuleDictionary.Add(accessRuleEntry.Id, accessRuleEntry);
+                        }
+
+
+                        if (day != null)
+                        {
+                            if (!dayDictionary.TryGetValue(day.Id, out var dayEntry))
+                            {
+                                dayEntry = day;
+                                dayEntry.TimeSegments = new List<TimeSegment>();
+                                dayDictionary.Add(dayEntry.Id, dayEntry);
+                            }
+                            if (timeSegment != null)
+                            {
+                                dayEntry.TimeSegments.Add(timeSegment);
+
+                            }
+                            accessRuleEntry.Days.Add(dayEntry);
+                        }
+                        
+                        return accessRuleEntry;
+                    }
+                    )
+                    .ToArray();
+            }
+        }
+
+        public static RuleDistribution AddRuleDistribution(string name)
+        {
+            using (var c = GetConnection())
+            {
+                var rd = new RuleDistribution() { Name = name };
+                c.Insert(rd);
+                return rd;
+            }
+        }
+
+        public static RuleDistribution GetRuleDistributionById(int id)
+        {
+            using (var c = GetConnection())
+            {
+                return c.Get<RuleDistribution>(id);
+            }
+        }
+
+        public static void AddDeviceToRuleDistribution(int distributionId, int deviceId)
+        {
+            using (var c = GetConnection())
+            {
+                var rdd = new RuleDistributionDevice { RuleDistributionId = distributionId, DeviceId = deviceId };
+                c.Insert(rdd);
+            }
+        }
+
+        public static void AddStaffToRuleDistribution(int distributionId, string staffId)
+        {
+            using (var c = GetConnection())
+            {
+                var rdi = new RuleDistributionItem { StaffId = staffId, RuleDistributionId = distributionId };
+                c.Insert(rdi);
+            }
+        }
+
+        public static void AddGroupToRuleDistribution(int distributionId, int groupId, GroupIdType groupIdType)
+        {
+            using (var c = GetConnection())
+            {
+                var item = new RuleDistributionItem { GroupId = groupId, GroupType = groupIdType, RuleDistributionId = distributionId };
+                c.Insert(item);
+            }
+        }
+
+        public static void SetAccessRuleToDistribution(int distributionId, int accessRuleId)
+        {
+            using (var c = GetConnection())
+            {
+                var d = c.Get<RuleDistribution>(distributionId);
+                d.AccessRuleId = accessRuleId;
+                c.Update(d);
+            }
+        }
+
+        public static RuleDistribution[] GetAllRuleDistribution()
+        {
+            var sql = "SELECT * FROM RuleDistribution AS rd LEFT JOIN RuleDistributionDevice AS rdd ON rd.Id = rdd.RuleDistributionId LEFT JOIN RuleDistributionItem AS rdi ON rdi.RuleDistributionId  = rd.Id;";
+            using (var conn = GetConnection())
+            {
+                var ruleDistributionDictionary = new Dictionary<int, RuleDistribution>();
+                var all = conn.Query<RuleDistribution, RuleDistributionDevice, RuleDistributionItem, RuleDistribution>(
+                    sql,
+                    (ruleDistribution, distributionDevice, distributionItem) =>
+                    {
+                        if (!ruleDistributionDictionary.TryGetValue(ruleDistribution.Id, out var ruleDistEntry))
+                        {
+                            ruleDistEntry = ruleDistribution;
+                            ruleDistEntry.Items = new List<RuleDistributionItem>();
+                            ruleDistEntry.Devices = new List<RuleDistributionDevice>();
+                            ruleDistributionDictionary.Add(ruleDistEntry.Id, ruleDistEntry);
+                        }
+
+                        if (distributionItem != null)
+                        {
+                            ruleDistEntry.Items.Add(distributionItem);
+                        }
+
+                        if (distributionDevice != null)
+                        {
+                            ruleDistEntry.Devices.Add(distributionDevice);
+                        }
+                        return ruleDistEntry;
+                    }
+                    );
+                var res = all
+                    .Distinct()
+                    .ToArray();
+                return res;
+            }
+
+        }
     }
 }
