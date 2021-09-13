@@ -348,11 +348,10 @@ namespace huaanClient
         static void TestMethod()
         {
             var rule = GetData.AddAccessRule("rule1", RepeatType.RepeatByDay);
-            var day = GetData.AddDayToAccessRule(rule.Id, DayOfWeek.Monday);
-            var ts = GetData.AddTimeSegmentToDay(day.Id, "18:00", "19:00");
+            GetData.AddTimeSegmentToDay(rule.Days[0].Id, "18:00", "19:00");
 
             rule = GetData.AddAccessRule("rule2", RepeatType.RepeatByWeek);
-            day = GetData.AddDayToAccessRule(rule.Id, DayOfWeek.Monday);
+            GetData.AddTimeSegmentToDay(rule.Days[0].Id, "19:00", "20:00");
 
             rule = GetData.AddAccessRule("rule1", RepeatType.RepeatByDay);
 

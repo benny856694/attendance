@@ -4938,6 +4938,22 @@ namespace huaanClient
             {
                 var ar = new AccessRule { Name = name, RepeatType = repeatType };
                 conn.Insert(ar);
+                ar.Days = new List<Database.Day>();
+                if (repeatType == RepeatType.RepeatByDay)
+                {
+                    foreach (DayOfWeek dow in Enum.GetValues(typeof(DayOfWeek)))
+                    {
+                        var d = new Database.Day { DayOfWeek = dow, AccessRuleId = ar.Id };
+                        conn.Insert(d);
+                        ar.Days.Add(d);
+                    }
+                }
+                else
+                {
+                    var d = new Database.Day { DayOfWeek = DayOfWeek.Sunday, AccessRuleId = ar.Id };
+                    conn.Insert(d);
+                    ar.Days.Add(d);
+                }
                 return ar;
             }
         }
@@ -4997,10 +5013,11 @@ namespace huaanClient
                             }
                             accessRuleEntry.Days.Add(dayEntry);
                         }
-                        
+
                         return accessRuleEntry;
                     }
                     )
+                    .Distinct()
                     .ToArray();
             }
         }
