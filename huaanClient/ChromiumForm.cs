@@ -1673,6 +1673,18 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         {
             GetData.RemoveAccessRuleById(id);
         }
+
+        public string addWeekAccessRule(string name)
+        {
+            var data = GetData.AddAccessRule(name, RepeatType.RepeatByWeek);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string addDayAccessRule(string name)
+        {
+            var data = GetData.AddAccessRule(name, RepeatType.RepeatByDay);
+            return JsonConvert.SerializeObject(data);
+        }
        
     }
 
