@@ -1663,6 +1663,16 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             var json = JsonConvert.SerializeObject(data);
             return json;
         }
+
+        public void removeTimeSegment(int id)
+        {
+            GetData.RemoveTimeSegmentById(id);
+        }
+
+        public void removeAccessRule(int id)
+        {
+            GetData.RemoveAccessRuleById(id);
+        }
        
     }
 

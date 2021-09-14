@@ -4958,6 +4958,20 @@ namespace huaanClient
             }
         }
 
+        public static void RemoveAccessRuleById(int id)
+        {
+            using (var c = GetConnection())
+            {
+                var days = c.Query<AccessRule>($"SELECT * FROM Day WHERE AccessRuleId = {id}");
+                foreach (var d in days)
+                {
+                    c.Execute($"DELETE FROM TimeSegment WHERE DayOfWeekId = {d.Id}");
+                    c.Delete(d);
+                }
+                c.ExecuteScalar($"DELETE FROM AccessRule WHERE Id = {id}");
+            }
+        }
+
         public static Database.Day AddDayToAccessRule(int accessRuleId, DayOfWeek day)
         {
             using (var conn = SQLiteHelper.GetConnection())
@@ -4975,6 +4989,15 @@ namespace huaanClient
                 var seg = new TimeSegment { DayOfWeekId = dayId, Start = from, End = to };
                 conn.Insert(seg);
                 return seg;
+            }
+        }
+
+        public static void RemoveTimeSegmentById(int id)
+        {
+            using (var c = GetConnection())
+            {
+                var ts = c.Get<TimeSegment>(id);
+                c.Delete(ts);
             }
         }
 
