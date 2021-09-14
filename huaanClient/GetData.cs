@@ -5032,9 +5032,11 @@ namespace huaanClient
                             if (timeSegment != null)
                             {
                                 dayEntry.TimeSegments.Add(timeSegment);
-
                             }
-                            accessRuleEntry.Days.Add(dayEntry);
+                            if (!accessRuleEntry.Days.Contains(day))
+                            {
+                                accessRuleEntry.Days.Add(dayEntry);
+                            }
                         }
 
                         return accessRuleEntry;
