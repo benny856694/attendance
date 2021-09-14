@@ -1656,6 +1656,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             var json = JsonConvert.SerializeObject(data);
             return json;
         }
+
+        public string addTimeSegment(int parentId, string from, string to)
+        {
+            var data = GetData.AddTimeSegmentToDay(parentId, from, to);
+            var json = JsonConvert.SerializeObject(data);
+            return json;
+        }
        
     }
 
