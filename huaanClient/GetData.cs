@@ -4943,14 +4943,14 @@ namespace huaanClient
                 {
                     foreach (DayOfWeek dow in Enum.GetValues(typeof(DayOfWeek)))
                     {
-                        var d = new Database.Day { DayOfWeek = dow, AccessRuleId = ar.Id };
+                        var d = new Database.Day { DayOfWeek = dow, AccessRuleId = ar.Id, TimeSegments = new List<TimeSegment>() };
                         conn.Insert(d);
                         ar.Days.Add(d);
                     }
                 }
                 else
                 {
-                    var d = new Database.Day { DayOfWeek = DayOfWeek.Sunday, AccessRuleId = ar.Id };
+                    var d = new Database.Day { DayOfWeek = DayOfWeek.Sunday, AccessRuleId = ar.Id, TimeSegments = new List<TimeSegment>() };
                     conn.Insert(d);
                     ar.Days.Add(d);
                 }
