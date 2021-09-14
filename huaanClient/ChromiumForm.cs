@@ -1649,6 +1649,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             var json = JsonConvert.SerializeObject(data);
             return json;
         }
+
+        public string getAllAccessRules()
+        {
+            var data = GetData.GetAllAccessRules();
+            var json = JsonConvert.SerializeObject(data);
+            return json;
+        }
        
     }
 

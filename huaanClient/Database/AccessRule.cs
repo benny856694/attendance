@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Database
 {
-	[Table("AccessRule")]
-	public class AccessRule : IEquatable<AccessRule>
-	{
-		[Key]
-		public int Id { get; set; }
-		public int RuleNumber { get; set; }
-		public string Name { get; set; }
-		public RepeatType RepeatType { get; set; }
+    [Table("AccessRule")]
+    public class AccessRule : IEquatable<AccessRule>
+    {
+        [Key]
+        public int Id { get; set; }
+        public int RuleNumber { get; set; }
+        public string Name { get; set; }
+        public RepeatType RepeatType { get; set; }
 
-		[Computed]
-		public List<Day> Days {  get; set; }
+        [Computed]
+        public List<Day> Days { get; set; }
 
         public bool Equals(AccessRule r)
         {

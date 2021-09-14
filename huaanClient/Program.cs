@@ -40,8 +40,6 @@ namespace huaanClient
                 }
             }
 
-            TestMethod();
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             LoginNew loginNew = new LoginNew();
