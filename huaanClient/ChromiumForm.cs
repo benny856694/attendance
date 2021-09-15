@@ -1701,6 +1701,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         {
             GetData.RemoveRuleDistributionDevice(id);
         }
+
+        public void setAccessRuleForRuleDistribution(int distributionId, int accessRuleId)
+        {
+            GetData.SetAccessRuleToDistribution(distributionId, accessRuleId);
+        }
     }
 
     class KeyboardHandler : IKeyboardHandler
