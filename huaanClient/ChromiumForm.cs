@@ -1692,6 +1692,18 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return JsonConvert.SerializeObject(data);
         }
 
+        public string getAllEmployeeType()
+        {
+            var data = GetData.getAllEmployeeType();
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string getAllDepartment()
+        {
+            var data = GetData.getAllDepartment();
+            return JsonConvert.SerializeObject(data);
+        }
+
         public void removeRuleDistributionItem(int Id)
         {
             GetData.RemoveRuleDistributionItem(Id);
@@ -1705,6 +1717,29 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public void setAccessRuleForRuleDistribution(int distributionId, int accessRuleId)
         {
             GetData.SetAccessRuleToDistribution(distributionId, accessRuleId);
+        }
+
+        public string addEmployeeTypeDistribution(string name)
+        {
+            var data = GetData.AddRuleDistribution(name, DistributionItemType.EmployeeType);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string addDepartmentDistribution(string name)
+        {
+            var data = GetData.AddRuleDistribution(name, DistributionItemType.Department);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string addStaffDistribution(string name)
+        {
+            var data = GetData.AddRuleDistribution(name, DistributionItemType.Staff);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public void removeDistribution(int id)
+        {
+            GetData.RemoveDistribution(id);
         }
     }
 

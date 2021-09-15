@@ -5172,7 +5172,7 @@ namespace huaanClient
 
         }
 
-        public string getAllDepartment()
+        public static string getAllDepartment()
         {
             using (var c = GetConnection())
             {
@@ -5181,12 +5181,23 @@ namespace huaanClient
             }
         }
 
-        public string getAllEmployeeType()
+        public static string getAllEmployeeType()
         {
             using (var c = GetConnection())
             {
                 var et = c.GetAll<Employetype>();
                 return JsonConvert.SerializeObject(et);
+            }
+        }
+
+        public static void RemoveDistribution(int Id)
+        {
+            using (var c = GetConnection())
+            {
+                var dist = c.Get<RuleDistribution>(Id);
+                c.ExecuteScalar($"DELETE FROM RuleDistributionItem WHERE RuleDistributionId = {Id}");
+                c.ExecuteScalar($"DELETE FROM RuleDistributionDevice WHERE RuleDistributionId = {Id}");
+                c.Delete(dist);
             }
         }
     }
