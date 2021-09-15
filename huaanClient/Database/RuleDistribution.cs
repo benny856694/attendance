@@ -13,8 +13,9 @@ namespace huaanClient.Database
 		[Key]
 		public int Id { get; set; }
 		public string Name {  get; set; }
-		public int AccessRuleId { get; set; }
+        public int? AccessRuleId { get; set; }
 		public int Priority { get; set; }
+        public DistributionItemType DistributionItemType {  get; set; }
 		[Computed]
 		public List<RuleDistributionDevice> Devices {  get; set; }
 		[Computed]

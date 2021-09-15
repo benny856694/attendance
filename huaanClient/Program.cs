@@ -40,6 +40,10 @@ namespace huaanClient
                 }
             }
 
+
+            //
+            //TestMethod();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             LoginNew loginNew = new LoginNew();
@@ -345,28 +349,20 @@ namespace huaanClient
 
         static void TestMethod()
         {
-            var rule = GetData.AddAccessRule("rule1", RepeatType.RepeatByDay);
-            GetData.AddTimeSegmentToDay(rule.Days[0].Id, "18:00", "19:00");
 
-            rule = GetData.AddAccessRule("rule2", RepeatType.RepeatByWeek);
-            GetData.AddTimeSegmentToDay(rule.Days[0].Id, "19:00", "20:00");
-
-            rule = GetData.AddAccessRule("rule1", RepeatType.RepeatByDay);
-
-            var rules = GetData.GetAllAccessRules();
-
-            var rd = GetData.AddRuleDistribution("dist1");
-            GetData.AddDeviceToRuleDistribution(rd.Id, 1);
+            var rd = GetData.AddRuleDistribution("staff dist", DistributionItemType.Staff);
+            GetData.AddDeviceToRuleDistribution(rd.Id, 2);
             GetData.AddStaffToRuleDistribution(rd.Id, "1631008646026");
 
-            var rd2 = GetData.AddRuleDistribution("dist2");
-            GetData.AddDeviceToRuleDistribution(rd2.Id, 1);
+            var rd2 = GetData.AddRuleDistribution("person type", DistributionItemType.EmployeeType);
+            GetData.AddGroupToRuleDistribution(rd2.Id, 2, GroupIdType.EmployeeType);
+            GetData.AddDeviceToRuleDistribution(rd2.Id, 2);
             
 
-            var rd3 = GetData.AddRuleDistribution("dist3");
-            GetData.AddStaffToRuleDistribution(rd3.Id, "1631008646026");
+            var rd3 = GetData.AddRuleDistribution("depart dist", DistributionItemType.Department);
+            GetData.AddGroupToRuleDistribution(rd3.Id, 2, GroupIdType.Department);
 
-            rd3 = GetData.AddRuleDistribution("dist4");
+            
             var rds = GetData.GetAllRuleDistribution();
 
 

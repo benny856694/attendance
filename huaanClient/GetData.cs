@@ -5047,11 +5047,11 @@ namespace huaanClient
             }
         }
 
-        public static RuleDistribution AddRuleDistribution(string name)
+        public static RuleDistribution AddRuleDistribution(string name, DistributionItemType distributionItemType)
         {
             using (var c = GetConnection())
             {
-                var rd = new RuleDistribution() { Name = name };
+                var rd = new RuleDistribution() { Name = name, DistributionItemType = distributionItemType };
                 c.Insert(rd);
                 return rd;
             }
@@ -5069,7 +5069,8 @@ namespace huaanClient
         {
             using (var c = GetConnection())
             {
-                var rdd = new RuleDistributionDevice { RuleDistributionId = distributionId, DeviceId = deviceId };
+                var d = c.Get<MyDevice>(deviceId);
+                var rdd = new RuleDistributionDevice { RuleDistributionId = distributionId, DeviceId = deviceId, Name = d.DeviceName };
                 c.Insert(rdd);
             }
         }
@@ -5078,8 +5079,25 @@ namespace huaanClient
         {
             using (var c = GetConnection())
             {
-                var rdi = new RuleDistributionItem { StaffId = staffId, RuleDistributionId = distributionId };
+                var staff = c.Get<Staff>(staffId);
+                var rdi = new RuleDistributionItem { StaffId = staffId, Name = staff.name, RuleDistributionId = distributionId };
                 c.Insert(rdi);
+            }
+        }
+
+        public static void RemoveRuleDistributionItem(int id)
+        {
+            using (var c = GetConnection())
+            {
+                c.ExecuteScalar($"DELETE FROM RuleDistributionItem WHERE Id = {id}");
+            }
+        }
+
+        public static void RemoveRuleDistributionDevice(int id)
+        {
+            using (var c = GetConnection())
+            {
+                c.ExecuteScalar($"DELETE FROM RuleDistributionDevice WHERE Id = {id}");
             }
         }
 
@@ -5087,7 +5105,21 @@ namespace huaanClient
         {
             using (var c = GetConnection())
             {
-                var item = new RuleDistributionItem { GroupId = groupId, GroupType = groupIdType, RuleDistributionId = distributionId };
+                var name = string.Empty;
+                switch (groupIdType)
+                {
+                    case GroupIdType.EmployeeType:
+                        var et = c.Get<Employetype>(groupId);
+                        name = et.Employetype_name;
+                        break;
+                    case GroupIdType.Department:
+                        var dp = c.Get<Department>(groupId);
+                        name = dp.name;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                var item = new RuleDistributionItem { GroupId = groupId, Name = name, GroupType = groupIdType, RuleDistributionId = distributionId };
                 c.Insert(item);
             }
         }
@@ -5138,6 +5170,24 @@ namespace huaanClient
                 return res;
             }
 
+        }
+
+        public string getAllDepartment()
+        {
+            using (var c = GetConnection())
+            {
+                var dps = c.GetAll<Department>();
+                return JsonConvert.SerializeObject(dps);
+            }
+        }
+
+        public string getAllEmployeeType()
+        {
+            using (var c = GetConnection())
+            {
+                var et = c.GetAll<Employetype>();
+                return JsonConvert.SerializeObject(et);
+            }
         }
     }
 }

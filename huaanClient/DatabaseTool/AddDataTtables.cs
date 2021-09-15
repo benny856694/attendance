@@ -588,6 +588,7 @@ namespace huaanClient.DatabaseTool
         {
             "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
             "StaffId TEXT default ''",
+            "Name TEXT",
             "GroupId INTEGER default -1",
             "GroupType INTEGER default -1",
             "RuleDistributionId INTEGER",
@@ -597,6 +598,7 @@ namespace huaanClient.DatabaseTool
         public static string[] RuleDistributionDevice =
         {
             "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "Name TEXT",
             "DeviceId INTEGER default -1",
             "RuleDistributionId INTEGER",
         };
@@ -605,6 +607,7 @@ namespace huaanClient.DatabaseTool
         {
             "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
             "Name TEXT",
+            "DistributionItemType INTEGER",
             "AccessRuleId INTEGER",
             "Priority INTEGER",
         };

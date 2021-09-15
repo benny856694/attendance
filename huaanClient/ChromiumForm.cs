@@ -1685,7 +1685,22 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             var data = GetData.AddAccessRule(name, RepeatType.RepeatByDay);
             return JsonConvert.SerializeObject(data);
         }
+
+        public string getAllRuleDistribution()
+        {
+            var data = GetData.GetAllRuleDistribution();
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public void removeRuleDistributionItem(int Id)
+        {
+            GetData.RemoveRuleDistributionItem(Id);
+        }
        
+        public void removeRuleDistributionDevice(int id)
+        {
+            GetData.RemoveRuleDistributionDevice(id);
+        }
     }
 
     class KeyboardHandler : IKeyboardHandler
