@@ -4962,7 +4962,7 @@ namespace huaanClient
         {
             using (var c = GetConnection())
             {
-                var days = c.Query<AccessRule>($"SELECT * FROM Day WHERE AccessRuleId = {id}");
+                var days = c.Query<Database.Day>($"SELECT * FROM Day WHERE AccessRuleId = {id}");
                 foreach (var d in days)
                 {
                     c.Execute($"DELETE FROM TimeSegment WHERE DayOfWeekId = {d.Id}");
