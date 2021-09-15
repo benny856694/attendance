@@ -5065,23 +5065,25 @@ namespace huaanClient
             }
         }
 
-        public static void AddDeviceToRuleDistribution(int distributionId, int deviceId)
+        public static RuleDistributionDevice AddDeviceToRuleDistribution(int distributionId, int deviceId)
         {
             using (var c = GetConnection())
             {
                 var d = c.Get<MyDevice>(deviceId);
                 var rdd = new RuleDistributionDevice { RuleDistributionId = distributionId, DeviceId = deviceId, Name = d.DeviceName };
                 c.Insert(rdd);
+                return rdd;
             }
         }
 
-        public static void AddStaffToRuleDistribution(int distributionId, string staffId)
+        public static RuleDistributionItem AddStaffToRuleDistribution(int distributionId, string staffId)
         {
             using (var c = GetConnection())
             {
                 var staff = c.Get<Staff>(staffId);
                 var rdi = new RuleDistributionItem { StaffId = staffId, Name = staff.name, RuleDistributionId = distributionId };
                 c.Insert(rdi);
+                return rdi;
             }
         }
 
@@ -5101,7 +5103,7 @@ namespace huaanClient
             }
         }
 
-        public static void AddGroupToRuleDistribution(int distributionId, int groupId, GroupIdType groupIdType)
+        public static RuleDistributionItem AddGroupToRuleDistribution(int distributionId, int groupId, GroupIdType groupIdType)
         {
             using (var c = GetConnection())
             {
@@ -5121,6 +5123,7 @@ namespace huaanClient
                 }
                 var item = new RuleDistributionItem { GroupId = groupId, Name = name, GroupType = groupIdType, RuleDistributionId = distributionId };
                 c.Insert(item);
+                return item;
             }
         }
 
@@ -5172,21 +5175,21 @@ namespace huaanClient
 
         }
 
-        public static string getAllDepartment()
+        public static Department[] getAllDepartment()
         {
             using (var c = GetConnection())
             {
                 var dps = c.GetAll<Department>();
-                return JsonConvert.SerializeObject(dps);
+                return dps.ToArray();
             }
         }
 
-        public static string getAllEmployeeType()
+        public static Employetype[] getAllEmployeeType()
         {
             using (var c = GetConnection())
             {
                 var et = c.GetAll<Employetype>();
-                return JsonConvert.SerializeObject(et);
+                return et.ToArray();
             }
         }
 

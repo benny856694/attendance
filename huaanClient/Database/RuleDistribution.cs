@@ -17,9 +17,9 @@ namespace huaanClient.Database
 		public int Priority { get; set; }
         public DistributionItemType DistributionItemType {  get; set; }
 		[Computed]
-		public List<RuleDistributionDevice> Devices {  get; set; }
+		public List<RuleDistributionDevice> Devices {  get; set; } = new List<RuleDistributionDevice>();
 		[Computed]
-		public List<RuleDistributionItem> Items {  get; set; }
+		public List<RuleDistributionItem> Items {  get; set; } = new List<RuleDistributionItem>();
 
 
 		public override bool Equals(object obj) => this.Equals(obj as RuleDistribution);

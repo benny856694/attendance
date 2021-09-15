@@ -1741,6 +1741,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         {
             GetData.RemoveDistribution(id);
         }
+
+        public string addGroupIdToDistribution(int distId, int groupId, GroupIdType groupIdType)
+        {
+            var data = GetData.AddGroupToRuleDistribution(distId, groupId, groupIdType);
+            return JsonConvert.SerializeObject(data);
+
+        }
     }
 
     class KeyboardHandler : IKeyboardHandler
