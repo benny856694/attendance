@@ -1760,6 +1760,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             var data = GetData.GetStaffByNameFuzzy(query);
             return JsonConvert.SerializeObject(data);
         }
+
+        public string addDeviceIdToDistribution(int distId, int deviceId)
+        {
+            var data = GetData.AddDeviceToRuleDistribution(distId, deviceId);
+            return JsonConvert.SerializeObject(data);
+        }
+
     }
 
     class KeyboardHandler : IKeyboardHandler
