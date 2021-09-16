@@ -1748,6 +1748,18 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return JsonConvert.SerializeObject(data);
 
         }
+
+        public string addStaffIdToDistribution(int distributionId, string staffId)
+        {
+            var data = GetData.AddStaffToRuleDistribution(distributionId, staffId);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string getStaffByNameFuzzy(string query)
+        {
+            var data = GetData.GetStaffByNameFuzzy(query);
+            return JsonConvert.SerializeObject(data);
+        }
     }
 
     class KeyboardHandler : IKeyboardHandler

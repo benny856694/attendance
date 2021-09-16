@@ -5203,5 +5203,15 @@ namespace huaanClient
                 c.Delete(dist);
             }
         }
+
+        //模糊查询人名字
+        public static Staff[] GetStaffByNameFuzzy(string query)
+        {
+            using (var c = GetConnection())
+            {
+                var staffs = c.Query<Staff>($"SELECT * FROM staff WHERE name LIKE '%{query}%' LIMIT 10");
+                return staffs.ToArray();
+            }
+        }
     }
 }
