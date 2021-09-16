@@ -255,6 +255,12 @@
     <Compile Include="ApplicationData.cs" />
     <Compile Include="AttendanceAlgorithm.cs" />
     <Compile Include="BatchImport.cs" />
+    <Compile Include="Business\AccessControlDeployHourMinute.cs" />
+    <Compile Include="Business\AccessControlDeployRule.cs" />
+    <Compile Include="Business\AccessControlDeployItem.cs" />
+    <Compile Include="Business\AccessControlDeploySection.cs" />
+    <Compile Include="Business\AccessControlDeployTask.cs" />
+    <Compile Include="Business\AccessControlDeplyDay.cs" />
     <Compile Include="Camera.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -17,6 +17,9 @@ namespace huaanClient.Database
         public RepeatType RepeatType { get; set; }
 
         [Computed]
+        public int Index { get; set; }
+
+        [Computed]
         public List<Day> Days { get; set; }
 
         public bool Equals(AccessRule r)
