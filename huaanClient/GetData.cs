@@ -5155,12 +5155,12 @@ namespace huaanClient
                             ruleDistributionDictionary.Add(ruleDistEntry.Id, ruleDistEntry);
                         }
 
-                        if (distributionItem != null)
+                        if (distributionItem != null && !ruleDistEntry.Items.Contains(distributionItem))
                         {
                             ruleDistEntry.Items.Add(distributionItem);
                         }
 
-                        if (distributionDevice != null)
+                        if (distributionDevice != null && !ruleDistEntry.Devices.Contains(distributionDevice))
                         {
                             ruleDistEntry.Devices.Add(distributionDevice);
                         }
