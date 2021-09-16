@@ -66,6 +66,59 @@ namespace huaanClient.DatabaseTool
                     return column?.ColumnType;
                 }
 
+                for (int i = 0; i < tableName.tablename.Length; i++)
+                {
+                    try
+                    {
+                        if (!TableColumnExists(tableName.tablename[i].Trim()))
+                        {
+                            Logger.Debug($"create table {tableName.tablename[i]}");
+                            try
+                            {
+                                var sql = $"CREATE TABLE {tableName.tablename[i]}({string.Join(", ", tablecolumn.ColumnsOfTable[i])});";
+                                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex, $"创建数据库表{tableName.tablename[i]}异常");
+                                throw;
+                            }
+
+                        }
+                        //存在就直接添加
+                        else
+                        {
+                            //添加列
+                            string[] g = GetDatas(tableName.tablename[i].Trim());
+                            if (g.Length > 0)
+                            {
+                                for (int m = 0; m < g.Length; m++)
+                                {
+                                    var t = tableName.tablename[i].Trim();
+                                    var c = g[m].Trim();
+                                    var columnName = c.Split(' ')[0];
+                                    if (!TableColumnExists(t, columnName))
+                                    {
+                                        try
+                                        {
+                                            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + t + " ADD " + c);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Logger.Error(ex, $"add column({t}.{c}) exception");
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "创建数据库异常");
+                    }
+                }
+
 
                 //升级现有数据库
                 if (string.Compare(TableColumnType("staff", "id"), "integer", true) == 0)
@@ -93,58 +146,6 @@ namespace huaanClient.DatabaseTool
                 }
 
 
-                for (int i = 0; i < tableName.tablename.Length; i++)
-                {
-                    try
-                    {
-                        if (!TableColumnExists(tableName.tablename[i].Trim()))
-                        {
-                            Logger.Debug($"create table {tableName.tablename[i]}");
-                            try
-                            {
-                                var sql = $"CREATE TABLE {tableName.tablename[i]}({string.Join(", ", tablecolumn.ColumnsOfTable[i])});";
-                                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Error(ex, $"创建数据库表{tableName.tablename[i]}异常");
-                                throw;
-                            }
-                            
-                        }
-                        //存在就直接添加
-                        else
-                        {
-                            //添加列
-                            string[] g = GetDatas(tableName.tablename[i].Trim());
-                            if (g.Length > 0)
-                            {
-                                for (int m = 0; m < g.Length; m++)
-                                {
-                                    var t = tableName.tablename[i].Trim();
-                                    var c = g[m].Trim();
-                                    var columnName = c.Split(' ')[0];
-                                    if (!TableColumnExists(t, columnName))
-                                    {
-                                        try
-                                        {
-                                            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + t + " ADD " + c);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error(ex, $"add column({t}.{c}) exception");
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Error(ex, "创建数据库异常");
-                    }
-                }
             });
             
             //判断是否为测试
