@@ -255,6 +255,7 @@
     <Compile Include="ApplicationData.cs" />
     <Compile Include="AttendanceAlgorithm.cs" />
     <Compile Include="BatchImport.cs" />
+    <Compile Include="Business\AccessControlDeployBuilder.cs" />
     <Compile Include="Business\AccessControlDeployHourMinute.cs" />
     <Compile Include="Business\AccessControlDeployRule.cs" />
     <Compile Include="Business\AccessControlDeployItem.cs" />

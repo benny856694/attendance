@@ -60,6 +60,7 @@ namespace huaanClient
 
             if (s.IsConnected)
             {
+                Logger.Debug($"beging query data from camera {statime}-{endtime}");
                 var list = s.GetRecords(statime, endtime, 3000, 30000);
                 if (list.Count > 0)
                 {
@@ -67,6 +68,7 @@ namespace huaanClient
 
                     list.ForEach(l =>
                     {
+                        Logger.Debug($"save capture data to db seq: {l.sequnce}");
                         HandleCaptureData.setCaptureDataToDatabase(l, s.DeviceNo, s.DeviceName);
                     });
                     if (!string.IsNullOrEmpty(time.ToString("yyyy-MM-dd HH:mm:ss.fff")))
@@ -74,6 +76,10 @@ namespace huaanClient
                         //保存最后一条的记录
                         GetData.setMyDeviceforLast_query(time.ToString("yyyy-MM-dd HH:mm:ss.fff"), s.IP);
                     }
+                }
+                else
+                {
+                    Logger.Debug("no record");
                 }
                 if (!string.IsNullOrEmpty(ATT_STA_time))
                     AttendanceAlgorithm.getpersonnel(ATT_STA_time, endtime.ToString("yyyy-MM-dd HH:mm:ss") + ".999", 1);

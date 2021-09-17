@@ -4939,7 +4939,7 @@ namespace huaanClient
                 var ar = new AccessRule { Name = name, RepeatType = repeatType };
                 conn.Insert(ar);
                 ar.Days = new List<Database.Day>();
-                if (repeatType == RepeatType.RepeatByDay)
+                if (repeatType == RepeatType.RepeatByWeek)
                 {
                     foreach (DayOfWeek dow in Enum.GetValues(typeof(DayOfWeek)))
                     {
