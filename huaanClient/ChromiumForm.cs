@@ -1775,6 +1775,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             var items = JsonConvert.SerializeObject(builder.DeployItems, Formatting.Indented);
             File.WriteAllText("rules.json", rulesJson);
             File.WriteAllText("items.json", items);
+
+            var deployer = new huaanClient.Worker.AccessRuleDeployer(builder.Rules, builder.DeployItems);
+            deployer.DeployAsync().Wait();
+
         }
 
     }
