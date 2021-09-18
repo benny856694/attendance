@@ -366,9 +366,11 @@ namespace huaanClient
             //var rds = GetData.GetAllRuleDistribution();
 
             var rules = GetData.GetAllAccessRules();
-            var deployRules = Business.AccessControlDeployBuilder.Build();
+            var builder = new Business.AccessControlDeployBuilder();
+            builder.Build();
 
-            var json = JsonConvert.SerializeObject(deployRules);
+            var rulesJson = JsonConvert.SerializeObject(builder.Rules);
+            var items = builder.DeployItems;
 
 
         }

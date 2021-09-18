@@ -5213,5 +5213,14 @@ namespace huaanClient
                 return staffs.ToArray();
             }
         }
+
+        public static Staff[] GetAllStaffs()
+        {
+            using (var c = GetConnection())
+            {
+                var staffs = c.GetAll<Staff>();
+                return staffs.ToArray();
+            }
+        }
     }
 }

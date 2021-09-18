@@ -7,25 +7,116 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Business
 {
-    internal static class AccessControlDeployBuilder
+    internal  class AccessControlDeployBuilder
     {
-        public static (AccessControlDeployItem[] items, AccessControlDeployRule[] rules) Build()
+        private Dictionary<(string, int), AccessControlDeployItem> _items =
+            new Dictionary<(string, int), AccessControlDeployItem>();
+        private AccessControlDeployRule[] _rules = new AccessControlDeployRule[0];
+
+
+        public AccessControlDeployRule[] Rules => _rules;
+        public AccessControlDeployItem[] DeployItems => this._items.Values.ToArray();
+
+        public void  Build()
         {
             var rules = GetData.GetAllAccessRules();
             var ruleIdToRuleMap = rules.ToDictionary(x => x.Id);
-            var deployRules = BuildRules(rules);
-            //var deployItems = BuildItems(distributions);
-
-            return (null, deployRules.ToArray());
+            BuildRules(rules);
+            var distributions = GetData.GetAllRuleDistribution();
+            var allStaffs = GetData.GetAllStaffs();
+            BuildItems(distributions, ruleIdToRuleMap, allStaffs);
 
         }
 
-        private static object BuildItems(Database.RuleDistribution[] distributions)
+        private void BuildItems(
+            Database.RuleDistribution[] distributions,
+            Dictionary<int, Database.AccessRule> ruleIdToRuleMap,
+            Database.Staff[] allStaffs)
         {
-            throw new NotImplementedException();
+            var distributionCategories = distributions.GroupBy(x => x.DistributionItemType);
+            var employeeTypeDistribution = distributionCategories
+                .FirstOrDefault(x => x.Key == Database.DistributionItemType.EmployeeType);
+            var departmentDistribution = distributionCategories
+                .FirstOrDefault(x => x.Key == Database.DistributionItemType.Department);
+            var staffDistribution = distributionCategories
+                .FirstOrDefault(x => x.Key == Database.DistributionItemType.Staff);
+
+            BuildGroupItems(employeeTypeDistribution, ruleIdToRuleMap, allStaffs);
+            BuildGroupItems(departmentDistribution, ruleIdToRuleMap, allStaffs);
+            BuildStaffItems(staffDistribution, ruleIdToRuleMap, allStaffs);
+            
         }
 
-        private static List<AccessControlDeployRule> BuildRules(Database.AccessRule[] rules)
+        private void BuildStaffItems(IGrouping<Database.DistributionItemType, Database.RuleDistribution> staffDistribution, Dictionary<int, Database.AccessRule> ruleIdToRuleMap, Database.Staff[] allStaffs)
+        {
+            var orderedStaffDistribution = staffDistribution.Where(x=>x.AccessRuleId != null).OrderBy(x => x.Priority);
+            foreach (var distribution in orderedStaffDistribution)
+            {
+                foreach (var staffItem in distribution.Items)
+                {
+                    foreach (var dev in distribution.Devices)
+                    {
+                        var deployItem = new AccessControlDeployItem()
+                        {
+                            id = staffItem.StaffId,
+                            DeviceId = dev.DeviceId,
+                            kind = ruleIdToRuleMap[distribution.AccessRuleId.Value].Index,
+                        };
+                        _items[deployItem.Key] = deployItem;
+                    }
+                }
+            }
+        }
+
+        private void BuildGroupItems(IGrouping<Database.DistributionItemType, Database.RuleDistribution> groupDistributions, Dictionary<int, Database.AccessRule> ruleIdToRuleMap, Database.Staff[] allStaffs)
+        {
+            if (groupDistributions == null) return;
+
+            var orderedDistribution = groupDistributions.Where(x=>x.AccessRuleId != null).OrderBy(x => x.Priority);
+            foreach (var distribution in orderedDistribution)
+            {
+                foreach (var group in distribution.Items)
+                {
+                    var staffsOfSpecifiedGroup = allStaffs.Where(x => 
+                        SelectGroupIdFromStaff(group.GroupType, x) == group.GroupId);
+
+                    foreach (var dev in distribution.Devices)
+                    {
+                        foreach (var staff in staffsOfSpecifiedGroup)
+                        {
+                            var deployItem = new AccessControlDeployItem()
+                            {
+                                id = staff.id,
+                                DeviceId = dev.DeviceId,
+                                kind = ruleIdToRuleMap[distribution.AccessRuleId.Value].Index,
+                            };
+                            _items[deployItem.Key] = deployItem;
+                        }
+                        
+                    }
+                }
+                
+            }
+        }
+
+        private int SelectGroupIdFromStaff(Database.GroupIdType groupType, Database.Staff staff)
+        {
+            var groupId = -1;
+            switch (groupType)
+            {
+                case Database.GroupIdType.EmployeeType:
+                    groupId = staff.Employetype_id;
+                    break;
+                case Database.GroupIdType.Department:
+                    groupId = staff.department_id;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            return groupId;
+        }
+
+        private  void BuildRules(Database.AccessRule[] rules)
         {
             var deployRules = new List<AccessControlDeployRule>();
             for (int i = 0; i < rules.Length; i++)
@@ -59,7 +150,7 @@ namespace huaanClient.Business
                 deployRules.Add(deployRule);
             }
 
-            return deployRules;
+            _rules = deployRules.ToArray();
         }
 
         private static AccessControlDeployHourMinute ConvertTimeSegment(string segment)
