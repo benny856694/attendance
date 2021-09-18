@@ -457,7 +457,7 @@ namespace huaanClient
                                     {
                                         foreach (var li in listone)
                                         {
-                                            string cap = li.captureTime.ToString("t").Replace(":", "");
+                                            string cap = li.captureTime.ToString("HH:mm").Replace(":", "");
                                             //判断是否在有效区间
                                             if (int.Parse(cap) <= int.Parse(xbEffectiveTime_end) && int.Parse(cap) >= int.Parse(xbEffectiveTime_sta))
                                             {
@@ -480,8 +480,8 @@ namespace huaanClient
                                             }
                                             reDataLast.temperature1 = Math.Round(listlastend[0].temperature, 2).ToString();
                                             reDataLast.closeup = listlastend[0].closeup;
-                                            reDataLast.Punchinformation1 = FastDateTime.ToString("t");
-                                            string FastDateTimestr = FastDateTime.ToString("t").Replace(":", "");
+                                            reDataLast.Punchinformation1 = FastDateTime.ToString("HH:mm");
+                                            string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
                                             if (int.Parse(FastDateTimestr) < int.Parse(endgotowork1.Replace(":", "")))
                                             {
                                                 reDataLast.ISLeaveearly = true;
@@ -523,7 +523,7 @@ namespace huaanClient
                                         {
                                             foreach (var li in listone)
                                             {
-                                                string cap = li.captureTime.ToString("t").Replace(":", "");
+                                                string cap = li.captureTime.ToString("HH:mm").Replace(":", "");
                                                 //判断是否在有效区间
                                                 if (int.Parse(cap) <= int.Parse(sbEffectiveTime_end) && int.Parse(cap) >= int.Parse(sbEffectiveTime_sat))
                                                 {
@@ -549,9 +549,9 @@ namespace huaanClient
                                             reData.IsAcrossNight = true;
                                             reData.temperature = Math.Round(liststa[0].temperature, 2).ToString();
                                             reData.closeup = liststa[0].closeup;
-                                            reData.Punchinformation = FastDateTime.ToString("t");
+                                            reData.Punchinformation = FastDateTime.ToString("HH:mm");
                                             //计算是否迟到
-                                            string FastDateTimestr = FastDateTime.ToString("t").Replace(":", "");
+                                            string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
                                             if (int.Parse(FastDateTimestr) > int.Parse(stagotowork1.Replace(":", "")))
                                             {
                                                 reData.late = DateDiff(FastDateTimestr, stagotowork1.Replace(":", ""));
@@ -583,7 +583,7 @@ namespace huaanClient
                                     {
                                         foreach (var li in listone)
                                         {
-                                            string cap = li.captureTime.ToString("t").Replace(":", "");
+                                            string cap = li.captureTime.ToString("HH:mm").Replace(":", "");
                                             //判断是否在有效区间
                                             if (int.Parse(cap) <= int.Parse(sbEffectiveTime_end) && int.Parse(cap) >= int.Parse(sbEffectiveTime_sat))
                                             {
@@ -614,9 +614,9 @@ namespace huaanClient
                                         isLackcards++;
                                         reData.temperature = Math.Round(liststa[0].temperature, 2).ToString();
                                         reData.closeup = liststa[0].closeup;
-                                        reData.Punchinformation = FastDateTime.ToString("t");
+                                        reData.Punchinformation = FastDateTime.ToString("HH:mm");
                                         //计算是否迟到
-                                        string FastDateTimestr = FastDateTime.ToString("t").Replace(":", "");
+                                        string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
                                         if (int.Parse(FastDateTimestr) > int.Parse(stagotowork1.Replace(":", "")))
                                         {
                                             reData.late = DateDiff(FastDateTimestr, stagotowork1.Replace(":", ""));
@@ -641,8 +641,8 @@ namespace huaanClient
                                         isLackcards++;
                                         reData.temperature1 = Math.Round(listend[0].temperature, 2).ToString();
                                         reData.closeup = listend[0].closeup;
-                                        reData.Punchinformation1 = FastDateTime.ToString("t");
-                                        string FastDateTimestr = FastDateTime.ToString("t").Replace(":", "");
+                                        reData.Punchinformation1 = FastDateTime.ToString("HH:mm");
+                                        string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
                                         if (int.Parse(FastDateTimestr) < int.Parse(endgotowork1.Replace(":", "")))
                                         {
                                             reData.ISLeaveearly = true;
@@ -718,7 +718,7 @@ namespace huaanClient
                                 {
                                     foreach (var li in listone)
                                     {
-                                        string cap = li.captureTime.ToString("t").Replace(":", "");
+                                        string cap = li.captureTime.ToString("HH:mm").Replace(":", "");
                                         //判断是否在有效区间
                                         if (int.Parse(cap) <= int.Parse(sbEffectiveTime_end) && int.Parse(cap) >= int.Parse(sbEffectiveTime_sat))
                                         {
@@ -751,9 +751,9 @@ namespace huaanClient
                                     }
                                     reData.temperature = Math.Round(liststa[0].temperature, 2).ToString();
                                     reData.closeup = liststa[0].closeup;
-                                    reData.Punchinformation = FastDateTime.ToString("t");
+                                    reData.Punchinformation = FastDateTime.ToString("HH:mm");
                                     //计算是否迟到
-                                    string FastDateTimestr = FastDateTime.ToString("t").Replace(":", "");
+                                    string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
                                     if (int.Parse(FastDateTimestr) > int.Parse(stagotowork1.Replace(":", "")))
                                     {
                                         reData.late = DateDiff(FastDateTimestr, stagotowork1.Replace(":", ""));
@@ -777,8 +777,8 @@ namespace huaanClient
                                     //计算是否早退
                                     reData.temperature1 = Math.Round(listend[0].temperature, 2).ToString();
                                     reData.closeup = listend[0].closeup;
-                                    reData.Punchinformation1 = FastDateTime.ToString("t");
-                                    string FastDateTimestr = FastDateTime.ToString("t").Replace(":", "");
+                                    reData.Punchinformation1 = FastDateTime.ToString("HH:mm");
+                                    string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
                                     if (int.Parse(FastDateTimestr) < int.Parse(endgotowork1.Replace(":", "")))
                                     {
                                         reData.ISLeaveearly = true;
@@ -806,9 +806,9 @@ namespace huaanClient
                                         reData.temperature = Math.Round(liststa2[0].temperature, 2).ToString();
                                     }
                                     reData.closeup = liststa2[0].closeup;
-                                    reData.Punchinformation2 = FastDateTime.ToString("t");
+                                    reData.Punchinformation2 = FastDateTime.ToString("HH:mm");
                                     //计算是否迟到
-                                    string FastDateTimestr = FastDateTime.ToString("t").Replace(":", "");
+                                    string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
                                     if (int.Parse(FastDateTimestr) > int.Parse(stagotowork2.Replace(":", "")))
                                     {
                                         if (!string.IsNullOrEmpty(reData.late))
@@ -838,8 +838,8 @@ namespace huaanClient
                                     }
                                     reData.temperature1 = Math.Round(listend2[0].temperature, 2).ToString();
                                     reData.closeup = listend2[0].closeup;
-                                    reData.Punchinformation22 = FastDateTime.ToString("t");
-                                    string FastDateTimestr = FastDateTime.ToString("t").Replace(":", "");
+                                    reData.Punchinformation22 = FastDateTime.ToString("HH:mm");
+                                    string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
                                     if (int.Parse(FastDateTimestr) < int.Parse(endgotowork2.Replace(":", "")))
                                     {
                                         reData.ISLeaveearly = true;
