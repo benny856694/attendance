@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Business
 {
-    internal class AccessControlDeployRule
+    public class AccessControlDeployRule
     {
         public string name {  get; set; }
         public int kind {  get; set; }

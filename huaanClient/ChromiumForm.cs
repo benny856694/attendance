@@ -1767,6 +1767,16 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return JsonConvert.SerializeObject(data);
         }
 
+        public void buildRuleDeploymentTask()
+        {
+            var builder = new huaanClient.Business.AccessControlDeployBuilder();
+            builder.Build();
+            var rulesJson = JsonConvert.SerializeObject(builder.Rules, Formatting.Indented);
+            var items = JsonConvert.SerializeObject(builder.DeployItems, Formatting.Indented);
+            File.WriteAllText("rules.json", rulesJson);
+            File.WriteAllText("items.json", items);
+        }
+
     }
 
     class KeyboardHandler : IKeyboardHandler

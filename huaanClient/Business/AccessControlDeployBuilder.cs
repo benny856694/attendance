@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Business
 {
-    internal  class AccessControlDeployBuilder
+    public class AccessControlDeployBuilder
     {
         private Dictionary<(string, int), AccessControlDeployItem> _items =
             new Dictionary<(string, int), AccessControlDeployItem>();
@@ -49,6 +49,8 @@ namespace huaanClient.Business
 
         private void BuildStaffItems(IGrouping<Database.DistributionItemType, Database.RuleDistribution> staffDistribution, Dictionary<int, Database.AccessRule> ruleIdToRuleMap, Database.Staff[] allStaffs)
         {
+            if (staffDistribution == null) return;
+
             var orderedStaffDistribution = staffDistribution.Where(x=>x.AccessRuleId != null).OrderBy(x => x.Priority);
             foreach (var distribution in orderedStaffDistribution)
             {

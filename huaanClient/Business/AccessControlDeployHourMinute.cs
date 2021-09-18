@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Business
 {
-    internal class AccessControlDeployHourMinute
+    public class AccessControlDeployHourMinute
     {
         public int hour {  get; set; }
         public int minute {  get; set; }

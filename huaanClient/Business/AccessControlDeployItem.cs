@@ -13,6 +13,7 @@ namespace huaanClient.Business
         public int DeviceId { get; set; }
 
 
+        [Newtonsoft.Json.JsonIgnore]
         public (string, int) Key => (this.id, this.DeviceId);
 
         public override bool Equals(object obj)
