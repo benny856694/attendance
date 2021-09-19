@@ -15,6 +15,7 @@ namespace huaanClient
         public bool EnableTitleShort { get; set; }
         public bool HideAttendanceManagementPage { get; set; } = false;
         public bool HideAttendanceConfigPage { get; set; } = false;
+        public bool ShowTemperatureInCelsius {  get; set; } = true;
 
         public void ConfigureTracking(TrackingConfiguration configuration)
         {
@@ -27,7 +28,8 @@ namespace huaanClient
                     setting.EnableTitleLong,
                     setting.EnableTitleShort,
                     setting.HideAttendanceManagementPage,
-                    setting.HideAttendanceConfigPage
+                    setting.HideAttendanceConfigPage,
+                    setting.ShowTemperatureInCelsius,
                 });
         }
     }

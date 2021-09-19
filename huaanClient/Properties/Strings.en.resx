@@ -154,7 +154,7 @@
 		<value>name,department,Employee_code,Date,Punchinformation,Punchinformation1,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature</value>
 	</data>
 	<data name="AttendanceNames" xml:space="preserve">
-		<value>Name,Department,Employee Number,Attendance Date,Clock in,Clock out,Shift Information,Attendance Time (hours),Late (minutes),Early Leave (minutes),Overtime (minutes),Absenteeism,Body Temperature (℃)</value>
+		<value>Name,Department,Employee Number,Attendance Date,Clock in,Clock out,Shift Information,Attendance Time (hours),Late (minutes),Early Leave (minutes),Overtime (minutes),Absenteeism,Body Temperature</value>
 	</data>
 	<data name="DayOff" xml:space="preserve">
 		<value>Yes</value>

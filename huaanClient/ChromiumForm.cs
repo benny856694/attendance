@@ -36,7 +36,7 @@ namespace InsuranceBrowser
         private string url = "about:blank";
         private bool isHide = false;
         InsuranceBrowserLib.MainForm mainForm;
-        public UserSettings userSettings = new UserSettings();
+        public static UserSettings userSettings = new UserSettings();
 
         
         public ChromiumForm()
@@ -1583,17 +1583,17 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public void enableLongTitle(string enable)
         {
-            form.userSettings.EnableTitleLong = enable == "true" || enable == "1";
-            Services.Tracker.Persist(form.userSettings);
+            ChromiumForm.userSettings.EnableTitleLong = enable == "true" || enable == "1";
+            Services.Tracker.Persist(ChromiumForm.userSettings);
         }
 
 
         public void setLongTitle(string title)
         {
-            form.userSettings.TitleLong = title;
-            Services.Tracker.Persist(form.userSettings);
+            ChromiumForm.userSettings.TitleLong = title;
+            Services.Tracker.Persist(ChromiumForm.userSettings);
 
-            if (form.userSettings.EnableTitleLong)
+            if (ChromiumForm.userSettings.EnableTitleLong)
             {
                 form.BeginInvoke((Action)(()=>form.setText(title)));
             }
@@ -1602,31 +1602,37 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public void enableShortTitle(string enable)
         {
-            form.userSettings.EnableTitleShort = enable == "true" || enable == "1";
-            Services.Tracker.Persist(form.userSettings);
+            ChromiumForm.userSettings.EnableTitleShort = enable == "true" || enable == "1";
+            Services.Tracker.Persist(ChromiumForm.userSettings);
         }
 
         public void setShortTitle(string title)
         {
-            form.userSettings.TitleShort = title;
-            Services.Tracker.Persist(form.userSettings);
+            ChromiumForm.userSettings.TitleShort = title;
+            Services.Tracker.Persist(ChromiumForm.userSettings);
         }
 
         public void hideAttendanceManagementPage(string hide)
         {
-            form.userSettings.HideAttendanceManagementPage = hide == "true" || hide == "1";
-            Services.Tracker.Persist(form.userSettings);
+            ChromiumForm.userSettings.HideAttendanceManagementPage = hide == "true" || hide == "1";
+            Services.Tracker.Persist(ChromiumForm.userSettings);
         }
 
         public void hideAttendanceConfigPage(string hide)
         {
-            form.userSettings.HideAttendanceConfigPage = hide == "true" || hide == "1";
-            Services.Tracker.Persist(form.userSettings);
+            ChromiumForm.userSettings.HideAttendanceConfigPage = hide == "true" || hide == "1";
+            Services.Tracker.Persist(ChromiumForm.userSettings);
+        }
+
+        public void setShowCelsius(bool showCelsius)
+        {
+            ChromiumForm.userSettings.ShowTemperatureInCelsius = showCelsius;
+            Services.Tracker.Persist(ChromiumForm.userSettings);
         }
 
         public string getUserConfigObject()
         {
-            var json = JsonConvert.SerializeObject(form.userSettings);
+            var json = JsonConvert.SerializeObject(ChromiumForm.userSettings);
             return json;
         }
 

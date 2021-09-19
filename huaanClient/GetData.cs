@@ -23,6 +23,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using huaanClient.Properties;
 using System.Globalization;
+using System.Diagnostics;
+using InsuranceBrowser;
 
 namespace huaanClient
 {
@@ -784,7 +786,12 @@ namespace huaanClient
 
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString()
                 + " ORDER BY name, date LIMIT " + pageint + "," + limt;
-            string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
+            Action<DataTable> convertCelsiusToFahreinheit = null;
+            if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
+            {
+                convertCelsiusToFahreinheit = ConvertCelsiusToFahreinheit("temperature");
+            }
+            string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString(), convertCelsiusToFahreinheit);
             return sr;
         }
 
@@ -896,7 +903,15 @@ namespace huaanClient
 
             using (var con = SQLiteHelper.GetConnection())
             {
-                return DapperExtensions.DapperExtensions.GetList<AttendanceData>(con, pg, sort).ToArray();
+                var data = DapperExtensions.DapperExtensions.GetList<AttendanceData>(con, pg, sort).ToArray();
+                if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
+                {
+                    foreach (var item in data)
+                    {
+                        item.temperature = item.temperature.toFahreinheit();
+                    }
+                }
+                return data;
             }
 
         }
@@ -3395,11 +3410,19 @@ namespace huaanClient
 
             if (tempFrom != null)
             {
+                if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
+                {
+                    tempFrom = tempFrom.Value.toCelsius();
+                }
                 commandText.Append($" body_temp >= {tempFrom.Value.ToString(CultureInfo.InvariantCulture)} AND");
             }
 
             if (tempTo != null)
             {
+                if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
+                {
+                    tempFrom = tempFrom.Value.toCelsius();
+                }
                 commandText.Append($" body_temp <= {tempTo.Value.ToString(CultureInfo.InvariantCulture)} AND");
             }
 
@@ -3557,18 +3580,50 @@ namespace huaanClient
 
             if (tempFrom != null)
             {
+                if(!ChromiumForm.userSettings.ShowTemperatureInCelsius)
+                {
+                    tempFrom = tempFrom.Value.toCelsius();
+                }
                 commandText.Append($" body_temp >= {tempFrom.Value.ToString(CultureInfo.InvariantCulture)} AND");
             }
 
             if (tempTo != null)
             {
+                if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
+                {
+                    tempFrom = tempFrom.Value.toCelsius();
+                }
                 commandText.Append($" body_temp <= {tempTo.Value.ToString(CultureInfo.InvariantCulture)} AND");
             }
 
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
             commandText2 = commandText2 +
                 "order by ca.id DESC LIMIT " + pageint + "," + limt;
-            return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
+            Action<DataTable> convertCelsiusToFahreinheit = null;
+            if (!InsuranceBrowser.ChromiumForm.userSettings.ShowTemperatureInCelsius)
+            {
+                convertCelsiusToFahreinheit = ConvertCelsiusToFahreinheit("body_temp");
+            }
+            return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString(), convertCelsiusToFahreinheit);
+        }
+
+        private static Action<DataTable> ConvertCelsiusToFahreinheit(string columnName)
+        {
+            return (table) =>
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    foreach (DataColumn column in table.Columns)
+                    {
+                        if (column.ColumnName == columnName)
+                        {
+                            var s = row[column.ColumnName] as string;
+                            var newS = s.toFahreinheit();
+                            row[column.ColumnName] = newS;
+                        }
+                    }
+                }
+            };
         }
 
         public static string getVisitor(string statime, string statime1, string endtime, string endtime1, string name, string phone, string isDown, string page, string limt)
