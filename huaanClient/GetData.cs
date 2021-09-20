@@ -3613,15 +3613,9 @@ namespace huaanClient
             {
                 foreach (DataRow row in table.Rows)
                 {
-                    foreach (DataColumn column in table.Columns)
-                    {
-                        if (column.ColumnName == columnName)
-                        {
-                            var s = row[column.ColumnName] as string;
-                            var newS = s.toFahreinheit();
-                            row[column.ColumnName] = newS;
-                        }
-                    }
+                    var s = row[columnName] as string;
+                    var newS = s.toFahreinheit();
+                    row[columnName] = newS;
                 }
             };
         }
@@ -3743,11 +3737,19 @@ namespace huaanClient
 
             using (var conn = SQLiteHelper.GetConnection())
             {
-                return DapperExtensions.DapperExtensions.GetList<Capture_Data>(
+                var data = DapperExtensions.DapperExtensions.GetList<Capture_Data>(
                     conn, 
                     pg, 
                     new List<DapperExtensions.ISort>() { new DapperExtensions.Sort() { PropertyName = nameof(Capture_Data.id), Ascending = false } }
                     ).ToArray();
+                if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
+                {
+                    foreach (var item in data)
+                    {
+                        item.body_temp = item.body_temp.toFahreinheit();
+                    }
+                }
+                return data;
             }
             
 

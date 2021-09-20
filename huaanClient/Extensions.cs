@@ -17,7 +17,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(s)) return string.Empty;
             
             float.TryParse(s, out var celsius);
-            return celsius == 0.0 ? "" : (celsius * 9 / 5 + 32).ToString();
+            return celsius == 0.0 ? "" : (celsius * 9 / 5 + 32).ToString("f2");
         }
 
         public static float toCelsius(this float fahreinheit)
