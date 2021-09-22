@@ -284,7 +284,7 @@ namespace DBUtility.SQLite
         /// <param name="cmd">SQLiteCommand Object</param>
         /// <param name="commandText">SQL</param>
         /// <returns>IDataReader</returns>
-        public static string SQLiteDataReader(string connectionString, string commandText)
+        public static string SQLiteDataReader(string connectionString, string commandText, Action<DataTable> dataLoaded = null)
         {
             using (var conn = GetConnection())
             {
@@ -295,6 +295,7 @@ namespace DBUtility.SQLite
                     {
                         DataTable dataTable = new DataTable();
                         dataTable.Load(rdr);
+                        dataLoaded?.Invoke(dataTable);
                         return Dtb2Json(dataTable);
                     }
 

@@ -116,7 +116,7 @@
 		<value>Absence</value>
 	</data>
 	<data name="AttendanceNames" xml:space="preserve">
-		<value>Nom,Département,numéro de l'employé,date de présence,horloge au travail,horloge au travail,horloge au travail 2,horloge au travail 2,information sur le poste,heure de présence requise (heures),retard (minutes),départ anticipé (minutes),heures supplémentaires (minutes),absentéisme,température corporelle (°C)</value>
+		<value>Nom,Département,numéro de l'employé,date de présence,horloge au travail,horloge au travail,horloge au travail 2,horloge au travail 2,information sur le poste,heure de présence requise (heures),retard (minutes),départ anticipé (minutes),heures supplémentaires (minutes),absentéisme,température corporelle</value>
 	</data>
 	<data name="DayOff" xml:space="preserve">
 		<value>Congé</value>

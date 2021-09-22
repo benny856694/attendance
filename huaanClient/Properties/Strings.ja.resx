@@ -131,7 +131,7 @@
 		<value>無届け欠勤</value>
 	</data>
 	<data name="AttendanceNames" xml:space="preserve">
-		<value>名前,部門,社員番号,出勤日,出勤カード,退勤カード,出勤カード2,退勤カード2,便情報,出勤時間(時間),遅刻(分),早退(分),残業(分),欠勤,体温(℃)</value>
+		<value>名前,部門,社員番号,出勤日,出勤カード,退勤カード,出勤カード2,退勤カード2,便情報,出勤時間(時間),遅刻(分),早退(分),残業(分),欠勤,体温</value>
 	</data>
 	<data name="DayOff" xml:space="preserve">
 		<value>休暇をとる</value>
