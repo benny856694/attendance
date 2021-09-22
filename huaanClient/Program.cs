@@ -154,7 +154,6 @@ namespace huaanClient
             }.Start();
 
 
-
             string url = Application.StartupPath + @"\detached\index.html"; 
             string isZn = "Zh";
             if (ApplicationData.LanguageSign.Contains("English"))

@@ -27,6 +27,7 @@ using DapperExtensions;
 using Dapper;
 using System.Collections.Generic;
 using huaanClient.Services;
+using huaanClient.Worker;
 
 namespace InsuranceBrowser
 {
@@ -101,6 +102,11 @@ namespace InsuranceBrowser
                 }));
 
             }
+
+            //规则下发
+            this._manager = huaanClient.Worker.AccessRuleDeployManager.Instance;
+            this._manager.Start();
+
         }
 
         private void ChromiumForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -280,6 +286,8 @@ namespace InsuranceBrowser
 
         private OpaqueLayer m_OpaqueLayer = null;//半透明蒙板层
         bool isLoading = false;
+        private AccessRuleDeployManager _manager;
+
         /// <summary>
         /// 显示遮罩层
         /// </summary>
@@ -1769,16 +1777,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public void buildRuleDeploymentTask()
         {
-            var builder = new huaanClient.Business.AccessControlDeployBuilder();
-            builder.Build();
-            var rulesJson = JsonConvert.SerializeObject(builder.Rules, Formatting.Indented);
-            var items = JsonConvert.SerializeObject(builder.DeployItems, Formatting.Indented);
-            File.WriteAllText("rules.json", rulesJson);
-            File.WriteAllText("items.json", items);
+            AccessRuleDeployManager.Instance.AddDeployTaskAsync();
+        }
 
-            var deployer = new huaanClient.Worker.AccessRuleDeployer(builder.Rules, builder.DeployItems);
-            deployer.DeployAsync().Wait();
-
+        public string getAllAccessRuleDeployTasks()
+        {
+            var data = AccessRuleDeployManager.Instance.GetAllTasks();
+            return JsonConvert.SerializeObject(data);
         }
 
     }

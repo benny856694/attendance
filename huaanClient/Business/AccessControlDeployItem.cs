@@ -11,6 +11,8 @@ namespace huaanClient.Business
         public string id {  get; set; }
         public int kind { get; set; }
         public int DeviceId { get; set; }
+        public DeployResult State { get; set; } = DeployResult.Waiting;
+        public int? ErrorCode { get; set; }
 
 
         [Newtonsoft.Json.JsonIgnore]

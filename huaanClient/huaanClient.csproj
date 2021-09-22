@@ -196,6 +196,9 @@
     <Reference Include="NPOI.OpenXmlFormats, Version=2.5.2.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.5.2\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
+    <Reference Include="Polly, Version=7.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.7.2.2\lib\net461\Polly.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -290,6 +293,8 @@
     <Compile Include="Business\AccessControlDeploySection.cs" />
     <Compile Include="Business\AccessControlDeployTask.cs" />
     <Compile Include="Business\AccessControlDeplyDay.cs" />
+    <Compile Include="Business\DeployResult.cs" />
+    <Compile Include="Business\State.cs" />
     <Compile Include="Camera.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -398,8 +403,10 @@
     <Compile Include="TLVClient.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="UtilsJson.cs" />
-    <Compile Include="Worker\AccessRuleDeployer.cs" />
+    <Compile Include="Worker\AccessRuleDeployManager.cs" />
+    <Compile Include="Worker\AccessRuleTaskDeployer.cs" />
     <Compile Include="Worker\DeviceAccessRuleDeployer.cs" />
+    <Compile Include="Worker\ItemDeployedEventArg.cs" />
     <EmbeddedResource Include="Camera.resx">
       <DependentUpon>Camera.cs</DependentUpon>
     </EmbeddedResource>
