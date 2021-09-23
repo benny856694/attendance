@@ -294,6 +294,7 @@ namespace huaanClient.DatabaseTool
             "RuleDistributionItem",
             "RuleDistributionDevice",
             "RuleDistribution",
+            "AccessControlDeployTask",
         }; 
     }
 
@@ -612,7 +613,22 @@ namespace huaanClient.DatabaseTool
             "AccessRuleId INTEGER",
             "Priority INTEGER",
         };
- 
+
+        public static string[] AccessControlDeployTask =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "Created TEXT",
+            "State INTEGER",
+            "TotalCount INTEGER",
+            "DeviceCount INTEGER",
+            "Progress INTEGER",
+            "FailCount INTEGER",
+            "SuccessCount INTEGER",
+            "RulesJson TEXT",
+            "ItemsFilePath TEXT",
+        };
+
+
         public static string[][] ColumnsOfTable = {
             AttendanceGroup,
             Attendance_Data,
@@ -637,7 +653,7 @@ namespace huaanClient.DatabaseTool
             RuleDistributionItem,
             RuleDistributionDevice,
             RuleDistribution,
-
+            AccessControlDeployTask,
             };
     }
 }

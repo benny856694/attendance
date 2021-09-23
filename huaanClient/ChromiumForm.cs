@@ -104,7 +104,8 @@ namespace InsuranceBrowser
             }
 
             //规则下发
-            this._manager = huaanClient.Worker.AccessRuleDeployManager.Instance;
+            this._manager = AccessRuleDeployManager.Instance;
+            _manager.LoadTasks();
             this._manager.Start();
 
         }

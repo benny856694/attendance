@@ -1,4 +1,5 @@
-﻿using huaanClient.Business;
+﻿using DBUtility.SQLite;
+using huaanClient.Business;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -8,20 +9,25 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Dapper.Contrib.Extensions;
+using System.Data;
+using System.IO;
 
 namespace huaanClient.Worker
 {
     public class AccessRuleDeployManager
     {
         private ConcurrentBag<AccessControlDeployTask> _finishedTasks = new ConcurrentBag<AccessControlDeployTask>();
-        private AccessControlDeployTask _currentTask;
+        private volatile AccessControlDeployTask _currentTask;
 
         private static AccessRuleDeployManager _instance = null;
         private static object _locker = new object();
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationTokenSource _currentTaskCancellationTokenSource;
+        private AutoResetEvent _event = new AutoResetEvent(false);
         private AccessRuleDeployManager()
         {
+
         }
 
         public static AccessRuleDeployManager Instance
@@ -50,7 +56,32 @@ namespace huaanClient.Worker
             {
                 lst.Add(_currentTask);
             }
-            return lst.ToArray();
+            return lst.OrderBy(x => x.Created).ToArray();
+        }
+
+        public void LoadTasks()
+        {
+            AccessControlDeployTask[] tasks;
+            using (var c = SQLiteHelper.GetConnection())
+            {
+                tasks = c.GetAll<AccessControlDeployTask>().ToArray();
+            }
+
+            foreach (var t in tasks.Where(x=>x.State == State.Finished))
+            {
+                _finishedTasks.Add(t);
+            }
+
+            var inprogress = tasks.FirstOrDefault(x => x.State == State.Inprogress);
+            if (inprogress != null)
+            {
+                inprogress.RulesToDeploy = JsonConvert.DeserializeObject<List<AccessControlDeployRule>>(inprogress.RulesJson);
+                var itemsJson = File.ReadAllText(inprogress.ItemsFilePath);
+                var items = JsonConvert.DeserializeObject<List<AccessControlDeployItem>>(itemsJson);
+                inprogress.Items = items;
+                _currentTask = inprogress;
+                _event.Set();
+            }
         }
 
         public AccessControlDeployTask AddDeployTaskAsync()
@@ -58,11 +89,23 @@ namespace huaanClient.Worker
             var builder = new AccessControlDeployBuilder();
             builder.Build();
             var task = new AccessControlDeployTask();
-            task.RulesJson = JsonConvert.SerializeObject(builder.DeployItems);
             task.Items = builder.DeployItems.ToList();
             task.TotalCount = builder.DeployItems.Length;
-            _currentTask = task;
+            task.RulesJson = JsonConvert.SerializeObject(builder.Rules);
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var guid = Guid.NewGuid();
+            var p = Path.Combine(appData, $"{guid}.json");
+            var json = JsonConvert.SerializeObject(task.Items);
+            File.WriteAllText(p, json);
+            task.ItemsFilePath = p;
+            
+            using (var c = SQLiteHelper.GetConnection())
+            {
+                c.Insert(task);
+            }
 
+            _currentTask = task;
+            _event.Set();
             return task;
         }
 
@@ -74,19 +117,29 @@ namespace huaanClient.Worker
                 {
                     if (_currentTask == null)
                     {
-                        Debug.WriteLine("没有规则下发任务待处理，休眠3s");
-                        Thread.Sleep(3000);
-                        continue;
+                        var suc = _event.WaitOne(10000);
+                        if (!suc) continue;
                     }
 
-                    var tsk = _currentTask;
-                    _currentTaskCancellationTokenSource = new CancellationTokenSource();
-                    Debug.WriteLine("开始处理规则下发任务");
-                    var deployer = new AccessRuleTaskDeployer(tsk);
-                    deployer.DeployAsync(_currentTaskCancellationTokenSource.Token).Wait();
-                    _finishedTasks.Add(tsk);
-                    Debug.WriteLine("规则下发处理完毕");
-                    _currentTask = null;
+                    if (_currentTask != null)
+                    {
+                        var tsk = _currentTask;
+                        _currentTaskCancellationTokenSource = new CancellationTokenSource();
+                        var deployer = new AccessRuleTaskDeployer(tsk);
+                        deployer.DeployAsync(_currentTaskCancellationTokenSource.Token).Wait();
+                        using (IDbConnection c = SQLiteHelper.GetConnection())
+                        {
+                            c.Update(tsk);
+                        }
+
+                        //save item state
+                        var itemsJson = JsonConvert.SerializeObject(tsk.Items);
+                        File.WriteAllText(tsk.ItemsFilePath, itemsJson);
+
+                        _finishedTasks.Add(tsk);
+                        _currentTask = null;
+
+                    }
 
                 }
 
@@ -98,6 +151,7 @@ namespace huaanClient.Worker
 
         public void Stop()
         {
+            _event.Set();
             _cancellationTokenSource.Cancel();
             _currentTaskCancellationTokenSource.Cancel();
         }

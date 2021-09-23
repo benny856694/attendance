@@ -1,4 +1,5 @@
 ﻿using Dapper.Contrib.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace huaanClient.Business
 
         public string ItemsFilePath { get; set; }
         public string RulesJson { get; set; }
+        
         
         [Computed]
         public List<AccessControlDeployRule> RulesToDeploy { get; set; } = new List<AccessControlDeployRule>();

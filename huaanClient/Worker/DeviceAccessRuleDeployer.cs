@@ -21,7 +21,8 @@ namespace huaanClient.Worker
         public Exception LastError {  get; private set; }
         public int LastErrorCode { get;set;  }
 
-        public event EventHandler<ItemDeployedEventArgs> ItemDeployedEvent;
+        public event EventHandler<DeployEventArgs> ItemDeployedEvent;
+        public event EventHandler<DeployEventArgs> RuleDeployEvent;
 
         private HttpClient _http;
         private static NLog.Logger Logger= NLog.LogManager.GetCurrentClassLogger();
@@ -48,20 +49,27 @@ namespace huaanClient.Worker
             {
                 await policy.ExecuteAsync(async tk =>
                 {
-                   await DeployRulesAsync(tk);
+                    var errCode = await DeployRulesAsync(tk);
+                    var arg = new DeployEventArgs
+                    {
+                        ErrorCode = errCode
+                    };
+                    RuleDeployEvent?.Invoke(this, arg);
                 }, token);
             }
             catch (Exception ex)
             {
                 LastError = ex;
-                Logger.Error(ex, "Deploy Access rules failed, items deployment cancelled");
+                Logger.Error(ex, $"Deploy Rules to {DeviceIp} exception");
+                var arg = new DeployEventArgs { Exception = ex };
+                RuleDeployEvent?.Invoke(this, arg);
                 return;
             }
             
             await DeployItemsAsync(policy, token);
         }
 
-        private async Task DeployRulesAsync(CancellationToken token)
+        private async Task<int> DeployRulesAsync(CancellationToken token)
         {
             var req = new
             {
@@ -75,6 +83,7 @@ namespace huaanClient.Worker
             {
                 LastErrorCode = res.code;
             }
+            return res.code;
         }
 
         private async Task DeployItemsAsync(Polly.Retry.AsyncRetryPolicy policy, CancellationToken token)
@@ -82,37 +91,36 @@ namespace huaanClient.Worker
             foreach (var item in Items)
             {
                 if (item.State != DeployResult.Waiting) continue;
+                if (token.IsCancellationRequested) return;
 
-                if (!token.IsCancellationRequested)
+                var req = new
                 {
-                    var req = new
-                    {
-                        cmd = "upload person",
-                        id = item.id,
-                        kind = item.kind
-                    };
+                    cmd = "upload person",
+                    id = item.id,
+                    kind = item.kind
+                };
 
-                    try
+                try
+                {
+                    await policy.ExecuteAsync(async tk => 
                     {
-                        await policy.ExecuteAsync(async tk => 
-                        {
-                            var resp = await _http.PostAsJsonAsync("", req);
-                            var res = await resp.Content.ReadAsAsync<Api.Response>();
-                            item.ErrorCode = res.code;
-                            item.State = res.code == 0 ? DeployResult.Succeed : DeployResult.Failed;
-                            Debug.WriteLine($"deploy id: {item.id} kind:{item.kind} to {item.DeviceId}, result: {res.code}");
-                            ItemDeployedEvent?.Invoke(this, new ItemDeployedEventArgs { ErrorCode = res.code });
-                        }, token);
-                    }
-                    catch (Exception ex)
-                    {
-                        LastError = ex;
-                    }
+                        var resp = await _http.PostAsJsonAsync("", req);
+                        var res = await resp.Content.ReadAsAsync<Api.Response>();
+                        item.ErrorCode = res.code;
+                        item.State = res.code == 0 ? DeployResult.Succeed : DeployResult.Failed;
+                        Debug.WriteLine($"deploy id: {item.id} kind:{item.kind} to {item.DeviceId}, result: {res.code}");
+                        ItemDeployedEvent?.Invoke(this, new DeployEventArgs { ErrorCode = res.code });
+                    }, token);
                 }
-               
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, $"Deploy access control item Id:{item.id} to {DeviceIp} exception");
+                    LastError = ex;
+                    var arg = new DeployEventArgs { Exception = ex };
+                    ItemDeployedEvent?.Invoke(this, arg);
+                }
             }
-
-            Debug.WriteLine("Item deploy finished");
+               
 
             _http.Dispose();
         }

@@ -29,13 +29,24 @@ namespace huaanClient.Worker
                 {
                     var deviceDeployer = new DeviceAccessRuleDeployer(_devices[deviceGroup.Key].ipAddress, task.RulesToDeploy.ToArray(), deviceGroup.ToArray());
                     deviceDeployer.ItemDeployedEvent += DeviceDeployer_ItemDeployedEvent;
+                    deviceDeployer.RuleDeployEvent += DeviceDeployer_RuleDeployEvent;
                     await deviceDeployer.DeployAsync(cancellationToken);
                 }
             }
             task.State = State.Finished;
         }
 
-        private void DeviceDeployer_ItemDeployedEvent(object sender, ItemDeployedEventArgs e)
+        private void DeviceDeployer_RuleDeployEvent(object sender, DeployEventArgs e)
+        {
+            if (e.Exception != null)
+            {
+                var c = ((DeviceAccessRuleDeployer)sender).Items.Length;
+                task.FailCount += c;
+                task.Progress += c;
+            }
+        }
+
+        private void DeviceDeployer_ItemDeployedEvent(object sender, DeployEventArgs e)
         {
             if (e.Success)
             {
