@@ -14,6 +14,8 @@ namespace huaanClient.Worker
         private readonly AccessControlDeployTask task;
         private Dictionary<int, MyDevice> _devices;
 
+        private object _lock = new object();
+
         public AccessRuleTaskDeployer(AccessControlDeployTask task)
         {
             this.task = task;
@@ -23,6 +25,7 @@ namespace huaanClient.Worker
         {
             _devices = GetData.getAllMyDevice().ToDictionary(x=>x.id);
             var deviceGroups = task.Items.GroupBy(x => x.DeviceId);
+            var tsks = new List<Task>();
             foreach (var deviceGroup in deviceGroups)
             {
                 if (!cancellationToken.IsCancellationRequested)
@@ -30,9 +33,12 @@ namespace huaanClient.Worker
                     var deviceDeployer = new DeviceAccessRuleDeployer(_devices[deviceGroup.Key].ipAddress, task.RulesToDeploy.ToArray(), deviceGroup.ToArray());
                     deviceDeployer.ItemDeployedEvent += DeviceDeployer_ItemDeployedEvent;
                     deviceDeployer.RuleDeployEvent += DeviceDeployer_RuleDeployEvent;
-                    await deviceDeployer.DeployAsync(cancellationToken);
+                    var t = deviceDeployer.DeployAsync(cancellationToken);
+                    tsks.Add(t);
                 }
             }
+
+            Task.WaitAll(tsks.ToArray());
             task.State = State.Finished;
         }
 
@@ -41,22 +47,30 @@ namespace huaanClient.Worker
             if (e.Exception != null)
             {
                 var c = ((DeviceAccessRuleDeployer)sender).Items.Length;
-                task.FailCount += c;
-                task.Progress += c;
+                lock (_lock)
+                {
+                    task.FailCount += c;
+                    task.Progress += c;
+
+                }
             }
         }
 
         private void DeviceDeployer_ItemDeployedEvent(object sender, DeployEventArgs e)
         {
-            if (e.Success)
+            lock (_lock)
             {
-                task.SuccessCount++;
+                if (e.Success)
+                {
+                    task.SuccessCount++;
+                }
+                else
+                {
+                    task.FailCount++;
+                }
+                task.Progress++;
+
             }
-            else
-            {
-                task.FailCount++;
-            }
-            task.Progress++;
         }
     }
 }

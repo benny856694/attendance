@@ -108,12 +108,12 @@ namespace huaanClient.Worker
                         var res = await resp.Content.ReadAsAsync<Api.Response>();
                         item.ErrorCode = res.code;
                         item.State = res.code == 0 ? DeployResult.Succeed : DeployResult.Failed;
-                        Debug.WriteLine($"deploy id: {item.id} kind:{item.kind} to {item.DeviceId}, result: {res.code}");
                         ItemDeployedEvent?.Invoke(this, new DeployEventArgs { ErrorCode = res.code });
                     }, token);
                 }
                 catch (Exception ex)
                 {
+                    item.State = DeployResult.Failed;
                     Logger.Error(ex, $"Deploy access control item Id:{item.id} to {DeviceIp} exception");
                     LastError = ex;
                     var arg = new DeployEventArgs { Exception = ex };

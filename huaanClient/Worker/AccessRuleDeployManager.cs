@@ -75,10 +75,6 @@ namespace huaanClient.Worker
             var inprogress = tasks.FirstOrDefault(x => x.State == State.Inprogress);
             if (inprogress != null)
             {
-                inprogress.RulesToDeploy = JsonConvert.DeserializeObject<List<AccessControlDeployRule>>(inprogress.RulesJson);
-                var itemsJson = File.ReadAllText(inprogress.ItemsFilePath);
-                var items = JsonConvert.DeserializeObject<List<AccessControlDeployItem>>(itemsJson);
-                inprogress.Items = items;
                 _currentTask = inprogress;
                 _event.Set();
             }
@@ -108,6 +104,8 @@ namespace huaanClient.Worker
             _event.Set();
             return task;
         }
+
+        
 
         public void Start()
         {
