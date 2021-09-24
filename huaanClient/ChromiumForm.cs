@@ -1787,6 +1787,16 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return JsonConvert.SerializeObject(data);
         }
 
+        public bool canAddAccessControlDeployTask()
+        {
+            return AccessRuleDeployManager.Instance.CanAddTask;
+        }
+
+        public void  removeAccessControlDeployTask(int id)
+        {
+            AccessRuleDeployManager.Instance.removeTask(id);
+        }
+
     }
 
     class KeyboardHandler : IKeyboardHandler

@@ -17,7 +17,7 @@ namespace huaanClient.Worker
 {
     public class AccessRuleDeployManager
     {
-        private ConcurrentBag<AccessControlDeployTask> _finishedTasks = new ConcurrentBag<AccessControlDeployTask>();
+        private ConcurrentDictionary<int, AccessControlDeployTask> _finishedTasks = new ConcurrentDictionary<int, AccessControlDeployTask>();
         private volatile AccessControlDeployTask _currentTask;
 
         private static AccessRuleDeployManager _instance = null;
@@ -51,7 +51,7 @@ namespace huaanClient.Worker
         public AccessControlDeployTask[] GetAllTasks()
         {
             var lst = new List<AccessControlDeployTask>();
-            lst.AddRange(_finishedTasks.ToArray());
+            lst.AddRange(_finishedTasks.Values.ToArray());
             if (_currentTask != null)
             {
                 lst.Add(_currentTask);
@@ -69,7 +69,7 @@ namespace huaanClient.Worker
 
             foreach (var t in tasks.Where(x=>x.State == State.Finished))
             {
-                _finishedTasks.Add(t);
+                _finishedTasks.TryAdd(t.Id, t);
             }
 
             var inprogress = tasks.FirstOrDefault(x => x.State == State.Inprogress);
@@ -105,6 +105,19 @@ namespace huaanClient.Worker
             return task;
         }
 
+        public void removeTask(int id)
+        {
+            _finishedTasks.TryRemove(id, out var tsk);
+            if (tsk != null)
+            {
+                using (var c = SQLiteHelper.GetConnection())
+                {
+                    c.Delete(tsk);
+                }
+                File.Delete(tsk.ItemsFilePath);
+            }
+        }
+
         
 
         public void Start()
@@ -134,7 +147,7 @@ namespace huaanClient.Worker
                         var itemsJson = JsonConvert.SerializeObject(tsk.Items);
                         File.WriteAllText(tsk.ItemsFilePath, itemsJson);
 
-                        _finishedTasks.Add(tsk);
+                        _finishedTasks.TryAdd(tsk.Id, tsk);
                         _currentTask = null;
 
                     }
