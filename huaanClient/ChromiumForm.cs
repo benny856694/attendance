@@ -428,7 +428,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public bool delDepartmentData(string no, string sedata)
         {
+            var dep = JsonConvert.DeserializeObject<Department>(sedata);
             bool data = GetData.delDepartmentData(no, sedata);
+            using (var c = SQLiteHelper.GetConnection())
+            {
+                c.Execute($"DELETE FROM RuleDistributionItem WHERE GroupId = {dep.id} AND GroupType = 1");
+            }
             return data;
         }
 

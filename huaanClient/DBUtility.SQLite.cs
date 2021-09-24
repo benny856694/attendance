@@ -409,33 +409,23 @@ namespace DBUtility.SQLite
             return result;
         }
 
-        public static int ExecuteNonQuery(SQLiteConnection cn, string commandText, params object[] paramList)
-        {
-
-            SQLiteCommand cmd = cn.CreateCommand();
-            cmd.CommandText = commandText;
-            AttachParameters(cmd, commandText, paramList);
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            int result = cmd.ExecuteNonQuery();
-            cmd.Dispose();
-            cn.Close();
-
-            return result;
-        }
+       
 
         public static int ExecuteNonQuery(string connectionString, string commandText)
         {
-            SQLiteConnection cn = new SQLiteConnection(connectionString);
-            SQLiteCommand cmd = cn.CreateCommand();
-            cmd.CommandText = commandText;
-            if (cn.State == ConnectionState.Closed)
-                cn.Open();
-            int result = cmd.ExecuteNonQuery();
-            cmd.Dispose();
-            cn.Close();
-
-            return result;
+            using (var cn = new SQLiteConnection(connectionString))
+            {
+                using (SQLiteCommand cmd = cn.CreateCommand())
+                {
+                    cmd.CommandText = commandText;
+                    if (cn.State == ConnectionState.Closed)
+                        cn.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    return result;
+                }
+                
+            }
+           
         }
 
         /// <summary>

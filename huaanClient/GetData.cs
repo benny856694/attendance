@@ -140,9 +140,18 @@ namespace huaanClient
         }
         public static void deleteEmployetype(string val)
         {
-
+            Employetype et = null;
+            using (var c = GetConnection())
+            {
+                et = c.QueryFirstOrDefault<Employetype>($"SELECT * FROM Employetype WHERE Employetype_name ='{val}'");
+                if (et != null)
+                {
+                    c.Execute($"DELETE FROM RuleDistributionItem WHERE GroupId = {et.id} AND GroupType = 0");
+                }
+            }
             string commandText = "UPDATE Employetype SET Employetype_name ='' WHERE Employetype_name = '" + val.Trim() + "'";
             int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
+            
         }
         public static void addEmployetype(string val)
         {
@@ -597,6 +606,12 @@ namespace huaanClient
                 return result;
 
 
+            MyDevice d = null;
+            using (var c = GetConnection())
+            {
+                d = c.QueryFirstOrDefault<MyDevice>($"SELECT * FROM MyDevice WHERE ipAddress = '{IP}'");
+            }
+
             string commandText = "delete FROM MyDevice WHERE ipAddress='" + IP + "'";
 
             //先删除下发队列中的设备
@@ -610,6 +625,14 @@ namespace huaanClient
                     Deviceinfo.MyDevicelist.RemoveAll(c => c.IP == IP);
                     result = true;
                 }
+                if (d != null)
+                {
+                    using (var c = GetConnection())
+                    {
+                        c.ExecuteScalar($"DELETE FROM RuleDistributionDevice WHERE DeviceId = {d.id}");
+                    }
+                }
+                
             }
             return result;
         }
@@ -3482,8 +3505,10 @@ namespace huaanClient
                     using (var conn = SQLiteHelper.GetConnection())
                     {
                         staff = conn.Get<Staff>(id);
+                        conn.Execute($"DELETE FROM RuleDistributionItem WHERE StaffId = {id}");
                     }
                     DeleteFile(staff?.picture);
+
                 }
                 catch (IOException)
                 {
@@ -5188,7 +5213,7 @@ namespace huaanClient
         {
             using (var c = GetConnection())
             {
-                var et = c.GetAll<Employetype>();
+                var et = c.GetAll<Employetype>().Where(x=>!string.IsNullOrEmpty(x.Employetype_name));
                 return et.ToArray();
             }
         }

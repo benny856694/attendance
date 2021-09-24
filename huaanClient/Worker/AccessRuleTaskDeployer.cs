@@ -30,15 +30,18 @@ namespace huaanClient.Worker
             {
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    var deviceDeployer = new DeviceAccessRuleDeployer(_devices[deviceGroup.Key].ipAddress, task.RulesToDeploy.ToArray(), deviceGroup.ToArray());
-                    deviceDeployer.ItemDeployedEvent += DeviceDeployer_ItemDeployedEvent;
-                    deviceDeployer.RuleDeployEvent += DeviceDeployer_RuleDeployEvent;
-                    var t = deviceDeployer.DeployAsync(cancellationToken);
-                    tsks.Add(t);
+                    if (_devices.ContainsKey(deviceGroup.Key))
+                    {
+                        var deviceDeployer = new DeviceAccessRuleDeployer(_devices[deviceGroup.Key].ipAddress, task.RulesToDeploy.ToArray(), deviceGroup.ToArray());
+                        deviceDeployer.ItemDeployedEvent += DeviceDeployer_ItemDeployedEvent;
+                        deviceDeployer.RuleDeployEvent += DeviceDeployer_RuleDeployEvent;
+                        var t = deviceDeployer.DeployAsync(cancellationToken);
+                        tsks.Add(t);
+                    }
                 }
             }
 
-            Task.WaitAll(tsks.ToArray());
+            await Task.WhenAll(tsks.ToArray());
             task.State = State.Finished;
         }
 
