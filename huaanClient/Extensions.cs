@@ -24,5 +24,13 @@ namespace huaanClient
         {
             return  (fahreinheit - 32) * 5 / 9;
         }
+    
+        public static (int hour, int minute) toHourMinute(this string s)
+        {
+            var sections = s.Split(':');
+            var h = int.Parse(sections[0]);
+            var m = int.Parse(sections[1]);
+            return (h, m);
+        }
     }
 }

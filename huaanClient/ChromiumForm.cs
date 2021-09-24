@@ -27,6 +27,7 @@ using DapperExtensions;
 using Dapper;
 using System.Collections.Generic;
 using huaanClient.Services;
+using huaanClient.Worker;
 
 namespace InsuranceBrowser
 {
@@ -101,6 +102,12 @@ namespace InsuranceBrowser
                 }));
 
             }
+
+            //规则下发
+            this._manager = AccessRuleDeployManager.Instance;
+            _manager.LoadTasks();
+            this._manager.Start();
+
         }
 
         private void ChromiumForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -280,6 +287,8 @@ namespace InsuranceBrowser
 
         private OpaqueLayer m_OpaqueLayer = null;//半透明蒙板层
         bool isLoading = false;
+        private AccessRuleDeployManager _manager;
+
         /// <summary>
         /// 显示遮罩层
         /// </summary>
@@ -419,7 +428,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public bool delDepartmentData(string no, string sedata)
         {
+            var dep = JsonConvert.DeserializeObject<Department>(sedata);
             bool data = GetData.delDepartmentData(no, sedata);
+            using (var c = SQLiteHelper.GetConnection())
+            {
+                c.Execute($"DELETE FROM RuleDistributionItem WHERE GroupId = {dep.id} AND GroupType = 1");
+            }
             return data;
         }
 
@@ -1655,7 +1669,145 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             var json = JsonConvert.SerializeObject(data);
             return json;
         }
+
+        public string getAllAccessRules()
+        {
+            var data = GetData.GetAllAccessRules();
+            var json = JsonConvert.SerializeObject(data);
+            return json;
+        }
+
+        public string addTimeSegment(int parentId, string from, string to)
+        {
+            var data = GetData.AddTimeSegmentToDay(parentId, from, to);
+            var json = JsonConvert.SerializeObject(data);
+            return json;
+        }
+
+        public void removeTimeSegment(int id)
+        {
+            GetData.RemoveTimeSegmentById(id);
+        }
+
+        public void removeAccessRule(int id)
+        {
+            GetData.RemoveAccessRuleById(id);
+        }
+
+        public string addWeekAccessRule(string name)
+        {
+            var data = GetData.AddAccessRule(name, RepeatType.RepeatByWeek);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string addDayAccessRule(string name)
+        {
+            var data = GetData.AddAccessRule(name, RepeatType.RepeatByDay);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string getAllRuleDistribution()
+        {
+            var data = GetData.GetAllRuleDistribution();
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string getAllEmployeeType()
+        {
+            var data = GetData.getAllEmployeeType();
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string getAllDepartment()
+        {
+            var data = GetData.getAllDepartment();
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public void removeRuleDistributionItem(int Id)
+        {
+            GetData.RemoveRuleDistributionItem(Id);
+        }
        
+        public void removeRuleDistributionDevice(int id)
+        {
+            GetData.RemoveRuleDistributionDevice(id);
+        }
+
+        public void setAccessRuleForRuleDistribution(int distributionId, int accessRuleId)
+        {
+            GetData.SetAccessRuleToDistribution(distributionId, accessRuleId);
+        }
+
+        public string addEmployeeTypeDistribution(string name)
+        {
+            var data = GetData.AddRuleDistribution(name, DistributionItemType.EmployeeType);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string addDepartmentDistribution(string name)
+        {
+            var data = GetData.AddRuleDistribution(name, DistributionItemType.Department);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string addStaffDistribution(string name)
+        {
+            var data = GetData.AddRuleDistribution(name, DistributionItemType.Staff);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public void removeDistribution(int id)
+        {
+            GetData.RemoveDistribution(id);
+        }
+
+        public string addGroupIdToDistribution(int distId, int groupId, GroupIdType groupIdType)
+        {
+            var data = GetData.AddGroupToRuleDistribution(distId, groupId, groupIdType);
+            return JsonConvert.SerializeObject(data);
+
+        }
+
+        public string addStaffIdToDistribution(int distributionId, string staffId)
+        {
+            var data = GetData.AddStaffToRuleDistribution(distributionId, staffId);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string getStaffByNameFuzzy(string query)
+        {
+            var data = GetData.GetStaffByNameFuzzy(query);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public string addDeviceIdToDistribution(int distId, int deviceId)
+        {
+            var data = GetData.AddDeviceToRuleDistribution(distId, deviceId);
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public void buildRuleDeploymentTask()
+        {
+            AccessRuleDeployManager.Instance.AddDeployTaskAsync();
+        }
+
+        public string getAllAccessRuleDeployTasks()
+        {
+            var data = AccessRuleDeployManager.Instance.GetAllTasks();
+            return JsonConvert.SerializeObject(data);
+        }
+
+        public bool canAddAccessControlDeployTask()
+        {
+            return AccessRuleDeployManager.Instance.CanAddTask;
+        }
+
+        public void  removeAccessControlDeployTask(int id)
+        {
+            AccessRuleDeployManager.Instance.removeTask(id);
+        }
+
     }
 
     class KeyboardHandler : IKeyboardHandler

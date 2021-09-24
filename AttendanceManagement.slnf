@@ -1,0 +1,11 @@
+{
+  "solution": {
+    "path": "huaanClient.sln",
+    "projects": [
+      "InsuranceBrowserLib\\BrowserLib.csproj",
+      "MultiPlayer\\MultiPlayer.csproj",
+      "WinFormUI\\WinFormUI.csproj",
+      "huaanClient\\huaanClient.csproj"
+    ]
+  }
+}

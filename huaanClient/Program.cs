@@ -39,6 +39,11 @@ namespace huaanClient
                     return;
                 }
             }
+
+
+            //
+            //TestMethod();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             LoginNew loginNew = new LoginNew();
@@ -147,7 +152,6 @@ namespace huaanClient
             {
                 IsBackground = true
             }.Start();
-
 
 
             string url = Application.StartupPath + @"\detached\index.html"; 
@@ -320,7 +324,6 @@ namespace huaanClient
             //}   
         }
 
-
         static void Cef_Initialize()
         {
             CefSettings setting = new CefSettings();
@@ -339,6 +342,35 @@ namespace huaanClient
             setting.CefCommandLineArgs.Add("disable-gpu", "1");
 
             CefSharp.Cef.Initialize(setting);
+
+        }
+
+
+        static void TestMethod()
+        {
+
+            //var rd = GetData.AddRuleDistribution("staff dist", DistributionItemType.Staff);
+            //GetData.AddDeviceToRuleDistribution(rd.Id, 2);
+            //GetData.AddStaffToRuleDistribution(rd.Id, "1631008646026");
+
+            //var rd2 = GetData.AddRuleDistribution("person type", DistributionItemType.EmployeeType);
+            //GetData.AddGroupToRuleDistribution(rd2.Id, 2, GroupIdType.EmployeeType);
+            //GetData.AddDeviceToRuleDistribution(rd2.Id, 2);
+
+
+            //var rd3 = GetData.AddRuleDistribution("depart dist", DistributionItemType.Department);
+            //GetData.AddGroupToRuleDistribution(rd3.Id, 2, GroupIdType.Department);
+
+
+            //var rds = GetData.GetAllRuleDistribution();
+
+            var rules = GetData.GetAllAccessRules();
+            var builder = new Business.AccessControlDeployBuilder();
+            builder.Build();
+
+            var rulesJson = JsonConvert.SerializeObject(builder.Rules);
+            var items = builder.DeployItems;
+
 
         }
     }

@@ -66,6 +66,59 @@ namespace huaanClient.DatabaseTool
                     return column?.ColumnType;
                 }
 
+                for (int i = 0; i < tableName.tablename.Length; i++)
+                {
+                    try
+                    {
+                        if (!TableColumnExists(tableName.tablename[i].Trim()))
+                        {
+                            Logger.Debug($"create table {tableName.tablename[i]}");
+                            try
+                            {
+                                var sql = $"CREATE TABLE {tableName.tablename[i]}({string.Join(", ", tablecolumn.ColumnsOfTable[i])});";
+                                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex, $"创建数据库表{tableName.tablename[i]}异常");
+                                throw;
+                            }
+
+                        }
+                        //存在就直接添加
+                        else
+                        {
+                            //添加列
+                            string[] g = GetDatas(tableName.tablename[i].Trim());
+                            if (g.Length > 0)
+                            {
+                                for (int m = 0; m < g.Length; m++)
+                                {
+                                    var t = tableName.tablename[i].Trim();
+                                    var c = g[m].Trim();
+                                    var columnName = c.Split(' ')[0];
+                                    if (!TableColumnExists(t, columnName))
+                                    {
+                                        try
+                                        {
+                                            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + t + " ADD " + c);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Logger.Error(ex, $"add column({t}.{c}) exception");
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "创建数据库异常");
+                    }
+                }
+
 
                 //升级现有数据库
                 if (string.Compare(TableColumnType("staff", "id"), "integer", true) == 0)
@@ -93,58 +146,6 @@ namespace huaanClient.DatabaseTool
                 }
 
 
-                for (int i = 0; i < tableName.tablename.Length; i++)
-                {
-                    try
-                    {
-                        if (!TableColumnExists(tableName.tablename[i].Trim()))
-                        {
-                            Logger.Debug($"create table {tableName.tablename[i]}");
-                            try
-                            {
-                                var sql = $"CREATE TABLE {tableName.tablename[i]}({string.Join(", ", tablecolumn.ColumnsOfTable[i])});";
-                                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Error(ex, $"创建数据库表{tableName.tablename[i]}异常");
-                                throw;
-                            }
-                            
-                        }
-                        //存在就直接添加
-                        else
-                        {
-                            //添加列
-                            string[] g = GetDatas(tableName.tablename[i].Trim());
-                            if (g.Length > 0)
-                            {
-                                for (int m = 0; m < g.Length; m++)
-                                {
-                                    var t = tableName.tablename[i].Trim();
-                                    var c = g[m].Trim();
-                                    var columnName = c.Split(' ')[0];
-                                    if (!TableColumnExists(t, columnName))
-                                    {
-                                        try
-                                        {
-                                            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "ALTER TABLE " + t + " ADD " + c);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Logger.Error(ex, $"add column({t}.{c}) exception");
-                                        }
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Error(ex, "创建数据库异常");
-                    }
-                }
             });
             
             //判断是否为测试
@@ -286,7 +287,14 @@ namespace huaanClient.DatabaseTool
             "CsvSettings",
             "Pdfconfiguration",
             "Visitor",
-            "DataSyn"
+            "DataSyn",
+            "TimeSegment",
+            "Day",
+            "AccessRule",
+            "RuleDistributionItem",
+            "RuleDistributionDevice",
+            "RuleDistribution",
+            "AccessControlDeployTask",
         }; 
     }
 
@@ -552,6 +560,75 @@ namespace huaanClient.DatabaseTool
   "stutas TEXT"
         };
 
+        //时间段
+        public static string[] TimeSegment =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "Start TEXT",
+            "End TEXT",
+            "DayOfWeekId INTEGER",
+        };
+
+        //星期
+        public static string[] Day =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "DayOfWeek INTEGER",
+            "AccessRuleId INTEGER"
+        };
+
+        //规则
+        public static string[] AccessRule =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "RuleNumber INTEGER",
+            "Name TEXT",
+            "RepeatType INTEGER",
+        };
+
+        public static string[] RuleDistributionItem =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "StaffId TEXT default ''",
+            "Name TEXT",
+            "GroupId INTEGER default -1",
+            "GroupType INTEGER default -1",
+            "RuleDistributionId INTEGER",
+
+        };
+
+        public static string[] RuleDistributionDevice =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "Name TEXT",
+            "DeviceId INTEGER default -1",
+            "RuleDistributionId INTEGER",
+        };
+
+        public static string[] RuleDistribution =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "Name TEXT",
+            "DistributionItemType INTEGER",
+            "AccessRuleId INTEGER",
+            "Priority INTEGER",
+        };
+
+        public static string[] AccessControlDeployTask =
+        {
+            "Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
+            "Created TEXT",
+            "State INTEGER",
+            "TotalCount INTEGER",
+            "DeviceCount INTEGER",
+            "Progress INTEGER",
+            "FailCount INTEGER",
+            "SuccessCount INTEGER",
+            "RulesJson TEXT",
+            "ItemsFilePath TEXT",
+        };
+
+
         public static string[][] ColumnsOfTable = {
             AttendanceGroup,
             Attendance_Data,
@@ -570,6 +647,13 @@ namespace huaanClient.DatabaseTool
             Pdfconfiguration,
             Visitor,
             DataSyn,
+            TimeSegment,
+            Day,
+            AccessRule,
+            RuleDistributionItem,
+            RuleDistributionDevice,
+            RuleDistribution,
+            AccessControlDeployTask,
             };
     }
 }

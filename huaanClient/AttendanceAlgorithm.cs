@@ -47,10 +47,12 @@ namespace huaanClient
                 }
                 else if (type == 1)
                 {
+                    Logger.Debug($"beging query data between: {starttime}-{endtime}");
                     string Capture_DataRe = GetData.getCapture_Data(starttime, endtime);
                     JArray Capture_DatajArray = (JArray)JsonConvert.DeserializeObject(Capture_DataRe);
                     if (Capture_DatajArray.Count() > 0)
                     {
+                        Logger.Debug($"got {Capture_DatajArray.Count()} data");
                         //从数据库获取考勤数据
                         for (int i = 0; i < Capture_DatajArray.Count; i++)
                         {
@@ -87,6 +89,10 @@ namespace huaanClient
                         //}
                         //Task.WaitAll(taskList);
                     }
+                    else
+                    {
+                        Logger.Debug("got 0 data");
+                    }
                 }
 
                 //if (listAll == null || listAll.Count == 0)
@@ -100,6 +106,7 @@ namespace huaanClient
                     {
                         captureDataForOneStaff.Clear();
                         JToken staff = staffs[i];
+                        Logger.Debug($"calculate staff id = {staff["personId"]} attendance");
                         allCaptureData.ForEach(captureData => {
                             if (!string.IsNullOrEmpty(captureData.personId.ToString().Trim()))
                             {
@@ -124,6 +131,8 @@ namespace huaanClient
                             } 
                         });
 
+                        Logger.Debug($"this staff has {captureDataForOneStaff.Count()} capture data");
+
                         DateTime sta = Convert.ToDateTime(starttime.Split(' ')[0].Trim());
                         DateTime end = Convert.ToDateTime(endtime.Split(' ')[0].Trim());
 
@@ -133,12 +142,25 @@ namespace huaanClient
 
                         if (day == 0 && captureDataForOneStaff.Count == 0)
                         {
+                            Logger.Debug($"day == {day}, sta = {sta}, end = {end}, captureDataForOneStaff.Count = 0, continue on to next staff");
                             continue;
                         }
 
                         if (!string.IsNullOrEmpty(staff["AttendanceGroup_id"].ToString()))
                         {
-                            getEffectiveTime(starttime, endtime, staff["personId"].ToString(), staff["AttendanceGroup_id"].ToString(), staff["Employee_code"].ToString(), staff["name"].ToString(), staff["department"].ToString(), day);
+                            Logger.Debug($"calculate start:{starttime}, end:{endtime}, staffid: {staff["personId"]} attendance");
+                            try
+                            {
+                                getEffectiveTime(starttime, endtime, staff["personId"].ToString(), staff["AttendanceGroup_id"].ToString(), staff["Employee_code"].ToString(), staff["name"].ToString(), staff["department"].ToString(), day);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex, $"calculate attendance for staff(id={staff["personId"]}) error");
+                            }
+                        }
+                        else
+                        {
+                            Logger.Debug("attendancegroup id is empty, not calculate attendance");
                         }
                     }
                 }
@@ -314,6 +336,7 @@ namespace huaanClient
             string department,
             int day)
         {
+            Logger.Debug($"beging calculate attendance for {personId}, start: {starttime}, end: {endtime}");
             if (DateTimeFormatInfo.CurrentInfo != null)
             {
                 var type = DateTimeFormatInfo.CurrentInfo.GetType();
@@ -336,7 +359,11 @@ namespace huaanClient
                 //根据当前人员从考勤组找到今天的考勤班次
                 string idToday = GetShiftId(AttendanceGroup_id, strToday);
                 if (idToday == "0" && GetShiftId(AttendanceGroup_id, strYesterday)=="0")
+                {
+                    Logger.Debug($"idToday == 0 and GetShiftId() == 0, continue to next day");
                     continue;
+
+                }
                 var strDateBeingCalculated = strToday;
                 var dateBeingCalculated = today;
                 string shiftInfo = GetData.GetShiftById(idToday);
@@ -571,6 +598,7 @@ namespace huaanClient
                                         //把考勤数据存到数据库
                                         if (!string.IsNullOrEmpty(reData.personId))
                                         {
+                                            Logger.Debug($"保存考勤计算结果");
                                             setAttendance_Data(reData, stagotowork1.Replace(":", ""), endgotowork1.Replace(":", ""));
                                         }
                                     }
@@ -583,16 +611,27 @@ namespace huaanClient
                                     {
                                         foreach (var li in listone)
                                         {
-                                            string cap = li.captureTime.ToString("HH:mm").Replace(":", "");
-                                            //判断是否在有效区间
-                                            if (int.Parse(cap) <= int.Parse(sbEffectiveTime_end) && int.Parse(cap) >= int.Parse(sbEffectiveTime_sat))
+                                            string cap = null;
+
+                                            try
                                             {
-                                                liststa.Add(listone[listone.IndexOf(li)]);
+                                                cap = li.captureTime.ToString("HH:mm").Replace(":", "");
+                                                //判断是否在有效区间
+                                                if (int.Parse(cap) <= int.Parse(sbEffectiveTime_end) && int.Parse(cap) >= int.Parse(sbEffectiveTime_sat))
+                                                {
+                                                    liststa.Add(listone[listone.IndexOf(li)]);
+                                                }
+                                                else if (int.Parse(cap) <= int.Parse(xbEffectiveTime_end) && int.Parse(cap) >= int.Parse(xbEffectiveTime_sta))
+                                                {
+                                                    listend.Add(listone[listone.IndexOf(li)]);
+                                                }
                                             }
-                                            else if (int.Parse(cap) <= int.Parse(xbEffectiveTime_end) && int.Parse(cap) >= int.Parse(xbEffectiveTime_sta))
+                                            catch (FormatException ex)
                                             {
-                                                listend.Add(listone[listone.IndexOf(li)]);
+                                                Logger.Error(ex, $"cap:{cap}, effenct_End: {sbEffectiveTime_end}, effect_sat: {sbEffectiveTime_sat}, xbend:{xbEffectiveTime_end}, xbsta:{xbEffectiveTime_sta}");
+                                                throw;
                                             }
+                                            
                                         }
                                     }
                                     int isLackcards = 0;
@@ -661,11 +700,16 @@ namespace huaanClient
                                     //把考勤数据存到数据库
                                     if (!string.IsNullOrEmpty(reData.personId))
                                     {
+                                        Logger.Debug($"save attendance data");
                                         setAttendance_Data(reData, stagotowork1.Replace(":", ""), endgotowork1.Replace(":", ""));
                                         if (ApplicationData.LanguageSign.Contains("日本語"))
                                         {
                                             HandleCaptureData.httptoline(reData);
                                         }
+                                    }
+                                    else
+                                    {
+                                        Logger.Debug($"{reData.personId} is empty, not saving attendance data");
                                     }
                                 }
                             }
@@ -891,7 +935,9 @@ namespace huaanClient
                 GetData.setAttendance_Data(reData, stagotowork1,endgotowork1);
             }
             catch(Exception ex)
-            {}
+            {
+                Logger.Error(ex, "保存考勤计算结果异常");
+            }
         }
 
         public static void setAttendance_Data2(reData reData, string stagotowork1, string endgotowork1, string stagotowork2, string endgotowork2)
@@ -901,7 +947,9 @@ namespace huaanClient
                 GetData.setAttendance_Data(reData, stagotowork1, endgotowork1, stagotowork2, endgotowork2);
             }
             catch (Exception ex)
-            { }
+            {
+                Logger.Error(ex, "保存考勤计算结果异常");
+            }
         }
         public static string DateDiff(string DateTime1, string DateTime2)
         {
@@ -927,6 +975,7 @@ namespace huaanClient
             }
             catch(Exception ex)
             {
+                Logger.Error(ex, "计算日期差异异常");
             }
             return re.ToString();
         }
