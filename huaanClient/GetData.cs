@@ -5052,6 +5052,7 @@ namespace huaanClient
                     c.Delete(d);
                 }
                 c.ExecuteScalar($"DELETE FROM AccessRule WHERE Id = {id}");
+                c.Execute($"UPDATE RuleDistribution SET AccessRuleId = null WHERE AccessRuleId = {id}");
             }
         }
 
