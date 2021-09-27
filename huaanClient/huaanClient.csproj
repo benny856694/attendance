@@ -273,6 +273,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Access.cs" />
     <Compile Include="Api\AddPerson.cs" />
     <Compile Include="Api\CameraVolume.cs" />
     <Compile Include="Api\RequestPersons.cs" />

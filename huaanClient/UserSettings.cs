@@ -16,6 +16,7 @@ namespace huaanClient
         public bool HideAttendanceManagementPage { get; set; } = false;
         public bool HideAttendanceConfigPage { get; set; } = false;
         public bool ShowTemperatureInCelsius {  get; set; } = true;
+        public Access DefaultAccess { get; set; } = Access.FullAccess;
 
         public void ConfigureTracking(TrackingConfiguration configuration)
         {
@@ -30,6 +31,7 @@ namespace huaanClient
                     setting.HideAttendanceManagementPage,
                     setting.HideAttendanceConfigPage,
                     setting.ShowTemperatureInCelsius,
+                    setting.DefaultAccess,
                 });
         }
     }

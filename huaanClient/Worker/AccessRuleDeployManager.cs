@@ -46,6 +46,8 @@ namespace huaanClient.Worker
             }
         }
 
+        public Access DefaultAccess { get; set; }
+
         public bool CanAddTask => this._currentTask == null;
 
         public AccessControlDeployTask[] GetAllTasks()
@@ -83,6 +85,7 @@ namespace huaanClient.Worker
         public AccessControlDeployTask AddDeployTaskAsync()
         {
             var builder = new AccessControlDeployBuilder();
+            builder.DefaultAccess = this.DefaultAccess;
             builder.Build();
             var task = new AccessControlDeployTask();
             task.Items = builder.DeployItems.ToList();

@@ -3528,7 +3528,7 @@ namespace huaanClient
                     using (var conn = SQLiteHelper.GetConnection())
                     {
                         staff = conn.Get<Staff>(id);
-                        conn.Execute($"DELETE FROM RuleDistributionItem WHERE StaffId = {id}");
+                        conn.Execute($"DELETE FROM RuleDistributionItem WHERE StaffId = '{id}'");
                     }
                     DeleteFile(staff?.picture);
 
