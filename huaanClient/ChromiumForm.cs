@@ -105,6 +105,7 @@ namespace InsuranceBrowser
 
             //规则下发
             this._manager = AccessRuleDeployManager.Instance;
+            _manager.DefaultAccess = userSettings.DefaultAccess;
             _manager.LoadTasks();
             this._manager.Start();
 
@@ -1808,6 +1809,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             AccessRuleDeployManager.Instance.removeTask(id);
         }
 
+        public void setDefaultAccess(Access access)
+        {
+            ChromiumForm.userSettings.DefaultAccess = access;
+            AccessRuleDeployManager.Instance.DefaultAccess = access;
+            Services.Tracker.Persist(ChromiumForm.userSettings);
+        }
     }
 
     class KeyboardHandler : IKeyboardHandler

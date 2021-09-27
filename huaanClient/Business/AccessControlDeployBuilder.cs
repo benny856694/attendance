@@ -17,6 +17,8 @@ namespace huaanClient.Business
         public AccessControlDeployRule[] Rules => _rules;
         public AccessControlDeployItem[] DeployItems => this._items.Values.ToArray();
 
+        public Access DefaultAccess { get; set; } = Access.FullAccess;
+
         public void  Build()
         {
             var rules = GetData.GetAllAccessRules();
@@ -41,10 +43,29 @@ namespace huaanClient.Business
             var staffDistribution = distributionCategories
                 .FirstOrDefault(x => x.Key == Database.DistributionItemType.Staff);
 
+            BuildDefaultItemForAllStaff(distributions, allStaffs);
             BuildGroupItems(employeeTypeDistribution, ruleIdToRuleMap, allStaffs);
             BuildGroupItems(departmentDistribution, ruleIdToRuleMap, allStaffs);
             BuildStaffItems(staffDistribution, ruleIdToRuleMap, allStaffs);
             
+        }
+
+        private void BuildDefaultItemForAllStaff(Database.RuleDistribution[] distributions, Database.Staff[] allStaffs)
+        {
+            var defaultKind = this.DefaultAccess == Access.FullAccess ? 0 : 1;
+            foreach (var dev in distributions.SelectMany(x=>x.Devices).Distinct())
+            {
+                foreach (var staff in allStaffs)
+                {
+                    var item = new AccessControlDeployItem
+                    {
+                        id = staff.id,
+                        DeviceId = dev.DeviceId,
+                        kind = defaultKind,
+                    };
+                    _items[item.Key] = item;
+                }
+            }
         }
 
         private void BuildStaffItems(IGrouping<Database.DistributionItemType, Database.RuleDistribution> staffDistribution, Dictionary<int, Database.AccessRule> ruleIdToRuleMap, Database.Staff[] allStaffs)
@@ -121,10 +142,31 @@ namespace huaanClient.Business
         private  void BuildRules(Database.AccessRule[] rules)
         {
             var deployRules = new List<AccessControlDeployRule>();
+
+            var startIndex = 1;
+            if (this.DefaultAccess == Access.NoAccess) //添加缺省关闭规则
+            {
+                var section = new AccessControlDeploySection();
+                section.start = new AccessControlDeployHourMinute { hour = 0, minute = 0 };
+                section.end = new AccessControlDeployHourMinute { hour = 0, minute = 0 };
+
+                var d = new AccessControlDeplyDay();
+                d.sections.Add(section);
+
+                var noAccessRule = new AccessControlDeployRule();
+                noAccessRule.mode = "daily";
+                noAccessRule.kind = 1;
+                noAccessRule.name = "*";
+                noAccessRule.days.Add(d);
+
+                deployRules.Add(noAccessRule);
+                startIndex++;
+            }
+
             for (int i = 0; i < rules.Length; i++)
             {
                 var rule = rules[i];
-                rule.Index = i + 1;
+                rule.Index = i + startIndex;
                 var deployRule = new AccessControlDeployRule()
                 {
                     name = rule.Name,
