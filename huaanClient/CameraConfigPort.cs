@@ -1434,7 +1434,7 @@ namespace huaanClient
                     }
                     if (e.match_status > 0)
                     {
-                        //e.person_name_ext = Encoding.UTF8.GetString(_v, idx, 64).TrimEnd('\0');
+                        e.person_name_ext = Encoding.UTF8.GetString(_v, idx, 64).TrimEnd('\0');
                         idx += 130; 
                     }
                     try
