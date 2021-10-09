@@ -340,8 +340,9 @@ namespace huaanClient
                         string department = dataTable.Rows[i][4].ToString();
                         string Employetype = dataTable.Rows[i][5].ToString();
                         string face_idcard = dataTable.Rows[i][6].ToString();
+                        string custom_text= dataTable.Rows[i][7].ToString();
                         //判断是否是数字
-                        
+
                         //
                         string imge = "";
                         //如果上传了部门信息 先确认当前是否有这个部门id
@@ -489,11 +490,11 @@ namespace huaanClient
                         string data = "";
                         if (string.IsNullOrEmpty(idcardtype))
                         {
-                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", "", "", Staff.STAFF_SOURCE_BATCH_IMPORT);
+                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", "", "", Staff.STAFF_SOURCE_BATCH_IMPORT, custom_text);
                         }
                         else
                         {
-                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", face_idcard, idcardtype, Staff.STAFF_SOURCE_BATCH_IMPORT);
+                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", face_idcard, idcardtype, Staff.STAFF_SOURCE_BATCH_IMPORT, custom_text);
                         }
                         
 
@@ -593,6 +594,7 @@ namespace huaanClient
         private static string ChoosePath()
         {
             var sfd = new SaveFileDialog();
+            sfd.FileName = Properties.Strings.BatchImportResult;
             sfd.Filter = Properties.Strings.ExcelFile;
             return sfd.ShowDialog() == DialogResult.OK ? sfd.FileName : null;
         }
@@ -601,7 +603,7 @@ namespace huaanClient
         {
             var sfd = new SaveFileDialog();
             sfd.Filter = Properties.Strings.ExcelFile;
-            sfd.FileName = "Template";
+            sfd.FileName = Properties.Strings.BatchImportModel;
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {

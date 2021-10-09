@@ -31,6 +31,7 @@ namespace huaanClient.Database
         public string face_idcard { get; set; }
         public string idcardtype { get; set; }
         public string source { get; set; }
+        public string customer_text { get; set; }
 
         public Staff()
         {
