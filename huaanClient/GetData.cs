@@ -1843,7 +1843,7 @@ namespace huaanClient
 
         }
 
-        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
+        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source,string customer_text)
         {
 
             if (string.IsNullOrEmpty(staff_no))
@@ -1901,6 +1901,7 @@ namespace huaanClient
             staff.phone = phone;
             staff.Email = email;
             staff.source = source;
+            staff.customer_text = customer_text; 
             if (!string.IsNullOrEmpty(department))
             {
                 staff.department_id = int.Parse(department);
@@ -2319,7 +2320,7 @@ namespace huaanClient
         }
 
         //0未传值 1保存失败 2成功
-        public static string setStaf(string id, string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
+        public static string setStaf(string id, string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source,string customer_text)
         {
             if (string.IsNullOrEmpty(Employetype))
             {

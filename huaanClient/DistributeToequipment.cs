@@ -59,7 +59,7 @@ namespace huaanClient
 
                 string downid = userid;
                 //获取对应的名字和IP地址
-                string sql = $"SELECT staff.face_idcard,staff.source,staff.Employee_code,staff.idcardtype,staff.name,staff.picture,MyDevice.ipAddress FROM staff LEFT JOIN MyDevice WHERE staff.id = '{userid}' AND MyDevice.id={deviceid}";
+                string sql = $"SELECT staff.face_idcard,staff.source,staff.Employee_code,staff.idcardtype,staff.name,staff.picture,MyDevice.ipAddress,customer_text,department_id FROM staff LEFT JOIN MyDevice WHERE staff.id = '{userid}' AND MyDevice.id={deviceid}";
                 string sqldata = SQLiteHelper.SQLiteDataReader(connectionString, sql);
                 JArray sqldatajo = (JArray)JsonConvert.DeserializeObject(sqldata);
                 var distroParams = sqldatajo.FirstOrDefault() as JObject;
@@ -183,6 +183,29 @@ namespace huaanClient
                     string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
                     var picturePath = distributeParams["picture"]?.ToString();
 
+                    //自定义字段，从配置文件里读取默认值 todo
+                    string customer_text = Properties.Strings.DefaultCustomerText;
+                    if (string.IsNullOrEmpty(distributeParams["customer_text"]?.ToString()))
+                    {
+                        //如果customer_text没有值则将部门作为customer_text
+                        string departmentId = distributeParams["department_id"]?.ToString();
+                        if (!string.IsNullOrEmpty(departmentId) && departmentId != "0")
+                        {
+                            string sql = $"SELECT name FROM department WHERE department.id = '{departmentId}'";
+                            string sqldata = SQLiteHelper.SQLiteDataReader(connectionString, sql);
+                            JArray sqldatajo = (JArray)JsonConvert.DeserializeObject(sqldata);
+                            var departmentInfo = sqldatajo.FirstOrDefault() as JObject;
+                            string departmentName = departmentInfo["name"]?.ToString();
+                            if (!string.IsNullOrEmpty(departmentName) && departmentName.Length < 23)
+                                customer_text = departmentName;
+                        }
+                    }
+                    else
+                    {
+                        customer_text = distributeParams["customer_text"].ToString().Trim();
+                    }
+
+
                     //判断图片是否存在 如果不存在直接更新信息
                     if (string.IsNullOrEmpty(picturePath))
                     {
@@ -191,6 +214,7 @@ namespace huaanClient
                         o.cmd = "upload person";
                         o.id = downid;
                         o.name = distributeParams["name"].ToString().Trim();
+                        o.customer_text = customer_text;
 
                         var idCardType = distributeParams["idcardtype"].Value<string>();
                         var idCard = distributeParams["face_idcard"].Value<string>();
@@ -257,15 +281,15 @@ namespace huaanClient
                             }
                             if (distributeParams["idcardtype"].ToString().Trim() == "64")
                             {
-                                PersonJson = string.Format(UtilsJson.PersonJson64, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim());
+                                PersonJson = string.Format(UtilsJson.PersonJson64, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text);
                             }
                             else if (distributeParams["idcardtype"].ToString().Trim() == "32")
                             {
-                                PersonJson = string.Format(UtilsJson.PersonJson32, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim());
+                                PersonJson = string.Format(UtilsJson.PersonJson32, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text);
                             }
                             else
                             {
-                                PersonJson = string.Format(UtilsJson.PersonJson, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images);
+                                PersonJson = string.Format(UtilsJson.PersonJson, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, customer_text);
                             }
 
                         }

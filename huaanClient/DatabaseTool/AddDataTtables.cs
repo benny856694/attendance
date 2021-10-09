@@ -495,6 +495,7 @@ namespace huaanClient.DatabaseTool
   "face_idcard TEXT",
   "source TEXT",
   "idcardtype TEXT",
+  "customer_text TEXT",
   //face_idcard
         };
 
