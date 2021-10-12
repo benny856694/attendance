@@ -3769,7 +3769,7 @@ namespace huaanClient
                 var data = DapperExtensions.DapperExtensions.GetList<Capture_Data>(
                     conn, 
                     pg, 
-                    new List<DapperExtensions.ISort>() { new DapperExtensions.Sort() { PropertyName = nameof(Capture_Data.id), Ascending = false } }
+                    new List<DapperExtensions.ISort>() { new DapperExtensions.Sort() { PropertyName = nameof(Capture_Data.time), Ascending = true } }
                     ).ToArray();
                 if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
                 {
