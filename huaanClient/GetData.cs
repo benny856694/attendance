@@ -1971,9 +1971,8 @@ namespace huaanClient
 
         private static bool IsCorrectTimeFormat(string authorizedTime)
         {
-            string[] authorizedTimeFormat = { "yyyy-MM-dd HH:mm:ss" };
-            DateTime date;
-            bool formatResult = DateTime.TryParseExact(authorizedTime, authorizedTimeFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date);
+            var authorizedTimeFormat = "yyyy-MM-dd HH:mm:ss";
+            var formatResult = DateTime.TryParseExact(authorizedTime, authorizedTimeFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _);
             return formatResult;
         }
 
