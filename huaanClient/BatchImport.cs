@@ -341,6 +341,8 @@ namespace huaanClient
                         string Employetype = dataTable.Rows[i][5].ToString();
                         string face_idcard = dataTable.Rows[i][6].ToString();
                         string custom_text= dataTable.Rows[i][7].ToString();
+                        string term_start= dataTable.Rows[i][8].ToString();
+                        string term = dataTable.Rows[i][9].ToString();
                         //判断是否是数字
 
                         //
@@ -490,11 +492,11 @@ namespace huaanClient
                         string data = "";
                         if (string.IsNullOrEmpty(idcardtype))
                         {
-                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", "", "", Staff.STAFF_SOURCE_BATCH_IMPORT, custom_text);
+                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", "", "", Staff.STAFF_SOURCE_BATCH_IMPORT, custom_text, term_start.Trim(), term.Trim());
                         }
                         else
                         {
-                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", face_idcard, idcardtype, Staff.STAFF_SOURCE_BATCH_IMPORT, custom_text);
+                            data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", face_idcard, idcardtype, Staff.STAFF_SOURCE_BATCH_IMPORT, custom_text, term_start.Trim(), term.Trim());
                         }
                         
 

@@ -1843,7 +1843,7 @@ namespace huaanClient
 
         }
 
-        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source,string customer_text)
+        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source,string customer_text,string term_start,string term)
         {
 
             if (string.IsNullOrEmpty(staff_no))
@@ -1887,6 +1887,26 @@ namespace huaanClient
                 }
             }
 
+            if (string.IsNullOrEmpty(term_start))
+            {
+                term_start = "";
+            }
+            else
+            {
+                bool startFlag = IsCorrectTimeFormat(term_start);
+                term_start = startFlag ? term_start : "";
+            }
+
+            if (string.IsNullOrEmpty(term))
+            {
+                term = "";
+            }
+            else
+            {
+                bool endFlag = IsCorrectTimeFormat(term);
+                term = endFlag ? term : "";
+            }
+
             AttendanceGroup attGroup = null;
             using (var con = SQLiteHelper.GetConnection())
             {
@@ -1901,7 +1921,9 @@ namespace huaanClient
             staff.phone = phone;
             staff.Email = email;
             staff.source = source;
-            staff.customer_text = customer_text; 
+            staff.customer_text = customer_text;
+            staff.term_start = term_start;
+            staff.term = term;
             if (!string.IsNullOrEmpty(department))
             {
                 staff.department_id = int.Parse(department);
@@ -1916,7 +1938,7 @@ namespace huaanClient
             {
                 staff.AttendanceGroup_id = Convert.ToInt32(attGroup.id);
             }
-
+            
             if (Thread.CurrentThread.CurrentUICulture.Name.Contains("ja"))
             {
                 staff.line_type = lineType;
@@ -1945,6 +1967,14 @@ namespace huaanClient
                     data = Properties.Strings.SaveFailed
                 });
             }
+        }
+
+        private static bool IsCorrectTimeFormat(string authorizedTime)
+        {
+            string[] authorizedTimeFormat = { "yyyy-MM-dd HH:mm:ss" };
+            DateTime date;
+            bool formatResult = DateTime.TryParseExact(authorizedTime, authorizedTimeFormat, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date);
+            return formatResult;
         }
 
 
@@ -2320,7 +2350,7 @@ namespace huaanClient
         }
 
         //0未传值 1保存失败 2成功
-        public static string setStaf(string id, string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source,string customer_text)
+        public static string setStaf(string id, string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
             if (string.IsNullOrEmpty(Employetype))
             {
@@ -3029,7 +3059,7 @@ namespace huaanClient
             }
             return obj.ToString();
         }
-        public static string eidStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string line_userid, string lineType, string id, string face_idcard, string idcardtype)
+        public static string eidStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string line_userid, string lineType, string id, string face_idcard, string idcardtype, string customer_text, string term_start, string term)
         {
             if (string.IsNullOrEmpty(Employetype))
             {
@@ -3080,11 +3110,11 @@ namespace huaanClient
                         {
                             if (!string.IsNullOrEmpty(imge))
                             {
-                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "' WHERE id=" + $"'{id}'";
+                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "',customer_text="+$"'{customer_text}'"+",term_start="+$"'{term_start}'"+",term="+$"'{term}'"+" WHERE id=" + $"'{id}'";
                             }
                             else
                             {
-                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "'  WHERE id=" + $"'{id}'";
+                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "',customer_text=" + $"'{customer_text}'" + ",term_start=" + $"'{term_start}'" + ",term=" + $"'{term}'" + "  WHERE id=" + $"'{id}'";
                             }
                         }
 
