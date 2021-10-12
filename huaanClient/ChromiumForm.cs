@@ -666,9 +666,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //添加新员工
-        public string setStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard,string idcardtype,string customer_text)
+        public string setStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard,string idcardtype,string customer_text,string term_start,string term)
         {
-            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), Staff.STAFF_SOURCE_MANUAL_ADD, customer_text.Trim());
+            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), Staff.STAFF_SOURCE_MANUAL_ADD, customer_text.Trim(), term_start.Trim(),term.Trim());
             return data;
         }
         public string setStaffForsynchronization(string ID,string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
@@ -677,9 +677,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
         //编辑员工
-        public string EditStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string line_userid,string lineType, string id,string face_idcard, string idcardtype)
+        public string EditStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string line_userid,string lineType, string id,string face_idcard, string idcardtype, string customer_text, string term_start, string term)
         {
-            string data = GetData.eidStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, line_userid.Trim(), lineType.Trim(), id, face_idcard.Trim(), idcardtype.Trim()) ;
+            string data = GetData.eidStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, line_userid.Trim(), lineType.Trim(), id, face_idcard.Trim(), idcardtype.Trim(),  customer_text.Trim(), term_start.Trim(), term.Trim());
             return data;
         }
 

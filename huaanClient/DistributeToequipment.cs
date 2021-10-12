@@ -59,7 +59,7 @@ namespace huaanClient
 
                 string downid = userid;
                 //获取对应的名字和IP地址
-                string sql = $"SELECT staff.face_idcard,staff.source,staff.Employee_code,staff.idcardtype,staff.name,staff.picture,MyDevice.ipAddress,customer_text,department_id FROM staff LEFT JOIN MyDevice WHERE staff.id = '{userid}' AND MyDevice.id={deviceid}";
+                string sql = $"SELECT staff.face_idcard,staff.source,staff.Employee_code,staff.idcardtype,staff.name,staff.picture,MyDevice.ipAddress,customer_text,department_id,term_start,term FROM staff LEFT JOIN MyDevice WHERE staff.id = '{userid}' AND MyDevice.id={deviceid}";
                 string sqldata = SQLiteHelper.SQLiteDataReader(connectionString, sql);
                 JArray sqldatajo = (JArray)JsonConvert.DeserializeObject(sqldata);
                 var distroParams = sqldatajo.FirstOrDefault() as JObject;
@@ -170,6 +170,8 @@ namespace huaanClient
             string PersonJson = string.Empty;
             string ip = distributeParams["ipAddress"].ToString().Trim();
             string source = distributeParams["source"].ToString().Trim();
+            string term_start= distributeParams["term_start"].ToString().Trim().Length>1? distributeParams["term_start"].ToString().Replace("-", "/").Trim():"useless";
+            string term = distributeParams["term"].ToString().Trim().Length>1? distributeParams["term"].ToString().Replace("-","/").Trim():"forever";
             CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ip);
             if (CameraConfigPortlist == null)
                 return;
@@ -183,7 +185,7 @@ namespace huaanClient
                     string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
                     var picturePath = distributeParams["picture"]?.ToString();
 
-                    //自定义字段，从配置文件里读取默认值 todo
+                    //自定义字段
                     string customer_text = Properties.Strings.DefaultCustomerText;
                     if (string.IsNullOrEmpty(distributeParams["customer_text"]?.ToString()))
                     {
@@ -215,6 +217,8 @@ namespace huaanClient
                         o.id = downid;
                         o.name = distributeParams["name"].ToString().Trim();
                         o.customer_text = customer_text;
+                        o.term_start = term_start;
+                        o.term = term;
 
                         var idCardType = distributeParams["idcardtype"].Value<string>();
                         var idCard = distributeParams["face_idcard"].Value<string>();
@@ -281,15 +285,15 @@ namespace huaanClient
                             }
                             if (distributeParams["idcardtype"].ToString().Trim() == "64")
                             {
-                                PersonJson = string.Format(UtilsJson.PersonJson64, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text);
+                                PersonJson = string.Format(UtilsJson.PersonJson64, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text,term_start,term);
                             }
                             else if (distributeParams["idcardtype"].ToString().Trim() == "32")
                             {
-                                PersonJson = string.Format(UtilsJson.PersonJson32, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text);
+                                PersonJson = string.Format(UtilsJson.PersonJson32, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text, term_start, term);
                             }
                             else
                             {
-                                PersonJson = string.Format(UtilsJson.PersonJson, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, customer_text);
+                                PersonJson = string.Format(UtilsJson.PersonJson, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, customer_text, term_start, term);
                             }
 
                         }

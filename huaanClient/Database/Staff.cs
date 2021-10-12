@@ -32,6 +32,8 @@ namespace huaanClient.Database
         public string idcardtype { get; set; }
         public string source { get; set; }
         public string customer_text { get; set; }
+        public string term_start { get; set; }
+        public string term { get; set; }
 
         public Staff()
         {
