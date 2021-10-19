@@ -1815,6 +1815,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             AccessRuleDeployManager.Instance.DefaultAccess = access;
             Services.Tracker.Persist(ChromiumForm.userSettings);
         }
+
+        public void exportDailyAttendance(List<string> ids, string day)
+        {
+            var reporter = new huaanClient.Report.DailyAttendance();
+            reporter.Generate(ids, new DateTime(2021, 9, 1), @"d:\dailyReport.xlsx");
+
+        }
     }
 
     class KeyboardHandler : IKeyboardHandler

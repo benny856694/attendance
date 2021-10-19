@@ -407,6 +407,8 @@
     </Compile>
     <Compile Include="recursionJSON.cs" />
     <Compile Include="Report\DailyAttendance.cs" />
+    <Compile Include="Report\Extensions.cs" />
+    <Compile Include="Report\Remark.cs" />
     <Compile Include="SearchFrom.cs">
       <SubType>Form</SubType>
     </Compile>

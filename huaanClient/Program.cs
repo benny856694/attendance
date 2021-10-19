@@ -1,4 +1,6 @@
 ﻿using CefSharp.WinForms;
+using Dapper.Contrib.Extensions;
+using DBUtility.SQLite;
 using huaanClient.Database;
 using InsuranceBrowser;
 using InsuranceBrowserLib;
@@ -6,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -41,8 +44,6 @@ namespace huaanClient
             }
 
 
-            //
-            //TestMethod();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -345,33 +346,5 @@ namespace huaanClient
 
         }
 
-
-        static void TestMethod()
-        {
-
-            //var rd = GetData.AddRuleDistribution("staff dist", DistributionItemType.Staff);
-            //GetData.AddDeviceToRuleDistribution(rd.Id, 2);
-            //GetData.AddStaffToRuleDistribution(rd.Id, "1631008646026");
-
-            //var rd2 = GetData.AddRuleDistribution("person type", DistributionItemType.EmployeeType);
-            //GetData.AddGroupToRuleDistribution(rd2.Id, 2, GroupIdType.EmployeeType);
-            //GetData.AddDeviceToRuleDistribution(rd2.Id, 2);
-
-
-            //var rd3 = GetData.AddRuleDistribution("depart dist", DistributionItemType.Department);
-            //GetData.AddGroupToRuleDistribution(rd3.Id, 2, GroupIdType.Department);
-
-
-            //var rds = GetData.GetAllRuleDistribution();
-
-            var rules = GetData.GetAllAccessRules();
-            var builder = new Business.AccessControlDeployBuilder();
-            builder.Build();
-
-            var rulesJson = JsonConvert.SerializeObject(builder.Rules);
-            var items = builder.DeployItems;
-
-
-        }
     }
 }
