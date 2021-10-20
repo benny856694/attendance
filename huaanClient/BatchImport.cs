@@ -11,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -309,6 +310,20 @@ namespace huaanClient
             {
                 return obj.ToString();
             }
+            //将双后缀的文件名保存到字典中
+            string doubleSuffixRegexStr = @"((\.jpg|\.png|\.jpeg){2})$";
+            var doubleSuffixFileNames = Directory.GetFiles(DirectoryName).Where(s => Regex.IsMatch(s, doubleSuffixRegexStr));
+            Dictionary<string, string> doubleSuffixFilesDic = new Dictionary<string, string>();
+            if (doubleSuffixFileNames.Count() > 0)
+            {
+                foreach(var item in doubleSuffixFileNames)
+                {
+                    var FileName = Path.GetFileName(item);
+                    var staffName = FileName.Split('.')[0];
+                    doubleSuffixFilesDic.Add(staffName, FileName);
+                }
+            }
+
             //将选择的文件转换成 datatable
             DataTable dataTable = ExcelToDataTable(filePath, 2);
 
@@ -401,6 +416,14 @@ namespace huaanClient
                             {
                                 imge = DirectoryName + "/" + name.Trim() + imgestrs[s];
                                 break;
+                            }else if (doubleSuffixFilesDic.Count() > 0)
+                            {
+                                string fileName = "";
+                                if (doubleSuffixFilesDic.TryGetValue(name,out fileName))
+                                {
+                                    imge= DirectoryName + "/" + fileName.Trim();
+                                    break;
+                                }
                             }
                         }
                         string imgeurl = "";
@@ -464,10 +487,11 @@ namespace huaanClient
                         imgeurl = copyfile.copyimge(imge, copyfile.GetTimeStamp());
                         if (string.IsNullOrEmpty(imgeurl))
                         {
-                            dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
-                            dataTable.Rows[i][lastcell - 1] = Properties.Strings.ImageMissing;
+                            imgeurl = "";
+                            //dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
+                            //dataTable.Rows[i][lastcell - 1] = Properties.Strings.ImageMissing;
 
-                            continue;
+                            //continue;
                         }
 
                         string idcardtype = string.Empty;
