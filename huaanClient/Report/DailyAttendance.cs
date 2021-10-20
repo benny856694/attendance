@@ -6,6 +6,7 @@ using huaanClient.Database;
 using huaanClient.Properties;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,8 @@ namespace huaanClient.Report
                 WriteStatistics(ws, row);
                 ws.Columns().AdjustToContents().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                 ws.Rows("1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                ws.Rows(row.ToString(CultureInfo.InvariantCulture)).Style.Font.Bold = true;
+                ws.SheetView.FreezeRows(1);
                 wb.SaveAs(pathToXlsx);
             }
         }
