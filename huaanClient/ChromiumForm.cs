@@ -890,7 +890,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 callback.ExecuteAsync(data);
             });
         }
-
+        //批量下发 / 选择单个相机一键下发
         public void AddPersonToEquipment_distribution(string datajson)
         {
             GetData.setAddPersonToEquipment_distribution(datajson);
@@ -1031,7 +1031,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
 
-        public void queryAttendanceinformation(IJavascriptCallback callback, string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string page, string limt)
+        public void queryAttendanceinformation(IJavascriptCallback callback, string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string page, string limt, string department)
         {
             starttime = starttime.Replace(@"/", "-");
             endtime = endtime.Replace(@"/", "-");
@@ -1040,7 +1040,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 form.ShowLayer();
                 form.Invoke(new Action(() =>
                 {
-                    string data = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism,  page,  limt);
+                    string data = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism,  page,  limt, department);
                     form.HideLayer();
                     callback.ExecuteAsync(data);
                 }));
@@ -1072,7 +1072,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //导出每日考勤数据
-        public void exportAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism)
+        public void exportAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string departments)
         {
             form.Invoke(new Action(() =>
             {
@@ -1090,10 +1090,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                         userSelProp = keyStr.ToString().Split(',');
                     }
                 }
-                
 
+                string other = "重载参数少一个";
                 var selectedProperties = new[] { "name", "department", "Employee_code", "Date", "Punchinformation", "Punchinformation1", "Shiftinformation", "Duration", "late", "Leaveearly", "workOvertime", "isAbsenteeism", "temperature" };
-                var attData = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
+                var attData = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism,departments,other);
                 exportToCsv.exportForDay(attData, starttime + endtime, userSelProp ?? selectedProperties);
             }));
 

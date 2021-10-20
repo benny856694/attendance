@@ -784,7 +784,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string page, string limt)
+        public static string queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string page, string limt,string department)
         {
 
             int page1 = int.Parse(page) - 1;
@@ -806,6 +806,12 @@ namespace huaanClient
             if (isAbsenteeism.Trim().Equals("1"))
             {
                 commandText.Append(" att.isAbsenteeism==0 AND");
+            }
+            if (!string.IsNullOrEmpty(department))
+            {
+                var split = department.Split(',');
+                string dts = string.Join(",", split.Select(x => $"'{x}'"));
+                commandText.Append(" att.department in( " + dts.Trim() + ") AND");
             }
 
 
@@ -898,7 +904,7 @@ namespace huaanClient
         }
 
 
-        public static AttendanceData[] queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism)
+        public static AttendanceData[] queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string departments, string other)
         {
             var pg = new DapperExtensions.PredicateGroup() { Operator = DapperExtensions.GroupOperator.And, Predicates = new List<DapperExtensions.IPredicate>() };
             pg.Predicates.Add(DapperExtensions.Predicates.Between<AttendanceData>(
@@ -921,6 +927,22 @@ namespace huaanClient
             {
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.isAbsenteeism, DapperExtensions.Operator.Eq, 0));
             }
+            if (!string.IsNullOrEmpty(departments))
+            {
+                
+                // string dts = string.Join(",", split.Select(x => $"'{x}'"));
+                //commandText.Append(" att.department in( " + dts.Trim() + ") AND");
+                var pgDepartments = new DapperExtensions.PredicateGroup() { Operator = DapperExtensions.GroupOperator.Or, Predicates = new List<DapperExtensions.IPredicate>() };
+                var split = departments.Split(',');
+                foreach (var dep in split)
+                {
+                    pgDepartments.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.department, DapperExtensions.Operator.Eq, dep));
+
+                }
+                pg.Predicates.Add(pgDepartments);
+
+            }
+
 
             var sort = new List<DapperExtensions.ISort>();
             sort.Add(new DapperExtensions.Sort { PropertyName = nameof(AttendanceData.name), Ascending = true });
@@ -1096,30 +1118,63 @@ namespace huaanClient
             }
             return obj.ToString();
         }
-
+        /// <summary>
+        /// 批量下发/指定单个相机一键下发
+        /// </summary>
+        /// <param name="data">可以是字符串数组（包含相机ID与人员ID对应关系），也可以是单个相机ID</param>
         public static void setAddPersonToEquipment_distribution(string data)
         {
-
-            JArray jo = (JArray)JsonConvert.DeserializeObject(data);
-            if (jo.Count > 0)
+            //传入是相机ID与员工ID对应关系的数组
+            if(data.StartsWith("[") && data.EndsWith("]"))
             {
-                foreach (JObject s in jo)
+                JArray jo = (JArray)JsonConvert.DeserializeObject(data);
+                if (jo.Count > 0)
                 {
-                    string userid = s["userid"].ToString().Trim();
-                    string deviceid = s["deviceid"].ToString().Trim();
-                    MyDevice device = null;
-                    Staff staff = null;
-                    var distributeByCode = getIscode_syn();
-                    using (var conn = SQLiteHelper.GetConnection())
+                    foreach (JObject s in jo)
                     {
-                        device = conn.Get<MyDevice>(deviceid);
-                        staff = conn.Get<Staff>(userid);
-                        DistributeStaffToDevice(staff, device, distributeByCode, conn);
+                        string userid = s["userid"].ToString().Trim();
+                        string deviceid = s["deviceid"].ToString().Trim();
+                        MyDevice device = null;
+                        Staff staff = null;
+                        var distributeByCode = getIscode_syn();
+                        using (var conn = SQLiteHelper.GetConnection())
+                        {
+                            device = conn.Get<MyDevice>(deviceid);
+                            staff = conn.Get<Staff>(userid);
+                            DistributeStaffToDevice(staff, device, distributeByCode, conn);
+                        }
                     }
-
-
                 }
             }
+            else
+            {
+                //传入的是deviceId
+                if (data.Length > 0)
+                {
+                    try
+                    {
+                        int deviceId = int.Parse(data);
+                        MyDevice device = null;
+                        IEnumerable<Staff> staffs = null;
+                        var distributeByCode = getIscode_syn();
+                        using (var conn = SQLiteHelper.GetConnection())
+                        {
+                            //var predicte = DapperExtensions.Predicates.Field<Staff>(s=>s.picture, DapperExtensions.Operator.Eq, null, true);
+                            device=DapperExtensions.DapperExtensions.Get<MyDevice>(conn, deviceId);
+                            staffs = DapperExtensions.DapperExtensions.GetList<Staff>(conn);
+                            foreach (var staff in staffs)
+                            {
+                                DistributeStaffToDevice(staff, device, distributeByCode, conn);
+                            }
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        Logger.Error(e.Message);
+                    }
+                }
+            }
+           
         }
         //一键下发
         public static bool setAddPersonToEquipment_distribution()
