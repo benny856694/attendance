@@ -1414,14 +1414,6 @@ namespace huaanClient
             string result = UtilsJson.openJson;
             string ttspaly = UtilsJson.ttsPlay;
 
-            if (ApplicationData.LanguageSign.Contains("English"))
-            {
-                ttspaly = UtilsJson.ttsPlayEn;
-            }
-            else if (ApplicationData.LanguageSign.Contains("日本語"))
-            {
-                ttspaly = UtilsJson.ttsPlayJp;
-            }
             string restr = GetDevinfo.request(CameraConfigPortlist, result);
             JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
             if (restr_json != null)
