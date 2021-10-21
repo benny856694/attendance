@@ -30,6 +30,7 @@ namespace VideoHelper
         public MultiPlayerControl()
         {
             InitializeComponent();
+            this.label1.Text = Strings.NotConnected;
 
 #if !DESIGN
             frame = av_frame_alloc();
@@ -329,12 +330,12 @@ namespace VideoHelper
             if (InvokeRequired)
                 BeginInvoke(new Action(() =>
                 {
-                    label1.Text = "未连接";
+                    label1.Text = Strings.NotConnected;
                     panel3.Invalidate();
                 }));
             else
             {
-                label1.Text = "未连接";
+                label1.Text = Strings.NotConnected;
                 panel3.Invalidate();
             }
             started = false;
@@ -358,7 +359,7 @@ namespace VideoHelper
             {
                 m_holder.Disconnect += M_holder_Disconnect;
                 m_holder.H264Received += M_holder_H264Received;
-                label1.Text = "正在连接：" + m_holder.Name;
+                label1.Text = String.Format(Strings.Connecting, m_holder.Name);
                 m_holder.Start();
             }
             started = true;
@@ -370,7 +371,7 @@ namespace VideoHelper
         protected virtual void OnPlaying()
         {
             Invoke(new Action(() => {
-                label1.Text = "正在播放：" + m_holder.Name;
+                label1.Text = String.Format(Strings.Playing, m_holder.Name); 
             }));
             playing = true;
             btn_connect.Image = Resources.connecting;
@@ -415,7 +416,7 @@ namespace VideoHelper
             if (started || playing)
             {
                 btn_connect.Image = Resources.disconnect;
-                toolTip1.SetToolTip(btn_connect, "停止播放");
+                toolTip1.SetToolTip(btn_connect, Strings.StopPlay);
             }
             else
             {
