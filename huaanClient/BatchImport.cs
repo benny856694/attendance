@@ -489,7 +489,7 @@ namespace huaanClient
                         {
                             imgeurl = "";
                             //dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
-                            //dataTable.Rows[i][lastcell - 1] = Properties.Strings.ImageMissing;
+                            dataTable.Rows[i][lastcell - 1] = Properties.Strings.ImageMissing;
 
                             //continue;
                         }
