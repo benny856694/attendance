@@ -279,4 +279,22 @@
 	<data name="BatchImportResult" xml:space="preserve">
     <value>BatchImportResult</value>
   </data>
+	<data name="StaffExportExcelName" xml:space="preserve">
+		<value>Staff List</value>
+	</data>
+	<data name="PhotoTakenNotQualified" xml:space="preserve">
+		<value>The image is not qualified, make sure there is only one face in the image</value>
+	</data>
+	<data name="DefaultEmployeeType" xml:space="preserve">
+		<value>Other</value>
+	</data>
+	<data name="DefaultShiftName" xml:space="preserve">
+		<value>Shift</value>
+	</data>
+	<data name="DefaultCompanyName" xml:space="preserve">
+		<value>Company Name</value>
+	</data>
+	<data name="DefaultDepartmentName" xml:space="preserve">
+		<value>Department</value>
+	</data>
 </root>

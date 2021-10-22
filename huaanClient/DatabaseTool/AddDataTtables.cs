@@ -157,92 +157,35 @@ namespace huaanClient.DatabaseTool
                 //更具不同语种添加不同的默认数据
                 try
                 {
-                    if (ApplicationData.DefaultLanguage == 0)
+                    string publishTime = DateTime.Now.ToString("yyyy-MM-dd");
+                    string publishTime1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    string sql = "INSERT INTO Shift (id,name,Duration,gotowork1,gotowork2,gooffwork3,rest_time,EffectiveTime,publish_time)" +
+                        $" VALUES (1, '{Properties.Strings.DefaultShiftName}', 7, '09:30-18:00', '', '', '12:00-13:30', '00:01-11:30,12:00-23:00', '" + publishTime + "')";
+                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+
+                    sql = "INSERT INTO user VALUES (1,'admin', 123456)";
+                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+
+                    sql = $"INSERT INTO Employetype VALUES (1, '{Properties.Strings.DefaultEmployeeType}')";
+                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+
+                    sql = $"INSERT INTO department VALUES (1, '{Properties.Strings.DefaultCompanyName}', '', 10000, '', '', 1, '" + publishTime1 + "', 0);";
+                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+
+                    sql = $"INSERT INTO department VALUES (2, '{Properties.Strings.DefaultDepartmentName}', '', 10001, '', '', 2, '" + publishTime1 + "', 1)";
+                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+
+                    sql = "INSERT INTO AttendanceGroup VALUES (1, '{\"Monday\":\"1\",\"Tuesday\":\"1\",\"Wednesday\":\"1\",\"Thursday\":\"1\",\"Friday\":\"1\",\"Saturday\":\"0\",\"Sunday\":\"0\"}', '默认考勤组', '" + publishTime1 + "', 1);";
+                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+
+                    sql = "INSERT INTO Linefor_ VALUES (1,23, '36.5', 'ちゃんが学校に登校しました', 'ちゃんが学校に登校しました。体温は{0}℃でした。', 'ちゃんが学校に登校しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校に遅刻しました。', 'ちゃんが学校に遅刻しました。体温は{0} ℃でした。', 'ちゃんが学校に遅刻しました。体温は(0) ℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から早退しました。', 'ちゃんが学校から早退しました。体温は{0} ℃でした。', 'ちゃんが学校から早退しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から下校しました。', 'ちゃんが学校から下校しました。体温は{0}℃でした。', 'ちゃんが学校から下校しました。体温は{0} ℃でした。至急、学校へ連絡を下さい。', '', '', '', '', '', '')";
+                    SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+                    
+                    if (ApplicationData.DefaultLanguage == 2)
                     {
-                        //中文
-                        string publishTime = DateTime.Now.ToString("yyyy-MM-dd");
-                        string publishTime1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        string sql = "INSERT INTO Shift (id,name,Duration,gotowork1,gotowork2,gooffwork3,rest_time,EffectiveTime,publish_time)" +
-                            " VALUES (1, '班次一', 7, '09:30-18:00', '', '', '12:00-13:30', '00:01-11:30,12:00-23:00', '" + publishTime + "')";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO user VALUES (1,'admin', 123456)";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO Employetype VALUES (1, '其他')";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO department VALUES (1, '公司名称', '', 10000, '', '', 1, '" + publishTime1 + "', 0);";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO department VALUES (2, '下属部门', '', 10001, '', '', 2, '" + publishTime1 + "', 1)";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO AttendanceGroup VALUES (1, '{\"Monday\":\"1\",\"Tuesday\":\"1\",\"Wednesday\":\"1\",\"Thursday\":\"1\",\"Friday\":\"1\",\"Saturday\":\"0\",\"Sunday\":\"0\"}', '默认考勤组', '" + publishTime1 + "', 1);";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO Linefor_ VALUES (1,23, '36.5', 'ちゃんが学校に登校しました', 'ちゃんが学校に登校しました。体温は{0}℃でした。', 'ちゃんが学校に登校しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校に遅刻しました。', 'ちゃんが学校に遅刻しました。体温は{0} ℃でした。', 'ちゃんが学校に遅刻しました。体温は(0) ℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から早退しました。', 'ちゃんが学校から早退しました。体温は{0} ℃でした。', 'ちゃんが学校から早退しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から下校しました。', 'ちゃんが学校から下校しました。体温は{0}℃でした。', 'ちゃんが学校から下校しました。体温は{0} ℃でした。至急、学校へ連絡を下さい。', '', '', '', '', '', '')";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-                    }
-                    else if (ApplicationData.DefaultLanguage == 1)
-                    {
-                        //添加英文
-                        //中文
-                        string publishTime = DateTime.Now.ToString("yyyy-MM-dd");
-                        string publishTime1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        string sql = "INSERT INTO Shift (id,name,Duration,gotowork1,gotowork2,gooffwork3,rest_time,EffectiveTime,publish_time)" +
-                            " VALUES (1, 'Shift 1', 7, '09:30-18:00', '', '', '12:00-13:30', '00:01-11:30,12:00-23:00', '" + publishTime + "')";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO Employetype VALUES (1, 'Other')";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO user VALUES (1,'admin', 123456)";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO department VALUES (1, 'Corporate name', '', 10000, '', '', 1, '" + publishTime1 + "', 0);";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO department VALUES (2, 'Subordinate departments', '', 10001, '', '', 2, '" + publishTime1 + "', 1)";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO AttendanceGroup VALUES (1, '{\"Monday\":\"1\",\"Tuesday\":\"1\",\"Wednesday\":\"1\",\"Thursday\":\"1\",\"Friday\":\"1\",\"Saturday\":\"0\",\"Sunday\":\"0\"}', 'Default Attendance Group', '" + publishTime1 + "', 1);";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO Linefor_ VALUES (1,23, '36.5', 'ちゃんが学校に登校しました', 'ちゃんが学校に登校しました。体温は{0}℃でした。', 'ちゃんが学校に登校しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校に遅刻しました。', 'ちゃんが学校に遅刻しました。体温は{0} ℃でした。', 'ちゃんが学校に遅刻しました。体温は(0) ℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から早退しました。', 'ちゃんが学校から早退しました。体温は{0} ℃でした。', 'ちゃんが学校から早退しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から下校しました。', 'ちゃんが学校から下校しました。体温は{0}℃でした。', 'ちゃんが学校から下校しました。体温は{0} ℃でした。至急、学校へ連絡を下さい。', '', '', '', '', '', '');";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-                    }
-                    else if (ApplicationData.DefaultLanguage == 2)
-                    {
-                        //添加日文
-                        //中文
-                        string publishTime = DateTime.Now.ToString("yyyy-MM-dd");
-                        string publishTime1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        string sql = "INSERT INTO Shift (id,name,Duration,gotowork1,gotowork2,gooffwork3,rest_time,EffectiveTime,publish_time)" +
-                            " VALUES (1, 'Shift one', 7, '09:30-18:00', '', '', '12:00-13:30', '00:01-11:30,12:00-23:00', '" + publishTime + "')";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO Employetype VALUES (1, 'その他の職種')";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO user VALUES (1,'admin', 123456)";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO department VALUES (1, 'テスト会社', '', 10000, '', '', 1, '" + publishTime1 + "', 0);";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO department VALUES (2, '下部部門', '', 10001, '', '', 2, '" + publishTime1 + "', 1)";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
-                        sql = "INSERT INTO AttendanceGroup VALUES (1, '{\"Monday\":\"1\",\"Tuesday\":\"1\",\"Wednesday\":\"1\",\"Thursday\":\"1\",\"Friday\":\"1\",\"Saturday\":\"0\",\"Sunday\":\"0\"}', 'テスト班', '" + publishTime1 + "', 1);";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-
                         sql = "INSERT INTO Linefor_ (id,temperature) VALUES (1,'36.5')";
                         SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
 
-                        //日文多一个默认
-                        sql = "INSERT INTO Linefor_ VALUES (1,23, '36.5', 'ちゃんが学校に登校しました', 'ちゃんが学校に登校しました。体温は{0}℃でした。', 'ちゃんが学校に登校しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校に遅刻しました。', 'ちゃんが学校に遅刻しました。体温は{0} ℃でした。', 'ちゃんが学校に遅刻しました。体温は(0) ℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から早退しました。', 'ちゃんが学校から早退しました。体温は{0} ℃でした。', 'ちゃんが学校から早退しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から下校しました。', 'ちゃんが学校から下校しました。体温は{0}℃でした。', 'ちゃんが学校から下校しました。体温は{0} ℃でした。至急、学校へ連絡を下さい。', '', '', '', '', '', '');";
-                        SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
                     }
                 }
                 catch (Exception ex)
