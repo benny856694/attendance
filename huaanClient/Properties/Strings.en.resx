@@ -297,4 +297,7 @@
 	<data name="DefaultDepartmentName" xml:space="preserve">
 		<value>Department</value>
 	</data>
+	<data name="DefaultShiftGroupName" xml:space="preserve">
+		<value>Shift Group</value>
+	</data>
 </root>

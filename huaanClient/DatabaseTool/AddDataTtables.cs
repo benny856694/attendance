@@ -175,7 +175,7 @@ namespace huaanClient.DatabaseTool
                     sql = $"INSERT INTO department VALUES (2, '{Properties.Strings.DefaultDepartmentName}', '', 10001, '', '', 2, '" + publishTime1 + "', 1)";
                     SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
 
-                    sql = "INSERT INTO AttendanceGroup VALUES (1, '{\"Monday\":\"1\",\"Tuesday\":\"1\",\"Wednesday\":\"1\",\"Thursday\":\"1\",\"Friday\":\"1\",\"Saturday\":\"0\",\"Sunday\":\"0\"}', '默认考勤组', '" + publishTime1 + "', 1);";
+                    sql = $"INSERT INTO AttendanceGroup VALUES (1, '{{\"Monday\":\"1\",\"Tuesday\":\"1\",\"Wednesday\":\"1\",\"Thursday\":\"1\",\"Friday\":\"1\",\"Saturday\":\"0\",\"Sunday\":\"0\"}}', '{Properties.Strings.DefaultShiftGroupName}', '" + publishTime1 + "', 1);";
                     SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
 
                     sql = "INSERT INTO Linefor_ VALUES (1,23, '36.5', 'ちゃんが学校に登校しました', 'ちゃんが学校に登校しました。体温は{0}℃でした。', 'ちゃんが学校に登校しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校に遅刻しました。', 'ちゃんが学校に遅刻しました。体温は{0} ℃でした。', 'ちゃんが学校に遅刻しました。体温は(0) ℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から早退しました。', 'ちゃんが学校から早退しました。体温は{0} ℃でした。', 'ちゃんが学校から早退しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から下校しました。', 'ちゃんが学校から下校しました。体温は{0}℃でした。', 'ちゃんが学校から下校しました。体温は{0} ℃でした。至急、学校へ連絡を下さい。', '', '', '', '', '', '')";

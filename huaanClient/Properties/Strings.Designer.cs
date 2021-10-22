@@ -259,6 +259,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 默认考勤组.
+        /// </summary>
+        internal static string DefaultShiftGroupName {
+            get {
+                return ResourceManager.GetString("DefaultShiftGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 班次.
         /// </summary>
         internal static string DefaultShiftName {

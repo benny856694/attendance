@@ -312,4 +312,7 @@
 	<data name="DefaultDepartmentName" xml:space="preserve">
     <value>下属部门</value>
   </data>
+	<data name="DefaultShiftGroupName" xml:space="preserve">
+    <value>默认考勤组</value>
+  </data>
 </root>
