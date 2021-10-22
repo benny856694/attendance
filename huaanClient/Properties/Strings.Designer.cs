@@ -385,7 +385,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 导入完成，是否需要保存导入结果？ 的本地化字符串。
+        ///   查找类似 导入成功:{0},失败:{1}，是否保存导入结果？ 的本地化字符串。
         /// </summary>
         internal static string MessageSaveImportLog {
             get {
