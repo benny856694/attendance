@@ -262,7 +262,7 @@
     <value>hỏng</value>
   </data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-    <value>Nhập thành công, Lưu bản nhập khẩu?</value>
+    <value>Thành công:{0},Thất bại:{1}, Lưu bản nhập khẩu?</value>
   </data>
 	<data name="Success" xml:space="preserve">
     <value>thành công</value>

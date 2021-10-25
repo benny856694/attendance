@@ -340,9 +340,12 @@ namespace huaanClient
                 return obj.ToString();
             }
             int lastcell = dataTable.Columns.Count;
+            int successCount = 0;
+            int failCount = 0;
 
             await Task.Factory.StartNew(() =>
             {
+                
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
                     try
@@ -355,9 +358,9 @@ namespace huaanClient
                         string department = dataTable.Rows[i][4].ToString();
                         string Employetype = dataTable.Rows[i][5].ToString();
                         string face_idcard = dataTable.Rows[i][6].ToString();
-                        string custom_text= dataTable.Rows[i][7].ToString();
-                        string term_start= dataTable.Rows[i][8].ToString();
-                        string term = dataTable.Rows[i][9].ToString();
+                        string custom_text= (lastcell - 7 > 2)?dataTable.Rows[i][7].ToString():"";
+                        string term_start= (lastcell - 8 > 2)?dataTable.Rows[i][8].ToString():"";
+                        string term = (lastcell-9 > 2)?dataTable.Rows[i][9].ToString():"";
                         //判断是否是数字
 
                         //
@@ -489,7 +492,7 @@ namespace huaanClient
                         {
                             imgeurl = "";
                             //dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
-                            //dataTable.Rows[i][lastcell - 1] = Properties.Strings.ImageMissing;
+                            dataTable.Rows[i][lastcell - 1] = Properties.Strings.ImageMissing;
 
                             //continue;
                         }
@@ -528,24 +531,28 @@ namespace huaanClient
                         if (jObject["result"].ToString() == "2")
                         {
                             dataTable.Rows[i][lastcell - 2] = Properties.Strings.Success;
-                            dataTable.Rows[i][lastcell - 1] = jObject["data"].ToString();
+                            dataTable.Rows[i][lastcell - 1] = string.IsNullOrEmpty(dataTable.Rows[i][lastcell - 1] as string)? jObject["data"].ToString(): dataTable.Rows[i][lastcell - 1];
+                            successCount++;
                         }
                         else if (jObject["result"].ToString() != "2")
                         {
                             dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
                             dataTable.Rows[i][lastcell - 1] = jObject["data"].ToString();
+                            failCount++;
                         }
                     }
                     catch (Exception e)
                     {
                         dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
                         dataTable.Rows[i][lastcell - 1] = e.Message;
+                        failCount++;
                     }
                 }
             });
 
-            string sss = Properties.Strings.MessageSaveImportLog;
-            DialogResult dr = MessageBox.Show(sss, "", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            string sss = Properties.Strings.MessageSaveImportLog;           
+            //MessageBox.Show($"成功{0},失败{1}");
+            DialogResult dr = MessageBox.Show(string.Format(sss, successCount, failCount), "", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             if (dr == DialogResult.OK)
             {
 

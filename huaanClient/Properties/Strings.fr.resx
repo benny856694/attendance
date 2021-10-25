@@ -262,7 +262,7 @@
     <value>Échec</value>
   </data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-    <value>Importation réussie, Enregistrer le Journal d'importation?</value>
+    <value>Le succès{0},l’échec:{1}, Enregistrer le Journal d'importation?</value>
   </data>
 	<data name="Success" xml:space="preserve">
     <value>Succès</value>

@@ -274,7 +274,7 @@
     <value>失败</value>
   </data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-    <value>导入完成，是否需要保存导入结果？</value>
+    <value>导入成功:{0},失败:{1}，是否保存导入结果？</value>
   </data>
 	<data name="Success" xml:space="preserve">
     <value>成功</value>

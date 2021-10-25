@@ -262,7 +262,7 @@
     <value>失敗</value>
   </data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-    <value>インポート成功, インポートログを保存?</value>
+    <value>成功:{0},失敗:{1}, インポートログを保存?</value>
   </data>
 	<data name="Success" xml:space="preserve">
     <value>成功</value>

@@ -262,7 +262,7 @@
     <value>Fail</value>
   </data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-    <value>Import succeed, save import log?</value>
+    <value>success:{0},fail:{1}, save import log?</value>
   </data>
 	<data name="Success" xml:space="preserve">
     <value>Success</value>
