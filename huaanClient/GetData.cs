@@ -3118,7 +3118,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(staff_no))
             {
                 obj["result"] = 0;
-                obj["data"] = "员工编号不能为空";
+                obj["data"] = Strings.StaffCodeIsEmpty;
                 return obj.ToString();
             }
             else
@@ -3133,7 +3133,7 @@ namespace huaanClient
                     if (int.Parse(reint) > 0 && string.Compare(id, reid, true) != 0)
                     {
                         obj["result"] = 1;
-                        obj["data"] = "员工编号已经存在";
+                        obj["data"] = Strings.StaffCodeExists;
                         return obj.ToString();
                     }
                     else
@@ -3168,7 +3168,7 @@ namespace huaanClient
                         if (re == 1)
                         {
                             obj["result"] = 2;
-                            obj["data"] = "保存成功";
+                            obj["data"] = Strings.SaveSuccess;
 
                             //修改成功后 修改考勤表中的名字
                             string sql1 = $"UPDATE Attendance_Data set name = '{name}' WHERE personId = '{id}' ";
@@ -3192,7 +3192,7 @@ namespace huaanClient
                         else
                         {
                             obj["result"] = 1;
-                            obj["data"] = "保存失败";
+                            obj["data"] = Strings.SaveFailed;
                         }
 
                     }
@@ -3200,7 +3200,7 @@ namespace huaanClient
                 else
                 {
                     obj["result"] = 1;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
 
             }

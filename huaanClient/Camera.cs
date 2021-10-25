@@ -258,15 +258,7 @@ namespace huaanClient
                 bitmap.Dispose();
                 this.DialogResult = DialogResult.No;
 
-                string mes = "图片不合法，图片必须满足正面且只有唯一人脸";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                { 
-                    mes = "The picture is illegal. The picture must be positive and have only one face";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    mes = "写真は合法的ではなく、正面を満たす必要があります。しかも唯一の顔しかありません";
-                }
+                string mes = Properties.Strings.PhotoTakenNotQualified;
                 if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
                 {
                     videoSourcePlayer1.SignalToStop();

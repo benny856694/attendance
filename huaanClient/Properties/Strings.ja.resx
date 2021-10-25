@@ -279,4 +279,19 @@
 	<data name="BatchImportResult" xml:space="preserve">
     <value>BatchImportResult</value>
   </data>
+	<data name="PhotoTakenNotQualified" xml:space="preserve">
+		<value>写真は合法的ではなく、正面を満たす必要があります。しかも唯一の顔しかありません</value>
+	</data>
+	<data name="DefaultEmployeeType" xml:space="preserve">
+		<value>その他の職種</value>
+	</data>
+	<data name="DefaultShiftName" xml:space="preserve">
+		<value>便数</value>
+	</data>
+	<data name="DefaultCompanyName" xml:space="preserve">
+		<value>テスト会社</value>
+	</data>
+	<data name="DefaultDepartmentName" xml:space="preserve">
+		<value>下部部門</value>
+	</data>
 </root>
