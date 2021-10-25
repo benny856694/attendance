@@ -300,4 +300,7 @@
 	<data name="DefaultShiftGroupName" xml:space="preserve">
 		<value>Default Shift Group</value>
 	</data>
+	<data name="MenuItemCopyImage" xml:space="preserve">
+		<value>Copy</value>
+	</data>
 </root>

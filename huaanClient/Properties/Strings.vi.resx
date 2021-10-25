@@ -300,4 +300,7 @@
 	<data name="DefaultShiftGroupName" xml:space="preserve">
 		<value>nhóm ca</value>
 	</data>
+	<data name="MenuItemCopyImage" xml:space="preserve">
+		<value>Sao chép</value>
+	</data>
 </root>
