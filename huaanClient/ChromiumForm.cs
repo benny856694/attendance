@@ -1867,7 +1867,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             }
             if (!string.IsNullOrEmpty(parameters.SourceUrl))
             {
-                model.AddItem(CefMenuCommand.Copy, "复制图片");
+                model.AddItem(CefMenuCommand.Copy, Strings.MenuItemCopyImage);
             }
 
             //   model.AddItem((CefMenuCommand)ShowDevTools, "复制图片");

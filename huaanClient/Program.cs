@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -327,16 +328,32 @@ namespace huaanClient
         static void Cef_Initialize()
         {
             CefSettings setting = new CefSettings();
+            setting.LocalesDirPath = Application.StartupPath + @"\locales";        
+            
+            var lng = CultureInfo.CurrentCulture;
+            switch (lng.Name)
+            {
+                case Constants.LANG_LOCALE_VIETNAMESE:
+                    setting.Locale = "vi";
+                    break;
+                case Constants.LANG_LOCALE_CHINESE:
+                    setting.Locale = "zh-CN";
+                    break;
+                case Constants.LANG_LOCALE_JAPANESE:
+                    setting.Locale = "ja";
+                    break;
+                case Constants.LANG_LOCALE_ENGLISH:
+                    setting.Locale = "en-US";
+                    break;
+                case Constants.LANG_LOCALE_FRENCH:
+                    setting.Locale = "fr";
+                    break;
+                default:
+                    setting.Locale = "zh-CN";
+                    break;
+            }
 
-            if (ApplicationData.LanguageSign.Contains("日本語"))
-            {
-                setting.Locale = "ja";//日文
-            }
-            else
-            {
-                //设置中文
-                setting.Locale = "zh-CN";
-            }
+            setting.AcceptLanguageList = setting.Locale;
 
             //gpu设置, 防止高分辨率下显示问题
             setting.CefCommandLineArgs.Add("disable-gpu", "1");
