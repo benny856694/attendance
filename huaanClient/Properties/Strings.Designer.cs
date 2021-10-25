@@ -214,7 +214,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 日考勤.
+        ///   Looks up a localized string similar to 请假.
         /// </summary>
         internal static string DailyAttendanceSheetName {
             get {
@@ -232,11 +232,56 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 公司名称.
+        /// </summary>
+        internal static string DefaultCompanyName {
+            get {
+                return ResourceManager.GetString("DefaultCompanyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 自定义内容.
         /// </summary>
         internal static string DefaultCustomerText {
             get {
                 return ResourceManager.GetString("DefaultCustomerText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 下属部门.
+        /// </summary>
+        internal static string DefaultDepartmentName {
+            get {
+                return ResourceManager.GetString("DefaultDepartmentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 其它.
+        /// </summary>
+        internal static string DefaultEmployeeType {
+            get {
+                return ResourceManager.GetString("DefaultEmployeeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 默认考勤组.
+        /// </summary>
+        internal static string DefaultShiftGroupName {
+            get {
+                return ResourceManager.GetString("DefaultShiftGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 班次.
+        /// </summary>
+        internal static string DefaultShiftName {
+            get {
+                return ResourceManager.GetString("DefaultShiftName", resourceCulture);
             }
         }
         
@@ -439,6 +484,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 图片不合法，图片必须满足正面且只有唯一人脸.
+        /// </summary>
+        internal static string PhotoTakenNotQualified {
+            get {
+                return ResourceManager.GetString("PhotoTakenNotQualified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 正在切换....
         /// </summary>
         internal static string PromptSwitchingCamera {
@@ -507,6 +561,15 @@ namespace huaanClient.Properties {
         internal static string StaffCodeIsEmpty {
             get {
                 return ResourceManager.GetString("StaffCodeIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 人员信息.
+        /// </summary>
+        internal static string StaffExportExcelName {
+            get {
+                return ResourceManager.GetString("StaffExportExcelName", resourceCulture);
             }
         }
         

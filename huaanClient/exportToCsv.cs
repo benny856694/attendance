@@ -219,11 +219,7 @@ namespace huaanClient
         public static void exportForstaff()
         {
 
-            string msg = "考勤系统人员信息";
-            if (ApplicationData.LanguageSign.Contains("English"))
-                msg = "Attendance personnel information";
-            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                msg = "勤務者情報";
+            string msg = Properties.Strings.StaffExportExcelName;
             DataToCsv.DataTabletoExcelforstaff(null, msg);
         }
 

@@ -262,7 +262,7 @@
     <value>Fail</value>
   </data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-    <value>Import succeed, save import log?</value>
+    <value>success:{0},fail:{1}, save import log?</value>
   </data>
 	<data name="Success" xml:space="preserve">
     <value>Success</value>
@@ -279,4 +279,25 @@
 	<data name="BatchImportResult" xml:space="preserve">
     <value>BatchImportResult</value>
   </data>
+	<data name="StaffExportExcelName" xml:space="preserve">
+		<value>Staff List</value>
+	</data>
+	<data name="PhotoTakenNotQualified" xml:space="preserve">
+		<value>The image is not qualified, make sure there is only one face in the image</value>
+	</data>
+	<data name="DefaultEmployeeType" xml:space="preserve">
+		<value>Other</value>
+	</data>
+	<data name="DefaultShiftName" xml:space="preserve">
+		<value>Shift</value>
+	</data>
+	<data name="DefaultCompanyName" xml:space="preserve">
+		<value>Company Name</value>
+	</data>
+	<data name="DefaultDepartmentName" xml:space="preserve">
+		<value>Department</value>
+	</data>
+	<data name="DefaultShiftGroupName" xml:space="preserve">
+		<value>Default Shift Group</value>
+	</data>
 </root>
