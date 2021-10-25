@@ -298,6 +298,6 @@
 		<value>Department</value>
 	</data>
 	<data name="DefaultShiftGroupName" xml:space="preserve">
-		<value>Shift Group</value>
+		<value>Default Shift Group</value>
 	</data>
 </root>

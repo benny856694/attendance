@@ -286,6 +286,18 @@
 		<value>Hình ảnh được chụp không đủ tiêu chuẩn, hãy đảm bảo chỉ có một khuôn mặt trong ảnh và khuôn mặt đó hướng về phía máy ảnh</value>
 	</data>
 	<data name="DefaultShiftName" xml:space="preserve">
-		<value>Ca làm việc</value>
+		<value>Ca</value>
+	</data>
+	<data name="DefaultEmployeeType" xml:space="preserve">
+		<value>Khác</value>
+	</data>
+	<data name="DefaultCompanyName" xml:space="preserve">
+		<value>tên công ty</value>
+	</data>
+	<data name="DefaultDepartmentName" xml:space="preserve">
+		<value>phòng ban</value>
+	</data>
+	<data name="DefaultShiftGroupName" xml:space="preserve">
+		<value>nhóm ca</value>
 	</data>
 </root>
