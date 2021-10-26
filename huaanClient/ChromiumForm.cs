@@ -477,11 +477,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 string reint = jo[0]["count"].ToString();
                 if (int.Parse(reint) > 10000)
                 {
-                    MessageBox.Show("选择条件内超过不能超过10000行数据！");
+                    MessageBox.Show(Strings.DatasetIsTooBig);
                     return;
                 }else if (int.Parse(reint)==0)
                 {
-                    MessageBox.Show("未查询到数据！");
+                    MessageBox.Show(Strings.NoDataFound);
                     return;
                 }
                 else
@@ -1867,7 +1867,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             }
             if (!string.IsNullOrEmpty(parameters.SourceUrl))
             {
-                model.AddItem(CefMenuCommand.Copy, Strings.MenuItemCopyImage);
+                model.AddItem(CefMenuCommand.Find, Strings.ShowInExplorer);
             }
 
             //   model.AddItem((CefMenuCommand)ShowDevTools, "复制图片");
@@ -1916,6 +1916,74 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         bool IContextMenuHandler.OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
         {
+            switch (commandId)
+            {
+                case CefMenuCommand.NotFound:
+                    break;
+                case CefMenuCommand.Back:
+                    break;
+                case CefMenuCommand.Forward:
+                    break;
+                case CefMenuCommand.Reload:
+                    break;
+                case CefMenuCommand.ReloadNoCache:
+                    break;
+                case CefMenuCommand.StopLoad:
+                    break;
+                case CefMenuCommand.Undo:
+                    break;
+                case CefMenuCommand.Redo:
+                    break;
+                case CefMenuCommand.Cut:
+                    break;
+                case CefMenuCommand.Copy:
+                    break;
+                case CefMenuCommand.Paste:
+                    break;
+                case CefMenuCommand.Delete:
+                    break;
+                case CefMenuCommand.SelectAll:
+                    break;
+                case CefMenuCommand.Find:
+                    if (parameters?.SourceUrl?.StartsWith("file:///") == true)
+                    {
+                        var path =  Path.GetFullPath(parameters.SourceUrl.Substring(8));
+                        var si = new ProcessStartInfo();
+                        si.FileName = "explorer.exe";
+                        si.Arguments = $"/select, \"{path}\"";
+                        Process.Start(si);
+                    }
+
+                    break;
+                case CefMenuCommand.Print:
+                    break;
+                case CefMenuCommand.ViewSource:
+                    break;
+                case CefMenuCommand.SpellCheckSuggestion0:
+                    break;
+                case CefMenuCommand.SpellCheckSuggestion1:
+                    break;
+                case CefMenuCommand.SpellCheckSuggestion2:
+                    break;
+                case CefMenuCommand.SpellCheckSuggestion3:
+                    break;
+                case CefMenuCommand.SpellCheckSuggestion4:
+                    break;
+                case CefMenuCommand.SpellCheckNoSuggestions:
+                    break;
+                case CefMenuCommand.AddToDictionary:
+                    break;
+                case CefMenuCommand.CustomFirst:
+                    break;
+                case CefMenuCommand.CustomLast:
+                    break;
+                case CefMenuCommand.UserFirst:
+                    break;
+                case CefMenuCommand.UserLast:
+                    break;
+                default:
+                    break;
+            }
             return false;
         }
 

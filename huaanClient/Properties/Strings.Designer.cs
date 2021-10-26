@@ -214,6 +214,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似 要导出的数据超过10000条 的本地化字符串。
+        /// </summary>
+        internal static string DatasetIsTooBig {
+            get {
+                return ResourceManager.GetString("DatasetIsTooBig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 请假 的本地化字符串。
         /// </summary>
         internal static string DayOff {
@@ -430,7 +439,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 复制图片 的本地化字符串。
+        ///   查找类似 复制 的本地化字符串。
         /// </summary>
         internal static string MenuItemCopyImage {
             get {
@@ -471,6 +480,15 @@ namespace huaanClient.Properties {
         internal static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 要导出的数据为空 的本地化字符串。
+        /// </summary>
+        internal static string NoDataFound {
+            get {
+                return ResourceManager.GetString("NoDataFound", resourceCulture);
             }
         }
         
@@ -534,6 +552,15 @@ namespace huaanClient.Properties {
         internal static string SaveSuccess {
             get {
                 return ResourceManager.GetString("SaveSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示在资源管理器中 的本地化字符串。
+        /// </summary>
+        internal static string ShowInExplorer {
+            get {
+                return ResourceManager.GetString("ShowInExplorer", resourceCulture);
             }
         }
         

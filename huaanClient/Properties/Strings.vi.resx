@@ -303,4 +303,13 @@
 	<data name="MenuItemCopyImage" xml:space="preserve">
 		<value>Sao chép</value>
 	</data>
+	<data name="ShowInExplorer" xml:space="preserve">
+		<value>Hiển thị trong Explorer</value>
+	</data>
+	<data name="DatasetIsTooBig" xml:space="preserve">
+		<value>Tập dữ liệu không được vượt quá 10000 mục</value>
+	</data>
+	<data name="NoDataFound" xml:space="preserve">
+		<value>Không tìm thấy dữ liệu</value>
+	</data>
 </root>
