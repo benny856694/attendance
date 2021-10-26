@@ -303,4 +303,13 @@
 	<data name="MenuItemCopyImage" xml:space="preserve">
 		<value>Copy</value>
 	</data>
+	<data name="ShowInExplorer" xml:space="preserve">
+		<value>Show in Explorer</value>
+	</data>
+	<data name="DatasetIsTooBig" xml:space="preserve">
+		<value>The data set should not exceed 10000 items</value>
+	</data>
+	<data name="NoDataFound" xml:space="preserve">
+		<value>No data found</value>
+	</data>
 </root>

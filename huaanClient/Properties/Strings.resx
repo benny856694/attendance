@@ -318,4 +318,13 @@
 	<data name="MenuItemCopyImage" xml:space="preserve">
     <value>复制</value>
   </data>
+	<data name="ShowInExplorer" xml:space="preserve">
+    <value>显示在资源管理器中</value>
+  </data>
+	<data name="DatasetIsTooBig" xml:space="preserve">
+    <value>要导出的数据超过10000条</value>
+  </data>
+	<data name="NoDataFound" xml:space="preserve">
+    <value>要导出的数据为空</value>
+  </data>
 </root>

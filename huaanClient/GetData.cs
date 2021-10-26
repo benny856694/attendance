@@ -76,12 +76,12 @@ namespace huaanClient
                     if (re == 1)
                     {
                         obj["result"] = 2;
-                        obj["data"] = "保存成功";
+                        obj["data"] = Strings.SaveSuccess;
                     }
                     else
                     {
                         obj["result"] = 1;
-                        obj["data"] = "保存失败";
+                        obj["data"] = Strings.SaveFailed;
                     }
 
                 }
@@ -111,12 +111,12 @@ namespace huaanClient
                     if (re == 1)
                     {
                         obj["result"] = 2;
-                        obj["data"] = "保存成功";
+                        obj["data"] = Strings.SaveSuccess;
                     }
                     else
                     {
                         obj["result"] = 1;
-                        obj["data"] = "保存失败";
+                        obj["data"] = Strings.SaveFailed;
                     }
 
                 }
@@ -1063,12 +1063,12 @@ namespace huaanClient
                 if (re == 1)
                 {
                     obj["result"] = 2;
-                    obj["data"] = "保存成功";
+                    obj["data"] = Strings.SaveSuccess;
                 }
                 else
                 {
                     obj["result"] = 1;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
             }
             return obj.ToString();
@@ -1108,12 +1108,12 @@ namespace huaanClient
                 if (re == 1)
                 {
                     obj["result"] = 2;
-                    obj["data"] = "保存成功";
+                    obj["data"] = Strings.SaveSuccess;
                 }
                 else
                 {
                     obj["result"] = 1;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
             }
             return obj.ToString();
@@ -1361,7 +1361,7 @@ namespace huaanClient
                         }
                         else if (code_int == 35 || code_int == 36 || code_int == 37 || code_int == 38 || code_int == 39 || code_int == 40 || code_int == 41)
                         {
-                            obj["data"] = "照片不合格";
+                            obj["data"] = Strings.StaffImageInValid;
                         }
                     }
                 }
@@ -2038,15 +2038,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(staff_no))
             {
                 obj["result"] = 0;
-                obj["data"] = "员工编号不能为空";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Employee number cannot be empty";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = " ユーザー番号は空にしてはいけません";
-                }
+                obj["data"] = Strings.StaffCodeIsEmpty;
                 return obj.ToString();
             }
             else
@@ -2060,15 +2052,7 @@ namespace huaanClient
                     if (re[2][0] != 0)
                     {
                         obj["result"] = 1;
-                        obj["data"] = "照片不合符要求";
-                        if (ApplicationData.LanguageSign.Contains("English"))
-                        {
-                            obj["data"] = "The photo does not meet the requirements";
-                        }
-                        else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        {
-                            obj["data"] = " 写真は要求に合いません";
-                        }
+                        obj["data"] = Strings.StaffImageInValid;
 
                         return obj.ToString();
                     }
@@ -2082,15 +2066,7 @@ namespace huaanClient
                     if (int.Parse(reint) > 0)
                     {
                         obj["result"] = 1;
-                        obj["data"] = "员工编号已经存在";
-                        if (ApplicationData.LanguageSign.Contains("English"))
-                        {
-                            obj["data"] = "Employee number already exists";
-                        }
-                        else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        {
-                            obj["data"] = " ユーザー番号は既に存在します";
-                        }
+                        obj["data"] = Strings.StaffCodeExists;
 
                         return obj.ToString();
                     }
@@ -2171,15 +2147,7 @@ namespace huaanClient
                         if (re == 1)
                         {
                             obj["result"] = 2;
-                            obj["data"] = "保存成功";
-                            if (ApplicationData.LanguageSign.Contains("English"))
-                            {
-                                obj["data"] = "Saved successfully";
-                            }
-                            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                            {
-                                obj["data"] = "保存に成功しました";
-                            }
+                            obj["data"] = Strings.SaveSuccess;
 
                             //自动下发
                             string sql = "SELECT id FROM staff WHERE Employee_code = '" + staff_no + "'";
@@ -2199,15 +2167,7 @@ namespace huaanClient
                         else
                         {
                             obj["result"] = 1;
-                            obj["data"] = "保存失败";
-                            if (ApplicationData.LanguageSign.Contains("English"))
-                            {
-                                obj["data"] = "Save failed";
-                            }
-                            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                            {
-                                obj["data"] = "保存に失敗しました";
-                            }
+                            obj["data"] = Strings.SaveFailed;
                         }
 
                     }
@@ -2215,7 +2175,7 @@ namespace huaanClient
                 else
                 {
                     obj["result"] = 1;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
 
             }
@@ -2234,15 +2194,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(staff_no))
             {
                 obj["result"] = 0;
-                obj["data"] = "员工编号不能为空";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Employee number cannot be empty";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = " ユーザー番号は空にしてはいけません";
-                }
+                obj["data"] = Strings.StaffCodeIsEmpty;
                 return obj.ToString();
             }
             else
@@ -2256,15 +2208,7 @@ namespace huaanClient
                     if (int.Parse(reint) > 0)
                     {
                         obj["result"] = 1;
-                        obj["data"] = "员工编号已经存在";
-                        if (ApplicationData.LanguageSign.Contains("English"))
-                        {
-                            obj["data"] = "Employee number already exists";
-                        }
-                        else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        {
-                            obj["data"] = " ユーザー番号は既に存在します";
-                        }
+                        obj["data"] = Strings.StaffCodeExists;
 
                         return obj.ToString();
                     }
@@ -2344,15 +2288,7 @@ namespace huaanClient
                         if (re == 1)
                         {
                             obj["result"] = 2;
-                            obj["data"] = "保存成功";
-                            if (ApplicationData.LanguageSign.Contains("English"))
-                            {
-                                obj["data"] = "Saved successfully";
-                            }
-                            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                            {
-                                obj["data"] = "保存に成功しました";
-                            }
+                            obj["data"] = Strings.SaveSuccess;
 
                             //自动下发
                             string sql = "SELECT id FROM staff WHERE Employee_code = '" + staff_no + "'";
@@ -2372,15 +2308,7 @@ namespace huaanClient
                         else
                         {
                             obj["result"] = 1;
-                            obj["data"] = "保存失败";
-                            if (ApplicationData.LanguageSign.Contains("English"))
-                            {
-                                obj["data"] = "Save failed";
-                            }
-                            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                            {
-                                obj["data"] = "保存に失敗しました";
-                            }
+                            obj["data"] = Strings.SaveFailed;
                         }
 
                     }
@@ -2388,7 +2316,7 @@ namespace huaanClient
                 else
                 {
                     obj["result"] = 1;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
 
             }
@@ -2408,15 +2336,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(staff_no))
             {
                 obj["result"] = 0;
-                obj["data"] = "员工编号不能为空";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Employee number cannot be empty";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = " ユーザー番号は空にしてはいけません";
-                }
+                obj["data"] = Strings.StaffCodeIsEmpty;
                 return obj.ToString();
             }
             else
@@ -2430,15 +2350,7 @@ namespace huaanClient
                     if (int.Parse(reint) > 0)
                     {
                         obj["result"] = 1;
-                        obj["data"] = "员工编号已经存在";
-                        if (ApplicationData.LanguageSign.Contains("English"))
-                        {
-                            obj["data"] = "Employee number already exists";
-                        }
-                        else if (ApplicationData.LanguageSign.Contains("日本語"))
-                        {
-                            obj["data"] = " ユーザー番号は既に存在します";
-                        }
+                        obj["data"] = Strings.StaffCodeExists;
 
                         return obj.ToString();
                     }
@@ -2495,28 +2407,12 @@ namespace huaanClient
                         if (re == 1)
                         {
                             obj["result"] = 2;
-                            obj["data"] = "保存成功";
-                            if (ApplicationData.LanguageSign.Contains("English"))
-                            {
-                                obj["data"] = "Saved successfully";
-                            }
-                            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                            {
-                                obj["data"] = "保存に成功しました";
-                            }
+                            obj["data"] = Strings.SaveSuccess;
                         }
                         else
                         {
                             obj["result"] = 1;
-                            obj["data"] = "保存失败";
-                            if (ApplicationData.LanguageSign.Contains("English"))
-                            {
-                                obj["data"] = "Save failed";
-                            }
-                            else if (ApplicationData.LanguageSign.Contains("日本語"))
-                            {
-                                obj["data"] = "保存に失敗しました";
-                            }
+                            obj["data"] = Strings.SaveFailed;
                         }
 
                     }
@@ -2524,7 +2420,7 @@ namespace huaanClient
                 else
                 {
                     obj["result"] = 1;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
 
             }
@@ -2616,15 +2512,7 @@ namespace huaanClient
                 if (re[2][0] != 0)
                 {
                     obj["result"] = 1;
-                    obj["data"] = "照片不合符要求";
-                    if (ApplicationData.LanguageSign.Contains("English"))
-                    {
-                        obj["data"] = "The photo does not meet the requirements";
-                    }
-                    else if (ApplicationData.LanguageSign.Contains("日本語"))
-                    {
-                        obj["data"] = " 写真は要求に合いません";
-                    }
+                    obj["data"] = Strings.StaffImageInValid;
 
                     return obj.ToString();
                 }
@@ -2635,28 +2523,12 @@ namespace huaanClient
             if (rejosn == 1)
             {
                 obj["result"] = 2;
-                obj["data"] = "保存成功";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Saved successfully";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = "保存に成功しました";
-                }
+                obj["data"] = Strings.SaveSuccess;
             }
             else
             {
                 obj["result"] = 1;
-                obj["data"] = "保存失败";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Save failed";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = "保存に失敗しました";
-                }
+                obj["data"] = Strings.SaveFailed;
             }
 
             return obj.ToString();
@@ -2689,15 +2561,7 @@ namespace huaanClient
                 if (re[2][0] != 0)
                 {
                     obj["result"] = 1;
-                    obj["data"] = "照片不合符要求";
-                    if (ApplicationData.LanguageSign.Contains("English"))
-                    {
-                        obj["data"] = "The photo does not meet the requirements";
-                    }
-                    else if (ApplicationData.LanguageSign.Contains("日本語"))
-                    {
-                        obj["data"] = " 写真は要求に合いません";
-                    }
+                    obj["data"] = Strings.StaffImageInValid;
 
                     return obj.ToString();
                 }
@@ -2709,12 +2573,12 @@ namespace huaanClient
             if (reint == 1)
             {
                 obj["result"] = 2;
-                obj["data"] = "保存成功";
+                obj["data"] = Strings.SaveSuccess;
             }
             else
             {
                 obj["result"] = 1;
-                obj["data"] = "保存失败";
+                obj["data"] = Strings.SaveFailed;
             }
 
             return obj.ToString();
@@ -2727,15 +2591,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(imge))
             {
                 obj["result"] = 1;
-                obj["data"] = "保存失败";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Save failed";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = "保存に失敗しました";
-                }
+                obj["data"] = Strings.SaveFailed;
 
                 return obj.ToString();
             }
@@ -2757,15 +2613,7 @@ namespace huaanClient
             if (re == 1)
             {
                 obj["result"] = 2;
-                obj["data"] = "保存成功";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Saved successfully";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = "保存に成功しました";
-                }
+                obj["data"] = Strings.SaveSuccess;
 
                 if (!string.IsNullOrEmpty(lineRQcode))
                 {
@@ -2775,15 +2623,7 @@ namespace huaanClient
             else
             {
                 obj["result"] = 1;
-                obj["data"] = "保存失败";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Save failed";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = "保存に失敗しました";
-                }
+                obj["data"] = Strings.SaveFailed;
             }
             return obj.ToString();
         }
@@ -2796,15 +2636,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(imge))
             {
                 obj["result"] = 1;
-                obj["data"] = "保存失败";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Save failed";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = "保存に失敗しました";
-                }
+                obj["data"] = Strings.SaveFailed;
 
                 return obj.ToString();
             }
@@ -2826,15 +2658,7 @@ namespace huaanClient
             if (re == 1)
             {
                 obj["result"] = 2;
-                obj["data"] = "保存成功";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Saved successfully";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = "保存に成功しました";
-                }
+                obj["data"] = Strings.SaveSuccess;
 
                 if (!string.IsNullOrEmpty(lineRQcode))
                 {
@@ -2844,15 +2668,7 @@ namespace huaanClient
             else
             {
                 obj["result"] = 1;
-                obj["data"] = "保存失败";
-                if (ApplicationData.LanguageSign.Contains("English"))
-                {
-                    obj["data"] = "Save failed";
-                }
-                else if (ApplicationData.LanguageSign.Contains("日本語"))
-                {
-                    obj["data"] = "保存に失敗しました";
-                }
+                obj["data"] = Strings.SaveFailed;
             }
             return obj.ToString();
         }
@@ -2994,7 +2810,7 @@ namespace huaanClient
                 if (re == 1)
                 {
                     obj["result"] = 2;
-                    obj["data"] = "保存成功";
+                    obj["data"] = Strings.SaveSuccess;
 
                     //更新本地的message和userid参数
                     ApplicationData.lineMessage = Message.Trim();
@@ -3019,7 +2835,7 @@ namespace huaanClient
                 else
                 {
                     obj["result"] = 1;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
 
             }
@@ -3079,7 +2895,7 @@ namespace huaanClient
                 if (re == 1)
                 {
                     obj["result"] = 2;
-                    obj["data"] = "保存成功";
+                    obj["data"] = Strings.SaveSuccess;
 
                     //更新本地的message和userid参数
                     ApplicationData.pdftitle = pdftitle.Trim();
@@ -3099,7 +2915,7 @@ namespace huaanClient
                 else
                 {
                     obj["result"] = 1;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
 
             }
@@ -3231,7 +3047,7 @@ namespace huaanClient
                 if (re == 1)
                 {
                     obj["result"] = 2;
-                    obj["data"] = "保存成功";
+                    obj["data"] = Strings.SaveSuccess;
 
                     //将绑定的员工的AttendanceGroup_id添加进去
                     string commandTextdepartmentid = "SELECT id FROM AttendanceGroup  WHERE publishtime='" + publish_time + "'";
@@ -3263,7 +3079,7 @@ namespace huaanClient
                 else
                 {
                     obj["result"] = 1;
-                    obj["data"] = "保存失败";
+                    obj["data"] = Strings.SaveFailed;
                 }
             }
             return obj.ToString();
@@ -3292,12 +3108,12 @@ namespace huaanClient
                     if (re == 1)
                     {
                         obj["result"] = 2;
-                        obj["data"] = "成功";
+                        obj["data"] = Strings.SaveSuccess;
                     }
                     else
                     {
                         obj["result"] = 1;
-                        obj["data"] = "失败";
+                        obj["data"] = Strings.SaveFailed;
                     }
                 }
 
