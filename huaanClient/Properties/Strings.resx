@@ -315,4 +315,7 @@
 	<data name="DefaultShiftGroupName" xml:space="preserve">
     <value>默认考勤组</value>
   </data>
+	<data name="MenuItemCopyImage" xml:space="preserve">
+    <value>复制</value>
+  </data>
 </root>
