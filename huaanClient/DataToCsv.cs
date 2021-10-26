@@ -84,7 +84,7 @@ namespace huaanClient
             }
 
             SaveFileDialog saveDlg = new SaveFileDialog();
-            saveDlg.Filter = "Excel文件(*.xlsx)|*.xlsx";
+            saveDlg.Filter = "Excel (*.xlsx)|*.xlsx";
             saveDlg.FileName = fileName + "-" + date;
 
             if (saveDlg.ShowDialog() == DialogResult.OK)

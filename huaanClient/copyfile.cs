@@ -106,8 +106,7 @@ namespace huaanClient
         {
             string reimgeurl = string.Empty;
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.Title = "选择图片";
-            openFile.Filter = "jpg文件(*.jpg)|*.jpg|png文件(*.png)|*.png|jpeg文件(*.png)|*.jpeg";
+            openFile.Filter = "jpg (*.jpg)|*.jpg|png (*.png)|*.png|jpeg (*.png)|*.jpeg";
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 string PicFileName = openFile.FileName;
@@ -149,8 +148,7 @@ namespace huaanClient
         {
             string reimgeurl = string.Empty;
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.Title = "选择图片";
-            openFile.Filter = "jpg文件(*.jpg)|*.jpg|png文件(*.png)|*.png|jpeg文件(*.jpeg)|*.jpeg";
+            openFile.Filter = "jpg (*.jpg)|*.jpg|png (*.png)|*.png|jpeg (*.jpeg)|*.jpeg";
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 string PicFileName = openFile.FileName;
