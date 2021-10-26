@@ -430,7 +430,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 复制图片 的本地化字符串。
+        ///   查找类似 复制 的本地化字符串。
         /// </summary>
         internal static string MenuItemCopyImage {
             get {
@@ -534,6 +534,15 @@ namespace huaanClient.Properties {
         internal static string SaveSuccess {
             get {
                 return ResourceManager.GetString("SaveSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示在资源管理器中 的本地化字符串。
+        /// </summary>
+        internal static string ShowInExplorer {
+            get {
+                return ResourceManager.GetString("ShowInExplorer", resourceCulture);
             }
         }
         
