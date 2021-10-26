@@ -477,11 +477,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 string reint = jo[0]["count"].ToString();
                 if (int.Parse(reint) > 10000)
                 {
-                    MessageBox.Show("选择条件内超过不能超过10000行数据！");
+                    MessageBox.Show(Strings.DatasetIsTooBig);
                     return;
                 }else if (int.Parse(reint)==0)
                 {
-                    MessageBox.Show("未查询到数据！");
+                    MessageBox.Show(Strings.NoDataFound);
                     return;
                 }
                 else
