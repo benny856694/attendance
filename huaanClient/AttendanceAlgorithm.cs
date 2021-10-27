@@ -66,7 +66,7 @@ namespace huaanClient
                             }
                             if (!string.IsNullOrEmpty(Capture_DatajArray[i]["temperature"].ToString()))
                             {
-                                da.temperature = float.Parse(Capture_DatajArray[i]["temperature"].ToString().Trim());
+                                da.temperature = float.Parse(Capture_DatajArray[i]["temperature"].ToString().Trim(), CultureInfo.InvariantCulture);
                             }
                             da.personName = Capture_DatajArray[i]["personName"].ToString().Trim();
                             da.Employee_code = Capture_DatajArray[i]["Employee_code"].ToString().Trim();
