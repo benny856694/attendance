@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Security;
@@ -233,9 +234,9 @@ namespace huaanClient
             //正常上学打卡
             if (!string.IsNullOrEmpty(reData.Punchinformation) && string.IsNullOrEmpty(reData.late) && string.IsNullOrEmpty(reData.Punchinformation1))
             {
-                if (float.Parse(reData.temperature) > 0)
+                if (float.Parse(reData.temperature, CultureInfo.InvariantCulture) > 0)
                 {
-                    if (float.Parse(reData.temperature) > float.Parse(ApplicationData.temperature))
+                    if (float.Parse(reData.temperature, CultureInfo.InvariantCulture) > float.Parse(ApplicationData.temperature, CultureInfo.InvariantCulture))
                         messge = ApplicationData.lineMessage3;
                     else
                         messge = ApplicationData.lineMessage2;
@@ -282,9 +283,9 @@ namespace huaanClient
             //正常放学打卡
             if (!string.IsNullOrEmpty(reData.Punchinformation1) && !reData.ISLeaveearly)
             {
-                if (float.Parse(reData.temperature1) > 0)
+                if (float.Parse(reData.temperature1, CultureInfo.InvariantCulture) > 0)
                 {
-                    if (float.Parse(reData.temperature1) > float.Parse(ApplicationData.temperature))
+                    if (float.Parse(reData.temperature1, CultureInfo.InvariantCulture) > float.Parse(ApplicationData.temperature, CultureInfo.InvariantCulture))
                         messge = ApplicationData.lineMessage12;
                     else
                         messge = ApplicationData.lineMessage11;
@@ -332,9 +333,9 @@ namespace huaanClient
             //迟到
             else if (!string.IsNullOrEmpty(reData.late) && string.IsNullOrEmpty(reData.Punchinformation1))
             {
-                if (float.Parse(reData.temperature) > 0)
+                if (float.Parse(reData.temperature, CultureInfo.InvariantCulture) > 0)
                 {
-                    if (float.Parse(reData.temperature) > float.Parse(ApplicationData.temperature))
+                    if (float.Parse(reData.temperature, CultureInfo.InvariantCulture) > float.Parse(ApplicationData.temperature, CultureInfo.InvariantCulture))
                         messge = ApplicationData.lineMessage6;
                     else
                         messge = ApplicationData.lineMessage5;
@@ -383,9 +384,9 @@ namespace huaanClient
             //早退
             else if (reData.ISLeaveearly)
             {
-                if (float.Parse(reData.temperature1) > 0)
+                if (float.Parse(reData.temperature1, CultureInfo.InvariantCulture) > 0)
                 {
-                    if (float.Parse(reData.temperature1) > float.Parse(ApplicationData.temperature))
+                    if (float.Parse(reData.temperature1, CultureInfo.InvariantCulture) > float.Parse(ApplicationData.temperature, CultureInfo.InvariantCulture))
                         messge = ApplicationData.lineMessage9;
                     else
                         messge = ApplicationData.lineMessage8;
@@ -562,7 +563,7 @@ namespace huaanClient
             }
             if (!string.IsNullOrEmpty(temperatureforDta))
             {
-                if (float.Parse(temperatureforDta) <= float.Parse(temperature.Trim()))
+                if (float.Parse(temperatureforDta, CultureInfo.InvariantCulture) <= float.Parse(temperature.Trim(), CultureInfo.InvariantCulture))
                 {
                     return re;
                 }
@@ -570,7 +571,7 @@ namespace huaanClient
             }
             else if (!string.IsNullOrEmpty(temperatureforDta2))
             {
-                if (float.Parse(temperatureforDta2) <= float.Parse(temperature.Trim()))
+                if (float.Parse(temperatureforDta2, CultureInfo.InvariantCulture) <= float.Parse(temperature.Trim(), CultureInfo.InvariantCulture))
                 {
                     return re;
                 }
