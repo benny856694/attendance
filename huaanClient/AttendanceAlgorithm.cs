@@ -505,7 +505,7 @@ namespace huaanClient
                                                     FastDateTime = listlastend[min].captureTime;
                                                 }
                                             }
-                                            reDataLast.temperature1 = Math.Round(listlastend[0].temperature, 2).ToString();
+                                            reDataLast.temperature1 = Math.Round(listlastend[0].temperature, 2).ToString(CultureInfo.InvariantCulture);
                                             reDataLast.closeup = listlastend[0].closeup;
                                             reDataLast.Punchinformation1 = FastDateTime.ToString("HH:mm");
                                             string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
@@ -574,7 +574,7 @@ namespace huaanClient
                                                 //}
                                             }
                                             reData.IsAcrossNight = true;
-                                            reData.temperature = Math.Round(liststa[0].temperature, 2).ToString();
+                                            reData.temperature = Math.Round(liststa[0].temperature, 2).ToString(CultureInfo.InvariantCulture);
                                             reData.closeup = liststa[0].closeup;
                                             reData.Punchinformation = FastDateTime.ToString("HH:mm");
                                             //计算是否迟到
@@ -651,7 +651,7 @@ namespace huaanClient
                                             //}
                                         }
                                         isLackcards++;
-                                        reData.temperature = Math.Round(liststa[0].temperature, 2).ToString();
+                                        reData.temperature = Math.Round(liststa[0].temperature, 2).ToString(CultureInfo.InvariantCulture);
                                         reData.closeup = liststa[0].closeup;
                                         reData.Punchinformation = FastDateTime.ToString("HH:mm");
                                         //计算是否迟到
@@ -678,7 +678,7 @@ namespace huaanClient
                                         }
                                         //计算是否早退
                                         isLackcards++;
-                                        reData.temperature1 = Math.Round(listend[0].temperature, 2).ToString();
+                                        reData.temperature1 = Math.Round(listend[0].temperature, 2).ToString(CultureInfo.InvariantCulture);
                                         reData.closeup = listend[0].closeup;
                                         reData.Punchinformation1 = FastDateTime.ToString("HH:mm");
                                         string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
@@ -793,7 +793,7 @@ namespace huaanClient
                                             FastDateTime = liststa[min].captureTime;
                                         }
                                     }
-                                    reData.temperature = Math.Round(liststa[0].temperature, 2).ToString();
+                                    reData.temperature = Math.Round(liststa[0].temperature, 2).ToString(CultureInfo.InvariantCulture);
                                     reData.closeup = liststa[0].closeup;
                                     reData.Punchinformation = FastDateTime.ToString("HH:mm");
                                     //计算是否迟到
@@ -819,7 +819,7 @@ namespace huaanClient
                                         //}
                                     }
                                     //计算是否早退
-                                    reData.temperature1 = Math.Round(listend[0].temperature, 2).ToString();
+                                    reData.temperature1 = Math.Round(listend[0].temperature, 2).ToString(CultureInfo.InvariantCulture);
                                     reData.closeup = listend[0].closeup;
                                     reData.Punchinformation1 = FastDateTime.ToString("HH:mm");
                                     string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
@@ -847,7 +847,7 @@ namespace huaanClient
                                     }
                                     if (string.IsNullOrEmpty(reData.temperature))
                                     {
-                                        reData.temperature = Math.Round(liststa2[0].temperature, 2).ToString();
+                                        reData.temperature = Math.Round(liststa2[0].temperature, 2).ToString(CultureInfo.InvariantCulture);
                                     }
                                     reData.closeup = liststa2[0].closeup;
                                     reData.Punchinformation2 = FastDateTime.ToString("HH:mm");
@@ -880,7 +880,7 @@ namespace huaanClient
                                         //    FastDateTime = FastDateTime;
                                         //}
                                     }
-                                    reData.temperature1 = Math.Round(listend2[0].temperature, 2).ToString();
+                                    reData.temperature1 = Math.Round(listend2[0].temperature, 2).ToString(CultureInfo.InvariantCulture);
                                     reData.closeup = listend2[0].closeup;
                                     reData.Punchinformation22 = FastDateTime.ToString("HH:mm");
                                     string FastDateTimestr = FastDateTime.ToString("HH:mm").Replace(":", "");
