@@ -4587,32 +4587,211 @@ namespace huaanClient
             string result = "";
             try
             {
-                int cou = 0;
-                NetworkInterface[] NetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
-                foreach (NetworkInterface NetworkIntf in NetworkInterfaces)
-                {
-                    IPInterfaceProperties IPInterfaceProperties = NetworkIntf.GetIPProperties();
-                    UnicastIPAddressInformationCollection UnicastIPAddressInformationCollection = IPInterfaceProperties.UnicastAddresses;
-                    foreach (UnicastIPAddressInformation UnicastIPAddressInformation in UnicastIPAddressInformationCollection)
-                    {
-                        if (UnicastIPAddressInformation.Address.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            result = result + UnicastIPAddressInformation.Address.ToString() + ";";
-                            cou++;
-                            if (cou == 2)
-                            {
-                                if (!string.IsNullOrEmpty(result))
-                                    result = result.Remove(result.Length - 1, 1);
-                                return result;
-                            }
-                        }
-                    }
-                }
+                var ip = GetLocalIP();
+                Console.WriteLine(ip);
+                //var dns = GetPrimaryDNS();
+                //Console.WriteLine(dns);
+                var gateway = GetGateway();
+                Console.WriteLine(gateway);
+                result = gateway + ";" + ip+";";
+
+                //获得到的本机IP不可靠，取消该获取方式
+                //int cou = 0;
+                //NetworkInterface[] NetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+                //foreach (NetworkInterface NetworkIntf in NetworkInterfaces)
+                //{
+                //    IPInterfaceProperties IPInterfaceProperties = NetworkIntf.GetIPProperties();
+                //    UnicastIPAddressInformationCollection UnicastIPAddressInformationCollection = IPInterfaceProperties.UnicastAddresses;
+                //    foreach (UnicastIPAddressInformation UnicastIPAddressInformation in UnicastIPAddressInformationCollection)
+                //    {
+                //        if (UnicastIPAddressInformation.Address.AddressFamily == AddressFamily.InterNetwork)
+                //        {
+                //            result = result + UnicastIPAddressInformation.Address.ToString() + ";";
+                //            cou++;
+                //            if (cou == 2)
+                //            {
+                //                if (!string.IsNullOrEmpty(result))
+                //                    result = result.Remove(result.Length - 1, 1);
+                //                return result;
+                //            }
+                //        }
+                //    }
+                //}
             }
             catch { }
             if (!string.IsNullOrEmpty(result))
                 result = result.Remove(result.Length - 1, 1);
             return result;
+        }
+
+        /// <summary> 
+        /// 获取当前使用的IP 
+        /// </summary> 
+        /// <returns></returns> 
+        public static string GetLocalIP()
+        {
+            string result = RunApp("route", "print", true);
+            Match m = Regex.Match(result, @"0.0.0.0\s+0.0.0.0\s+(\d+.\d+.\d+.\d+)\s+(\d+.\d+.\d+.\d+)");
+            if (m.Success)
+            {
+                return m.Groups[2].Value;
+            }
+            else
+            {
+                try
+                {
+                    System.Net.Sockets.TcpClient c = new System.Net.Sockets.TcpClient();
+                    c.Connect("www.baidu.com", 80);
+                    string ip = ((System.Net.IPEndPoint)c.Client.LocalEndPoint).Address.ToString();
+                    c.Close();
+                    return ip;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary> 
+        /// 运行一个控制台程序并返回其输出参数。 
+        /// </summary> 
+        /// <param name="filename">程序名</param> 
+        /// <param name="arguments">输入参数</param> 
+        /// <returns></returns> 
+        public static string RunApp(string filename, string arguments, bool recordLog)
+        {
+            try
+            {
+                if (recordLog)
+                {
+                    Trace.WriteLine(filename + " " + arguments);
+                }
+                Process proc = new Process();
+                proc.StartInfo.FileName = filename;
+                proc.StartInfo.CreateNoWindow = true;
+                proc.StartInfo.Arguments = arguments;
+                proc.StartInfo.RedirectStandardOutput = true;
+                proc.StartInfo.UseShellExecute = false;
+                proc.Start();
+                using (System.IO.StreamReader sr = new System.IO.StreamReader(proc.StandardOutput.BaseStream, Encoding.Default))
+                {
+                    //string txt = sr.ReadToEnd(); 
+                    //sr.Close(); 
+                    //if (recordLog) 
+                    //{ 
+                    // Trace.WriteLine(txt); 
+                    //} 
+                    //if (!proc.HasExited) 
+                    //{ 
+                    // proc.Kill(); 
+                    //} 
+                    //上面标记的是原文，下面是我自己调试错误后自行修改的 
+                    Thread.Sleep(100);  //貌似调用系统的nslookup还未返回数据或者数据未编码完成，程序就已经跳过直接执行 
+                                        //txt = sr.ReadToEnd()了，导致返回的数据为空，故睡眠令硬件反应 
+                    if (!proc.HasExited)  //在无参数调用nslookup后，可以继续输入命令继续操作，如果进程未停止就直接执行 
+                    {    //txt = sr.ReadToEnd()程序就在等待输入，而且又无法输入，直接掐住无法继续运行 
+                        proc.Kill();
+                    }
+                    string txt = sr.ReadToEnd();
+                    sr.Close();
+                    if (recordLog)
+                        Trace.WriteLine(txt);
+                    return txt;
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                return ex.Message;
+            }
+        }
+
+        /// <summary>
+        /// 尝试Ping指定IP是否能够Ping通
+        /// </summary>
+        /// <param name="strIP">指定IP</param>
+        /// <returns>true 是 false 否</returns>
+        public static bool IsPingIP(string strIP)
+        {
+            try
+            {
+                //创建Ping对象
+                Ping ping = new Ping();
+                //接受Ping返回值
+                PingReply reply = ping.Send(strIP, 1000);
+                //Ping通
+                return true;
+            }
+            catch
+            {
+                //Ping失败
+                return false;
+            }
+        }
+
+        //得到网关地址
+        public static string GetGateway()
+        {
+            //网关地址
+            string strGateway = "";
+            //获取所有网卡
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            //遍历数组
+            foreach (var netWork in nics)
+            {
+                //单个网卡的IP对象
+                IPInterfaceProperties ip = netWork.GetIPProperties();
+                //获取该IP对象的网关
+                GatewayIPAddressInformationCollection gateways = ip.GatewayAddresses;
+                foreach (var gateWay in gateways)
+                {
+                    //如果能够Ping通网关
+                    if (IsPingIP(gateWay.Address.ToString()))
+                    {
+                        //WriteLog("Gateway:" + gateWay.Address.ToString());
+                        //得到网关地址
+                        if (gateWay.Address.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            if (!gateWay.Address.ToString().Contains("10"))
+                            {
+                                strGateway = gateWay.Address.ToString();
+                                //WriteLog("realGateway:" + strGateway);
+                                //跳出循环
+                                break;
+                            }
+                        }
+
+                    }
+                }
+
+                //如果已经得到网关地址
+                if (strGateway.Length > 0)
+                {
+                    //跳出循环
+                    break;
+                }
+            }
+            //返回网关地址
+            return strGateway;
+        }
+
+        /// <summary> 
+        /// 获取本机主DNS 
+        /// </summary> 
+        /// <returns></returns> 
+        public static string GetPrimaryDNS()
+        {
+            string result = RunApp("nslookup", "", true);
+            Match m = Regex.Match(result, @"\d+\.\d+\.\d+\.\d+");
+            if (m.Success)
+            {
+                return m.Value;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static bool getIsNtpSync()

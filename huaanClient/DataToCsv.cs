@@ -178,7 +178,7 @@ namespace huaanClient
                                     {
                                         //int sss = int.Parse(table.Rows[row][column].ToString().Trim());
                                         //float ssss = float.Parse(table.Rows[row][table.Columns.Count - 1].ToString().Trim()) / 2;
-                                        LeaveCountforint = (float.Parse(table.Rows[row][column].ToString().Trim()) + float.Parse(table.Rows[row][table.Columns.Count - 1].ToString().Trim()) / 2).ToString();
+                                        LeaveCountforint = (float.Parse(table.Rows[row][column].ToString().Trim(), CultureInfo.InvariantCulture) + float.Parse(table.Rows[row][table.Columns.Count - 1].ToString().Trim(), CultureInfo.InvariantCulture) / 2).ToString();
                                     }
                                     catch { }
                                     sheetRow.CreateCell(col++).SetCellValue(LeaveCountforint);
