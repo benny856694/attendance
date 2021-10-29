@@ -1445,9 +1445,16 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public void AppIp(string ip)
         {
+            
             form.Invoke(new Action(() =>
             {
-                VideoHelper.VideoHelper.getinfoToMyDev(ip);
+                MyDevice dev = null;
+                using (var c = SQLiteHelper.GetConnection())
+                {
+                    dev = c.QueryFirst<MyDevice>($"SELECT * FROM MyDevice WHERE ipAddress = '{ip}'");
+                }
+
+                VideoHelper.VideoHelper.getinfoToMyDev(ip, dev.username, dev.password);
             }));
 
         }

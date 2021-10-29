@@ -12,33 +12,33 @@ namespace VideoHelper
             DevicelistForVideo = new List<TLVClientHolder>();
         }
 
-        public static void getinfoToMyDev(string ip)
+        public static void getinfoToMyDev(string ip, string username, string password)
         {
             if (DevicelistForVideo.Count==0)
             {
-                CameraStreamPort cam=new CameraStreamPort(ip);
-                cam.Username = "123";
-                cam.Password = "123";
-                cam.Connect();
-                TLVClientHolder holder = new TLVClientHolder(ip, cam, "", false);
-                DevicelistForVideo.Add(holder);   
-                holder.Tag= MultiPlayerPanel.ConnectCamera(holder);
+                CreateCamera(ip, username, password);
             }
             else
             {
                 var deviceForVideo = DevicelistForVideo.Find(c =>c.CameraStreamPort.IP.Trim()==ip.Trim());
                 if (deviceForVideo == null)
                 {
-                    CameraStreamPort cam = new CameraStreamPort(ip);
-                    cam.Username = "123";
-                    cam.Password = "123";
-                    cam.Connect();
-
-                    TLVClientHolder holder = new TLVClientHolder(ip, cam, "", false);
-                    DevicelistForVideo.Add(holder);
-                    holder.Tag =MultiPlayerPanel.ConnectCamera(holder);
+                    CreateCamera(ip, username, password);
                 }
             }     
+        }
+
+        private static void CreateCamera(string ip, string username, string password)
+        {
+            
+
+            CameraStreamPort cam = new CameraStreamPort(ip);
+            cam.Username = username ?? "123";
+            cam.Password = password ?? "123";
+            cam.Connect();
+            TLVClientHolder holder = new TLVClientHolder(ip, cam, "", false);
+            DevicelistForVideo.Add(holder);
+            holder.Tag = MultiPlayerPanel.ConnectCamera(holder);
         }
     }
 }
