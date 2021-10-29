@@ -585,7 +585,7 @@ namespace huaanClient
             return obj.ToString();
         }
 
-        public static string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout)
+        public static string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout,string username,string password)
         {
             obj = new JObject();
             obj["result"] = 0;
@@ -597,7 +597,7 @@ namespace huaanClient
             }
             if (!string.IsNullOrEmpty(IP))
             {
-                string commandText = $"UPDATE  MyDevice  SET ipAddress='{IP}', DeviceName='{DeviceName}', IsEnter={inout} WHERE ipAddress='{oldIp}'";
+                string commandText = $"UPDATE  MyDevice  SET ipAddress='{IP}', DeviceName='{DeviceName}', IsEnter={inout},username='{username}',password='{password}' WHERE ipAddress='{oldIp}'";
                 int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
                 if (re == 1)
                 {
