@@ -167,7 +167,7 @@ namespace huaanClient
             {
                 if (LiveStreamFrameEvent == default) return;
                 int format = BitConverter.ToInt32(_v, 0);
-                if(format == 2)
+                if(format == 2)//h264
                 {
                     LiveStreamEventArgs e = new LiveStreamEventArgs();
                     e.Width = BitConverter.ToUInt16(_v, 4);
@@ -175,6 +175,16 @@ namespace huaanClient
                     e.Seq = BitConverter.ToUInt32(_v, 8);
                     e.Data = new byte[_v.Length - 20]; // format used
                     Array.Copy(_v, 20, e.Data, 0, e.Data.Length);
+                    LiveStreamFrameEvent(this, e);
+                }
+                else if(format == 1)//jpg stream
+                {
+                    LiveStreamEventArgs e = new LiveStreamEventArgs();
+                    e.Width = BitConverter.ToUInt16(_v, 4);
+                    e.Height = BitConverter.ToUInt16(_v, 6);
+                    //e.Seq = BitConverter.ToUInt32(_v, 8);
+                    e.Data = new byte[_v.Length - 12]; // format used
+                    Array.Copy(_v, 12, e.Data, 0, e.Data.Length);
                     LiveStreamFrameEvent(this, e);
                 }
             }

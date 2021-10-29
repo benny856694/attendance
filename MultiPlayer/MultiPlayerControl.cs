@@ -4,6 +4,7 @@ using Microsoft.DirectX.Direct3D;
 using MultiPlayer.Properties;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -120,155 +121,177 @@ namespace VideoHelper
 
         private void M_holder_H264Received(byte[] nal)
         {
-            lock (_codecLocker)
+            if(nal[0] == 0xFF && nal[1] == 0xD8) //jpeg stream
             {
-                if (!panel3.ClientRectangle.Equals(lastCBounds))
+                var img = Image.FromStream(new MemoryStream(nal));
+                var rect = CenterImage(img.Size);
+                var g = Graphics.FromHwnd(panelHandle);
+                g.DrawImage(img, rect);
+                g.Dispose();
+                img.Dispose();
+                
+                
+                //File.WriteAllBytes(@"D:\\test.jpg", nal);
+            }
+            else
+            {
+                lock (_codecLocker)
                 {
-                    lastCBounds = panel3.ClientRectangle;
-                    Releases();
-                }
-                if (null == ctx)
-                {
-                    ctx = avcodec_alloc_context3(codec);
+                    if (!panel3.ClientRectangle.Equals(lastCBounds))
+                    {
+                        lastCBounds = panel3.ClientRectangle;
+                        Releases();
+                    }
                     if (null == ctx)
                     {
-                        return;
-                    }
-                    AVDictionary* dic;
-                    av_dict_set_int(&dic, "hWnd", panelHandle.ToInt64(), 0);
-                    fixed (AVBufferRef** LPhw_ctx = &hw_ctx)
-                    {
-                        if (av_hwdevice_ctx_create(LPhw_ctx, AVHWDeviceType.AV_HWDEVICE_TYPE_DXVA2,
-                                                        null, dic, 0) >= 0)
+                        ctx = avcodec_alloc_context3(codec);
+                        if (null == ctx)
                         {
-                            ctx->hw_device_ctx = av_buffer_ref(hw_ctx);
+                            return;
+                        }
+                        AVDictionary* dic;
+                        av_dict_set_int(&dic, "hWnd", panelHandle.ToInt64(), 0);
+                        fixed (AVBufferRef** LPhw_ctx = &hw_ctx)
+                        {
+                            if (av_hwdevice_ctx_create(LPhw_ctx, AVHWDeviceType.AV_HWDEVICE_TYPE_DXVA2,
+                                                            null, dic, 0) >= 0)
+                            {
+                                ctx->hw_device_ctx = av_buffer_ref(hw_ctx);
+                            }
+                        }
+                        av_dict_free(&dic);
+                        if (avcodec_open2(ctx, codec, null) < 0)
+                        {
+                            fixed (AVCodecContext** LPctx = &ctx)
+                                avcodec_free_context(LPctx);
+                            if (null != hw_ctx)
+                                fixed (AVBufferRef** LPhw_ctx = &hw_ctx)
+                                    av_buffer_unref(LPhw_ctx);
+                            return;
                         }
                     }
-                    av_dict_free(&dic);
-                    if (avcodec_open2(ctx, codec, null) < 0)
-                    {
-                        fixed (AVCodecContext** LPctx = &ctx)
-                            avcodec_free_context(LPctx);
-                        if(null != hw_ctx)
-                            fixed (AVBufferRef** LPhw_ctx = &hw_ctx)
-                                av_buffer_unref(LPhw_ctx);
-                        return;
-                    }
-                }
-                _released = false;
+                    _released = false;
 
-                Marshal.Copy(nal, 0, nalData, nal.Length);
-                avpkt->size = nal.Length;
-                if (avcodec_send_packet(ctx, avpkt) < 0)
-                {
-                    Releases(); return;
-                }
-            receive_frame:
-                int err = avcodec_receive_frame(ctx, frame);
-                if (err == -11) return; // EAGAIN
-                if (err < 0)
-                {
-                    Releases(); return;
-                }
-                AVFrame s_frame = *frame;
-                if (s_frame.format != AVPixelFormat.AV_PIX_FMT_DXVA2_VLD && s_frame.format != AVPixelFormat.AV_PIX_FMT_YUV420P && s_frame.format != AVPixelFormat.AV_PIX_FMT_YUVJ420P) return;
-                try
-                {
-                    int width = s_frame.width;
-                    int height = s_frame.height;
-                    if (lastIWidth != width || lastIHeight != height || lastFmt != s_frame.format)
+                    Marshal.Copy(nal, 0, nalData, nal.Length);
+                    avpkt->size = nal.Length;
+                    if (avcodec_send_packet(ctx, avpkt) < 0)
                     {
-                        if (s_frame.format != AVPixelFormat.AV_PIX_FMT_DXVA2_VLD)
-                        //ffmpeg没有yv12，只有i420，而一般显卡又支持的是yv12，不过没关系，uv转换软件来做很快
-                        {
-                            PresentParameters pp = new PresentParameters();
-                            pp.Windowed = true;
-                            pp.SwapEffect = SwapEffect.Discard;
-                            pp.BackBufferCount = 0;
-                            pp.DeviceWindowHandle = panelHandle;
-                            pp.BackBufferFormat = Manager.Adapters.Default.CurrentDisplayMode.Format;
-                            pp.EnableAutoDepthStencil = false;
-                            pp.PresentFlag = PresentFlag.Video;
-                            pp.FullScreenRefreshRateInHz = 0;//D3DPRESENT_RATE_DEFAULT
-                            pp.PresentationInterval = 0;//D3DPRESENT_INTERVAL_DEFAULT
-                            Caps caps = Manager.GetDeviceCaps(Manager.Adapters.Default.Adapter, DeviceType.Hardware);
-                            CreateFlags behaviorFlas = CreateFlags.MultiThreaded | CreateFlags.FpuPreserve;
-                            if (caps.DeviceCaps.SupportsHardwareTransformAndLight)
-                            {
-                                behaviorFlas |= CreateFlags.HardwareVertexProcessing;
-                            }
-                            else
-                            {
-                                behaviorFlas |= CreateFlags.SoftwareVertexProcessing;
-                            }
-                            device = new Device(Manager.Adapters.Default.Adapter, DeviceType.Hardware, panelHandle, behaviorFlas, pp);
-                            //(Format)842094158;//nv12
-                            surface = device.CreateOffscreenPlainSurface(width, height, (Format)842094169, Pool.Default);//yv12
-                        }
-                        lastIWidth = width;
-                        lastIHeight = height;
-                        lastVRect = new Rectangle(0, 0, lastIWidth, lastIHeight);
-                        lastFmt = s_frame.format;
+                        Releases(); return;
                     }
-                    if (lastFmt != AVPixelFormat.AV_PIX_FMT_DXVA2_VLD)
+                receive_frame:
+                    int err = avcodec_receive_frame(ctx, frame);
+                    if (err == -11) return; // EAGAIN
+                    if (err < 0)
                     {
-                        int stride;
-                        var gs = surface.LockRectangle(LockFlags.DoNotWait, out stride);
-                        if (gs == null) return;
-                        for (int i = 0; i < lastIHeight; i++)
-                        {
-                            memcpy(gs.InternalData + i * stride, s_frame.data1 + i * s_frame.linesize1, lastIWidth);
-                        }
-                        for (int i = 0; i < lastIHeight / 2; i++)
-                        {
-                            memcpy(gs.InternalData + stride * lastIHeight + i * stride / 2, s_frame.data3 + i * s_frame.linesize3, lastIWidth / 2);
-                        }
-                        for (int i = 0; i < lastIHeight / 2; i++)
-                        {
-                            memcpy(gs.InternalData + stride * lastIHeight + stride * lastIHeight / 4 + i * stride / 2, s_frame.data2 + i * s_frame.linesize2, lastIWidth / 2);
-                        }
-                        surface.UnlockRectangle();
+                        Releases(); return;
                     }
-                    Surface _surface = lastFmt == AVPixelFormat.AV_PIX_FMT_DXVA2_VLD ? new Surface(s_frame.data4) : surface;
-                    if (lastFmt == AVPixelFormat.AV_PIX_FMT_DXVA2_VLD)
-                        GC.SuppressFinalize(_surface);
-                    Device _device = lastFmt == AVPixelFormat.AV_PIX_FMT_DXVA2_VLD ? _surface.Device : device;
-                    _device.Clear(ClearFlags.Target, Color.Black, 1, 0);
-                    _device.BeginScene();
-                    Surface backBuffer = _device.GetBackBuffer(0, 0, BackBufferType.Mono);
-                    Size dst = panel3.ClientRectangle.Size;
-                    GetScale(lastVRect.Size, ref dst);
-                    Rectangle dstRect = panel3.ClientRectangle;
-                    dstRect.X += (dstRect.Width - dst.Width) / 2;
-                    dstRect.Y += (dstRect.Height - dst.Height) / 2;
-                    dstRect.Size = dst;
-                    _device.StretchRectangle(_surface, lastVRect, backBuffer, dstRect, TextureFilter.Linear);
-                    _device.EndScene();
-                    _device.Present();
-                    backBuffer.Dispose();
+                    AVFrame s_frame = *frame;
+                    if (s_frame.format != AVPixelFormat.AV_PIX_FMT_DXVA2_VLD && s_frame.format != AVPixelFormat.AV_PIX_FMT_YUV420P && s_frame.format != AVPixelFormat.AV_PIX_FMT_YUVJ420P) return;
+                    try
+                    {
+                        int width = s_frame.width;
+                        int height = s_frame.height;
+                        if (lastIWidth != width || lastIHeight != height || lastFmt != s_frame.format)
+                        {
+                            if (s_frame.format != AVPixelFormat.AV_PIX_FMT_DXVA2_VLD)
+                            //ffmpeg没有yv12，只有i420，而一般显卡又支持的是yv12，不过没关系，uv转换软件来做很快
+                            {
+                                PresentParameters pp = new PresentParameters();
+                                pp.Windowed = true;
+                                pp.SwapEffect = SwapEffect.Discard;
+                                pp.BackBufferCount = 0;
+                                pp.DeviceWindowHandle = panelHandle;
+                                pp.BackBufferFormat = Manager.Adapters.Default.CurrentDisplayMode.Format;
+                                pp.EnableAutoDepthStencil = false;
+                                pp.PresentFlag = PresentFlag.Video;
+                                pp.FullScreenRefreshRateInHz = 0;//D3DPRESENT_RATE_DEFAULT
+                                pp.PresentationInterval = 0;//D3DPRESENT_INTERVAL_DEFAULT
+                                Caps caps = Manager.GetDeviceCaps(Manager.Adapters.Default.Adapter, DeviceType.Hardware);
+                                CreateFlags behaviorFlas = CreateFlags.MultiThreaded | CreateFlags.FpuPreserve;
+                                if (caps.DeviceCaps.SupportsHardwareTransformAndLight)
+                                {
+                                    behaviorFlas |= CreateFlags.HardwareVertexProcessing;
+                                }
+                                else
+                                {
+                                    behaviorFlas |= CreateFlags.SoftwareVertexProcessing;
+                                }
+                                device = new Device(Manager.Adapters.Default.Adapter, DeviceType.Hardware, panelHandle, behaviorFlas, pp);
+                                //(Format)842094158;//nv12
+                                surface = device.CreateOffscreenPlainSurface(width, height, (Format)842094169, Pool.Default);//yv12
+                            }
+                            lastIWidth = width;
+                            lastIHeight = height;
+                            lastVRect = new Rectangle(0, 0, lastIWidth, lastIHeight);
+                            lastFmt = s_frame.format;
+                        }
+                        if (lastFmt != AVPixelFormat.AV_PIX_FMT_DXVA2_VLD)
+                        {
+                            int stride;
+                            var gs = surface.LockRectangle(LockFlags.DoNotWait, out stride);
+                            if (gs == null) return;
+                            for (int i = 0; i < lastIHeight; i++)
+                            {
+                                memcpy(gs.InternalData + i * stride, s_frame.data1 + i * s_frame.linesize1, lastIWidth);
+                            }
+                            for (int i = 0; i < lastIHeight / 2; i++)
+                            {
+                                memcpy(gs.InternalData + stride * lastIHeight + i * stride / 2, s_frame.data3 + i * s_frame.linesize3, lastIWidth / 2);
+                            }
+                            for (int i = 0; i < lastIHeight / 2; i++)
+                            {
+                                memcpy(gs.InternalData + stride * lastIHeight + stride * lastIHeight / 4 + i * stride / 2, s_frame.data2 + i * s_frame.linesize2, lastIWidth / 2);
+                            }
+                            surface.UnlockRectangle();
+                        }
+                        Surface _surface = lastFmt == AVPixelFormat.AV_PIX_FMT_DXVA2_VLD ? new Surface(s_frame.data4) : surface;
+                        if (lastFmt == AVPixelFormat.AV_PIX_FMT_DXVA2_VLD)
+                            GC.SuppressFinalize(_surface);
+                        Device _device = lastFmt == AVPixelFormat.AV_PIX_FMT_DXVA2_VLD ? _surface.Device : device;
+                        _device.Clear(ClearFlags.Target, Color.Black, 1, 0);
+                        _device.BeginScene();
+                        Surface backBuffer = _device.GetBackBuffer(0, 0, BackBufferType.Mono);
+                        var dstRect = CenterImage(lastVRect.Size);
+                        _device.StretchRectangle(_surface, lastVRect, backBuffer, dstRect, TextureFilter.Linear);
+                        _device.EndScene();
+                        _device.Present();
+                        backBuffer.Dispose();
+                    }
+                    catch (DirectXException ex)
+                    {
+                        StringBuilder msg = new StringBuilder();
+                        msg.Append("*************************************** \n");
+                        msg.AppendFormat(" 异常发生时间： {0} \n", DateTime.Now);
+                        msg.AppendFormat(" 导致当前异常的 Exception 实例： {0} \n", ex.InnerException);
+                        msg.AppendFormat(" 导致异常的应用程序或对象的名称： {0} \n", ex.Source);
+                        msg.AppendFormat(" 引发异常的方法： {0} \n", ex.TargetSite);
+                        msg.AppendFormat(" 异常堆栈信息： {0} \n", ex.StackTrace);
+                        msg.AppendFormat(" 异常消息： {0} \n", ex.Message);
+                        msg.Append("***************************************");
+                        Console.WriteLine(msg);
+                        Releases();
+                        return;
+                    }
+                    lastRender = DateTime.Now;
+                    if (started && !playing)
+                    {
+                        OnPlaying();
+                    }
+                    goto receive_frame;
                 }
-                catch (DirectXException ex)
-                {
-                    StringBuilder msg = new StringBuilder();
-                    msg.Append("*************************************** \n");
-                    msg.AppendFormat(" 异常发生时间： {0} \n", DateTime.Now);
-                    msg.AppendFormat(" 导致当前异常的 Exception 实例： {0} \n", ex.InnerException);
-                    msg.AppendFormat(" 导致异常的应用程序或对象的名称： {0} \n", ex.Source);
-                    msg.AppendFormat(" 引发异常的方法： {0} \n", ex.TargetSite);
-                    msg.AppendFormat(" 异常堆栈信息： {0} \n", ex.StackTrace);
-                    msg.AppendFormat(" 异常消息： {0} \n", ex.Message);
-                    msg.Append("***************************************");
-                    Console.WriteLine(msg);
-                    Releases();
-                    return;
-                }
-                lastRender = DateTime.Now;
-                if (started && !playing)
-                {
-                    OnPlaying();
-                }
-                goto receive_frame;
+
             }
+        }
+
+        private Rectangle CenterImage(Size sz)
+        {
+            Size dst = panel3.ClientRectangle.Size;
+            GetScale(sz, ref dst);
+            Rectangle dstRect = panel3.ClientRectangle;
+            dstRect.X += (dstRect.Width - dst.Width) / 2;
+            dstRect.Y += (dstRect.Height - dst.Height) / 2;
+            dstRect.Size = dst;
+            return dstRect;
         }
 
         private void GetScale(Size src, ref Size dst)
