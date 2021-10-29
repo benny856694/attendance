@@ -829,9 +829,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
 
-        public string AddIPtoMydevice(string IP, string DeviceName, int inout)
+        public string AddIPtoMydevice(string IP, string DeviceName, int inout, string username, string password)
         {
-            string data = GetData.AddIPtoMydevice(IP, DeviceName, inout);
+            string data = GetData.AddIPtoMydevice(IP, DeviceName, inout, username, password);
             return data;
         }
         public string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout)
@@ -979,19 +979,19 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             });
         }
         //获取月度考勤信息
-        public string getMonthlyData(string date, string name)
+        public string getMonthlyData(string date, string name, string departments)
         {
             date = date.Replace(@"/", "-");
-            var data = GetData.getMonthlyData(date, name);
+            var data = GetData.getMonthlyData(date, name, departments);
             return JsonConvert.SerializeObject(data);
         }
         //导出月度考勤报表
-        public void exportMonthlyData(string date, string name)
+        public void exportMonthlyData(string date, string name, string departments)
         {
             form.Invoke(new Action(() =>
             {
                 date = date.Replace(@"/", "-");
-                var data = GetData.getMonthlyData(date, name);
+                var data = GetData.getMonthlyData(date, name, departments);
                 var pnames = Tools.GetPropertyNames(nameof(AttendanceDataMonthly));
                 var selectedProperty = new string[] { "name", "department", "Employee_code", "nowdate", "Attendance", "latedata", "Leaveearlydata", "AbsenteeismCount", "LeaveCount"};
                 Func<AttendanceDataMonthly, string, object, string> convertPropertyToString = (obj, pname, pvalue) =>

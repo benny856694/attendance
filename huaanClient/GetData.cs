@@ -350,7 +350,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static AttendanceDataMonthly[] getMonthlyData(string date, string name)
+        public static AttendanceDataMonthly[] getMonthlyData(string date, string name, string departments)
         {
             if (string.IsNullOrEmpty(date))
                 return new AttendanceDataMonthly[0];
@@ -358,6 +358,12 @@ namespace huaanClient
             {
                 string commandText = "SELECT name,personId,department,Employee_code,strftime( '%Y-%m', date ) as nowdate,count( isAbsenteeism != '0' OR isAbsenteeism !=NULL ) AS Attendance,(julianday( strftime( '%Y-%m-%d', '" + DateTime.Parse(date).AddMonths(1).ToShortDateString() + "' ) ) - julianday( strftime( '%Y-%m', date ) || '-01' ) ) -count ( name ) as restcount,count( CASE WHEN late != '' THEN 0 ELSE NULL END ) || '/' || sum( late ) as latedata,count( CASE WHEN Leaveearly != '' THEN 0 ELSE NULL END ) || '/' || sum( Leaveearly ) as Leaveearlydata,count( CASE WHEN isAbsenteeism == '0' THEN 0 ELSE NULL END ) as AbsenteeismCount," +
                     "count( CASE WHEN Remarks == '3' AND Punchinformation=='' AND Punchinformation1=='' THEN 0 ELSE NULL END )   AS LeaveCount ,count(CASE WHEN(Punchinformation != '' OR Punchinformation1 != '') AND Remarks == '3' THEN 0 ELSE NULL END)   AS LeaveCount1 FROM Attendance_Data WHERE strftime( '%Y-%m', date ) = '" + date + "' ";
+                if (!string.IsNullOrEmpty(departments))
+                {
+                    var split = departments.Split(',');
+                    string dts = string.Join(",", split.Select(x => $"'{x}'"));
+                    commandText+=" AND department in( " + dts.Trim() + ")";
+                }
                 if (!string.IsNullOrEmpty(name))
 
                 {
@@ -527,7 +533,7 @@ namespace huaanClient
             SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
         }
 
-        public static string AddIPtoMydevice(string IP, string DeviceName, int inout)
+        public static string AddIPtoMydevice(string IP, string DeviceName, int inout,string username, string password)
         {
             obj = new JObject();
             obj["result"] = 0;
@@ -554,7 +560,9 @@ namespace huaanClient
                         {
                             ipAddress = IP,
                             DeviceName = DeviceName,
-                            IsEnter = inout
+                            IsEnter = inout,
+                            username = username,
+                            password = password
                         };
                         using (var conn = SQLiteHelper.GetConnection())
                         {
@@ -784,7 +792,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string page, string limt,string department)
+        public static string queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string page, string limt,string departments)
         {
 
             int page1 = int.Parse(page) - 1;
@@ -807,9 +815,9 @@ namespace huaanClient
             {
                 commandText.Append(" att.isAbsenteeism==0 AND");
             }
-            if (!string.IsNullOrEmpty(department))
+            if (!string.IsNullOrEmpty(departments))
             {
-                var split = department.Split(',');
+                var split = departments.Split(',');
                 string dts = string.Join(",", split.Select(x => $"'{x}'"));
                 commandText.Append(" att.department in( " + dts.Trim() + ") AND");
             }
