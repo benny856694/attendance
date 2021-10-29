@@ -834,9 +834,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string data = GetData.AddIPtoMydevice(IP, DeviceName, inout, username, password);
             return data;
         }
-        public string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout)
+        public string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout,string username, string password)
         {
-            string data = GetData.UpdatIPtoMydevice(oldIp, IP, DeviceName, inout);
+            string data = GetData.UpdatIPtoMydevice(oldIp, IP, DeviceName, inout, username,password);
             return data;
         }
         public bool DeleteIPtoMydevice(string IP)
