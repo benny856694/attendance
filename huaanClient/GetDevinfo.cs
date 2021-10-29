@@ -201,8 +201,10 @@ namespace huaanClient
                         cam.CaptureData += (s, e) => {
                             Console.WriteLine(e.person_id);
                         };
-                        cam.Username = "123";
-                        cam.Password = "123";
+                        cam.Username = d.username ?? "admin";
+                        cam.Password = d.password ?? "admin";
+                        //cam.Username = "123";
+                        //cam.Password = "123";
                         cam.Deviceid = d.id;
                         cam.Connect();
                         exists = false;

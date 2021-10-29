@@ -376,6 +376,8 @@ namespace huaanClient.DatabaseTool
   "Last_query TEXT",
   "time_syn TEXT",
   "IsEnter INTEGER DEFAULT -1", //设备进出标志，-1：未定义，1：进，0：出
+  "username TEXT",
+  "password TEXT"
         };
 
         public static string[] Shift =

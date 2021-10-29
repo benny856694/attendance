@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -146,6 +147,32 @@ namespace huaanClient
                 GetData.setDataSyn(jObject);
             }
 
+        }
+
+        /// <summary>
+        /// 给图片扩展外边框，并将图片至于中间
+        /// </summary>
+        /// <param name="sourcePicPath">原图片路径</param>
+        /// <param name="extLenth">扩展的长度，对于归一化图片建议为100</param>
+        /// <param name="targetPicPath">新图片路径</param>
+        public static void resizePic(string sourcePicPath, int extLenth, string targetPicPath)
+        {
+            Bitmap bit1 = new Bitmap(sourcePicPath);//给图片加边框									
+            int w = (bit1.Width + extLenth);//边框的宽度，可取任意值
+            int h = (bit1.Height + extLenth);
+            Bitmap bit2 = new Bitmap(w, h);
+
+            using (Graphics g = Graphics.FromImage(bit2))
+            {
+                using (Pen pen = new Pen(Color.Black, w))
+                {
+                    g.FillRectangle(Brushes.Black, 0, 0, w, h);
+                    g.DrawImage(bit1, extLenth / 2, extLenth / 2, bit1.Width, bit1.Height);
+                    g.Dispose();
+                }
+            }
+            //bit2.Dump();
+            bit2.Save(targetPicPath);
         }
 
     }
