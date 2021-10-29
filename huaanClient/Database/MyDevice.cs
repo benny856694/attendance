@@ -20,6 +20,8 @@ namespace huaanClient.Database
 
         //-1: undefined, 1: enter, 0: exit
         public int IsEnter { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
 
     }
 }

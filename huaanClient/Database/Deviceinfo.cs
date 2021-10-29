@@ -38,6 +38,8 @@ namespace huaanClient.Database
         /// 设备序列号
         /// </summary>
         public string number { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
 
     }
     class ALLdeviceinfo
