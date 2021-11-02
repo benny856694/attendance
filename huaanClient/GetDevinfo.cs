@@ -333,10 +333,10 @@ namespace huaanClient
             List < (string mac, string ip, string mask, string platform, string system)> Effective = new List<(string mac, string ip, string mask, string platform, string system)>();
             foreach (var d in ds)
             {
-                if (d.platform.Trim().Contains("HI3516CV500")
-                    || d.platform.Trim().Contains("HI3516DV300") 
-                    || d.platform.Trim().Contains("HI3516EV300")
-                    || d.platform.Trim().Contains("HI3516AV200"))
+                //if (d.platform.Trim().Contains("HI3516CV500")
+                //    || d.platform.Trim().Contains("HI3516DV300") 
+                //    || d.platform.Trim().Contains("HI3516EV300")
+                //    || d.platform.Trim().Contains("HI3516AV200"))
                 {
                     Effective.Add(d);
                 }
