@@ -702,7 +702,7 @@ namespace ZXCL.WinFormUI
                     close.MouseLeave += (a, b) => close.BackgroundImage = ImageCloseNormal;
                     close.MouseDown += (a, b) => close.BackgroundImage = ImageClosePress;
                     this.Controls.Add(close);
-                    this.Tip.SetToolTip(close, "关闭");
+                    this.Tip.SetToolTip(close, Strings.Close);
                 }
 
                 if (MaximizeBox && Controls["ControlBox_Max"] == null)
@@ -738,7 +738,7 @@ namespace ZXCL.WinFormUI
                                     max.MouseEnter += (a, b) => max.BackgroundImage = ImageRestoreHover;
                                     max.MouseLeave += (a, b) => max.BackgroundImage = ImageRestoreNormal;
                                     max.MouseDown += (a, b) => max.BackgroundImage = ImageRestorePress;
-                                    this.Tip.SetToolTip(max, "向下还原");
+                                    this.Tip.SetToolTip(max, Strings.Restore);
                                 }
                                 else if (this.WindowState == FormWindowState.Normal)
                                 {
@@ -746,11 +746,11 @@ namespace ZXCL.WinFormUI
                                     max.MouseEnter += (a, b) => max.BackgroundImage = ImageMaximizeHover;
                                     max.MouseLeave += (a, b) => max.BackgroundImage = ImageMaximizeNormal;
                                     max.MouseDown += (a, b) => max.BackgroundImage = ImageMaximizePress;
-                                    this.Tip.SetToolTip(max, "最大化");
+                                    this.Tip.SetToolTip(max, Strings.Maximize);
                                 }
                             }
                         };
-                        this.Tip.SetToolTip(max, "最大化");
+                        this.Tip.SetToolTip(max, Strings.Maximize);
                     }
                     this.Controls.Add(max);
                 }
@@ -769,7 +769,7 @@ namespace ZXCL.WinFormUI
                     min.MouseLeave += (s, e) => min.BackgroundImage = ImageMinimizeNormal;
                     min.MouseDown += (s, e) => min.BackgroundImage = ImageMinimizePress;
                     this.Controls.Add(min);
-                    this.Tip.SetToolTip(min, "最小化");
+                    this.Tip.SetToolTip(min, Strings.Minimize);
                 }
 
                 if (DropDwon && Controls["ControlBox_Drop"] == null)
@@ -791,7 +791,7 @@ namespace ZXCL.WinFormUI
                     drop.MouseLeave += (s, e) => drop.BackColor = Color.Transparent;
                     drop.MouseDown += (s, e) => drop.BackColor = Color.FromArgb(204, 204, 204);
                     this.Controls.Add(drop);
-                    this.Tip.SetToolTip(drop, "设置");
+                    this.Tip.SetToolTip(drop, Strings.Settings);
                 }
 
                 setControlBoxLocation();
