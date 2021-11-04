@@ -1553,6 +1553,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return GetData.setIscode_syn(nooff);
         }
 
+        //是否自动下发
+        public void setIsauto_syn(string enable)
+        {
+            ChromiumForm.userSettings.AutoIssue = enable == "true" || enable == "1";
+            Services.Tracker.Persist(ChromiumForm.userSettings);
+        }
+
         //是否提示新手引导 如果返回true则不显示新手提示
         public bool IsNoNoviceGuide()
         {
