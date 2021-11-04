@@ -120,6 +120,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Win32\Win32.cs" />
     <Compile Include="Form\ControlBox\ControlBoxColor.cs" />
     <Compile Include="Form\ControlBox\ControlBoxDrawImage.cs" />
@@ -195,6 +200,12 @@
     <EmbeddedResource Include="Form\ZFormMdi.resx">
       <DependentUpon>ZFormMdi.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Strings.en.resx" />
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strings.vi.resx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon_normal.png" />
