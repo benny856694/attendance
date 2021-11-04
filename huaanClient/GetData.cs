@@ -2005,7 +2005,8 @@ namespace huaanClient
                 using (var con = SQLiteHelper.GetConnection())
                 {
                     var id = SqlMapperExtensions.Insert(con, staff);
-                    setAddPersonToEquipment(staff.id);
+                    if (ChromiumForm.userSettings.AutoIssue)//是否自动下发
+                        setAddPersonToEquipment(staff.id);
                     return JsonConvert.SerializeObject(new
                     {
                         result = 2,
@@ -2022,6 +2023,8 @@ namespace huaanClient
                     data = Properties.Strings.SaveFailed
                 });
             }
+
+            
         }
 
         private static bool IsCorrectTimeFormat(string authorizedTime)
