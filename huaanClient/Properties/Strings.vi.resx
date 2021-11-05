@@ -312,4 +312,7 @@
 	<data name="NoDataFound" xml:space="preserve">
 		<value>Không tìm thấy dữ liệu</value>
 	</data>
+	<data name="PhotoCaptureFailed" xml:space="preserve">
+		<value>Lỗi chụp ảnh, xin hãy thử lại.</value>
+	</data>
 </root>

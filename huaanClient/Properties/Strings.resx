@@ -327,4 +327,7 @@
 	<data name="NoDataFound" xml:space="preserve">
     <value>要导出的数据为空</value>
   </data>
+	<data name="PhotoCaptureFailed" xml:space="preserve">
+    <value>拍照失败，请重试</value>
+  </data>
 </root>

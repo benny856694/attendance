@@ -312,4 +312,7 @@
 	<data name="NoDataFound" xml:space="preserve">
 		<value>No data found</value>
 	</data>
+	<data name="PhotoCaptureFailed" xml:space="preserve">
+		<value>Photo snapshot failed, please retry</value>
+	</data>
 </root>

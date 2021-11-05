@@ -502,6 +502,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似 拍照失败，请重试 的本地化字符串。
+        /// </summary>
+        internal static string PhotoCaptureFailed {
+            get {
+                return ResourceManager.GetString("PhotoCaptureFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 图片不合法，图片必须满足正面且只有唯一人脸 的本地化字符串。
         /// </summary>
         internal static string PhotoTakenNotQualified {
