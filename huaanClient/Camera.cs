@@ -230,10 +230,16 @@ namespace huaanClient
             if (ischange)
             {
                 //截图
-                System.Drawing.Image image = haCamera.Snapshot(2000);
+                var images = haCamera.Snapshot(2000);
                 fileName = copyfile.GetTimeStamp();
-                if (image!=null)
-                    bitmap = new Bitmap(image);
+                if (images.Item1?.IsGrayScale() == false)
+                {
+                    bitmap = new Bitmap(images.Item1);
+                }
+                else if(images.Item2?.IsGrayScale() == false)
+                {
+                    bitmap = new Bitmap(images.Item2);
+                }
                 
             }
             else

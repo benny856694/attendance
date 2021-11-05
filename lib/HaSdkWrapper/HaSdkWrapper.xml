@@ -1109,7 +1109,7 @@
             <EN>Disconnect from camera</EN>
             </summary>
         </member>
-        <member name="M:HaSdkWrapper.HaCamera.QueryFaces(System.Int32,System.Int32,System.Int32,System.Boolean,System.Int32)">
+        <member name="M:HaSdkWrapper.HaCamera.QueryFaces(System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Int32)">
             <summary>
             分页查询人脸模板数据
             </summary>
@@ -1120,7 +1120,7 @@
             <param name="timeOutInMilli">超时时间</param>
             <returns>查询到的模板数据；可能返回null，返回null时可能是出错了，需要排查</returns>
         </member>
-        <member name="M:HaSdkWrapper.HaCamera.QueryFaces(System.Int32,System.Int32,System.Int32,System.Boolean,System.Int32@,System.Int32,HaSdkWrapper.RecordQueryCondition,System.Int16)">
+        <member name="M:HaSdkWrapper.HaCamera.QueryFaces(System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Int32@,System.Int32,HaSdkWrapper.RecordQueryCondition,System.Int16)">
             <summary>
             <para>分页查询人脸模板数据</para>
             <EN>Paged query face</EN>
