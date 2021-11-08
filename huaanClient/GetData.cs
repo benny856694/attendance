@@ -3043,7 +3043,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(name))
             {
                 obj["result"] = 0;
-                obj["data"] = "考勤组名称不能为空！";
+                obj["data"] = String;
                 return obj.ToString();
             }
             else
@@ -3103,7 +3103,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(name))
             {
                 obj["result"] = 0;
-                obj["data"] = "考勤组名称不能为空！";
+                obj["data"] = Properties.Strings.AttendanceNameCanBeNotNull;
                 return obj.ToString();
             }
             else
@@ -3114,18 +3114,18 @@ namespace huaanClient
                 if (isdefault.Trim() == "1")
                 {
                     SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "UPDATE AttendanceGroup SET isdefault=0");
-                    string commandText = @"UPDATE AttendanceGroup SET attribute='" + attribute + "',name='" + name + "',isdefault='" + isdefault + "',publishtime='" + publish_time + "' WHERE id=" + id;
-                    int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
-                    if (re == 1)
-                    {
-                        obj["result"] = 2;
-                        obj["data"] = Strings.SaveSuccess;
-                    }
-                    else
-                    {
-                        obj["result"] = 1;
-                        obj["data"] = Strings.SaveFailed;
-                    }
+                }
+                string commandText = $@"UPDATE AttendanceGroup SET attribute='{attribute}',name='{name}',isdefault='{isdefault}',publishtime='{publish_time}' WHERE id='{id}'";
+                int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
+                if (re == 1)
+                {
+                    obj["result"] = 2;
+                    obj["data"] = Strings.SaveSuccess;
+                }
+                else
+                {
+                    obj["result"] = 1;
+                    obj["data"] = Strings.SaveFailed;
                 }
 
 
