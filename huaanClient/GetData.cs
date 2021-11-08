@@ -3043,7 +3043,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(name))
             {
                 obj["result"] = 0;
-                obj["data"] = String;
+                obj["data"] = Properties.Strings.AttendanceNameCanBeNotNull;
                 return obj.ToString();
             }
             else
