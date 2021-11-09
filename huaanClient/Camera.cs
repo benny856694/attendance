@@ -12,6 +12,7 @@ using HaSdkWrapper;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using huaanClient.Properties;
 
 namespace huaanClient
 {
@@ -230,10 +231,21 @@ namespace huaanClient
             if (ischange)
             {
                 //截图
-                System.Drawing.Image image = haCamera.Snapshot(2000);
+                var images = haCamera.Snapshot(5000);
+                if (images == null)
+                {
+                    MessageBox.Show(Strings.PhotoCaptureFailed);
+                    return;
+                }
                 fileName = copyfile.GetTimeStamp();
-                if (image!=null)
-                    bitmap = new Bitmap(image);
+                if (images.Item1?.IsGrayScale() == false)
+                {
+                    bitmap = new Bitmap(images.Item1);
+                }
+                else if(images.Item2?.IsGrayScale() == false)
+                {
+                    bitmap = new Bitmap(images.Item2);
+                }
                 
             }
             else
@@ -256,7 +268,7 @@ namespace huaanClient
             if (re[2][0] != 0)
             {
                 bitmap.Dispose();
-                this.DialogResult = DialogResult.No;
+                //this.DialogResult = DialogResult.No;
 
                 string mes = Properties.Strings.PhotoTakenNotQualified;
                 if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)

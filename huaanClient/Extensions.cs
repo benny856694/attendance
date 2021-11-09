@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace huaanClient
 {
@@ -32,5 +33,30 @@ namespace huaanClient
             var m = int.Parse(sections[1]);
             return (h, m);
         }
+
+        public static bool IsGrayScale(this Image img)
+        {
+
+            if (img is Bitmap bmp)
+            {
+                var sz = new Size(bmp.Width, bmp.Height);
+                var rnd = new Random(DateTime.Now.Second);
+                var grayCount = 0;
+                for (int i = 0; i < 10; i++)
+                {
+                    var x = rnd.Next(0, sz.Width);
+                    var y = rnd.Next(0, sz.Height);
+                    var c = bmp.GetPixel(x, y);
+                    var isGray = c.R == c.G && c.R == c.B;
+                    grayCount += isGray ? 1 : 0;
+                }
+                return grayCount > 5;
+            }
+            else
+            {
+                throw new InvalidOperationException("image is not bitmap");
+            }
+        }
+
     }
 }

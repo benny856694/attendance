@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,257 +59,263 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="metadata">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" />
-							</xsd:sequence>
-							<xsd:attribute name="name" use="required" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="assembly">
-						<xsd:complexType>
-							<xsd:attribute name="alias" type="xsd:string" />
-							<xsd:attribute name="name" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>2.0</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="AllDriveIsNotAvailable" xml:space="preserve">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AllDriveIsNotAvailable" xml:space="preserve">
     <value>No driver is available for storing data</value>
   </data>
-	<data name="TakePicture" xml:space="preserve">
+  <data name="TakePicture" xml:space="preserve">
     <value>Take Photo</value>
   </data>
-	<data name="Camera" xml:space="preserve">
+  <data name="Camera" xml:space="preserve">
     <value>Camera</value>
   </data>
-	<data name="PromptSwitchingCamera" xml:space="preserve">
+  <data name="PromptSwitchingCamera" xml:space="preserve">
     <value>Switching...</value>
   </data>
-	<data name="Switch" xml:space="preserve">
+  <data name="Switch" xml:space="preserve">
     <value>Switch</value>
   </data>
-	<data name="StaffCodeExists" xml:space="preserve">
+  <data name="StaffCodeExists" xml:space="preserve">
     <value>Employee number already exists</value>
   </data>
-	<data name="StaffCodeIsEmpty" xml:space="preserve">
+  <data name="StaffCodeIsEmpty" xml:space="preserve">
     <value>Employee number cannot be empty</value>
   </data>
-	<data name="StaffImageInValid" xml:space="preserve">
+  <data name="StaffImageInValid" xml:space="preserve">
     <value>The photo is not valid</value>
   </data>
-	<data name="SaveFailed" xml:space="preserve">
+  <data name="SaveFailed" xml:space="preserve">
     <value>Save succeeded</value>
   </data>
-	<data name="SaveSuccess" xml:space="preserve">
+  <data name="SaveSuccess" xml:space="preserve">
     <value>Save failed</value>
   </data>
-	<data name="Absent" xml:space="preserve">
+  <data name="Absent" xml:space="preserve">
     <value>Yes</value>
   </data>
-	<data name="AttendanceNames" xml:space="preserve">
+  <data name="AttendanceNames" xml:space="preserve">
     <value>Name,Department,Employee Number,Attendance Date,Clock in,Clock out,Clock in 2,Clock out 2,Shift Information,Attendance Time (hours),Late (minutes),Early Leave (minutes),Overtime (minutes),Absenteeism,Body Temperature</value>
   </data>
-	<data name="DayOff" xml:space="preserve">
+  <data name="DayOff" xml:space="preserve">
     <value>Yes</value>
   </data>
-	<data name="ImageMissing" xml:space="preserve">
+  <data name="ImageMissing" xml:space="preserve">
     <value>Picture missing</value>
   </data>
-	<data name="DeviceOffline" xml:space="preserve">
+  <data name="DeviceOffline" xml:space="preserve">
     <value>Device offline</value>
   </data>
-	<data name="StaffNames" xml:space="preserve">
+  <data name="StaffNames" xml:space="preserve">
     <value>Name,Email,Telephone number,Employee number,Photo path,Create date,ID number,Access control card number,Access control card length,Department,Staff type</value>
   </data>
-	<data name="InitializingDb" xml:space="preserve">
+  <data name="InitializingDb" xml:space="preserve">
     <value>Initializing Database...</value>
   </data>
-	<data name="InitializeDbFailed" xml:space="preserve">
+  <data name="InitializeDbFailed" xml:space="preserve">
     <value>Initialize Database Error</value>
   </data>
-	<data name="LoginInProgress" xml:space="preserve">
+  <data name="LoginInProgress" xml:space="preserve">
     <value>Login...</value>
   </data>
-	<data name="LoginSucceed" xml:space="preserve">
+  <data name="LoginSucceed" xml:space="preserve">
     <value>Login Succeed</value>
   </data>
-	<data name="LoginFailed" xml:space="preserve">
+  <data name="LoginFailed" xml:space="preserve">
     <value>Login Failed</value>
   </data>
-	<data name="ConnectDbFailed" xml:space="preserve">
+  <data name="ConnectDbFailed" xml:space="preserve">
     <value>Connect Database Failed: {0}</value>
   </data>
-	<data name="UsernameOrPasswordIncorrect" xml:space="preserve">
+  <data name="UsernameOrPasswordIncorrect" xml:space="preserve">
     <value>User Name or Password Error</value>
   </data>
-	<data name="UsernameEmpty" xml:space="preserve">
+  <data name="UsernameEmpty" xml:space="preserve">
     <value>Username Can't be empty</value>
   </data>
-	<data name="PasswordEmpty" xml:space="preserve">
+  <data name="PasswordEmpty" xml:space="preserve">
     <value>Password can't be empty</value>
   </data>
-	<data name="ExceptionOccurred" xml:space="preserve">
+  <data name="ExceptionOccurred" xml:space="preserve">
     <value>Exception: {0}</value>
   </data>
-	<data name="ChangePassword" xml:space="preserve">
+  <data name="ChangePassword" xml:space="preserve">
     <value>Change Password</value>
   </data>
-	<data name="ConfirmNewPassword" xml:space="preserve">
+  <data name="ConfirmNewPassword" xml:space="preserve">
     <value>Confirm New Password</value>
   </data>
-	<data name="ConfirmNewPasswordMismatch" xml:space="preserve">
+  <data name="ConfirmNewPasswordMismatch" xml:space="preserve">
     <value>New Password doesn't match</value>
   </data>
-	<data name="NewPassword" xml:space="preserve">
+  <data name="NewPassword" xml:space="preserve">
     <value>New Password</value>
   </data>
-	<data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
+  <data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
     <value>New password is same as old password</value>
   </data>
-	<data name="RememberPassword" xml:space="preserve">
+  <data name="RememberPassword" xml:space="preserve">
     <value>Remember Password</value>
   </data>
-	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
+  <data name="CaptureDataExportDefaultFileName" xml:space="preserve">
     <value>Capture Record</value>
   </data>
-	<data name="CaptureRecordColumnNames" xml:space="preserve">
+  <data name="CaptureRecordColumnNames" xml:space="preserve">
     <value>full name,ID,device name,clock-in time,match score,Access card number,match fail reason,mask,temperature,device serial number,ID card number,ID card name,Health code status,trip information,image path</value>
   </data>
-	<data name="GreenCode" xml:space="preserve">
+  <data name="GreenCode" xml:space="preserve">
     <value>  </value>
   </data>
-	<data name="RedCode" xml:space="preserve">
+  <data name="RedCode" xml:space="preserve">
     <value>  </value>
   </data>
-	<data name="YellowCode" xml:space="preserve">
+  <data name="YellowCode" xml:space="preserve">
     <value>  </value>
   </data>
-	<data name="Yes" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
-	<data name="ExportFileFailedWithError" xml:space="preserve">
+  <data name="ExportFileFailedWithError" xml:space="preserve">
     <value>Export File Failed: {0}</value>
   </data>
-	<data name="ExportFileSucceed" xml:space="preserve">
+  <data name="ExportFileSucceed" xml:space="preserve">
     <value>Export File Succeed</value>
   </data>
-	<data name="ExcelFile" xml:space="preserve">
+  <data name="ExcelFile" xml:space="preserve">
     <value>Excel File (*.xlsx)|*.xlsx</value>
   </data>
-	<data name="No" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
-	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
+  <data name="AttendanceDataMonthlyNames" xml:space="preserve">
     <value>Name,user code,Department,employee number,attendance date,attendance (day),number of latecomers / total time (minutes),number of early leave / total time (minutes),days of absenteeism,leave days</value>
   </data>
-	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
+  <data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
     <value>Monthly attendance report</value>
   </data>
-	<data name="ExcelCantBeAccessed" xml:space="preserve">
+  <data name="ExcelCantBeAccessed" xml:space="preserve">
     <value>The file can't be opened, make sure it is not opened by other program</value>
   </data>
-	<data name="ExcelImportLogFileName" xml:space="preserve">
+  <data name="ExcelImportLogFileName" xml:space="preserve">
     <value>Log of batch import</value>
   </data>
-	<data name="ExcelIsEmpty" xml:space="preserve">
+  <data name="ExcelIsEmpty" xml:space="preserve">
     <value>The file is empty</value>
   </data>
-	<data name="Fail" xml:space="preserve">
+  <data name="Fail" xml:space="preserve">
     <value>Fail</value>
   </data>
-	<data name="MessageSaveImportLog" xml:space="preserve">
+  <data name="MessageSaveImportLog" xml:space="preserve">
     <value>success:{0},fail:{1}, save import log?</value>
   </data>
-	<data name="Success" xml:space="preserve">
+  <data name="Success" xml:space="preserve">
     <value>Success</value>
   </data>
-	<data name="SrcStaffTemplateFileName" xml:space="preserve">
+  <data name="SrcStaffTemplateFileName" xml:space="preserve">
     <value>TemplateEn.xlsx</value>
   </data>
-	<data name="DefaultCustomerText" xml:space="preserve">
+  <data name="DefaultCustomerText" xml:space="preserve">
     <value>default customer text</value>
   </data>
-	<data name="BatchImportModel" xml:space="preserve">
+  <data name="BatchImportModel" xml:space="preserve">
     <value>BatchImportModel</value>
   </data>
-	<data name="BatchImportResult" xml:space="preserve">
+  <data name="BatchImportResult" xml:space="preserve">
     <value>BatchImportResult</value>
   </data>
-	<data name="StaffExportExcelName" xml:space="preserve">
-		<value>Staff List</value>
-	</data>
-	<data name="PhotoTakenNotQualified" xml:space="preserve">
-		<value>The image is not qualified, make sure there is only one face in the image</value>
-	</data>
-	<data name="DefaultEmployeeType" xml:space="preserve">
-		<value>Other</value>
-	</data>
-	<data name="DefaultShiftName" xml:space="preserve">
-		<value>Shift</value>
-	</data>
-	<data name="DefaultCompanyName" xml:space="preserve">
-		<value>Company Name</value>
-	</data>
-	<data name="DefaultDepartmentName" xml:space="preserve">
-		<value>Department</value>
-	</data>
-	<data name="DefaultShiftGroupName" xml:space="preserve">
-		<value>Default Shift Group</value>
-	</data>
-	<data name="MenuItemCopyImage" xml:space="preserve">
-		<value>Copy</value>
-	</data>
-	<data name="ShowInExplorer" xml:space="preserve">
-		<value>Show in Explorer</value>
-	</data>
-	<data name="DatasetIsTooBig" xml:space="preserve">
-		<value>The data set should not exceed 10000 items</value>
-	</data>
-	<data name="NoDataFound" xml:space="preserve">
-		<value>No data found</value>
-	</data>
+  <data name="StaffExportExcelName" xml:space="preserve">
+    <value>Staff List</value>
+  </data>
+  <data name="PhotoTakenNotQualified" xml:space="preserve">
+    <value>The image is not qualified, make sure there is only one face in the image</value>
+  </data>
+  <data name="DefaultEmployeeType" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="DefaultShiftName" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="DefaultCompanyName" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="DefaultDepartmentName" xml:space="preserve">
+    <value>Department</value>
+  </data>
+  <data name="DefaultShiftGroupName" xml:space="preserve">
+    <value>Default Shift Group</value>
+  </data>
+  <data name="MenuItemCopyImage" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="ShowInExplorer" xml:space="preserve">
+    <value>Show in Explorer</value>
+  </data>
+  <data name="DatasetIsTooBig" xml:space="preserve">
+    <value>The data set should not exceed 10000 items</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>No data found</value>
+  </data>
+  <data name="PhotoCaptureFailed" xml:space="preserve">
+    <value>Photo snapshot failed, please retry</value>
+  </data>
+  <data name="AttendanceNameCanBeNotNull" xml:space="preserve">
+    <value>The attendance group name cannot be empty</value>
+  </data>
 </root>

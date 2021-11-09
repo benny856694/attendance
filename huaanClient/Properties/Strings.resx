@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<!-- 
+  <!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,272 +59,278 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="metadata">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" />
-							</xsd:sequence>
-							<xsd:attribute name="name" use="required" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="assembly">
-						<xsd:complexType>
-							<xsd:attribute name="alias" type="xsd:string" />
-							<xsd:attribute name="name" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>2.0</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<data name="Absent" xml:space="preserve">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Absent" xml:space="preserve">
     <value>旷工</value>
   </data>
-	<data name="AllDriveIsNotAvailable" xml:space="preserve">
+  <data name="AllDriveIsNotAvailable" xml:space="preserve">
     <value>没有可用的磁盘，无法保存数据</value>
   </data>
-	<data name="AttendanceKeys" xml:space="preserve">
+  <data name="AttendanceKeys" xml:space="preserve">
     <value>name,department,Employee_code,Date,Punchinformation,Punchinformation1,Punchinformation2,Punchinformation22,Shiftinformation,Duration,late,Leaveearly,workOvertime,isAbsenteeism,temperature</value>
   </data>
-	<data name="AttendanceNames" xml:space="preserve">
+  <data name="AttendanceNames" xml:space="preserve">
     <value>姓名,部门,员工编号,考勤日期,上班打卡,下班打卡,上班打卡2,下班打卡2,班次信息,应出勤时间(小时),迟到(分钟),早退(分钟),加班(分钟),是否旷工,体温</value>
   </data>
-	<data name="Camera" xml:space="preserve">
+  <data name="Camera" xml:space="preserve">
     <value>相机</value>
   </data>
-	<data name="DayOff" xml:space="preserve">
+  <data name="DayOff" xml:space="preserve">
     <value>请假</value>
   </data>
-	<data name="DeviceOffline" xml:space="preserve">
+  <data name="DeviceOffline" xml:space="preserve">
     <value>设备离线</value>
   </data>
-	<data name="ImageMissing" xml:space="preserve">
+  <data name="ImageMissing" xml:space="preserve">
     <value>图片缺失</value>
   </data>
-	<data name="PromptSwitchingCamera" xml:space="preserve">
+  <data name="PromptSwitchingCamera" xml:space="preserve">
     <value>正在切换...</value>
   </data>
-	<data name="SaveFailed" xml:space="preserve">
+  <data name="SaveFailed" xml:space="preserve">
     <value>保存失败</value>
   </data>
-	<data name="SaveSuccess" xml:space="preserve">
+  <data name="SaveSuccess" xml:space="preserve">
     <value>保存成功</value>
   </data>
-	<data name="StaffCodeExists" xml:space="preserve">
+  <data name="StaffCodeExists" xml:space="preserve">
     <value>员工编号已经存在</value>
   </data>
-	<data name="StaffCodeIsEmpty" xml:space="preserve">
+  <data name="StaffCodeIsEmpty" xml:space="preserve">
     <value>员工编号不能为空</value>
   </data>
-	<data name="StaffImageInValid" xml:space="preserve">
+  <data name="StaffImageInValid" xml:space="preserve">
     <value>照片不合符要求</value>
   </data>
-	<data name="StaffKeys" xml:space="preserve">
+  <data name="StaffKeys" xml:space="preserve">
     <value>name,Email,phone,Employee_code,picture,publish_time,IDcardNo,face_idcard,idcardtype,department_id,Employetype_id</value>
   </data>
-	<data name="StaffNames" xml:space="preserve">
+  <data name="StaffNames" xml:space="preserve">
     <value>姓名,邮箱地址,电话号码,员工编号,照片路径,添加日期,身份证号码,门禁卡号,门禁卡号位数,部门,员工分类</value>
   </data>
-	<data name="Switch" xml:space="preserve">
+  <data name="Switch" xml:space="preserve">
     <value>切换</value>
   </data>
-	<data name="TakePicture" xml:space="preserve">
+  <data name="TakePicture" xml:space="preserve">
     <value>拍照</value>
   </data>
-	<data name="InitializingDb" xml:space="preserve">
+  <data name="InitializingDb" xml:space="preserve">
     <value>初始化数据库</value>
   </data>
-	<data name="InitializeDbFailed" xml:space="preserve">
+  <data name="InitializeDbFailed" xml:space="preserve">
     <value>初始化数据库错误</value>
   </data>
-	<data name="LoginInProgress" xml:space="preserve">
+  <data name="LoginInProgress" xml:space="preserve">
     <value>正在登录...</value>
   </data>
-	<data name="LoginSucceed" xml:space="preserve">
+  <data name="LoginSucceed" xml:space="preserve">
     <value>登录成功</value>
   </data>
-	<data name="LoginFailed" xml:space="preserve">
+  <data name="LoginFailed" xml:space="preserve">
     <value>登录失败</value>
   </data>
-	<data name="ConnectDbFailed" xml:space="preserve">
+  <data name="ConnectDbFailed" xml:space="preserve">
     <value>连接数据库失败: {0}</value>
   </data>
-	<data name="UsernameOrPasswordIncorrect" xml:space="preserve">
+  <data name="UsernameOrPasswordIncorrect" xml:space="preserve">
     <value>用户名或者密码错误</value>
   </data>
-	<data name="UsernameEmpty" xml:space="preserve">
+  <data name="UsernameEmpty" xml:space="preserve">
     <value>用户名不能为空</value>
   </data>
-	<data name="PasswordEmpty" xml:space="preserve">
+  <data name="PasswordEmpty" xml:space="preserve">
     <value>密码不能为空</value>
   </data>
-	<data name="ExceptionOccurred" xml:space="preserve">
+  <data name="ExceptionOccurred" xml:space="preserve">
     <value>发生错误：{0}</value>
   </data>
-	<data name="ChangePassword" xml:space="preserve">
+  <data name="ChangePassword" xml:space="preserve">
     <value>修改密码</value>
   </data>
-	<data name="ConfirmNewPassword" xml:space="preserve">
+  <data name="ConfirmNewPassword" xml:space="preserve">
     <value>确认新密码</value>
   </data>
-	<data name="ConfirmNewPasswordMismatch" xml:space="preserve">
+  <data name="ConfirmNewPasswordMismatch" xml:space="preserve">
     <value>两次输入的新密码不同</value>
   </data>
-	<data name="NewPassword" xml:space="preserve">
+  <data name="NewPassword" xml:space="preserve">
     <value>新密码</value>
   </data>
-	<data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
+  <data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
     <value>新密码不能和旧密码相同</value>
   </data>
-	<data name="RememberPassword" xml:space="preserve">
+  <data name="RememberPassword" xml:space="preserve">
     <value>记住密码</value>
   </data>
-	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
+  <data name="CaptureDataExportDefaultFileName" xml:space="preserve">
     <value>抓拍记录</value>
   </data>
-	<data name="CaptureRecordColumnKeys" xml:space="preserve">
+  <data name="CaptureRecordColumnKeys" xml:space="preserve">
     <value>person_name,person_id,addr_name,time,match_status,wg_card_id,match_failed_reson,exist_mask,body_temp,device_sn,idcard_number,idcard_name,QRcodestatus,trip_infor,closeup</value>
   </data>
-	<data name="CaptureRecordColumnNames" xml:space="preserve">
+  <data name="CaptureRecordColumnNames" xml:space="preserve">
     <value>姓名,ID,设备名称,刷卡时间,对比分数,门禁卡号,比对失败原因,是否佩戴口罩,体温,设备序列号,证件编号,证件姓名,健康码状态,行程信息,抓拍图片路径</value>
   </data>
-	<data name="GreenCode" xml:space="preserve">
+  <data name="GreenCode" xml:space="preserve">
     <value>绿码</value>
   </data>
-	<data name="RedCode" xml:space="preserve">
+  <data name="RedCode" xml:space="preserve">
     <value>红码</value>
   </data>
-	<data name="YellowCode" xml:space="preserve">
+  <data name="YellowCode" xml:space="preserve">
     <value>黄码</value>
   </data>
-	<data name="Yes" xml:space="preserve">
+  <data name="Yes" xml:space="preserve">
     <value>是</value>
   </data>
-	<data name="ExportFileFailedWithError" xml:space="preserve">
+  <data name="ExportFileFailedWithError" xml:space="preserve">
     <value>导出文件失败：{0}</value>
   </data>
-	<data name="ExportFileSucceed" xml:space="preserve">
+  <data name="ExportFileSucceed" xml:space="preserve">
     <value>导出文件成功</value>
   </data>
-	<data name="ExcelFile" xml:space="preserve">
+  <data name="ExcelFile" xml:space="preserve">
     <value>Excel文件 (*.xlsx)|*.xlsx</value>
   </data>
-	<data name="No" xml:space="preserve">
+  <data name="No" xml:space="preserve">
     <value>否</value>
   </data>
-	<data name="AttendanceDataMonthlyKeys" xml:space="preserve">
+  <data name="AttendanceDataMonthlyKeys" xml:space="preserve">
     <value>name,personId,department,Employee_code,nowdate,Attendance,latedata,Leaveearlydata,AbsenteeismCount,LeaveCount</value>
   </data>
-	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
+  <data name="AttendanceDataMonthlyNames" xml:space="preserve">
     <value>姓名,用户编码,部门,员工编号,考勤日期,出勤(天),迟到次数/总时长(分钟),早退次数/总时长(分钟),旷工天数,请假天数</value>
   </data>
-	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
+  <data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
     <value>月度考勤报表</value>
   </data>
-	<data name="ExcelCantBeAccessed" xml:space="preserve">
+  <data name="ExcelCantBeAccessed" xml:space="preserve">
     <value>无法打开文件，请确保文件没有被其他程序打开</value>
   </data>
-	<data name="ExcelImportLogFileName" xml:space="preserve">
+  <data name="ExcelImportLogFileName" xml:space="preserve">
     <value>批量导入结果</value>
   </data>
-	<data name="ExcelIsEmpty" xml:space="preserve">
+  <data name="ExcelIsEmpty" xml:space="preserve">
     <value>文件为空</value>
   </data>
-	<data name="Fail" xml:space="preserve">
+  <data name="Fail" xml:space="preserve">
     <value>失败</value>
   </data>
-	<data name="MessageSaveImportLog" xml:space="preserve">
+  <data name="MessageSaveImportLog" xml:space="preserve">
     <value>导入成功:{0},失败:{1}，是否保存导入结果？</value>
   </data>
-	<data name="Success" xml:space="preserve">
+  <data name="Success" xml:space="preserve">
     <value>成功</value>
   </data>
-	<data name="SrcStaffTemplateFileName" xml:space="preserve">
+  <data name="SrcStaffTemplateFileName" xml:space="preserve">
     <value>TemplateZn.xlsx</value>
   </data>
-	<data name="IPAlreadyExists" xml:space="preserve">
+  <data name="IPAlreadyExists" xml:space="preserve">
     <value>IP已存在</value>
   </data>
-	<data name="DefaultCustomerText" xml:space="preserve">
+  <data name="DefaultCustomerText" xml:space="preserve">
     <value>自定义内容</value>
   </data>
-	<data name="BatchImportModel" xml:space="preserve">
+  <data name="BatchImportModel" xml:space="preserve">
     <value>批量导入模板</value>
   </data>
-	<data name="BatchImportResult" xml:space="preserve">
+  <data name="BatchImportResult" xml:space="preserve">
     <value>批量导入结果</value>
   </data>
-	<data name="StaffExportExcelName" xml:space="preserve">
+  <data name="StaffExportExcelName" xml:space="preserve">
     <value>人员信息</value>
   </data>
-	<data name="PhotoTakenNotQualified" xml:space="preserve">
+  <data name="PhotoTakenNotQualified" xml:space="preserve">
     <value>图片不合法，图片必须满足正面且只有唯一人脸</value>
   </data>
-	<data name="DefaultEmployeeType" xml:space="preserve">
+  <data name="DefaultEmployeeType" xml:space="preserve">
     <value>其它</value>
   </data>
-	<data name="DefaultShiftName" xml:space="preserve">
+  <data name="DefaultShiftName" xml:space="preserve">
     <value>班次</value>
   </data>
-	<data name="DefaultCompanyName" xml:space="preserve">
+  <data name="DefaultCompanyName" xml:space="preserve">
     <value>公司名称</value>
   </data>
-	<data name="DefaultDepartmentName" xml:space="preserve">
+  <data name="DefaultDepartmentName" xml:space="preserve">
     <value>下属部门</value>
   </data>
-	<data name="DefaultShiftGroupName" xml:space="preserve">
+  <data name="DefaultShiftGroupName" xml:space="preserve">
     <value>默认考勤组</value>
   </data>
-	<data name="MenuItemCopyImage" xml:space="preserve">
+  <data name="MenuItemCopyImage" xml:space="preserve">
     <value>复制</value>
   </data>
-	<data name="ShowInExplorer" xml:space="preserve">
+  <data name="ShowInExplorer" xml:space="preserve">
     <value>显示在资源管理器中</value>
   </data>
-	<data name="DatasetIsTooBig" xml:space="preserve">
+  <data name="DatasetIsTooBig" xml:space="preserve">
     <value>要导出的数据超过10000条</value>
   </data>
-	<data name="NoDataFound" xml:space="preserve">
+  <data name="NoDataFound" xml:space="preserve">
     <value>要导出的数据为空</value>
+  </data>
+  <data name="PhotoCaptureFailed" xml:space="preserve">
+    <value>拍照失败，请重试</value>
+  </data>
+  <data name="AttendanceNameCanBeNotNull" xml:space="preserve">
+    <value>考勤组名称不能为空！</value>
   </data>
 </root>

@@ -2005,7 +2005,8 @@ namespace huaanClient
                 using (var con = SQLiteHelper.GetConnection())
                 {
                     var id = SqlMapperExtensions.Insert(con, staff);
-                    setAddPersonToEquipment(staff.id);
+                    if (ChromiumForm.userSettings.AutoIssue)//是否自动下发
+                        setAddPersonToEquipment(staff.id);
                     return JsonConvert.SerializeObject(new
                     {
                         result = 2,
@@ -2022,6 +2023,8 @@ namespace huaanClient
                     data = Properties.Strings.SaveFailed
                 });
             }
+
+            
         }
 
         private static bool IsCorrectTimeFormat(string authorizedTime)
@@ -3040,7 +3043,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(name))
             {
                 obj["result"] = 0;
-                obj["data"] = "考勤组名称不能为空！";
+                obj["data"] = Properties.Strings.AttendanceNameCanBeNotNull;
                 return obj.ToString();
             }
             else
@@ -3100,7 +3103,7 @@ namespace huaanClient
             if (string.IsNullOrEmpty(name))
             {
                 obj["result"] = 0;
-                obj["data"] = "考勤组名称不能为空！";
+                obj["data"] = Properties.Strings.AttendanceNameCanBeNotNull;
                 return obj.ToString();
             }
             else
@@ -3111,18 +3114,18 @@ namespace huaanClient
                 if (isdefault.Trim() == "1")
                 {
                     SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, "UPDATE AttendanceGroup SET isdefault=0");
-                    string commandText = @"UPDATE AttendanceGroup SET attribute='" + attribute + "',name='" + name + "',isdefault='" + isdefault + "',publishtime='" + publish_time + "' WHERE id=" + id;
-                    int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
-                    if (re == 1)
-                    {
-                        obj["result"] = 2;
-                        obj["data"] = Strings.SaveSuccess;
-                    }
-                    else
-                    {
-                        obj["result"] = 1;
-                        obj["data"] = Strings.SaveFailed;
-                    }
+                }
+                string commandText = $@"UPDATE AttendanceGroup SET attribute='{attribute}',name='{name}',isdefault='{isdefault}',publishtime='{publish_time}' WHERE id='{id}'";
+                int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
+                if (re == 1)
+                {
+                    obj["result"] = 2;
+                    obj["data"] = Strings.SaveSuccess;
+                }
+                else
+                {
+                    obj["result"] = 1;
+                    obj["data"] = Strings.SaveFailed;
                 }
 
 
