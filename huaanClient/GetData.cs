@@ -1454,7 +1454,7 @@ namespace huaanClient
 
 
 
-            string commandTextdepartmentid = "SELECT COUNT(id) as len ,Punchinformation,Punchinformation1,Remarks FROM  Attendance_Data  att WHERE att.personId='" + reData.personId.Trim() + "' AND att.Date= '" + reData.Date.Replace(@"\", "-").Trim() + "'";
+            string commandTextdepartmentid = "SELECT COUNT(id) as len ,Punchinformation,Punchinformation1,temperature,Remarks FROM  Attendance_Data  att WHERE att.personId='" + reData.personId.Trim() + "' AND att.Date= '" + reData.Date.Replace(@"\", "-").Trim() + "'";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
             if (!string.IsNullOrEmpty(sr))
             {
