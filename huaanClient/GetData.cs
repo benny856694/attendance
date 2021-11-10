@@ -1454,7 +1454,7 @@ namespace huaanClient
 
 
 
-            string commandTextdepartmentid = "SELECT COUNT(id) as len ,Punchinformation,Punchinformation1,Remarks FROM  Attendance_Data  att WHERE att.personId='" + reData.personId.Trim() + "' AND att.Date= '" + reData.Date.Replace(@"\", "-").Trim() + "'";
+            string commandTextdepartmentid = "SELECT COUNT(id) as len ,Punchinformation,Punchinformation1,temperature,Remarks FROM  Attendance_Data  att WHERE att.personId='" + reData.personId.Trim() + "' AND att.Date= '" + reData.Date.Replace(@"\", "-").Trim() + "'";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
             if (!string.IsNullOrEmpty(sr))
             {
@@ -1516,7 +1516,15 @@ namespace huaanClient
 
                 string temperature = "";
                 if (!string.IsNullOrEmpty(reData.temperature) && !reData.temperature.Trim().Equals("0"))
-                { temperature = reData.temperature.Trim(); ValueList.Add("temperature", temperature); }
+                { 
+                    temperature = reData.temperature.Trim(); 
+                    ValueList.Add("temperature", temperature); 
+                }
+                else if (!string.IsNullOrEmpty(reData.temperature1) && !reData.temperature1.Trim().Equals("0"))
+                {
+                    temperature = reData.temperature1.Trim();
+                    ValueList.Add("temperature", temperature);
+                }
 
                 string IsAcrossNight = "";
                 IsAcrossNight = reData.IsAcrossNight.ToString().Trim(); ValueList.Add("IsAcrossNight", IsAcrossNight);
@@ -1525,6 +1533,7 @@ namespace huaanClient
                 {
                     string Punch = jo[0]["Punchinformation"].ToString();
                     string Punch1 = jo[0]["Punchinformation1"].ToString();
+                    var temp = jo[0]["temperature"].ToString();
                     commandText = "UPDATE Attendance_Data SET ";
                     foreach (var li in ValueList)
                     {
@@ -1557,6 +1566,13 @@ namespace huaanClient
                             }
                             else if (!string.IsNullOrEmpty(reData.Punchinformation1))
                                 commandText = commandText + li.Key + "='" + li.Value + "',";
+                        }
+                        else if(li.Key == "temperature")
+                        {
+                            if (string.IsNullOrEmpty(temp))//只有记录第一次温度
+                            {
+                                commandText = commandText + li.Key + "='" + li.Value + "',";
+                            }
                         }
                         else
                         {
