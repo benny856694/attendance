@@ -80,8 +80,8 @@ namespace huaanClient
             //更新到数据库
 
             if (string.IsNullOrEmpty(data)) return;
-            
-            
+
+            Console.WriteLine(data);
             JToken jToken = (JToken)JsonConvert.DeserializeObject(data);
             if (jToken["code"].ToString() == "0")
             {
@@ -97,6 +97,7 @@ namespace huaanClient
 
                 jObject["device_sn"] = jToken["device_sn"].ToString();
                 string fn = "";
+                string fn_tmp = "";
                 string reg_imagesfn = "";
 
 
@@ -111,11 +112,24 @@ namespace huaanClient
                 {
                     closeup = Convert.FromBase64String(closeupBase64);
                     imgename = MD5Util.MD5Encrypt32(Convert.FromBase64String(closeupBase64));
-                    fn = $@"{ApplicationData.FaceRASystemToolUrl}\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename}.jpg";
-                    Directory.CreateDirectory(Path.GetDirectoryName(fn));
-                    File.WriteAllBytes(fn, closeup);
+                    fn_tmp = $@"{ApplicationData.FaceRASystemToolUrl}\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename}_tmp.jpg";
+                    fn= $@"{ApplicationData.FaceRASystemToolUrl}\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename}.jpg";
+                    Directory.CreateDirectory(Path.GetDirectoryName(fn_tmp));
+                    File.WriteAllBytes(fn_tmp, closeup);
+                    Bitmap pic = new Bitmap(fn_tmp);
+                    int width = pic.Size.Width;   // 图片的宽度
+                    fn = ""; //经测试，不管获取的相机人脸图片是112*112，还是150*150，经过扩大外边框后都不能正常下发，因此取消保存图片
+                    //if (width < 150)
+                    //{
+                    //    fn = "";
+                    //}
+                    //else
+                    //{
+                    //    resizePic(fn_tmp, 100, fn);
+                    //} 
                 }
 
+                //reg_imagesfn好像没用
                 var reg_imagescloseupBase64 = person["reg_images"]?[0]["image_data"].ToString();
                 if (reg_imagescloseupBase64 != null && imgename != null)
                 {
@@ -166,7 +180,7 @@ namespace huaanClient
             {
                 using (Pen pen = new Pen(Color.Black, w))
                 {
-                    g.FillRectangle(Brushes.Black, 0, 0, w, h);
+                    g.FillRectangle(Brushes.White, 0, 0, w, h);
                     g.DrawImage(bit1, extLenth / 2, extLenth / 2, bit1.Width, bit1.Height);
                     g.Dispose();
                 }

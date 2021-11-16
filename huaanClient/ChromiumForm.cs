@@ -673,7 +673,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
         public string setStaffForsynchronization(string ID,string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
-            string data = GetData.setStaf(ID.ToString(),name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), source.Trim());
+            string data = GetData.setStaf(ID.ToString(), name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), source.Trim());
             return data;
         }
         //编辑员工
