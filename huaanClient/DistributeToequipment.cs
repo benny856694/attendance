@@ -14,19 +14,24 @@ using Dapper;
 using Dapper.Contrib.Extensions;
 using System.Dynamic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace huaanClient
 {
     class DistributeToequipment
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static List<Task> taskList = new List<Task>();
         public static void distrbute()
         {
+            var startTime = DateTime.Now;
+            Logger.Info("开始下发...");
             //string connectionString = "Data Source=" + Application.StartupPath + @"\huaanDatabase.sqlite;Version=3;";
             string connectionString = ApplicationData.connectionString;
-            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2";
+            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 limit 50";
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
-
+            
             if (!string.IsNullOrEmpty(sr))
             {
                 JArray srjo = (JArray)JsonConvert.DeserializeObject(sr);
@@ -34,17 +39,24 @@ namespace huaanClient
                 {
                     foreach (JObject jo in srjo)
                     {
+                        var t = Task.Run(() => {
                         try
                         {
-                            handleOneDistribute(jo, connectionString);
+                              handleOneDistribute(jo, connectionString);
                         }
                         catch (Exception ex)
                         {
                             Logger.Error(ex, "process distribution exception");
                         }
+                        });
+                        taskList.Add(t);
                     }
                 }
             }
+            Task.WaitAll(taskList.ToArray());
+            taskList.Clear();
+            var endTime = DateTime.Now;
+            Logger.Info("下发结束!用时{0}",(endTime-startTime).ToString());
         }
 
 
@@ -177,169 +189,180 @@ namespace huaanClient
                 return;
             if (CameraConfigPortlist.IsConnected)
             {
-                if (PersonJson != null)
+                lock (CameraConfigPortlist)
                 {
-                    //PersonJson["id"] = userid;
-                    //PersonJson["name"] = sqldatajo[0]["name"].ToString().Trim();
-
-                    string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
-                    var picturePath = distributeParams["picture"]?.ToString();
-
-                    //自定义字段
-                    string customer_text = Properties.Strings.DefaultCustomerText;
-                    if (string.IsNullOrEmpty(distributeParams["customer_text"]?.ToString()))
+                    Console.WriteLine("下发id:{0}，相机IP:{1},时间：{2}", id, CameraConfigPortlist.IP, DateTime.Now.ToString());
+                    if (PersonJson != null)
                     {
-                        //如果customer_text没有值则将部门作为customer_text
-                        string departmentId = distributeParams["department_id"]?.ToString();
-                        if (!string.IsNullOrEmpty(departmentId) && departmentId != "0")
+                        //PersonJson["id"] = userid;
+                        //PersonJson["name"] = sqldatajo[0]["name"].ToString().Trim();
+
+                        string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
+                        var picturePath = distributeParams["picture"]?.ToString();
+
+                        //自定义字段
+                        string customer_text = Properties.Strings.DefaultCustomerText;
+                        if (string.IsNullOrEmpty(distributeParams["customer_text"]?.ToString()))
                         {
-                            string sql = $"SELECT name FROM department WHERE department.id = '{departmentId}'";
-                            string sqldata = SQLiteHelper.SQLiteDataReader(connectionString, sql);
-                            JArray sqldatajo = (JArray)JsonConvert.DeserializeObject(sqldata);
-                            var departmentInfo = sqldatajo.FirstOrDefault() as JObject;
-                            string departmentName = departmentInfo["name"]?.ToString();
-                            if (!string.IsNullOrEmpty(departmentName) && departmentName.Length < 23)
-                                customer_text = departmentName;
-                        }
-                    }
-                    else
-                    {
-                        customer_text = distributeParams["customer_text"].ToString().Trim();
-                    }
-
-
-                    //判断图片是否存在 如果不存在直接更新信息
-                    if (string.IsNullOrEmpty(picturePath))
-                    {
-                        dynamic o = new ExpandoObject();
-                        o.version = "0.2";
-                        o.cmd = "upload person";
-                        o.id = downid;
-                        o.name = distributeParams["name"].ToString().Trim();
-                        o.customer_text = customer_text;
-                        o.term_start = term_start;
-                        o.term = term;
-
-                        var idCardType = distributeParams["idcardtype"].Value<string>();
-                        var idCard = distributeParams["face_idcard"].Value<string>();
-                        if (!string.IsNullOrEmpty(idCardType) && !string.IsNullOrEmpty(idCard))
-                        {
-                            var idNumber = Convert.ToUInt64(idCard);
-                            if (idCardType == "64" )
+                            //如果customer_text没有值则将部门作为customer_text
+                            string departmentId = distributeParams["department_id"]?.ToString();
+                            if (!string.IsNullOrEmpty(departmentId) && departmentId != "0")
                             {
-                                o.long_card_id = idNumber;
+                                string sql = $"SELECT name FROM department WHERE department.id = '{departmentId}'";
+                                string sqldata = SQLiteHelper.SQLiteDataReader(connectionString, sql);
+                                JArray sqldatajo = (JArray)JsonConvert.DeserializeObject(sqldata);
+                                var departmentInfo = sqldatajo.FirstOrDefault() as JObject;
+                                string departmentName = departmentInfo["name"]?.ToString();
+                                if (!string.IsNullOrEmpty(departmentName) && departmentName.Length < 23)
+                                    customer_text = departmentName;
                             }
-                            else
-                            {
-                                o.wg_card_id = idNumber;
-                            }
-
-                        }
-                        
-                        PersonJson = JsonConvert.SerializeObject(o);
-                    }
-                    else
-                    {
-                        if (!File.Exists(picturePath))
-                        {
-                            string updatessql = $"UPDATE Equipment_distribution SET status='fail', type='2', errMsg='{Properties.Strings.ImageMissing}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
-                            SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
-                            return;
-
                         }
                         else
                         {
-                            //来源于设备同步
-                            if (Regex.IsMatch(source, "^.{6,6}-.{6,6}-.{6,6}$"))
-                            {
-
-                                string ss = distributeParams["picture"].ToString().Trim();
-                                string ss1 = distributeParams["picture"].ToString().Trim().Substring(0, distributeParams["picture"].ToString().Trim().Length - 4)
-                                    + "reg_images" + ".jpg";
-                                thumb = Convert.ToBase64String(File.ReadAllBytes(distributeParams["picture"].ToString().Trim()));
-                                twis = Convert.ToBase64String(File.ReadAllBytes(distributeParams["picture"].ToString().Trim().Substring(0, distributeParams["picture"].ToString().Trim().Length - 4)
-                                    + "reg_images" + ".jpg"));
-                                if (File.ReadAllBytes(distributeParams["picture"].ToString().Trim()).Length == 112 * 112 * 3)
-                                {
-                                    norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", thumb);
-                                }
-                                else
-                                    norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", thumb);
-                                reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", twis);
-                            }
-                            else
-                            {
-                                //将图片转换成符合相机需求
-                                if (twistImageCore(File.ReadAllBytes(distributeParams["picture"].ToString().Trim()), CameraConfigPortlist.DevicVersion, out thumb, out twis, out bool IsNew))
-                                {
-                                    reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
-
-                                    if (IsNew)
-                                    {
-                                        norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", twis);
-                                    }
-                                    else
-                                        norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
-
-                                }
-                            }
-                            if (distributeParams["idcardtype"].ToString().Trim() == "64")
-                            {
-                                PersonJson = string.Format(UtilsJson.PersonJson64, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text,term_start,term);
-                            }
-                            else if (distributeParams["idcardtype"].ToString().Trim() == "32")
-                            {
-                                PersonJson = string.Format(UtilsJson.PersonJson32, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text, term_start, term);
-                            }
-                            else
-                            {
-                                PersonJson = string.Format(UtilsJson.PersonJson, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, customer_text, term_start, term);
-                            }
-
+                            customer_text = distributeParams["customer_text"].ToString().Trim();
                         }
 
 
+                        //判断图片是否存在 如果不存在直接更新信息
+                        if (string.IsNullOrEmpty(picturePath))
+                        {
+                            dynamic o = new ExpandoObject();
+                            o.version = "0.2";
+                            o.cmd = "upload person";
+                            o.id = downid;
+                            o.name = distributeParams["name"].ToString().Trim();
+                            o.customer_text = customer_text;
+                            o.term_start = term_start;
+                            o.term = term;
+
+                            var idCardType = distributeParams["idcardtype"].Value<string>();
+                            var idCard = distributeParams["face_idcard"].Value<string>();
+                            if (!string.IsNullOrEmpty(idCardType) && !string.IsNullOrEmpty(idCard))
+                            {
+                                var idNumber = Convert.ToUInt64(idCard);
+                                if (idCardType == "64")
+                                {
+                                    o.long_card_id = idNumber;
+                                }
+                                else
+                                {
+                                    o.wg_card_id = idNumber;
+                                }
+
+                            }
+
+                            PersonJson = JsonConvert.SerializeObject(o);
+                        }
+                        else
+                        {
+                            if (!File.Exists(picturePath))
+                            {
+                                string updatessql = $"UPDATE Equipment_distribution SET status='fail', type='2', errMsg='{Properties.Strings.ImageMissing}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
+                                SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                                return;
+
+                            }
+                            else
+                            {
+                                //来源于设备同步
+                                if (Regex.IsMatch(source, "^.{6,6}-.{6,6}-.{6,6}$"))
+                                {
+
+                                    string ss = distributeParams["picture"].ToString().Trim();
+                                    string ss1 = distributeParams["picture"].ToString().Trim().Substring(0, distributeParams["picture"].ToString().Trim().Length - 4)
+                                        + "reg_images" + ".jpg";
+                                    thumb = Convert.ToBase64String(File.ReadAllBytes(distributeParams["picture"].ToString().Trim()));
+                                    twis = Convert.ToBase64String(File.ReadAllBytes(distributeParams["picture"].ToString().Trim().Substring(0, distributeParams["picture"].ToString().Trim().Length - 4)
+                                        + "reg_images" + ".jpg"));
+                                    if (File.ReadAllBytes(distributeParams["picture"].ToString().Trim()).Length == 112 * 112 * 3)
+                                    {
+                                        norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", thumb);
+                                    }
+                                    else
+                                        norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", thumb);
+                                    reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", twis);
+                                }
+                                else
+                                {
+                                    //将图片转换成符合相机需求
+                                    if (twistImageCore(File.ReadAllBytes(distributeParams["picture"].ToString().Trim()), CameraConfigPortlist.DevicVersion, out thumb, out twis, out bool IsNew))
+                                    {
+                                        reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
+
+                                        if (IsNew)
+                                        {
+                                            norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", twis);
+                                        }
+                                        else
+                                            norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
+
+                                    }
+                                }
+                                if (distributeParams["idcardtype"].ToString().Trim() == "64")
+                                {
+                                    PersonJson = string.Format(UtilsJson.PersonJson64, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text, term_start, term);
+                                }
+                                else if (distributeParams["idcardtype"].ToString().Trim() == "32")
+                                {
+                                    PersonJson = string.Format(UtilsJson.PersonJson32, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, distributeParams["face_idcard"].ToString().Trim(), customer_text, term_start, term);
+                                }
+                                else
+                                {
+                                    PersonJson = string.Format(UtilsJson.PersonJson, downid, distributeParams["name"].ToString().Trim(), reg_images, norm_images, customer_text, term_start, term);
+                                }
+
+                            }
+
+
+                        }
+
+                        //string imgebase64str = ReadImageFile(sqldatajo[0]["picture"].ToString().Trim());
+                        //PersonJson["reg_images"][0]["image_data"] = imgebase64str;
+
+
                     }
 
-                    //string imgebase64str = ReadImageFile(sqldatajo[0]["picture"].ToString().Trim());
-                    //PersonJson["reg_images"][0]["image_data"] = imgebase64str;
-
-
-                }
-
-                JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
-                if (deleteJson != null)
-                {
-                    deleteJson["id"] = downid;
-                }
-                //先执行删除操作
-                string sss = GetDevinfo.request(CameraConfigPortlist, deleteJson.ToString());
-                //在执行下发操作
-                string restr = GetDevinfo.request(CameraConfigPortlist, PersonJson);
-                JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
-                if (restr_json != null)
-                {
-                    string code = restr_json["code"].ToString();
-                    int code_int = int.Parse(code);
-                    if (code_int == 0)
+                    JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
+                    if (deleteJson != null)
                     {
-                        string updatessql = "UPDATE Equipment_distribution SET errMsg='', status='success',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
-                        SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                        deleteJson["id"] = downid;
                     }
-                    else
+                    //先执行删除操作
+                    string sss = GetDevinfo.request(CameraConfigPortlist, deleteJson.ToString());
+                    //在执行下发操作
+                    string restr = GetDevinfo.request(CameraConfigPortlist, PersonJson);
+                    JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+                    lock (Logger)//更新数据库需要阻塞，避免数据库lock
                     {
-                        string updatessql = "UPDATE Equipment_distribution SET status='fail', type='2', code='" + code_int + "',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
-                        SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                        if (restr_json != null)
+                        {
+                            string code = restr_json["code"].ToString();
+                            int code_int = int.Parse(code);
+                            if (code_int == 0)
+                            {
+                                string updatessql = "UPDATE Equipment_distribution SET errMsg='', status='success',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
+                                SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                            }
+                            else
+                            {
+                                string updatessql = "UPDATE Equipment_distribution SET status='fail', type='2', code='" + code_int + "',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
+                                SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                            }
+                            //else if (code_int == 35 || code_int == 36 || code_int == 37 || code_int == 38 || code_int == 39 || code_int == 40 || code_int == 41)
+                            //{
+                            //    obj["data"] = "照片不合格";
+                            //}
+                        }
+                        else
+                        {
+                            lock (Logger)
+                            {
+                                Logger.Warn("{0}下发失败，人员信息：{1}",ip, PersonJson);
+                                string updatessql = "UPDATE Equipment_distribution SET status='fail',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
+                                SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                            }
+                        }
                     }
-                    //else if (code_int == 35 || code_int == 36 || code_int == 37 || code_int == 38 || code_int == 39 || code_int == 40 || code_int == 41)
-                    //{
-                    //    obj["data"] = "照片不合格";
-                    //}
-                }
-                else
-                {
-                    string updatessql = "UPDATE Equipment_distribution SET status='fail',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
-                    SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                 }
             }
             else

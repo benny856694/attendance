@@ -585,6 +585,12 @@ namespace huaanClient
             return obj.ToString();
         }
 
+        internal static void deleteDataSyn(string person_id)
+        {
+            string sql = "delete from DataSyn where personid = " + person_id;
+            int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+        }
+
         public static string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout,string username,string password)
         {
             obj = new JObject();
@@ -2419,7 +2425,7 @@ namespace huaanClient
                             if (!string.IsNullOrEmpty(Groupid))
                             {
                                 commandText = @"Insert into staff (id,publish_time,source,name, Employee_code, phone, Email, department_id,Employetype_id,face_idcard,idcardtype,AttendanceGroup_id) " +
-                           "values('" + id + "','" + publish_time + "','" + source + "','" + name + "', '" + staff_no + "','" + phone + "',' " + email + "', '" + department + "'," + Employetype + "," + face_idcard + "','" + idcardtype + "','" + Groupid + "')";
+                           "values('" + id + "','" + publish_time + "','" + source + "','" + name + "', '" + staff_no + "','" + phone + "',' " + email + "', '" + department + "'," + Employetype + "," + face_idcard + ",'" + idcardtype + "','" + Groupid + "')";
                             }
                             else
                             {
@@ -2435,6 +2441,8 @@ namespace huaanClient
                         {
                             obj["result"] = 2;
                             obj["data"] = Strings.SaveSuccess;
+                            //删除该条数据
+                            GetData.deleteDataSyn(id);
                         }
                         else
                         {
@@ -2456,7 +2464,8 @@ namespace huaanClient
 
         public static void setStaf(string id, string name, string imge, string face_idcard, string source)
         {
-            string staff_no = GetTimeStamp().Trim();
+            //string staff_no = GetTimeStamp().Trim();
+            string staff_no = id;
             string idcardtype = "";
             if (!string.IsNullOrEmpty(face_idcard))
             {
@@ -5007,6 +5016,7 @@ namespace huaanClient
                                     card_id = wg_card_id;
                                 }
                                 setStaf(personid, name, imge, card_id, source);
+                                deleteDataSyn(personid);
                             }
                             catch
                             {
