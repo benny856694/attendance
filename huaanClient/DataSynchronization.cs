@@ -118,7 +118,7 @@ namespace huaanClient
                     File.WriteAllBytes(fn_tmp, closeup);
                     Bitmap pic = new Bitmap(fn_tmp);
                     int width = pic.Size.Width;   // 图片的宽度
-                    fn = ""; //经测试，不管获取的相机人脸图片是112*112，还是150*150，经过扩大外边框后都不能正常下发，因此取消保存图片
+                    resizePic(fn_tmp, 10, fn); ; //经测试，不管获取的相机人脸图片是112*112，还是150*150，经过扩大外边框后都不能正常下发
                     //if (width < 150)
                     //{
                     //    fn = "";

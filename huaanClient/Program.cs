@@ -82,7 +82,6 @@ namespace huaanClient
                 {
                     try
                     {
-                        Logger.Info("即将执行下发任务...");
                         Thread.Sleep(10 * 1000);
                         DistributeToequipment.distrbute();
                         Thread.Sleep(10 * 1000);

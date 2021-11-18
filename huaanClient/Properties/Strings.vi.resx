@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
+	<!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,263 +59,266 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="Absent" xml:space="preserve">
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="Absent" xml:space="preserve">
     <value>Vắng</value>
   </data>
-  <data name="AllDriveIsNotAvailable" xml:space="preserve">
+	<data name="AllDriveIsNotAvailable" xml:space="preserve">
     <value>Không có đĩa để lưu dữ liệu</value>
   </data>
-  <data name="AttendanceNames" xml:space="preserve">
+	<data name="AttendanceNames" xml:space="preserve">
     <value>Tên,Bộ phận,Số nhân viên,Ngày tham dự,Giờ vào,Giờ ra,Giờ vào 2,Giờ ra 2,Thông tin ca làm việc,Thời gian tham dự (giờ),Muộn (phút),Nghỉ sớm (phút),Làm thêm giờ (phút),Vắng mặt,Nhiệt độ cơ thể</value>
   </data>
-  <data name="Camera" xml:space="preserve">
+	<data name="Camera" xml:space="preserve">
     <value>máy ảnh</value>
   </data>
-  <data name="DayOff" xml:space="preserve">
+	<data name="DayOff" xml:space="preserve">
     <value>nghỉ</value>
   </data>
-  <data name="DeviceOffline" xml:space="preserve">
+	<data name="DeviceOffline" xml:space="preserve">
     <value>Thiết bị tắt</value>
   </data>
-  <data name="ImageMissing" xml:space="preserve">
+	<data name="ImageMissing" xml:space="preserve">
     <value>Thiếu ảnh</value>
   </data>
-  <data name="PromptSwitchingCamera" xml:space="preserve">
+	<data name="PromptSwitchingCamera" xml:space="preserve">
     <value>Chuyển</value>
   </data>
-  <data name="SaveFailed" xml:space="preserve">
+	<data name="SaveFailed" xml:space="preserve">
     <value>Lỗi lưu</value>
   </data>
-  <data name="SaveSuccess" xml:space="preserve">
+	<data name="SaveSuccess" xml:space="preserve">
     <value>Lưu thành công</value>
   </data>
-  <data name="StaffCodeExists" xml:space="preserve">
+	<data name="StaffCodeExists" xml:space="preserve">
     <value>Số nhân viên đã có</value>
   </data>
-  <data name="StaffCodeIsEmpty" xml:space="preserve">
+	<data name="StaffCodeIsEmpty" xml:space="preserve">
     <value>Số nhân viên không thể trống</value>
   </data>
-  <data name="StaffImageInValid" xml:space="preserve">
+	<data name="StaffImageInValid" xml:space="preserve">
     <value>Tấm ảnh không đáp ứng yêu cầu</value>
   </data>
-  <data name="StaffNames" xml:space="preserve">
+	<data name="StaffNames" xml:space="preserve">
     <value>Tên,Email,Số điện thoại,Số nhân viên,Đường dẫn ảnh,Ngày tạo,Số ID,Số thẻ kiểm soát truy cập,Độ dài thẻ kiểm soát truy cập,Bộ phận,Loại nhân viên</value>
   </data>
-  <data name="Switch" xml:space="preserve">
+	<data name="Switch" xml:space="preserve">
     <value>công</value>
   </data>
-  <data name="TakePicture" xml:space="preserve">
+	<data name="TakePicture" xml:space="preserve">
     <value>Chụp ảnh</value>
   </data>
-  <data name="InitializingDb" xml:space="preserve">
+	<data name="InitializingDb" xml:space="preserve">
     <value>Đang khởi tạo cơ sở dữ liệu ...</value>
   </data>
-  <data name="InitializeDbFailed" xml:space="preserve">
+	<data name="InitializeDbFailed" xml:space="preserve">
     <value>Lỗi khởi tạo cơ sở dữ liệu</value>
   </data>
-  <data name="LoginInProgress" xml:space="preserve">
+	<data name="LoginInProgress" xml:space="preserve">
     <value>Đăng nhập...</value>
   </data>
-  <data name="LoginSucceed" xml:space="preserve">
+	<data name="LoginSucceed" xml:space="preserve">
     <value>Đăng nhập thành công</value>
   </data>
-  <data name="LoginFailed" xml:space="preserve">
+	<data name="LoginFailed" xml:space="preserve">
     <value>Đăng nhập thất bại</value>
   </data>
-  <data name="ConnectDbFailed" xml:space="preserve">
+	<data name="ConnectDbFailed" xml:space="preserve">
     <value>Kết nối Cơ sở dữ liệu không thành công: {0}</value>
   </data>
-  <data name="UsernameOrPasswordIncorrect" xml:space="preserve">
+	<data name="UsernameOrPasswordIncorrect" xml:space="preserve">
     <value>Tên người dùng hoặc lỗi mật khẩu</value>
   </data>
-  <data name="UsernameEmpty" xml:space="preserve">
+	<data name="UsernameEmpty" xml:space="preserve">
     <value>Tên người dùng không được để trống</value>
   </data>
-  <data name="PasswordEmpty" xml:space="preserve">
+	<data name="PasswordEmpty" xml:space="preserve">
     <value>Mật khẩu không được để trống</value>
   </data>
-  <data name="ExceptionOccurred" xml:space="preserve">
+	<data name="ExceptionOccurred" xml:space="preserve">
     <value>Ngoại lệ: {0}</value>
   </data>
-  <data name="ChangePassword" xml:space="preserve">
+	<data name="ChangePassword" xml:space="preserve">
     <value>Đổi mật khẩu</value>
   </data>
-  <data name="ConfirmNewPassword" xml:space="preserve">
+	<data name="ConfirmNewPassword" xml:space="preserve">
     <value>Xác nhận mật khẩu mới</value>
   </data>
-  <data name="ConfirmNewPasswordMismatch" xml:space="preserve">
+	<data name="ConfirmNewPasswordMismatch" xml:space="preserve">
     <value>Mật khẩu mới không khớp</value>
   </data>
-  <data name="NewPassword" xml:space="preserve">
+	<data name="NewPassword" xml:space="preserve">
     <value>Mật khẩu mới</value>
   </data>
-  <data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
+	<data name="NewPasswordCanotBeSameAsOld" xml:space="preserve">
     <value>Mật khẩu mới giống với mật khẩu cũ</value>
   </data>
-  <data name="RememberPassword" xml:space="preserve">
+	<data name="RememberPassword" xml:space="preserve">
     <value>Nhớ mật khẩu</value>
   </data>
-  <data name="CaptureDataExportDefaultFileName" xml:space="preserve">
+	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
     <value>danh sách tham dự</value>
   </data>
-  <data name="CaptureRecordColumnNames" xml:space="preserve">
+	<data name="CaptureRecordColumnNames" xml:space="preserve">
     <value>tên đầy đủ,ID,Tên trang bị,Thời gian thẻ tín dụng,Điểm tương phản,Số thẻ truy cập,Lý do gây thất bại,Anh có đeo mặt nạ không?,Nhiệt,Số seri Thiết bị,Số chứng nhận,Tên của chứng nhận,Hệ thống Y tế,Thông tin mật,Vẽ đường dẫn</value>
   </data>
-  <data name="GreenCode" xml:space="preserve">
+	<data name="GreenCode" xml:space="preserve">
     <value>  </value>
   </data>
-  <data name="RedCode" xml:space="preserve">
+	<data name="RedCode" xml:space="preserve">
     <value>  </value>
   </data>
-  <data name="YellowCode" xml:space="preserve">
+	<data name="YellowCode" xml:space="preserve">
     <value>  </value>
   </data>
-  <data name="Yes" xml:space="preserve">
+	<data name="Yes" xml:space="preserve">
     <value>Phải.</value>
   </data>
-  <data name="ExportFileFailedWithError" xml:space="preserve">
+	<data name="ExportFileFailedWithError" xml:space="preserve">
     <value>Lỗi xuất tập tin: {0}</value>
   </data>
-  <data name="ExportFileSucceed" xml:space="preserve">
+	<data name="ExportFileSucceed" xml:space="preserve">
     <value>Xuất tập tin thành công</value>
   </data>
-  <data name="ExcelFile" xml:space="preserve">
+	<data name="ExcelFile" xml:space="preserve">
     <value>Xoá tập tin (*.xlsx)|*.xlsx</value>
   </data>
-  <data name="No" xml:space="preserve">
+	<data name="No" xml:space="preserve">
     <value>không</value>
   </data>
-  <data name="AttendanceDataMonthlyNames" xml:space="preserve">
+	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
     <value>tên đầy đủ,Mã người dùng,Bộ,Số nhân viên,Ngày tham dự,Tham dự (ngày),Số lần trễ/ toàn bộ thời gian (phút),Thời gian nghỉ sớm/ toàn bộ (phút),Ngày vắng mặt,Nghỉ phép</value>
   </data>
-  <data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
+	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
     <value>Báo cáo tham dự tháng</value>
   </data>
-  <data name="ExcelCantBeAccessed" xml:space="preserve">
+	<data name="ExcelCantBeAccessed" xml:space="preserve">
     <value>Không mở được t ập tin, đảm bảo nó không được mở bởi chương trình khác.</value>
   </data>
-  <data name="ExcelImportLogFileName" xml:space="preserve">
+	<data name="ExcelImportLogFileName" xml:space="preserve">
     <value>Sản phẩm phụ gốc</value>
   </data>
-  <data name="ExcelIsEmpty" xml:space="preserve">
+	<data name="ExcelIsEmpty" xml:space="preserve">
     <value>tập tin rỗng</value>
   </data>
-  <data name="Fail" xml:space="preserve">
+	<data name="Fail" xml:space="preserve">
     <value>hỏng</value>
   </data>
-  <data name="MessageSaveImportLog" xml:space="preserve">
+	<data name="MessageSaveImportLog" xml:space="preserve">
     <value>Thành công:{0},Thất bại:{1}, Lưu bản nhập khẩu?</value>
   </data>
-  <data name="Success" xml:space="preserve">
+	<data name="Success" xml:space="preserve">
     <value>thành công</value>
   </data>
-  <data name="SrcStaffTemplateFileName" xml:space="preserve">
+	<data name="SrcStaffTemplateFileName" xml:space="preserve">
     <value>TemplateEn.xlsx</value>
   </data>
-  <data name="DefaultCustomerText" xml:space="preserve">
+	<data name="DefaultCustomerText" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="BatchImportModel" xml:space="preserve">
+	<data name="BatchImportModel" xml:space="preserve">
     <value>BatchImportModel</value>
   </data>
-  <data name="BatchImportResult" xml:space="preserve">
+	<data name="BatchImportResult" xml:space="preserve">
     <value>BatchImportResult</value>
   </data>
-  <data name="StaffExportExcelName" xml:space="preserve">
+	<data name="StaffExportExcelName" xml:space="preserve">
     <value>Danh sách nhân sự</value>
   </data>
-  <data name="PhotoTakenNotQualified" xml:space="preserve">
+	<data name="PhotoTakenNotQualified" xml:space="preserve">
     <value>Hình ảnh được chụp không đủ tiêu chuẩn, hãy đảm bảo chỉ có một khuôn mặt trong ảnh và khuôn mặt đó hướng về phía máy ảnh</value>
   </data>
-  <data name="DefaultShiftName" xml:space="preserve">
+	<data name="DefaultShiftName" xml:space="preserve">
     <value>Ca</value>
   </data>
-  <data name="DefaultEmployeeType" xml:space="preserve">
+	<data name="DefaultEmployeeType" xml:space="preserve">
     <value>Khác</value>
   </data>
-  <data name="DefaultCompanyName" xml:space="preserve">
+	<data name="DefaultCompanyName" xml:space="preserve">
     <value>tên công ty</value>
   </data>
-  <data name="DefaultDepartmentName" xml:space="preserve">
+	<data name="DefaultDepartmentName" xml:space="preserve">
     <value>phòng ban</value>
   </data>
-  <data name="DefaultShiftGroupName" xml:space="preserve">
+	<data name="DefaultShiftGroupName" xml:space="preserve">
     <value>nhóm ca</value>
   </data>
-  <data name="MenuItemCopyImage" xml:space="preserve">
+	<data name="MenuItemCopyImage" xml:space="preserve">
     <value>Sao chép</value>
   </data>
-  <data name="ShowInExplorer" xml:space="preserve">
+	<data name="ShowInExplorer" xml:space="preserve">
     <value>Hiển thị trong Explorer</value>
   </data>
-  <data name="DatasetIsTooBig" xml:space="preserve">
+	<data name="DatasetIsTooBig" xml:space="preserve">
     <value>Tập dữ liệu không được vượt quá 10000 mục</value>
   </data>
-  <data name="NoDataFound" xml:space="preserve">
+	<data name="NoDataFound" xml:space="preserve">
     <value>Không tìm thấy dữ liệu</value>
   </data>
-  <data name="PhotoCaptureFailed" xml:space="preserve">
+	<data name="PhotoCaptureFailed" xml:space="preserve">
     <value>Lỗi chụp ảnh, xin hãy thử lại.</value>
   </data>
-  <data name="AttendanceNameCanBeNotNull" xml:space="preserve">
+	<data name="AttendanceNameCanBeNotNull" xml:space="preserve">
     <value>Tên nhóm không phải là trống rỗng!</value>
   </data>
+	<data name="PasswordSpace" xml:space="preserve">
+		<value>Không thể nhập không gian</value>
+	</data>
 </root>

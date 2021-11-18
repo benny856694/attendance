@@ -1572,6 +1572,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return GetData.GetIpforPC();
         }
 
+        //设备实时人员列表
+        public string getDataSynRealTime(string name, string role, string stutas, string addr_name, string page, string limt)
+        {
+            return GetData.getDataSynRealTime(name, role, stutas, addr_name, page, limt);
+        }
+
         public string getDataSyn(string name, string role, string stutas, string addr_name, string page, string limt)
         {
             return GetData.getDataSyn( name,  role,  stutas,addr_name,  page,  limt);
@@ -1585,6 +1591,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public bool deleteDataSyn(string personid, string device_sn)
         {
             return GetData.deleteDataSyn(personid, device_sn);
+        }
+
+        public bool deleteDataSynRealTime(string personid,string device_sn)
+        {
+            return GetData.deleteDataSynRealTime(personid,device_sn);
         }
 
         //一键注册  数据同步——>staff
