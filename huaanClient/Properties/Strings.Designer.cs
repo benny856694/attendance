@@ -511,6 +511,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似 不能输入空格 的本地化字符串。
+        /// </summary>
+        internal static string PasswordSpace {
+            get {
+                return ResourceManager.GetString("PasswordSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 拍照失败，请重试 的本地化字符串。
         /// </summary>
         internal static string PhotoCaptureFailed {

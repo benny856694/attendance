@@ -1329,6 +1329,68 @@ namespace huaanClient
             }
 
         }
+
+        internal static bool deleteDataSynRealTime(string personid,string device_sn)
+        {
+            string deleteJson = string.Format(UtilsJson.deleteJson2,personid);
+            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceNo == device_sn);
+            if (CameraConfigPortlist.IsConnected)
+            {
+                var restr = GetDevinfo.request(CameraConfigPortlist, deleteJson);
+                JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+                if (restr_json != null)
+                {
+                    string code = restr_json["code"].ToString();
+                    int code_int = int.Parse(code);
+                    if (code_int == 0) return true;
+                }
+            }
+            return false;
+        }
+
+        internal static string getDataSynRealTime(string name, string role, string stutas, string addr_name, string page, string limt)
+        {
+            //请求设备人员信息
+            //{"cmd":"request persons","role":-1,"page_no":1,"page_size":10,"nomal_image_flag":1,"image_flag":1,"query_mode":1,"condition":{"person_name":""}}
+            string queryJson = string.Format(UtilsJson.request_persons2, page, limt, name);
+            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceName == addr_name);
+            JObject retJson = new JObject();
+            var ja = new JArray();
+            if (!CameraConfigPortlist.IsConnected)
+            {
+                retJson["count"] = 0;
+                retJson["list"] = new JArray();
+                return retJson.ToString();
+            }
+            var restr = GetDevinfo.request(CameraConfigPortlist, queryJson);
+            JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+            retJson["count"] = restr_json["total"];
+            JArray persons = (JArray)restr_json["persons"];
+            if (persons.Count() > 0)
+            {
+                for(int i = 0; i < persons.Count(); i++)
+                {
+                    JObject p = new JObject();
+                    p["imge"] = persons[i]["reg_images"][0]["image_data"].ToString();
+                    //p["long_card_id"] = null;
+                   // p["wg_card_id"] = null;
+                    p["name"] = persons[i]["name"].ToString();
+                    p["id"] = persons[i]["id"].ToString();
+                    p["personid"] = persons[i]["id"].ToString();
+                    p["addr_name"] = addr_name;
+                    p["publishtime"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    p["role"] = persons[i]["role"].ToString();
+                    p["term"] = persons[i]["term"].ToString();
+                    p["term_start"] = persons[i]["term_start"].ToString();
+                    p["device_sn"] = restr_json["device_sn"].ToString();
+                    ja.Add(p);
+                }
+            }
+            retJson["list"] = ja;
+            // 返回
+            return retJson.ToString().Trim();
+        }
+
         //0 成功  1失败
         public static string setAddPerson(string ip, string name, string imgeurl, string Idcode)
         {
@@ -2359,6 +2421,7 @@ namespace huaanClient
         //0未传值 1保存失败 2成功
         public static string setStaf(string id, string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
+            imge = "";//设备人员注册不要人脸
             if (string.IsNullOrEmpty(Employetype))
             {
                 Employetype = "1";

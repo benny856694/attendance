@@ -29,7 +29,7 @@ namespace huaanClient
             Logger.Info("开始下发...");
             //string connectionString = "Data Source=" + Application.StartupPath + @"\huaanDatabase.sqlite;Version=3;";
             string connectionString = ApplicationData.connectionString;
-            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 limit 50";
+            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 limit 500";
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
             
             if (!string.IsNullOrEmpty(sr))
