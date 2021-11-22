@@ -1588,9 +1588,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return GetData.getDataSynCount(name, role, stutas,addr_name);
         }
 
-        public bool deleteDataSyn(string personid, string device_sn)
+        public bool deleteDataSyn(string id,string personid, string device_sn)
         {
-            return GetData.deleteDataSyn(personid, device_sn);
+            return GetData.deleteDataSyn(id,personid, device_sn);
         }
 
         public bool deleteDataSynRealTime(string personid,string device_sn)

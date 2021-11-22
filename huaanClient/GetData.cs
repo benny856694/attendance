@@ -4924,7 +4924,7 @@ namespace huaanClient
             }
         }
 
-        public static bool deleteDataSyn(string id, string device_sn)
+        public static bool deleteDataSyn(string id, string personid,string device_sn)
         {
             bool re = false;
             CameraConfigPort cameraConfigPort = Deviceinfo.MyDevicelist.Find(a => a.DeviceNo == device_sn);
@@ -4934,7 +4934,7 @@ namespace huaanClient
                 JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
                 if (deleteJson != null)
                 {
-                    deleteJson["id"] = id;
+                    deleteJson["id"] = personid;
                 }
                 string restr = GetDevinfo.request(cameraConfigPort, deleteJson.ToString());
 
