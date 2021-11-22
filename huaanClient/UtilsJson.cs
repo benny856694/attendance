@@ -24,6 +24,6 @@ namespace huaanClient
         public static string CameraParameterforlcd = "{{\"version\":\"0.2\",\"cmd\":\"update lcd screensaver\",\"screensaver_mode\":\"{0}\"}}";
         public static string camera_volume = "{{\"cmd\": \"camera volume\",\"method\": \"SET\",\"volume\": {0}}}";
         public static string request_persons = "{{\"cmd\": \"request persons\",\"role\": -1,\"page_no\": 1,\"page_size\": 10,\"normal_image_flag\": 1,\"image_flag\": 1,\"query_mode\": 0,\"condition\": {{\"person_id\": \"{0}\"}}}}";
-        public static string request_persons2 = "{{\"cmd\": \"request persons\",\"role\": -1,\"page_no\": {0},\"page_size\": {1},\"normal_image_flag\": 1,\"image_flag\": 1,\"query_mode\": 1,\"condition\": {{\"person_id\": \"{2}\"}}}}";
+        public static string request_persons_by_name = "{{\"cmd\": \"request persons\",\"role\": -1,\"page_no\": {0},\"page_size\": {1},\"normal_image_flag\": 1,\"image_flag\": 1,\"query_mode\": 1,\"condition\": {{\"person_name\": \"{2}\"}}}}";
     }
 }
