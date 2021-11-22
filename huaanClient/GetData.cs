@@ -1355,14 +1355,19 @@ namespace huaanClient
             string queryJson = string.Format(UtilsJson.request_persons_by_name, page, limt, name);
             CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceName == addr_name);
             JObject retJson = new JObject();
+            retJson["count"] = 0;
+            retJson["list"] = new JArray();
+
             var ja = new JArray();
-            if (!CameraConfigPortlist.IsConnected)
+            if (CameraConfigPortlist?.IsConnected == false)
             {
-                retJson["count"] = 0;
-                retJson["list"] = new JArray();
                 return retJson.ToString();
             }
             var restr = GetDevinfo.request(CameraConfigPortlist, queryJson);
+            if (string.IsNullOrEmpty(restr))
+            {
+                return retJson.ToString();
+            }
             JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
             if (restr_json["code"].Value<int>() != 0 || restr_json["count"].Value<int>() == 0)
             {
