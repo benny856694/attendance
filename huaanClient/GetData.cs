@@ -1352,7 +1352,7 @@ namespace huaanClient
         {
             //请求设备人员信息
             //{"cmd":"request persons","role":-1,"page_no":1,"page_size":10,"nomal_image_flag":1,"image_flag":1,"query_mode":1,"condition":{"person_name":""}}
-            string queryJson = string.Format(UtilsJson.request_persons2, page, limt, name);
+            string queryJson = string.Format(UtilsJson.request_persons_by_name, page, limt, name);
             CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceName == addr_name);
             JObject retJson = new JObject();
             var ja = new JArray();
@@ -1364,6 +1364,10 @@ namespace huaanClient
             }
             var restr = GetDevinfo.request(CameraConfigPortlist, queryJson);
             JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+            if (restr_json["code"].Value<int>() != 0 || restr_json["count"].Value<int>() == 0)
+            {
+                return retJson.ToString();
+            }
             retJson["count"] = restr_json["total"];
             JArray persons = (JArray)restr_json["persons"];
             if (persons.Count() > 0)
