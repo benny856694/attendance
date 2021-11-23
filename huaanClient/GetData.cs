@@ -1380,7 +1380,11 @@ namespace huaanClient
                 for(int i = 0; i < persons.Count(); i++)
                 {
                     JObject p = new JObject();
-                    p["imge"] = persons[i]["reg_images"][0]["image_data"].ToString();
+                    p["imge"] = "";
+                    if (persons[i]["image_num"].ToString()=="1")
+                    {
+                        p["imge"] = persons[i]["reg_images"][0]["image_data"].ToString();
+                    }
                     //p["long_card_id"] = null;
                    // p["wg_card_id"] = null;
                     p["name"] = persons[i]["name"].ToString();
