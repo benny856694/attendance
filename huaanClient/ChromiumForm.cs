@@ -673,7 +673,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
         public string setStaffForsynchronization(string ID,string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
-            string data = GetData.setStaf(ID.ToString(),name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), source.Trim());
+            string data = GetData.setStaf(ID.ToString(), name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), source.Trim());
             return data;
         }
         //编辑员工
@@ -1572,6 +1572,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return GetData.GetIpforPC();
         }
 
+        //设备实时人员列表
+        public string getDataSynRealTime(string name, string role, string stutas, string addr_name, string page, string limt)
+        {
+            return GetData.getDataSynRealTime(name, role, stutas, addr_name, page, limt);
+        }
+
         public string getDataSyn(string name, string role, string stutas, string addr_name, string page, string limt)
         {
             return GetData.getDataSyn( name,  role,  stutas,addr_name,  page,  limt);
@@ -1582,9 +1588,14 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return GetData.getDataSynCount(name, role, stutas,addr_name);
         }
 
-        public bool deleteDataSyn(string personid, string device_sn)
+        public bool deleteDataSyn(string id,string personid, string device_sn)
         {
-            return GetData.deleteDataSyn(personid, device_sn);
+            return GetData.deleteDataSyn(id,personid, device_sn);
+        }
+
+        public bool deleteDataSynRealTime(string personid,string device_sn)
+        {
+            return GetData.deleteDataSynRealTime(personid,device_sn);
         }
 
         //一键注册  数据同步——>staff

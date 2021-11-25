@@ -585,6 +585,12 @@ namespace huaanClient
             return obj.ToString();
         }
 
+        internal static void deleteDataSyn(string person_id)
+        {
+            string sql = "delete from DataSyn where personid = " + person_id;
+            int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+        }
+
         public static string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout,string username,string password)
         {
             obj = new JObject();
@@ -1323,6 +1329,81 @@ namespace huaanClient
             }
 
         }
+
+        internal static bool deleteDataSynRealTime(string personid,string device_sn)
+        {
+            string deleteJson = string.Format(UtilsJson.deleteJson2,personid);
+            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceNo == device_sn);
+            if (CameraConfigPortlist.IsConnected)
+            {
+                var restr = GetDevinfo.request(CameraConfigPortlist, deleteJson);
+                JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+                if (restr_json != null)
+                {
+                    string code = restr_json["code"].ToString();
+                    int code_int = int.Parse(code);
+                    if (code_int == 0) return true;
+                }
+            }
+            return false;
+        }
+
+        internal static string getDataSynRealTime(string name, string role, string stutas, string addr_name, string page, string limt)
+        {
+            //请求设备人员信息
+            //{"cmd":"request persons","role":-1,"page_no":1,"page_size":10,"nomal_image_flag":1,"image_flag":1,"query_mode":1,"condition":{"person_name":""}}
+            string queryJson = string.Format(UtilsJson.request_persons_by_name, page, limt, name);
+            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceName == addr_name);
+            JObject retJson = new JObject();
+            retJson["count"] = 0;
+            retJson["list"] = new JArray();
+
+            var ja = new JArray();
+            if (CameraConfigPortlist?.IsConnected == false)
+            {
+                return retJson.ToString();
+            }
+            var restr = GetDevinfo.request(CameraConfigPortlist, queryJson);
+            if (string.IsNullOrEmpty(restr))
+            {
+                return retJson.ToString();
+            }
+            JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+            if (restr_json["code"].Value<int>() != 0 || restr_json["count"].Value<int>() == 0)
+            {
+                return retJson.ToString();
+            }
+            retJson["count"] = restr_json["total"];
+            JArray persons = (JArray)restr_json["persons"];
+            if (persons.Count() > 0)
+            {
+                for(int i = 0; i < persons.Count(); i++)
+                {
+                    JObject p = new JObject();
+                    p["imge"] = "";
+                    if (persons[i]["image_num"].ToString()=="1")
+                    {
+                        p["imge"] = persons[i]["reg_images"][0]["image_data"].ToString();
+                    }
+                    //p["long_card_id"] = null;
+                   // p["wg_card_id"] = null;
+                    p["name"] = persons[i]["name"].ToString();
+                    p["id"] = persons[i]["id"].ToString();
+                    p["personid"] = persons[i]["id"].ToString();
+                    p["addr_name"] = addr_name;
+                    p["publishtime"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    p["role"] = persons[i]["role"].ToString();
+                    p["term"] = persons[i]["term"].ToString();
+                    p["term_start"] = persons[i]["term_start"].ToString();
+                    p["device_sn"] = restr_json["device_sn"].ToString();
+                    ja.Add(p);
+                }
+            }
+            retJson["list"] = ja;
+            // 返回
+            return retJson.ToString().Trim();
+        }
+
         //0 成功  1失败
         public static string setAddPerson(string ip, string name, string imgeurl, string Idcode)
         {
@@ -1454,7 +1535,7 @@ namespace huaanClient
 
 
 
-            string commandTextdepartmentid = "SELECT COUNT(id) as len ,Punchinformation,Punchinformation1,Remarks FROM  Attendance_Data  att WHERE att.personId='" + reData.personId.Trim() + "' AND att.Date= '" + reData.Date.Replace(@"\", "-").Trim() + "'";
+            string commandTextdepartmentid = "SELECT COUNT(id) as len ,Punchinformation,Punchinformation1,temperature,Remarks FROM  Attendance_Data  att WHERE att.personId='" + reData.personId.Trim() + "' AND att.Date= '" + reData.Date.Replace(@"\", "-").Trim() + "'";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
             if (!string.IsNullOrEmpty(sr))
             {
@@ -1516,7 +1597,15 @@ namespace huaanClient
 
                 string temperature = "";
                 if (!string.IsNullOrEmpty(reData.temperature) && !reData.temperature.Trim().Equals("0"))
-                { temperature = reData.temperature.Trim(); ValueList.Add("temperature", temperature); }
+                { 
+                    temperature = reData.temperature.Trim(); 
+                    ValueList.Add("temperature", temperature); 
+                }
+                else if (!string.IsNullOrEmpty(reData.temperature1) && !reData.temperature1.Trim().Equals("0"))
+                {
+                    temperature = reData.temperature1.Trim();
+                    ValueList.Add("temperature", temperature);
+                }
 
                 string IsAcrossNight = "";
                 IsAcrossNight = reData.IsAcrossNight.ToString().Trim(); ValueList.Add("IsAcrossNight", IsAcrossNight);
@@ -1525,6 +1614,7 @@ namespace huaanClient
                 {
                     string Punch = jo[0]["Punchinformation"].ToString();
                     string Punch1 = jo[0]["Punchinformation1"].ToString();
+                    var temp = jo[0]["temperature"].ToString();
                     commandText = "UPDATE Attendance_Data SET ";
                     foreach (var li in ValueList)
                     {
@@ -1557,6 +1647,13 @@ namespace huaanClient
                             }
                             else if (!string.IsNullOrEmpty(reData.Punchinformation1))
                                 commandText = commandText + li.Key + "='" + li.Value + "',";
+                        }
+                        else if(li.Key == "temperature")
+                        {
+                            if (string.IsNullOrEmpty(temp))//只有记录第一次温度
+                            {
+                                commandText = commandText + li.Key + "='" + li.Value + "',";
+                            }
                         }
                         else
                         {
@@ -2337,6 +2434,7 @@ namespace huaanClient
         //0未传值 1保存失败 2成功
         public static string setStaf(string id, string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
+            imge = "";//设备人员注册不要人脸
             if (string.IsNullOrEmpty(Employetype))
             {
                 Employetype = "1";
@@ -2403,7 +2501,7 @@ namespace huaanClient
                             if (!string.IsNullOrEmpty(Groupid))
                             {
                                 commandText = @"Insert into staff (id,publish_time,source,name, Employee_code, phone, Email, department_id,Employetype_id,face_idcard,idcardtype,AttendanceGroup_id) " +
-                           "values('" + id + "','" + publish_time + "','" + source + "','" + name + "', '" + staff_no + "','" + phone + "',' " + email + "', '" + department + "'," + Employetype + "," + face_idcard + "','" + idcardtype + "','" + Groupid + "')";
+                           "values('" + id + "','" + publish_time + "','" + source + "','" + name + "', '" + staff_no + "','" + phone + "',' " + email + "', '" + department + "'," + Employetype + "," + face_idcard + ",'" + idcardtype + "','" + Groupid + "')";
                             }
                             else
                             {
@@ -2419,6 +2517,8 @@ namespace huaanClient
                         {
                             obj["result"] = 2;
                             obj["data"] = Strings.SaveSuccess;
+                            //删除该条数据
+                            GetData.deleteDataSyn(id);
                         }
                         else
                         {
@@ -2440,7 +2540,8 @@ namespace huaanClient
 
         public static void setStaf(string id, string name, string imge, string face_idcard, string source)
         {
-            string staff_no = GetTimeStamp().Trim();
+            //string staff_no = GetTimeStamp().Trim();
+            string staff_no = id;
             string idcardtype = "";
             if (!string.IsNullOrEmpty(face_idcard))
             {
@@ -4827,7 +4928,7 @@ namespace huaanClient
             }
         }
 
-        public static bool deleteDataSyn(string id, string device_sn)
+        public static bool deleteDataSyn(string id, string personid,string device_sn)
         {
             bool re = false;
             CameraConfigPort cameraConfigPort = Deviceinfo.MyDevicelist.Find(a => a.DeviceNo == device_sn);
@@ -4837,7 +4938,7 @@ namespace huaanClient
                 JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
                 if (deleteJson != null)
                 {
-                    deleteJson["id"] = id;
+                    deleteJson["id"] = personid;
                 }
                 string restr = GetDevinfo.request(cameraConfigPort, deleteJson.ToString());
 
@@ -4991,6 +5092,7 @@ namespace huaanClient
                                     card_id = wg_card_id;
                                 }
                                 setStaf(personid, name, imge, card_id, source);
+                                deleteDataSyn(personid);
                             }
                             catch
                             {

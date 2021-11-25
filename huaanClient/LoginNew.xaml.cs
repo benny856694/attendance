@@ -113,9 +113,21 @@ namespace huaanClient
                     return false;
                 }
 
+                if(NewPassword.Password.Contains(" "))
+                {
+                    ShowStatus(Strings.PasswordSpace);
+                    return false;
+                }
+
                 if (string.IsNullOrEmpty(confirmNewPassword.Password))
                 {
                     ShowStatus(Strings.PasswordEmpty);
+                    return false;
+                }
+
+                if (confirmNewPassword.Password.Contains(""))
+                {
+                    ShowStatus(Strings.PasswordSpace);
                     return false;
                 }
 
