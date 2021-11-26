@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Report
 {
-    class AttendanceDataForDay
+    public class AttendanceDataForDay
     {
-        LocalDate Day { get; set; }
-        string ShiftName { get; set; }
-        LocalTime ShiftStart { get; set; }
-        LocalTime ShiftEnd { get; set; }
-        LocalTime CheckIn { get; set; }
-        LocalTime CheckOut { get; set; }
-        Period Late { get; set; }
-        Period Early { get; set; }
-        Period WorkHour { get; set; }
-        Remark Remark { get; set; }
+        public LocalDate Date { get; set; }
+        public string ShiftName { get; set; }
+        public LocalTime? ShiftStart { get; set; }
+        public LocalTime? ShiftEnd { get; set; }
+        public LocalTime? CheckIn { get; set; }
+        public LocalTime? CheckOut { get; set; }
+        public Period Late { get; set; } = Period.Zero;
+        public Period Early { get; set; } = Period.Zero;
+        public Period WorkHour { get; set; } = Period.Zero;
+        public Remark Remark { get; set; }
 
     }
 }

@@ -78,8 +78,8 @@ namespace huaanClient.Report
                     ws.Cell(row, col++).Value = employeeTypes.FirstOrDefault(x => x.id == employeeTypeId)?.Employetype_name ?? "";
                     ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(data.Employee_code);
                     ws.Cell(row, col++).Value = data.name;
-                    var shift = data.CalcShift();
-                    ws.Cell(row, col++).Value = shift.Shift;
+                    var shift = data.Shiftinformation.CalcShift();
+                    ws.Cell(row, col++).Value = shift.Name;
                     ws.Cell(row, col++).SetValue(shift.ShiftStart);
                     ws.Cell(row, col++).SetValue(shift.ShiftEnd);
                     ws.Cell(row, col++).SetValue(data.Punchinformation);
@@ -108,14 +108,9 @@ namespace huaanClient.Report
                         case Remark.Absent:
                             AbsentCount++;
                             break;
-                        case Remark.Early:
-                            break;
-                        case Remark.Late:
-                            break;
                         default:
                             break;
                     }
-
 
                     row++;
                 }
