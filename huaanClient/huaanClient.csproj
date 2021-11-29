@@ -413,7 +413,7 @@
     </Compile>
     <Compile Include="recursionJSON.cs" />
     <Compile Include="Report\AttendanceDataForDay.cs" />
-    <Compile Include="Report\DailyAttendance.cs" />
+    <Compile Include="Report\DailyAttendanceReporter.cs" />
     <Compile Include="Report\Extensions.cs" />
     <Compile Include="Report\Master.cs" />
     <Compile Include="Report\PeriodicMaster.cs" />

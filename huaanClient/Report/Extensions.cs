@@ -82,6 +82,9 @@ namespace huaanClient.Report
         {
             var shift = data.Shiftinformation.CalcShift();
             var result = new AttendanceDataForDay();
+            result.EmployeeId = data.personId;
+            result.EmployeeCode = data.Employee_code;
+            result.EmployeeName = data.name;
             result.ShiftName = shift.Name;
             result.ShiftStart = shift.ShiftStart.ToLocalTime();
             result.ShiftEnd = shift.ShiftEnd.ToLocalTime();
@@ -103,7 +106,8 @@ namespace huaanClient.Report
                 
                 var shiftHour = result.ShiftEnd.Value - result.ShiftStart.Value;
                 var workHour = result.CheckOut.Value - result.CheckIn.Value;
-                result.WorkHour = (workHour - shiftHour).Normalize();
+                result.WorkHour = workHour.Normalize();
+                result.OverTime = (workHour - shiftHour).Normalize();
             }
             result.Remark = data.CalcRemarks();
             return result;

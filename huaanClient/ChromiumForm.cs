@@ -1843,8 +1843,6 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public void exportDailyAttendance(List<string> ids, string day)
         {
-            var reporter = new huaanClient.Report.DailyAttendance();
-            reporter.Generate(ids, new DateTime(2021, 9, 1), @"d:\dailyReport.xlsx");
 
         }
     }

@@ -5,15 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccd47073-8553-46a1-af12-6818c6c0305c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.AttendanceManagement/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.AttendanceManagement/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.AttendanceManagement/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.AttendanceManagement/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.AttendanceManagement/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AttendanceManagement/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AttendanceManagement/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/huaanClient/ChromiumForm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/huaanClient/ChromiumForm.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/huaanClient/Report/AttendanceDataForDay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/huaanClient/Report/AttendanceDataForDay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/huaanClient/Report/DailyAttendance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/huaanClient/Report/DailyAttendance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/huaanClient/Report/DailyAttendance.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/huaanClient/Report/Extensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/huaanClient/Report/Extensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/huaanClient/Report/Remark.cs" beforeDir="false" afterPath="$PROJECT_DIR$/huaanClient/Report/Remark.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/huaanClient/exportToCsv.cs" beforeDir="false" afterPath="$PROJECT_DIR$/huaanClient/exportToCsv.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/huaanClient/huaanClient.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/huaanClient/huaanClient.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +31,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8d53c457b69a49918167172a6b3df5ce79800/43/LocalTime.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8d53c457b69a49918167172a6b3df5ce79800/60/LocalTimePatternParser.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/243acbe00e5841649ad390767cf85823121200/14/XLCell.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f2625fd844aa4dd5b6a3882f24f14d7952e178/0e/0ea40cc6/Nullable`1.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="21Ory0ihppmEAY82Som8EE4eJNv" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -43,9 +44,12 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.53954494" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="XThreadsFramesViewSplitterKey" value="0.3246231" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -79,6 +83,10 @@
       <updated>1637823237080</updated>
       <workItem from="1637823239997" duration="205000" />
       <workItem from="1637823519457" duration="12292000" />
+      <workItem from="1638158730803" duration="1190000" />
+      <workItem from="1638173190094" duration="1025000" />
+      <workItem from="1638178873107" duration="575000" />
+      <workItem from="1638179511885" duration="2691000" />
     </task>
     <servers />
   </component>
@@ -99,5 +107,24 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/huaanClient/Report/DailyAttendanceReporter.cs</url>
+          <line>30</line>
+          <properties documentPath="D:\Projects2\Attendance\huaanClient\Report\DailyAttendanceReporter.cs" initialLine="29" containingFunctionPresentation="method 'Generate'">
+            <startOffsets>
+              <option value="722" />
+            </startOffsets>
+            <endOffsets>
+              <option value="757" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -9,6 +9,9 @@ namespace huaanClient.Report
 {
     public class AttendanceDataForDay
     {
+        public string EmployeeId { get; set; }
+        public string EmployeeCode { get; set; }
+        public string EmployeeName { get; set; }
         public LocalDate Date { get; set; }
         public string ShiftName { get; set; }
         public LocalTime? ShiftStart { get; set; }
@@ -18,6 +21,7 @@ namespace huaanClient.Report
         public Period Late { get; set; } = Period.Zero;
         public Period Early { get; set; } = Period.Zero;
         public Period WorkHour { get; set; } = Period.Zero;
+        public Period OverTime { get; set; } = Period.Zero;
         public Remark Remark { get; set; }
 
     }

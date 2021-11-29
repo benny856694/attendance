@@ -10,24 +10,25 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NodaTime.Text;
 
 namespace huaanClient.Report
 {
-    class DailyAttendance
+    class DailyAttendanceReporter
     {
         int PresentCount;
         int AbsentCount;
         int LateCount;
         int EarlyCount;
 
-        public void Generate(List<string> employeeIds, DateTime day, string pathToXlsx)
+        public void Generate(AttendanceData[] data, string pathToXlsx)
         {
 
             using (var wb = new XLWorkbook())
             {
                 var ws = wb.AddWorksheet();
                 WriteTitle(ws);
-                var row = WriteEmployees(ws, employeeIds, day);
+                var row = WriteEmployees(ws, data);
                 WriteStatistics(ws, row);
                 ws.Columns().AdjustToContents().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                 ws.Rows("1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -46,11 +47,10 @@ namespace huaanClient.Report
             ws.Cell(row, col++).Value = $"Total Early: {EarlyCount}";
         }
 
-        private int WriteEmployees(IXLWorksheet ws, List<string> employeeIds, DateTime day)
+        private int WriteEmployees(IXLWorksheet ws, AttendanceData[] attendanceData)
         {
             List<Employetype> employeeTypes;
             List<Department> departments;
-            List<AttendanceData> attendanceData;
             List<Staff> staffs;
             
             using (var c = SQLiteHelper.GetConnection())
@@ -58,59 +58,30 @@ namespace huaanClient.Report
                 employeeTypes = c.GetAll<Employetype>().ToList();
                 departments = c.GetAll<Department>().ToList();
                 staffs = c.GetAll<Staff>().ToList();
-                if (employeeIds == null)
-                {
-                    employeeIds = staffs.Select(x => x.id).ToList();
-                }
-                var idsString =  string.Join(",", employeeIds.Select(x => $"'{x}'"));
-                attendanceData = c.Query<AttendanceData>($"SELECT * FROM  Attendance_Data WHERE personId in ({idsString}) AND strftime('%Y-%m-%d', Date) == '{day:yyyy-MM-dd}'").ToList();
             }
 
             var row = 2;
             foreach (var dep in attendanceData.GroupBy(x=>x.department))
             {
-                foreach (var data in dep)
+                foreach (var data in dep.Select(x=>x.ToAttendanceDataForDay()))
                 {
                     var col = 1;
 
                     ws.Cell(row, col++).Value = dep.Key;
-                    var employeeTypeId = staffs.FirstOrDefault(x => x.id == data.personId)?.Employetype_id;
+                    var employeeTypeId = staffs.FirstOrDefault(x => x.id == data.EmployeeId)?.Employetype_id;
                     ws.Cell(row, col++).Value = employeeTypes.FirstOrDefault(x => x.id == employeeTypeId)?.Employetype_name ?? "";
-                    ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(data.Employee_code);
-                    ws.Cell(row, col++).Value = data.name;
-                    var shift = data.Shiftinformation.CalcShift();
-                    ws.Cell(row, col++).Value = shift.Name;
-                    ws.Cell(row, col++).SetValue(shift.ShiftStart);
-                    ws.Cell(row, col++).SetValue(shift.ShiftEnd);
-                    ws.Cell(row, col++).SetValue(data.Punchinformation);
-                    ws.Cell(row, col++).SetValue(data.Punchinformation1);
-                    ws.Cell(row, col++).Value = data.late;
-                    ws.Cell(row, col++).Value = data.Leaveearly;
-                    ws.Cell(row, col++).Value = data.Duration;
-                    var remarks = data.CalcRemarks();
-                    ws.Cell(row, col++).Value = remarks.ToDisplayText();
+                    ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(data.EmployeeCode);
+                    ws.Cell(row, col++).Value = data.EmployeeName;
+                    ws.Cell(row, col++).Value = data.ShiftName;
+                    ws.Cell(row, col++).SetValue(data.ShiftStart?.ToString("t", CultureInfo.InvariantCulture));
+                    ws.Cell(row, col++).SetValue(data.ShiftEnd?.ToString("t", CultureInfo.InvariantCulture));
+                    ws.Cell(row, col++).SetValue(data.CheckIn?.ToString("t", CultureInfo.InvariantCulture));
+                    ws.Cell(row, col++).SetValue(data.CheckOut?.ToString("t", CultureInfo.InvariantCulture));
+                    ws.Cell(row, col++).Value = $"{data.Late.Hours}:{data.Late.Minutes}";
+                    ws.Cell(row, col++).Value = $"{data.Early.Hours}:{data.Early.Minutes}";
+                    ws.Cell(row, col++).Value = $"{data.WorkHour.Hours}:{data.WorkHour.Minutes}";
+                    ws.Cell(row, col++).Value = data.Remark.ToDisplayText();
 
-                    switch (remarks)
-                    {
-                        case Remark.Present:
-                            PresentCount++;
-                            if (string.CompareOrdinal(data.Punchinformation1, shift.ShiftEnd) < 0)
-                            {
-                                EarlyCount++;
-                            }
-                            if (string.CompareOrdinal(data.Punchinformation, shift.ShiftStart) > 0)
-                            {
-                                LateCount++;
-                            }
-                            break;
-                        case Remark.SinglePunch:
-                            break;
-                        case Remark.Absent:
-                            AbsentCount++;
-                            break;
-                        default:
-                            break;
-                    }
 
                     row++;
                 }
