@@ -81,8 +81,31 @@ namespace huaanClient.Report
 
         public static string ToMyString(this Period period)
         {
-            return $"{period.Hours:d2}:{period.Minutes:d2}";
+            if (period.Hours == 0 && period.Minutes == 0)
+            {
+                return null;
+            }
+
+            if (period.Hours < 0 || period.Minutes <0)
+            {
+                return null;
+            }
+
+            //var sb = new StringBuilder();
+            //if (period.Days > 0)
+            //{
+            //    sb.AppendFormat("{0}:", period.Days);
+            //}
+            
+            //sb.AppendFormat("{0:d2}:{1:d2}", period.Hours+period.Days*24, period.Minutes);
+            
+            
+
+            return $"{period.Days*24+period.Hours:d2}:{period.Minutes:d2}";
         }
+
         
     }
+        
+  
 }

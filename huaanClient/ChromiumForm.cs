@@ -28,6 +28,9 @@ using Dapper;
 using System.Collections.Generic;
 using huaanClient.Services;
 using huaanClient.Worker;
+using Dapper.Contrib.Extensions;
+using System.Linq;
+using huaanClient.Report;
 
 namespace InsuranceBrowser
 {
@@ -988,6 +991,17 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //导出月度考勤报表
         public void exportMonthlyData(string date, string name, string departments)
         {
+            AttendanceData[] d = null;
+            using (var c = SQLiteHelper.GetConnection())
+            {
+               d = c.Query<AttendanceData>($"SELECT * FROM Attendance_Data WHERE strftime( '%Y-%m', date) = '{date}'").ToArray();
+            }
+
+            var reporter = new AttendanceMasterReporter();
+            reporter.Generate(d, @"d:\AttendanceMaster.xlsx");
+            return;
+
+
             form.Invoke(new Action(() =>
             {
                 date = date.Replace(@"/", "-");

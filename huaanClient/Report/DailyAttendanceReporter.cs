@@ -49,17 +49,8 @@ namespace huaanClient.Report
 
         private int WriteEmployees(IXLWorksheet ws, AttendanceData[] attendanceData)
         {
-            List<Employetype> employeeTypes;
-            List<Department> departments;
-            List<Staff> staffs;
-            
-            using (var c = SQLiteHelper.GetConnection())
-            {
-                employeeTypes = c.GetAll<Employetype>().ToList();
-                departments = c.GetAll<Department>().ToList();
-                staffs = c.GetAll<Staff>().ToList();
-            }
 
+            var (employeeTypes, departments, staffs) = Util.LoadDb();
             var row = 2;
             var departmentGroup = attendanceData.GroupBy(x => x.department);
             foreach (var dep in departmentGroup)
@@ -70,8 +61,8 @@ namespace huaanClient.Report
                     var col = 1;
 
                     ws.Cell(row, col++).Value = dep.Key;
-                    var employeeTypeId = staffs.FirstOrDefault(x => x.id == data.EmployeeId)?.Employetype_id;
-                    ws.Cell(row, col++).Value = employeeTypes.FirstOrDefault(x => x.id == employeeTypeId)?.Employetype_name ?? "";
+
+                    ws.Cell(row, col++).Value = Util.GetEmployeeTypeName(staffs, employeeTypes, data.EmployeeId);
                     ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(data.EmployeeCode);
                     ws.Cell(row, col++).Value = data.EmployeeName;
                     ws.Cell(row, col++).Value = data.ShiftName;

@@ -417,8 +417,10 @@
     <Compile Include="Report\DailyAttendanceReporter.cs" />
     <Compile Include="Report\Extensions.cs" />
     <Compile Include="Report\Master.cs" />
+    <Compile Include="Report\AttendanceMasterReporter.cs" />
     <Compile Include="Report\PeriodicMaster.cs" />
     <Compile Include="Report\Remark.cs" />
+    <Compile Include="Report\Util.cs" />
     <Compile Include="SearchFrom.cs">
       <SubType>Form</SubType>
     </Compile>

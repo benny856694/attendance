@@ -39,7 +39,12 @@ namespace huaanClient.Report
                 var shiftHour = result.ShiftEnd.Value - result.ShiftStart.Value;
                 var workHour = result.CheckOut.Value - result.CheckIn.Value;
                 result.WorkHour = workHour.Normalize();
-                result.OverTime = (workHour - shiftHour).Normalize();
+                var ot = (workHour - shiftHour).Normalize();
+                if (!(ot.Hours < 0 || ot.Minutes < 0))
+                {
+                    result.OverTime = ot;
+                }
+                
             }
             result.Remark = data.CalcRemarks();
             return result;
