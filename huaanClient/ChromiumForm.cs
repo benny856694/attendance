@@ -999,6 +999,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
             var reporter = new AttendanceMasterReporter();
             reporter.Generate(d, @"d:\AttendanceMaster.xlsx");
+
+
+            var periodic = new PeriodicMasterReporter();
+            periodic.Generate(d, @"d:\PeriodicMaster.xlsx");
             return;
 
 

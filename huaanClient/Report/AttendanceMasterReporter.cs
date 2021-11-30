@@ -140,7 +140,7 @@ namespace huaanClient.Report
                 sheet.Cell(row+1, col).SetValue($"AB-{absenceCount}"); sheet.Cell(row+1, col + 1).SetValue($"LT-{lateCount}");
                 sheet.Cell(row+2, col).SetValue($"WO-{offDayCount}"); sheet.Cell(row+2, col + 1).SetValue($"HO-{holidayCount}");
                 sheet.Cell(row+3, col).SetValue($"OT Hour-{overTimeHours.Normalize().ToMyString()}"); sheet.Cell(row+3, col + 1).SetValue($"Late Hour-{lateHours.Normalize().ToMyString()}");
-                                                                     sheet.Cell(row+4, col + 1).SetValue($"Work Hour-{workHours.Normalize().ToMyString()}");
+                sheet.Cell(row+4, col + 1).SetValue($"Work Hour-{workHours.Normalize().ToMyString()}");
                 sheet.Columns($"{col}:{col + 1}").AdjustToContents();
 
                 sheet.Range($"A{row}:A{row + 6}").Merge()
