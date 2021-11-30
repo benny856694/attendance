@@ -653,7 +653,15 @@ namespace huaanClient
             return result;
         }
 
-
+        internal static int getRemainDistributeCount()
+        {
+            string commandText = "SELECT count(*) as count FROM Equipment_distribution WHERE status ='inprogress' AND type != 2 ";
+            string connectionString = ApplicationData.connectionString;
+            string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
+            JArray srjo = (JArray)JsonConvert.DeserializeObject(sr);
+            int remainCount=(int)srjo[0]["count"];
+            return remainCount;
+        }
 
         public static string queryPerson(string id)
         {

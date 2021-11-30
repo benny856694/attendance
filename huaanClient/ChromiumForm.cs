@@ -811,7 +811,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             }
             return reurl;
         }
-
+        //获取下发状态(0代表未完成，1代表已完成)
+        public int getDistributePersonStatus()
+        {
+            int count = GetData.getRemainDistributeCount();
+            int state = count > 0 ? 0 : 1;
+            return state;
+        }
         //获取所有设备列表
         public void getAllDeviceDiscover(IJavascriptCallback callback)
         {
