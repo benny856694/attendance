@@ -78,40 +78,10 @@ namespace huaanClient.Report
             return result;
         }
 
-        public static AttendanceDataForDay ToAttendanceDataForDay(this AttendanceData data)
+
+        public static string ToMyString(this Period period)
         {
-            var shift = data.Shiftinformation.CalcShift();
-            var result = new AttendanceDataForDay();
-            result.EmployeeId = data.personId;
-            result.EmployeeCode = data.Employee_code;
-            result.EmployeeName = data.name;
-            result.ShiftName = shift.Name;
-            result.ShiftStart = shift.ShiftStart.ToLocalTime();
-            result.ShiftEnd = shift.ShiftEnd.ToLocalTime();
-            result.Date = data.Date.ToLocalDateTime().Date;
-            result.CheckIn = data.Punchinformation.ToLocalTime();
-            result.CheckOut = data.Punchinformation1.ToLocalTime();
-
-            if (result.CheckIn.HasValue && result.CheckOut.HasValue)
-            {
-                if (result.CheckIn.Value > result.ShiftStart.Value)
-                {
-                    result.Late = (result.CheckIn.Value - result.ShiftStart.Value).Normalize();
-                }
-
-                if (result.CheckOut.Value < result.ShiftEnd.Value)
-                {
-                    result.Early = (result.ShiftEnd.Value - result.CheckOut.Value).Normalize();
-                }
-                
-                var shiftHour = result.ShiftEnd.Value - result.ShiftStart.Value;
-                var workHour = result.CheckOut.Value - result.CheckIn.Value;
-                result.WorkHour = workHour.Normalize();
-                result.OverTime = (workHour - shiftHour).Normalize();
-            }
-            result.Remark = data.CalcRemarks();
-            return result;
-
+            return $"{period.Hours:d2}:{period.Minutes:d2}";
         }
         
     }

@@ -61,8 +61,10 @@ namespace huaanClient.Report
             }
 
             var row = 2;
-            foreach (var dep in attendanceData.GroupBy(x=>x.department))
+            var departmentGroup = attendanceData.GroupBy(x => x.department);
+            foreach (var dep in departmentGroup)
             {
+                var departmentRowStart = row;
                 foreach (var data in dep.Select(x=>x.ToAttendanceDataForDay()))
                 {
                     var col = 1;
@@ -77,15 +79,36 @@ namespace huaanClient.Report
                     ws.Cell(row, col++).SetValue(data.ShiftEnd?.ToString("t", CultureInfo.InvariantCulture));
                     ws.Cell(row, col++).SetValue(data.CheckIn?.ToString("t", CultureInfo.InvariantCulture));
                     ws.Cell(row, col++).SetValue(data.CheckOut?.ToString("t", CultureInfo.InvariantCulture));
-                    ws.Cell(row, col++).Value = $"{data.Late.Hours}:{data.Late.Minutes}";
-                    ws.Cell(row, col++).Value = $"{data.Early.Hours}:{data.Early.Minutes}";
-                    ws.Cell(row, col++).Value = $"{data.WorkHour.Hours}:{data.WorkHour.Minutes}";
-                    ws.Cell(row, col++).Value = data.Remark.ToDisplayText();
+                    ws.Cell(row, col++).SetValue(data.Late.ToMyString());
+                    ws.Cell(row, col++).SetValue(data.Early.ToMyString());
+                    ws.Cell(row, col++).SetValue(data.WorkHour.ToMyString());
+                    ws.Cell(row, col++).SetValue(data.Remark.ToDisplayText());
 
+                    switch (data.Remark)
+                    {
+                        case Remark.Present:
+                            PresentCount++;
+                            if (data.CheckOut > data.ShiftEnd)
+                            {
+                                EarlyCount++;
+                            }
+                            if (data.CheckIn > data.ShiftStart)
+                            {
+                                LateCount++;
+                            }
+                            break;
+                        case Remark.SinglePunch:
+                            break;
+                        case Remark.Absent:
+                            AbsentCount++;
+                            break;
+                        default:
+                            break;
+                    }
 
                     row++;
                 }
-                ws.Range($"A2:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
+                ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
             }
 
             return row;
