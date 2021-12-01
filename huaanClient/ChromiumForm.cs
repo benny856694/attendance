@@ -642,14 +642,14 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             , rows7, rows8, rows9, rows10, rows11, rows12);
             return data;
         }
-        public string getStaffDataQuey(string name, string no, string qu_phone, string pageint, string limt)
+        public string getStaffDataQuey(string name, string no, string qu_phone, string pageint, string limt,string dep)
         {
-            string data = GetData.getStaffData(name, no, qu_phone, pageint, limt);
+            string data = GetData.getStaffData(name, no, qu_phone, pageint, limt,dep);
             return data;
         }
-        public string getStaffDataQueyforcount(string name, string no, string qu_phone)
+        public string getStaffDataQueyforcount(string name, string no, string qu_phone,string dep)
         {
-            string data = GetData.getStaffDataforcount(name, no, qu_phone);
+            string data = GetData.getStaffDataforcount(name, no, qu_phone,dep);
             return data;
         }
 
@@ -1029,11 +1029,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         }
 
-        public string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism)
+        public string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism,string department)
         {
             starttime = starttime.Replace(@"/", "-");
             endtime = endtime.Replace(@"/", "-");
-            string data = GetData.queryAttendanceinformationcount(starttime, endtime, name, late, Leaveearly, isAbsenteeism);
+            string data = GetData.queryAttendanceinformationcount(starttime, endtime, name, late, Leaveearly, isAbsenteeism,department);
             return data;
         }
 

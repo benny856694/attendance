@@ -419,7 +419,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getStaffData(string name, string no, string qu_phone, string page, string limt)
+        public static string getStaffData(string name, string no, string qu_phone, string page, string limt,string dep)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
@@ -439,7 +439,28 @@ namespace huaanClient
             {
                 st.Append(" staf.phone='" + qu_phone.Trim() + "' AND");
             }
+            if (!string.IsNullOrEmpty(dep))
+            {
+                // 从department表查出分别对应的ID
+                var split = dep.Split(',');
+                string dts = string.Join(",", split.Select(x => $"'{x}'"));
+                string commandTextDep = $"select id from department where name in ({dts})";
+                string strDepCodes=SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextDep);
+                if (!string.IsNullOrEmpty(strDepCodes))
+                {
+                    JArray jo = (JArray)JsonConvert.DeserializeObject(strDepCodes);
+                    int len = jo.Count;
+                    var split2 = new string[len];
+                    // 拼接SQL，通过部门ID查询员工
+                    for(int i = 0; i < len; i++)
+                    {
+                        split2[i] = jo[i]["id"].ToString();
+                    }
+                    string dtsName=string.Join(",", split2.Select(x => $"'{x}'"));
+                    st.Append($" staf.department_id in ({dtsName}) AND");
+                }
 
+            }
 
             string commandText = st.ToString().Substring(0, st.ToString().Length - 3).ToString()
                + " LIMIT " + pageint + "," + limt;
@@ -460,7 +481,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getStaffDataforcount(string name, string no, string qu_phone)
+        public static string getStaffDataforcount(string name, string no, string qu_phone,string dep)
         {
 
             StringBuilder st = new StringBuilder("SELECT COUNT(*) as count FROM staff staf LEFT JOIN department de ON de.id=staf.department_id LEFT JOIN Employetype em ON em.id = staf.Employetype_id WHERE 1=1  AND");
@@ -475,6 +496,27 @@ namespace huaanClient
             if (!string.IsNullOrEmpty(qu_phone))
             {
                 st.Append(" staf.phone='" + qu_phone.Trim() + "' AND");
+            }
+            if (!string.IsNullOrEmpty(dep))
+            {
+                // 从department表查出分别对应的ID
+                var split = dep.Split(',');
+                string dts = string.Join(",", split.Select(x => $"'{x}'"));
+                string commandTextDep = $"select id from department where name in ({dts})";
+                string strDepCodes = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextDep);
+                if (!string.IsNullOrEmpty(strDepCodes))
+                {
+                    JArray jo = (JArray)JsonConvert.DeserializeObject(strDepCodes);
+                    int len = jo.Count;
+                    var split2 = new string[len];
+                    // 拼接SQL，通过部门ID查询员工
+                    for (int i = 0; i < len; i++)
+                    {
+                        split2[i] = jo[i]["id"].ToString();
+                    }
+                    string dtsName = string.Join(",", split2.Select(x => $"'{x}'"));
+                    st.Append($" staf.department_id in ({dtsName}) AND");
+                }
             }
 
             string commandText = st.ToString().Substring(0, st.ToString().Length - 3).ToString();
@@ -782,7 +824,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism)
+        public static string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism,string departments)
         {
             StringBuilder commandText = new StringBuilder("SELECT COUNT(*) as count FROM  Attendance_Data  att WHERE att.Date>='" + starttime.Trim() + "' AND att.Date<='" + endtime.Trim() + "' AND");
             if (!string.IsNullOrEmpty(name))
@@ -800,6 +842,12 @@ namespace huaanClient
             if (isAbsenteeism.Trim().Equals("1"))
             {
                 commandText.Append(" att.isAbsenteeism==0 AND");
+            }
+            if (!string.IsNullOrEmpty(departments))
+            {
+                var split = departments.Split(',');
+                string dts = string.Join(",", split.Select(x => $"'{x}'"));
+                commandText.Append(" att.department in( " + dts.Trim() + ") AND");
             }
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
