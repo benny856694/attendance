@@ -65,6 +65,7 @@ namespace huaanClient.Report
                     ws.Cell(row, col++).Value = Util.GetEmployeeTypeName(staffs, employeeTypes, data.EmployeeId);
                     ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(data.EmployeeCode);
                     ws.Cell(row, col++).Value = data.EmployeeName;
+                    ws.Cell(row, col++).Value = data.Date;
                     ws.Cell(row, col++).Value = data.ShiftName;
                     ws.Cell(row, col++).SetValue(data.ShiftStart?.ToString("t", CultureInfo.InvariantCulture));
                     ws.Cell(row, col++).SetValue(data.ShiftEnd?.ToString("t", CultureInfo.InvariantCulture));
@@ -115,6 +116,7 @@ namespace huaanClient.Report
             ws.Cell(row, col++).Value = "Designation";
             ws.Cell(row, col++).Value = "Emp No.";
             ws.Cell(row, col++).Value = "Emp Name";
+            ws.Cell(row, col++).Value = "Date";
             ws.Cell(row, col++).Value = "Shift";
             ws.Cell(row, col++).Value = "Shift Start";
             ws.Cell(row, col++).Value = "Shift End";
