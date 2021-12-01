@@ -119,6 +119,7 @@ namespace huaanClient.Report
                                 }
                                 break;
                             case Remark.SinglePunch:
+                                presentCount++;
                                 break;
                             case Remark.Absent:
                                 absenceCount++;
