@@ -33,7 +33,8 @@ namespace huaanClient.Report
             {
                 return null;
             }
-            var time = data.Split(':');
+            
+            var time = data.Contains(";") ? data.Split(';')[0].Split(':') : data.Split(':');
             return new LocalTime(Convert.ToInt32(time[0]), Convert.ToInt32(time[1]));
         }
 
