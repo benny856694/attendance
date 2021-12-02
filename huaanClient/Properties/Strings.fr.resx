@@ -142,10 +142,10 @@
     <value>Congé</value>
   </data>
 	<data name="SaveFailed" xml:space="preserve">
-    <value>Enregistrer avec succès</value>
+    <value>Échec de l'enregistrement</value>
   </data>
 	<data name="SaveSuccess" xml:space="preserve">
-    <value>Échec de l'enregistrement</value>
+    <value>Enregistrer avec succès</value>
   </data>
 	<data name="StaffCodeExists" xml:space="preserve">
     <value>Le numéro d'employé existe déjà</value>
