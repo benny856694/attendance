@@ -336,4 +336,10 @@
 	<data name="PasswordSpace" xml:space="preserve">
     <value>不能输入空格</value>
   </data>
+	<data name="DeleteFailed" xml:space="preserve">
+    <value>删除失败</value>
+  </data>
+	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
+    <value>该班次已被使用，请先在考勤组移除该班次！</value>
+  </data>
 </root>
