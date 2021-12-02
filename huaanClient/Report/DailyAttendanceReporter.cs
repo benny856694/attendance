@@ -11,24 +11,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NodaTime.Text;
+using NodaTime;
 
 namespace huaanClient.Report
 {
     class DailyAttendanceReporter
     {
-        int PresentCount;
-        int AbsentCount;
-        int LateCount;
-        int EarlyCount;
 
-        public void Generate(AttendanceData[] data, string pathToXlsx)
+        public void Generate(string from, string to, string pathToXlsx)
         {
 
             using (var wb = new XLWorkbook())
             {
-                var ws = wb.AddWorksheet();
-                WriteTitle(ws);
-                var row = WriteEmployees(ws, data);
+                var row = WriteEmployees(wb, from, to);
                 WriteStatistics(ws, row);
                 ws.Columns().AdjustToContents().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                 ws.Rows("1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -38,7 +33,7 @@ namespace huaanClient.Report
             }
         }
 
-        private void WriteStatistics(IXLWorksheet ws, int row)
+        private void WriteStatistics(IXLWorksheet ws, int row, Counter counter)
         {
             var col = 3;
             ws.Cell(row, col++).Value = $"Total Present: {PresentCount}";
@@ -47,10 +42,33 @@ namespace huaanClient.Report
             ws.Cell(row, col++).Value = $"Total Early: {EarlyCount}";
         }
 
-        private int WriteEmployees(IXLWorksheet ws, AttendanceData[] attendanceData)
+        private int WriteEmployees(IXLWorkbook wb, string from, string to)
         {
 
-            var (employeeTypes, departments, staffs) = Util.LoadDb();
+            var ctx = new DataContext();
+            ctx.Load(from, to);
+
+            var start = from.ToLocalDate();
+            var end = to.ToLocalDate();
+            var departments = ctx.Staffs.GroupBy(x => x.department_id);
+            for (var d = start.Value; d < end.Value; d = d.PlusDays(1))
+            {
+                var counter = new Counter();
+                var ws = wb.AddWorksheet(d.ToString());
+                var row = 1;
+                var col = 1;
+                
+                var (rowConsumed, colConsumed) = WriteTitle(ws, row, col);
+                foreach (var staff in departments)
+                {
+                    var data = ctx.AttendanceData.FirstOrDefault(x => x.Date == d);
+                    WriteOneRecord(ws, ctx, data);
+                    counter.Count(data);
+                }
+                WriteStatistics()
+            }
+
+
             var row = 2;
             var departmentGroup = attendanceData.GroupBy(x => x.department);
             foreach (var dep in departmentGroup)
@@ -107,11 +125,16 @@ namespace huaanClient.Report
 
         }
 
-        private void WriteTitle(IXLWorksheet ws)
+        private (int rowCount, int colCount) WriteOneRecord(IXLWorksheet ws, int startRow, int startCol, DataContext ctx, AttendanceDataForDay data)
+        {
+            throw new NotImplementedException();
+        }
+
+        private (int rowConsumed, int colConsumed) WriteTitle(IXLWorksheet ws, int startRow, int startCol)
         {
             //title
-            var col = 1;
-            var row = 1;
+            var col = startCol;
+            var row = startRow;
             ws.Cell(row, col++).Value = "Department";
             ws.Cell(row, col++).Value = "Designation";
             ws.Cell(row, col++).Value = "Emp No.";
@@ -128,6 +151,7 @@ namespace huaanClient.Report
             ws.Cell(row, col++).Value = "Remarks";
             var titleRow = ws.Range(ws.Cell(row, 1).Address, ws.Cell(row, col - 1).Address);
             titleRow.Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.LightGray);
+            return (0, col - 1);
         }
     }
 }

@@ -11,20 +11,16 @@ namespace huaanClient.Report
 {
     public static class Util
     {
-        public static (List<Employetype> employeeTypes, List<Department> departments, List<Staff> staffs) LoadDb()
+        public static List<T> LoadFromDb<T>() where T: class
         {
-            List<Employetype> employeeTypes;
-            List<Department> departments;
-            List<Staff> staffs;
+            List<T> results;
 
             using (var c = SQLiteHelper.GetConnection())
             {
-                employeeTypes = c.GetAll<Employetype>().ToList();
-                departments = c.GetAll<Department>().ToList();
-                staffs = c.GetAll<Staff>().ToList();
+                results = c.GetAll<T>().ToList();
             }
 
-            return (employeeTypes, departments, staffs);
+            return results;
         }
 
         public static string GetEmployeeTypeName(List<Staff> staffs, List<Employetype> employeeTypes, string employeeId)

@@ -38,6 +38,19 @@ namespace huaanClient.Report
             return new LocalTime(Convert.ToInt32(time[0]), Convert.ToInt32(time[1]));
         }
 
+        public static LocalDate? ToLocalDate(this string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return null;
+            }
+
+            
+
+            var segments = s.Split('-');
+            return new LocalDate(Convert.ToInt32(segments[0]), Convert.ToInt32(segments[1]), Convert.ToInt32(segments[2]));
+        }
+
         public static Remark CalcRemarks(this AttendanceData data)
         {
             if (string.IsNullOrEmpty(data.Punchinformation) && string.IsNullOrEmpty(data.Punchinformation1))
