@@ -125,7 +125,7 @@ namespace huaanClient
                     return false;
                 }
 
-                if (confirmNewPassword.Password.Contains(""))
+                if (confirmNewPassword.Password.Contains(" "))
                 {
                     ShowStatus(Strings.PasswordSpace);
                     return false;

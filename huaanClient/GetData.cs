@@ -1088,7 +1088,25 @@ namespace huaanClient
             }
             try
             {
-
+                //判断该班次是否在考勤组里
+                string agText = "select attribute as atts from attendancegroup";
+                var agAtts=SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, agText);
+                JArray jo = (JArray)JsonConvert.DeserializeObject(agAtts);
+                if (jo.Count > 0)
+                {
+                    foreach(var j in jo)
+                    {
+                        Console.WriteLine(j);
+                        JObject jb = (JObject)JsonConvert.DeserializeObject(j.ToString());
+                        JObject at= (JObject)JsonConvert.DeserializeObject(jb["atts"].ToString());
+                        if (at["Monday"].ToString() == id|| at["Tuesday"].ToString() == id|| at["Wednesday"].ToString() == id|| at["Thursday"].ToString() == id|| at["Friday"].ToString() == id|| at["Saturday"].ToString() == id|| at["Sunday"].ToString() == id)
+                        {
+                            MessageBox.Show(Properties.Strings.PleaseRemoveShiftFromAttendanceGroup, Properties.Strings.DeleteFailed);  
+                            return false;
+                        }
+                    }
+                }
+                
                 string commandText = "delete from Shift where id = " + id;
                 int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
 
