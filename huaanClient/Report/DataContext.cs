@@ -55,9 +55,9 @@ namespace huaanClient.Report
             return shiftId;
         }
 
-        public StaffDetails GetStaffDetails(string id)
+        public StaffDetails GetStaffDetails(string staffId)
         {
-            var staff = Staffs.FirstOrDefault(x => x.id == id);
+            var staff = Staffs.FirstOrDefault(x => x.id == staffId);
             if (staff == null) return null;
 
             var department = Departments.FirstOrDefault(x => x.id == staff.department_id);
@@ -69,6 +69,7 @@ namespace huaanClient.Report
                 Staff = staff
             };
         }
+
 
         public DailyAttendanceDataContext Extract(string staffId, LocalDate date)
         {

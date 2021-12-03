@@ -32,7 +32,7 @@ namespace huaanClient.Report
 
         }
 
-        private void WriteAttendanceData(ClosedXML.Excel.IXLWorksheet sheet, LocalDate from, LocalDate to)
+        private void WriteAttendanceData(IXLWorksheet sheet, LocalDate from, LocalDate to)
         {
             var ctx = new DataContext();
             ctx.Load(from, to);
@@ -45,7 +45,11 @@ namespace huaanClient.Report
                 if (staffDetails == null) continue;
 
                 var counter = new Counter();
-                var personDetail = $"EmpNo:{staffDetails.Staff.Employee_code}{Environment.NewLine}{staffDetails.Staff.name}{Environment.NewLine}Dept:{staffDetails.Department?.name}{Environment.NewLine}Desig:{staffDetails.Employeetype?.Employetype_name}";
+                var personDetail = 
+                    $"EmpNo:{staffDetails.Staff.Employee_code}{Environment.NewLine}" +
+                    $"{staffDetails.Staff.name}{Environment.NewLine}" +
+                    $"Dept:{staffDetails.Department?.name}{Environment.NewLine}" +
+                    $"Desig:{staffDetails.Employeetype?.Employetype_name}";
                 sheet.Cell(row, col).SetValue(personDetail).Style.Font.SetBold();
                 col += 1;
 

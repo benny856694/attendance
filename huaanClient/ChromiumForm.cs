@@ -1008,8 +1008,8 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             reporter.Generate(from, to, @"d:\AttendanceMaster.xlsx");
 
 
-           // var periodic = new PeriodicMasterReporter();
-           // periodic.Generate(d, @"d:\PeriodicMaster.xlsx");
+            var periodic = new PeriodicMasterReporter();
+            periodic.Generate(from, to, @"d:\PeriodicMaster.xlsx");
             return;
 
 

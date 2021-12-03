@@ -12,16 +12,14 @@ namespace huaanClient.Report
 {
     public class PeriodicMasterReporter
     {
-        private DateTime _minDate;
-        private DateTime _maxDate;
 
-        public void Generate(AttendanceData[] data, string pathToXlsx)
+        public void Generate(LocalDate from, LocalDate to, string pathToXlsx)
         {
             using (var wb = new ClosedXML.Excel.XLWorkbook())
             {
                 var sheet = wb.AddWorksheet();
-                WriteTitle(sheet, data);
-                WriteEmployees(sheet, data);
+                WriteTitle(sheet, from, to);
+                WriteEmployees(sheet, from, to);
                 sheet.Columns().AdjustToContents();
                 sheet.Rows("1").Style
                     .Fill.SetBackgroundColor(XLColor.LightGray)
@@ -37,116 +35,67 @@ namespace huaanClient.Report
         }
 
 
-        private int WriteEmployees(IXLWorksheet ws, AttendanceData[] attendanceData)
+        private int WriteEmployees(IXLWorksheet ws, LocalDate from, LocalDate to)
         {
-            throw new NotImplementedException();
-            //var (employeeTypes, departments, staffs) = Util.LoadDb();
-            //var row = 2;
-            //var departmentGroup = attendanceData.GroupBy(x => x.department);
-            //foreach (var dep in departmentGroup)
-            //{
-            //    var departmentRowStart = row;
-            //    foreach (var data in dep.AsEnumerable().GroupBy(x=>x.personId))
-            //    {
-            //        var presentCount = 0;
-            //        var absenceCount = 0;
-            //        var overTimeCount = 0;
-            //        var lateCount = 0;
-            //        var offDayCount = 0;
-            //        var holidayCount = 0;
-            //        var overTimeHours = Period.Zero;
-            //        var lateHours = Period.Zero;
-            //        var workHours = Period.Zero;
+            var ctx = new DataContext();
+            ctx.Load(from, to);
+            var row = 2;
+            foreach (var deparment in ctx.Staffs.GroupBy(x=>x.department_id))
+            {
+                var departmentRowStart = row;
+                foreach (var staff in deparment)
+                {
+                    var col = 1;
+                    var detail = ctx.GetStaffDetails(staff.id);
+                    if (detail == null) continue;
+
+                    var counter = new Counter();
+                    ws.Cell(row, col++).Value = detail.Department?.name;
+                    ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(detail.Employeetype?.Employetype_name);
+                    ws.Cell(row, col++).SetValue(staff.Employee_code);
+                    ws.Cell(row, col++).Value = staff.name;
+
+                    for (var d = from; d <= to; d = d.PlusDays(1))
+                    {
+                        var att = ctx.Extract(staff.id, d);
+                        if (att.DailyAttendanceData.Remark != Remark.OffDuty)
+                        {
+                            ws.Cell(row, col++)
+                                .SetValue(att.DailyAttendanceData.Remark.ToDisplayText())
+                                .Style
+                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                            counter.Count(att.DailyAttendanceData);
+                        }
+                        else
+                        {
+                            col++;
+                        }
 
 
-            //        var col = 1;
-            //        var staff = staffs.FirstOrDefault(x => x.id == data.Key);
-            //        if (staff == null) continue;
+                    }
 
-            //        ws.Cell(row, col++).Value = dep.Key;
-            //        ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(Util.GetEmployeeTypeName(staffs, employeeTypes, data.Key));
-            //        ws.Cell(row, col++).SetValue(staff.Employee_code);
-            //        ws.Cell(row, col++).Value = staff.name;
+                    ws.Cell(row, col++).SetValue(counter.presentCount);
+                    ws.Cell(row, col++).SetValue(counter.absenceCount);
+                    ws.Cell(row, col++).SetValue(counter.holidayCount);
+                    ws.Cell(row, col++).SetValue(counter.offDayCount);
 
-            //        for (var d = _minDate; d <= _maxDate; d = d.AddDays(1))
-            //        {
-            //            var att = attendanceData.FirstOrDefault(x => x.Date == d && x.personId == staff.id);
-            //            if (att != null)
-            //            {
-            //                var attData = att.ToAttendanceDataForDay();
-            //                ws.Cell(row, col++)
-            //                    .SetValue(attData.Remark.ToDisplayText())
-            //                    .Style
-            //                    .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                          
-            //                switch (attData.Remark)
-            //                {
-            //                    case Remark.Present:
-            //                        presentCount++;
-            //                        if (attData.OverTime != Period.Zero)
-            //                        {
-            //                            overTimeCount++;
-            //                            overTimeHours += attData.OverTime;
-            //                        }
-            //                        if (attData.LateHour != Period.Zero)
-            //                        {
-            //                            lateCount++;
-            //                            lateHours += attData.LateHour;
-            //                        }
-            //                        if (attData.WorkHour != Period.Zero)
-            //                        {
-            //                            workHours += attData.WorkHour;
-            //                        }
-            //                        break;
-            //                    case Remark.SinglePunch:
-            //                        presentCount++;
-            //                        break;
-            //                    case Remark.Absent:
-            //                        absenceCount++;
-            //                        break;
-            //                    case Remark.Holiday:
-            //                        holidayCount++;
-            //                        break;
-            //                    case Remark.OffWork:
-            //                        offDayCount++;
-            //                        break;
-            //                    default:
-            //                        break;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                col++;
-            //            }
+                    row++;
+                }
 
+                if (row - 1 != departmentRowStart)
+                {
+                    ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
+                }
 
-            //        }
+            }
 
-            //        ws.Cell(row, col++).SetValue(presentCount);
-            //        ws.Cell(row, col++).SetValue(absenceCount);
-            //        ws.Cell(row, col++).SetValue(holidayCount);
-            //        ws.Cell(row, col++).SetValue(offDayCount);
-
-
-            //        row++;
-            //    }
-
-            //    if (row-1 != departmentRowStart)
-            //    {
-            //        ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
-            //    }
-
-            //}
-
-            //return row;
+            return row;
 
         }
 
 
-        private void WriteTitle(IXLWorksheet ws, AttendanceData[] data)
+        private void WriteTitle(IXLWorksheet ws, LocalDate from, LocalDate to)
         {
-            _minDate = data.Min(x => x.Date);
-            _maxDate = data.Max(x => x.Date);
             //title
             var col = 1;
             var row = 1;
@@ -155,7 +104,7 @@ namespace huaanClient.Report
             ws.Cell(row, col++).Value = "Emp No.";
             ws.Cell(row, col++).Value = "Emp Name";
 
-            for (var d = _minDate; d <= _maxDate; d = d.AddDays(1))
+            for (var d = from; d <= to; d = d.PlusDays(1))
             {
                 ws.Cell(row, col++).SetValue($"{d.Day}{Environment.NewLine}{d:ddd}")
                     .Style
