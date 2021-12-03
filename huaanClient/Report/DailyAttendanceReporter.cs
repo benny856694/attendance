@@ -41,7 +41,7 @@ namespace huaanClient.Report
         {
 
             var ctx = new DataContext();
-            ctx.Load(from, to);
+            ctx.Load(from.ToLocalDate().Value, to.ToLocalDate().Value);
 
             var start = from.ToLocalDate();
             var end = to.ToLocalDate();
@@ -91,10 +91,10 @@ namespace huaanClient.Report
         private (int rowCount, int colCount) WriteOneRecord(IXLWorksheet ws, int row, int col, DailyAttendanceDataContext ctx)
         {
             var startCol = col;
-            ws.Cell(row, col++).Value = ctx.Department?.name;
-            ws.Cell(row, col++).Value = ctx.Employeetype?.Employetype_name;
-            ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(ctx.Staff.Employee_code);
-            ws.Cell(row, col++).Value = ctx.Staff.name;
+            ws.Cell(row, col++).Value = ctx.StaffDetails.Department?.name;
+            ws.Cell(row, col++).Value = ctx.StaffDetails.Employeetype?.Employetype_name;
+            ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(ctx.StaffDetails.Staff.Employee_code);
+            ws.Cell(row, col++).Value = ctx.StaffDetails.Staff.name;
             ws.Cell(row, col++).Value = ctx.Shift?.name;
             var shift1 = ctx.Shift?.GetShift1();
             ws.Cell(row, col++).SetValue(shift1?.ShiftStart.ToString("t", CultureInfo.InvariantCulture));

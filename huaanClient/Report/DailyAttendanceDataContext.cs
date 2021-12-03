@@ -10,11 +10,9 @@ namespace huaanClient.Report
 {
     public class DailyAttendanceDataContext
     {
-        public Department Department { get; set; }
-        public Employeetype Employeetype { get; set; }
+        public StaffDetails StaffDetails { get; set; }
         public Shift Shift { get; set; }
         public LocalDate Date { get; set; }
-        public Staff Staff { get; set; }
         public DailyAttendanceData DailyAttendanceData { get; set; }
     }
 }

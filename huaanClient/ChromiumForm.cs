@@ -31,6 +31,7 @@ using huaanClient.Worker;
 using Dapper.Contrib.Extensions;
 using System.Linq;
 using huaanClient.Report;
+using NodaTime;
 
 namespace InsuranceBrowser
 {
@@ -997,12 +998,18 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                d = c.Query<AttendanceData>($"SELECT * FROM Attendance_Data WHERE strftime( '%Y-%m', date) = '{date}'").ToArray();
             }
 
+            var segments = date.Split('-');
+            var y = int.Parse(segments[0]);
+            var m = int.Parse(segments[1]);
+            var from = new LocalDate(y, m, 1);
+            var to = from.With(DateAdjusters.EndOfMonth);
+
             var reporter = new AttendanceMasterReporter();
-            reporter.Generate(d, @"d:\AttendanceMaster.xlsx");
+            reporter.Generate(from, to, @"d:\AttendanceMaster.xlsx");
 
 
-            var periodic = new PeriodicMasterReporter();
-            periodic.Generate(d, @"d:\PeriodicMaster.xlsx");
+           // var periodic = new PeriodicMasterReporter();
+           // periodic.Generate(d, @"d:\PeriodicMaster.xlsx");
             return;
 
 

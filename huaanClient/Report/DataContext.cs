@@ -5,6 +5,7 @@ using NodaTime;
 using NodaTime.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace huaanClient.Report
         public AttendanceGroup[] AttendanceGroups { get; private set; }
         public DailyAttendanceData[] AttendanceData { get; private set; }
 
-        public void Load(string from, string to)
+        public void Load(LocalDate from, LocalDate to)
         {
             using (var c = SQLiteHelper.GetConnection())
             {
@@ -31,7 +32,9 @@ namespace huaanClient.Report
                 AttendanceGroups = c.GetAll<AttendanceGroup>().ToArray();
             }
 
-            AttendanceData = GetData.queryAttendanceinformation(from, to, null, null, null, null, null, null)
+            AttendanceData = GetData.queryAttendanceinformation(
+                from.ToString("yyyy-M-d", CultureInfo.InvariantCulture), 
+                to.ToString("yyyy-M-d", CultureInfo.InvariantCulture),  null, null, null, null, null, null)
                 .Select(x=>x.ToAttendanceDataForDay())
                 .ToArray();
         }
@@ -52,14 +55,28 @@ namespace huaanClient.Report
             return shiftId;
         }
 
+        public StaffDetails GetStaffDetails(string id)
+        {
+            var staff = Staffs.FirstOrDefault(x => x.id == id);
+            if (staff == null) return null;
+
+            var department = Departments.FirstOrDefault(x => x.id == staff.department_id);
+            var employeeType = Employetypes.FirstOrDefault(x => x.id == staff.Employetype_id);
+            return new StaffDetails
+            {
+                Department = department,
+                Employeetype = employeeType,
+                Staff = staff
+            };
+        }
+
         public DailyAttendanceDataContext Extract(string staffId, LocalDate date)
         {
-            var staff = Staffs.FirstOrDefault(x => x.id == staffId);
-            var department = Departments.FirstOrDefault(x => x.id == staff.department_id);
+            var staffDetails = GetStaffDetails(staffId);
 
             DailyAttendanceData data = null;
             Shift shift = null;
-            var shiftId = GetShiftIdForDay(staff, date);
+            var shiftId = GetShiftIdForDay(staffDetails.Staff, date);
             if (shiftId == 0)
             {
                 data = DailyAttendanceData.OffDuty;
@@ -72,16 +89,13 @@ namespace huaanClient.Report
             }
             data.Date = date;
 
-            var employeeType = Employetypes.FirstOrDefault(x => x.id == staff.Employetype_id);
 
             return new DailyAttendanceDataContext
             {
-                Staff = staff,
+                StaffDetails = staffDetails,
                 DailyAttendanceData = data,
                 Shift = shift,
                 Date = date,
-                Department = department,
-                Employeetype = employeeType
             };
 
         }

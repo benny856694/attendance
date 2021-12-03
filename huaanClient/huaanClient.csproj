@@ -425,6 +425,7 @@
     <Compile Include="Report\AttendanceMasterReporter.cs" />
     <Compile Include="Report\PeriodicMasterReporter.cs" />
     <Compile Include="Report\Remark.cs" />
+    <Compile Include="Report\StaffDetails.cs" />
     <Compile Include="Report\Util.cs" />
     <Compile Include="SearchFrom.cs">
       <SubType>Form</SubType>
