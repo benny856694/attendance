@@ -10,8 +10,9 @@ namespace huaanClient.Report
     {
         Present, //全勤
         SinglePunch,  //单次打卡
-        Absent,  //旷工
+        Absence,  //旷工
         Holiday, //节假日
-        OffWork, //请假
+        Leave, //请假
+        OffDuty, //休息日
     }
 }

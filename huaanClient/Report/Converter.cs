@@ -10,10 +10,10 @@ namespace huaanClient.Report
 {
     public static class Converter
     {
-        public static AttendanceDataForDay ToAttendanceDataForDay(this AttendanceData data)
+        public static DailyAttendanceData ToAttendanceDataForDay(this AttendanceData data)
         {
             var shift = data.Shiftinformation.CalcShift();
-            var result = new AttendanceDataForDay();
+            var result = new DailyAttendanceData();
             result.EmployeeId = data.personId;
             result.EmployeeCode = data.Employee_code;
             result.EmployeeName = data.name;

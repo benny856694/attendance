@@ -21,7 +21,7 @@ namespace huaanClient.Report
         public Period workHours = Period.Zero;
         public Period earlyHours = Period.Zero;
 
-        public void Count(AttendanceDataForDay attData)
+        public void Count(DailyAttendanceData attData)
         {
             switch (attData.Remark)
             {
@@ -51,13 +51,13 @@ namespace huaanClient.Report
                 case Remark.SinglePunch:
                     presentCount++;
                     break;
-                case Remark.Absent:
+                case Remark.Absence:
                     absenceCount++;
                     break;
                 case Remark.Holiday:
                     holidayCount++;
                     break;
-                case Remark.OffWork:
+                case Remark.Leave:
                     offDayCount++;
                     break;
                 default:

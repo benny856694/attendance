@@ -142,10 +142,10 @@ namespace huaanClient
         }
         public static void deleteEmployetype(string val)
         {
-            Employetype et = null;
+            Employeetype et = null;
             using (var c = GetConnection())
             {
-                et = c.QueryFirstOrDefault<Employetype>($"SELECT * FROM Employetype WHERE Employetype_name ='{val}'");
+                et = c.QueryFirstOrDefault<Employeetype>($"SELECT * FROM Employetype WHERE Employetype_name ='{val}'");
                 if (et != null)
                 {
                     c.Execute($"DELETE FROM RuleDistributionItem WHERE GroupId = {et.id} AND GroupType = 0");
@@ -5380,7 +5380,7 @@ namespace huaanClient
                 switch (groupIdType)
                 {
                     case GroupIdType.EmployeeType:
-                        var et = c.Get<Employetype>(groupId);
+                        var et = c.Get<Employeetype>(groupId);
                         name = et.Employetype_name;
                         break;
                     case GroupIdType.Department:
@@ -5453,11 +5453,11 @@ namespace huaanClient
             }
         }
 
-        public static Employetype[] getAllEmployeeType()
+        public static Employeetype[] getAllEmployeeType()
         {
             using (var c = GetConnection())
             {
-                var et = c.GetAll<Employetype>().Where(x=>!string.IsNullOrEmpty(x.Employetype_name));
+                var et = c.GetAll<Employeetype>().Where(x=>!string.IsNullOrEmpty(x.Employetype_name));
                 return et.ToArray();
             }
         }

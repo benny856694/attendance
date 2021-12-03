@@ -55,7 +55,7 @@ namespace huaanClient.Report
         {
             if (string.IsNullOrEmpty(data.Punchinformation) && string.IsNullOrEmpty(data.Punchinformation1))
             {
-                return Remark.Absent;
+                return Remark.Absence;
             }
             if (string.IsNullOrEmpty(data.Punchinformation) || string.IsNullOrEmpty(data.Punchinformation1) )
             {
@@ -65,7 +65,7 @@ namespace huaanClient.Report
             //请假
             if (string.Compare(data.Remarks, "3", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                return Remark.OffWork;
+                return Remark.Leave;
             }
 
             return Remark.Present;
@@ -82,7 +82,7 @@ namespace huaanClient.Report
                 case Remark.SinglePunch:
                     result = "PX";
                     break;
-                case Remark.Absent:
+                case Remark.Absence:
                     result = "A";
                     break;
                 default:

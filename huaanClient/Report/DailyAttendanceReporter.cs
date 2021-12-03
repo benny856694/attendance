@@ -30,6 +30,7 @@ namespace huaanClient.Report
 
         private void WriteStatistics(IXLWorksheet ws, int row, int col, Counter counter)
         {
+            ++col;
             ws.Cell(row, col++).Value = $"Total Present: {counter.presentCount}";
             ws.Cell(row, col++).Value = $"Total Absent: {counter.absenceCount}";
             ws.Cell(row, col++).Value = $"Total Late: {counter.lateCount}";
@@ -63,16 +64,13 @@ namespace huaanClient.Report
                     var departmentRowStart = row;
                     foreach (var staff in departmentStaffs)
                     {
-                        var data = ctx.AttendanceData.FirstOrDefault(x => x.Date == d && x.EmployeeId == staff.id);
-                        var department = ctx.Departments.FirstOrDefault(x => x.id == staff.department_id);
-                        var emplyeeType = ctx.Employetypes.FirstOrDefault(x => x.id == staff.Employetype_id);
-                        if (data == null) continue;
-                        (rowConsumed, colConsumed) = WriteOneRecord(ws, row, 1, department, emplyeeType, staff, d, data);
+                        var dailyAttendanceDataCtx = ctx.Extract(staff.id, d);
+                        (rowConsumed, colConsumed) = WriteOneRecord(ws, row, 1, dailyAttendanceDataCtx);
                         rowCount += rowConsumed;
                         colCount += colConsumed;
                         row += rowConsumed;
                         col += colConsumed;
-                        counter.Count(data);
+                        counter.Count(dailyAttendanceDataCtx.DailyAttendanceData);
                     }
                     ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 }
@@ -90,22 +88,27 @@ namespace huaanClient.Report
 
         }
 
-        private (int rowCount, int colCount) WriteOneRecord(IXLWorksheet ws, int row, int col, Department department, Employetype employetype, Staff staff, LocalDate d, AttendanceDataForDay data)
+        private (int rowCount, int colCount) WriteOneRecord(IXLWorksheet ws, int row, int col, DailyAttendanceDataContext ctx)
         {
             var startCol = col;
-            ws.Cell(row, col++).Value = department?.name;
-            ws.Cell(row, col++).Value = employetype?.Employetype_name;
-            ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(data.EmployeeCode);
-            ws.Cell(row, col++).Value = staff.name;
-            ws.Cell(row, col++).Value = data.ShiftName;
-            ws.Cell(row, col++).SetValue(data.ShiftStart?.ToString("t", CultureInfo.InvariantCulture));
-            ws.Cell(row, col++).SetValue(data.ShiftEnd?.ToString("t", CultureInfo.InvariantCulture));
-            ws.Cell(row, col++).SetValue(data.CheckIn?.ToString("t", CultureInfo.InvariantCulture));
-            ws.Cell(row, col++).SetValue(data.CheckOut?.ToString("t", CultureInfo.InvariantCulture));
-            ws.Cell(row, col++).SetValue(data.LateHour.ToMyString());
-            ws.Cell(row, col++).SetValue(data.EarlyHour.ToMyString());
-            ws.Cell(row, col++).SetValue(data.WorkHour.ToMyString());
-            ws.Cell(row, col++).SetValue(data.Remark.ToDisplayText());
+            ws.Cell(row, col++).Value = ctx.Department?.name;
+            ws.Cell(row, col++).Value = ctx.Employeetype?.Employetype_name;
+            ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(ctx.Staff.Employee_code);
+            ws.Cell(row, col++).Value = ctx.Staff.name;
+            ws.Cell(row, col++).Value = ctx.Shift?.name;
+            var shift1 = ctx.Shift?.GetShift1();
+            ws.Cell(row, col++).SetValue(shift1?.ShiftStart.ToString("t", CultureInfo.InvariantCulture));
+            ws.Cell(row, col++).SetValue(shift1?.ShiftEnd.ToString("t", CultureInfo.InvariantCulture));
+            if (ctx.DailyAttendanceData.Remark != Remark.OffDuty)
+            {
+                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.CheckIn?.ToString("t", CultureInfo.InvariantCulture));
+                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.CheckOut?.ToString("t", CultureInfo.InvariantCulture));
+                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.LateHour.ToMyString());
+                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.EarlyHour.ToMyString());
+                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.WorkHour.ToMyString());
+                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.Remark.ToDisplayText());
+            }
+           
 
             return (1, col - startCol);
 

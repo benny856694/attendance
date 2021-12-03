@@ -345,14 +345,16 @@
     <Compile Include="Database\Capture_Data.cs" />
     <Compile Include="Database\AccessRule.cs" />
     <Compile Include="Database\DistributionItemType.cs" />
+    <Compile Include="Database\Extensions.cs" />
     <Compile Include="Database\GroupType.cs" />
     <Compile Include="Database\RepeatType.cs" />
     <Compile Include="Database\RuleDistributionDevice.cs" />
     <Compile Include="Database\RuleDistributionItem.cs" />
     <Compile Include="Database\RuleDistribution.cs" />
+    <Compile Include="Database\ShiftForWeek.cs" />
     <Compile Include="Database\TimeSegment.cs" />
     <Compile Include="Database\Day.cs" />
-    <Compile Include="Database\Employetype.cs" />
+    <Compile Include="Database\Employeetype.cs" />
     <Compile Include="Database\ClassMappers.cs" />
     <Compile Include="Database\Shift.cs" />
     <Compile Include="Database\Department.cs" />
@@ -412,9 +414,10 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="recursionJSON.cs" />
-    <Compile Include="Report\AttendanceDataForDay.cs" />
+    <Compile Include="Report\DailyAttendanceData.cs" />
     <Compile Include="Report\Converter.cs" />
     <Compile Include="Report\Counter.cs" />
+    <Compile Include="Report\DailyAttendanceDataContext.cs" />
     <Compile Include="Report\DailyAttendanceReporter.cs" />
     <Compile Include="Report\DataContext.cs" />
     <Compile Include="Report\Extensions.cs" />
