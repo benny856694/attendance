@@ -1092,6 +1092,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //导出每日考勤数据
         public void exportAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string departments)
         {
+            var reporter = new huaanClient.Report.DailyAttendanceReporter();
+            reporter.Generate(starttime, endtime, @"d:\DailyAttendance.xlsx");
+            return;
+
+
             form.Invoke(new Action(() =>
             {
                 starttime = starttime.Replace(@"/", "-");

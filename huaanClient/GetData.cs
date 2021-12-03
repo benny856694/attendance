@@ -929,15 +929,15 @@ namespace huaanClient
             {
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.name, DapperExtensions.Operator.Like, $"%{name}%"));
             }
-            if (late.Trim().Equals("1"))
+            if (late?.Trim().Equals("1") == true)
             {
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.late, DapperExtensions.Operator.Gt, 0));
             }
-            if (Leaveearly.Trim().Equals("1"))
+            if (Leaveearly?.Trim().Equals("1") == true)
             {
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.Leaveearly, DapperExtensions.Operator.Gt, 0));
             }
-            if (isAbsenteeism.Trim().Equals("1"))
+            if (isAbsenteeism?.Trim().Equals("1") == true)
             {
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.isAbsenteeism, DapperExtensions.Operator.Eq, 0));
             }

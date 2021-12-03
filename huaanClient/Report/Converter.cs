@@ -28,12 +28,12 @@ namespace huaanClient.Report
             {
                 if (result.CheckIn.Value > result.ShiftStart.Value)
                 {
-                    result.Late = (result.CheckIn.Value - result.ShiftStart.Value).Normalize();
+                    result.LateHour = (result.CheckIn.Value - result.ShiftStart.Value).Normalize();
                 }
 
                 if (result.CheckOut.Value < result.ShiftEnd.Value)
                 {
-                    result.Early = (result.ShiftEnd.Value - result.CheckOut.Value).Normalize();
+                    result.EarlyHour = (result.ShiftEnd.Value - result.CheckOut.Value).Normalize();
                 }
 
                 var shiftHour = result.ShiftEnd.Value - result.ShiftStart.Value;

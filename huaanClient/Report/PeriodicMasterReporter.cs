@@ -39,105 +39,106 @@ namespace huaanClient.Report
 
         private int WriteEmployees(IXLWorksheet ws, AttendanceData[] attendanceData)
         {
-            var (employeeTypes, departments, staffs) = Util.LoadDb();
-            var row = 2;
-            var departmentGroup = attendanceData.GroupBy(x => x.department);
-            foreach (var dep in departmentGroup)
-            {
-                var departmentRowStart = row;
-                foreach (var data in dep.AsEnumerable().GroupBy(x=>x.personId))
-                {
-                    var presentCount = 0;
-                    var absenceCount = 0;
-                    var overTimeCount = 0;
-                    var lateCount = 0;
-                    var offDayCount = 0;
-                    var holidayCount = 0;
-                    var overTimeHours = Period.Zero;
-                    var lateHours = Period.Zero;
-                    var workHours = Period.Zero;
+            throw new NotImplementedException();
+            //var (employeeTypes, departments, staffs) = Util.LoadDb();
+            //var row = 2;
+            //var departmentGroup = attendanceData.GroupBy(x => x.department);
+            //foreach (var dep in departmentGroup)
+            //{
+            //    var departmentRowStart = row;
+            //    foreach (var data in dep.AsEnumerable().GroupBy(x=>x.personId))
+            //    {
+            //        var presentCount = 0;
+            //        var absenceCount = 0;
+            //        var overTimeCount = 0;
+            //        var lateCount = 0;
+            //        var offDayCount = 0;
+            //        var holidayCount = 0;
+            //        var overTimeHours = Period.Zero;
+            //        var lateHours = Period.Zero;
+            //        var workHours = Period.Zero;
 
 
-                    var col = 1;
-                    var staff = staffs.FirstOrDefault(x => x.id == data.Key);
-                    if (staff == null) continue;
+            //        var col = 1;
+            //        var staff = staffs.FirstOrDefault(x => x.id == data.Key);
+            //        if (staff == null) continue;
 
-                    ws.Cell(row, col++).Value = dep.Key;
-                    ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(Util.GetEmployeeTypeName(staffs, employeeTypes, data.Key));
-                    ws.Cell(row, col++).SetValue(staff.Employee_code);
-                    ws.Cell(row, col++).Value = staff.name;
+            //        ws.Cell(row, col++).Value = dep.Key;
+            //        ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(Util.GetEmployeeTypeName(staffs, employeeTypes, data.Key));
+            //        ws.Cell(row, col++).SetValue(staff.Employee_code);
+            //        ws.Cell(row, col++).Value = staff.name;
 
-                    for (var d = _minDate; d <= _maxDate; d = d.AddDays(1))
-                    {
-                        var att = attendanceData.FirstOrDefault(x => x.Date == d && x.personId == staff.id);
-                        if (att != null)
-                        {
-                            var attData = att.ToAttendanceDataForDay();
-                            ws.Cell(row, col++)
-                                .SetValue(attData.Remark.ToDisplayText())
-                                .Style
-                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            //        for (var d = _minDate; d <= _maxDate; d = d.AddDays(1))
+            //        {
+            //            var att = attendanceData.FirstOrDefault(x => x.Date == d && x.personId == staff.id);
+            //            if (att != null)
+            //            {
+            //                var attData = att.ToAttendanceDataForDay();
+            //                ws.Cell(row, col++)
+            //                    .SetValue(attData.Remark.ToDisplayText())
+            //                    .Style
+            //                    .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                           
-                            switch (attData.Remark)
-                            {
-                                case Remark.Present:
-                                    presentCount++;
-                                    if (attData.OverTime != Period.Zero)
-                                    {
-                                        overTimeCount++;
-                                        overTimeHours += attData.OverTime;
-                                    }
-                                    if (attData.Late != Period.Zero)
-                                    {
-                                        lateCount++;
-                                        lateHours += attData.Late;
-                                    }
-                                    if (attData.WorkHour != Period.Zero)
-                                    {
-                                        workHours += attData.WorkHour;
-                                    }
-                                    break;
-                                case Remark.SinglePunch:
-                                    presentCount++;
-                                    break;
-                                case Remark.Absent:
-                                    absenceCount++;
-                                    break;
-                                case Remark.Holiday:
-                                    holidayCount++;
-                                    break;
-                                case Remark.OffWork:
-                                    offDayCount++;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            col++;
-                        }
+            //                switch (attData.Remark)
+            //                {
+            //                    case Remark.Present:
+            //                        presentCount++;
+            //                        if (attData.OverTime != Period.Zero)
+            //                        {
+            //                            overTimeCount++;
+            //                            overTimeHours += attData.OverTime;
+            //                        }
+            //                        if (attData.LateHour != Period.Zero)
+            //                        {
+            //                            lateCount++;
+            //                            lateHours += attData.LateHour;
+            //                        }
+            //                        if (attData.WorkHour != Period.Zero)
+            //                        {
+            //                            workHours += attData.WorkHour;
+            //                        }
+            //                        break;
+            //                    case Remark.SinglePunch:
+            //                        presentCount++;
+            //                        break;
+            //                    case Remark.Absent:
+            //                        absenceCount++;
+            //                        break;
+            //                    case Remark.Holiday:
+            //                        holidayCount++;
+            //                        break;
+            //                    case Remark.OffWork:
+            //                        offDayCount++;
+            //                        break;
+            //                    default:
+            //                        break;
+            //                }
+            //            }
+            //            else
+            //            {
+            //                col++;
+            //            }
 
 
-                    }
+            //        }
 
-                    ws.Cell(row, col++).SetValue(presentCount);
-                    ws.Cell(row, col++).SetValue(absenceCount);
-                    ws.Cell(row, col++).SetValue(holidayCount);
-                    ws.Cell(row, col++).SetValue(offDayCount);
+            //        ws.Cell(row, col++).SetValue(presentCount);
+            //        ws.Cell(row, col++).SetValue(absenceCount);
+            //        ws.Cell(row, col++).SetValue(holidayCount);
+            //        ws.Cell(row, col++).SetValue(offDayCount);
 
 
-                    row++;
-                }
+            //        row++;
+            //    }
 
-                if (row-1 != departmentRowStart)
-                {
-                    ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
-                }
+            //    if (row-1 != departmentRowStart)
+            //    {
+            //        ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
+            //    }
 
-            }
+            //}
 
-            return row;
+            //return row;
 
         }
 

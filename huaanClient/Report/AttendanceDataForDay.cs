@@ -18,8 +18,8 @@ namespace huaanClient.Report
         public LocalTime? ShiftEnd { get; set; }
         public LocalTime? CheckIn { get; set; }
         public LocalTime? CheckOut { get; set; }
-        public Period Late { get; set; } = Period.Zero;
-        public Period Early { get; set; } = Period.Zero;
+        public Period LateHour { get; set; } = Period.Zero;
+        public Period EarlyHour { get; set; } = Period.Zero;
         public Period WorkHour { get; set; } = Period.Zero;
         public Period OverTime { get; set; } = Period.Zero;
         public Remark Remark { get; set; }

@@ -13,11 +13,13 @@ namespace huaanClient.Report
         public int absenceCount = 0;
         public int overTimeCount = 0;
         public int lateCount = 0;
+        public int earlyCount = 0;
         public int offDayCount = 0;
         public int holidayCount = 0;
         public Period overTimeHours = Period.Zero;
         public Period lateHours = Period.Zero;
         public Period workHours = Period.Zero;
+        public Period earlyHours = Period.Zero;
 
         public void Count(AttendanceDataForDay attData)
         {
@@ -30,10 +32,16 @@ namespace huaanClient.Report
                         overTimeCount++;
                         overTimeHours += attData.OverTime;
                     }
-                    if (attData.Late != Period.Zero)
+                    if (attData.EarlyHour != Period.Zero)
+                    {
+                        earlyCount++;
+                        earlyHours += attData.EarlyHour;
+
+                    }
+                    if (attData.LateHour != Period.Zero)
                     {
                         lateCount++;
-                        lateHours += attData.Late;
+                        lateHours += attData.LateHour;
                     }
                     if (attData.WorkHour != Period.Zero)
                     {
