@@ -300,4 +300,28 @@
 	<data name="PasswordSpace" xml:space="preserve">
 		<value>フレームを入力できない</value>
 	</data>
+	<data name="DeleteFailed" xml:space="preserve">
+		<value>削除失敗</value>
+	</data>
+	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
+		<value>当便は既に使用されておりますので、当直便から外してください。</value>
+	</data>
+	<data name="DefaultShiftGroupName" xml:space="preserve">
+		<value>黙認出席組</value>
+	</data>
+	<data name="MenuItemCopyImage" xml:space="preserve">
+		<value>コピー</value>
+	</data>
+	<data name="ShowInExplorer" xml:space="preserve">
+		<value>リソースマネージャに表示されます</value>
+	</data>
+	<data name="DatasetIsTooBig" xml:space="preserve">
+		<value>導き出すデータは空</value>
+	</data>
+	<data name="NoDataFound" xml:space="preserve">
+		<value>導き出すデータは空</value>
+	</data>
+	<data name="PhotoCaptureFailed" xml:space="preserve">
+		<value>写真を撮るのに失敗したらやり直してください</value>
+	</data>
 </root>

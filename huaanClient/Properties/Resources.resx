@@ -157,4 +157,28 @@
 	<data name="PasswordSpace" xml:space="preserve">
 		<value>不能输入空格</value>
 	</data>
+	<data name="DeleteFailed" xml:space="preserve">
+		<value>删除失败</value>
+	</data>
+	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
+		<value>该班次已被使用，请先在考勤组移除该班次！</value>
+	</data>
+	<data name="DefaultShiftGroupName" xml:space="preserve">
+		<value>默认考勤组</value>
+	</data>
+	<data name="MenuItemCopyImage" xml:space="preserve">
+		<value>复制</value>
+	</data>
+	<data name="ShowInExplorer" xml:space="preserve">
+		<value>显示在资源管理器中</value>
+	</data>
+	<data name="DatasetIsTooBig" xml:space="preserve">
+		<value>要导出的数据超过10000条</value>
+	</data>
+	<data name="NoDataFound" xml:space="preserve">
+		<value>要导出的数据为空</value>
+	</data>
+	<data name="PhotoCaptureFailed" xml:space="preserve">
+		<value>拍照失败，请重试</value>
+	</data>
 </root>
