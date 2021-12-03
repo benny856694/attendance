@@ -74,12 +74,12 @@ namespace huaanClient.Report
                     }
                     ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 }
-                WriteStatistics(ws, row, 1, counter);
+                WriteStatistics(ws, row+1, 1, counter);
 
                 ws.Columns().AdjustToContents().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
                 ws.Rows("1")
                     .Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                //ws.Rows(row.ToString(CultureInfo.InvariantCulture)).Style.Font.Bold = true;
+                ws.Rows($"{row+1}").Style.Font.Bold = true;
                 ws.SheetView.FreezeRows(1);
 
 
