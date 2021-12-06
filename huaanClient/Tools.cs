@@ -1,4 +1,5 @@
-﻿using huaanClient.Database;
+﻿using ClosedXML.Excel;
+using huaanClient.Database;
 using huaanClient.Properties;
 using huaanClient.Report;
 using System;
@@ -113,7 +114,11 @@ namespace huaanClient
             {
                 try
                 {
-                    reporter.Generate(dataContext, res.fileName);
+                    using (var wb = new XLWorkbook())
+                    {
+                        reporter.Generate(dataContext, wb);
+                        wb.SaveAs(res.fileName);
+                    }
                     MessageBox.Show($"{Strings.ExportFileSucceed}: {res.fileName}");
                 }
                 catch (Exception ex)

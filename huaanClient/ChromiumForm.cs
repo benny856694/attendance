@@ -1005,13 +1005,8 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     var ctx = new DataContext();
                     ctx.Load(from, to);
 
-                    var reporter = new AttendanceMasterReporter();
-                    reporter.Generate(ctx, @"d:\AttendanceMaster.xlsx");
-
-
-                    var periodic = new PeriodicMasterReporter();
-                    periodic.Generate(ctx, @"d:\PeriodicMaster.xlsx");
-
+                    var reporter = new MonthlyAttendanceReporter();
+                    Tools.GenerateReport(ctx, "MonthlyAttendance.xlsx", reporter);
                 }));
             }
             else

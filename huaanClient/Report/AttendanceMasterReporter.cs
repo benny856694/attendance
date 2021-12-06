@@ -13,22 +13,17 @@ namespace huaanClient.Report
     public class AttendanceMasterReporter : IReporter
     {
 
-        public void Generate(DataContext ctx, string pathToXlsx)
+        public void Generate(DataContext ctx, IXLWorkbook wb)
         {
-            using (var wb = new ClosedXML.Excel.XLWorkbook())
-            {
-                var sheet = wb.AddWorksheet();
-                WriteTitleLine(sheet, ctx.From, ctx.To);
-                WriteAttendanceData(sheet, ctx);
-                sheet.Columns("1").AdjustToContents();
-                sheet.Rows("1").Style
-                    .Fill.SetBackgroundColor(XLColor.LightGray)
-                    .Alignment.Vertical = XLAlignmentVerticalValues.Top;
-                sheet.SheetView.FreezeRows(1);
-                sheet.SheetView.FreezeColumns(2);
-
-                wb.SaveAs(pathToXlsx);
-            }
+            var sheet = wb.AddWorksheet("AttendanceMaster");
+            WriteTitleLine(sheet, ctx.From, ctx.To);
+            WriteAttendanceData(sheet, ctx);
+            sheet.Columns("1").AdjustToContents();
+            sheet.Rows("1").Style
+                .Fill.SetBackgroundColor(XLColor.LightGray)
+                .Alignment.Vertical = XLAlignmentVerticalValues.Top;
+            sheet.SheetView.FreezeRows(1);
+            sheet.SheetView.FreezeColumns(2);
 
         }
 

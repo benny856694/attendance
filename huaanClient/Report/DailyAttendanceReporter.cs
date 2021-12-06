@@ -12,20 +12,16 @@ using System.Text;
 using System.Threading.Tasks;
 using NodaTime.Text;
 using NodaTime;
+using huaanClient.Report.Writer;
 
 namespace huaanClient.Report
 {
     class DailyAttendanceReporter : IReporter 
     {
 
-        public void Generate(DataContext ctx, string pathToXlsx)
+        public void Generate(DataContext ctx, IXLWorkbook wb)
         {
-
-            using (var wb = new XLWorkbook())
-            {
-                WriteEmployees(wb, ctx);
-                wb.SaveAs(pathToXlsx);
-            }
+            WriteEmployees(wb, ctx);
         }
 
         private void WriteStatistics(IXLWorksheet ws, int row, int col, Counter counter)
@@ -57,13 +53,14 @@ namespace huaanClient.Report
                 colCount += colConsumed;
                 row += rowConsumed;
                 col += colConsumed;
+                var writer = new DailyReportRecordWriter();
                 foreach (var departmentStaffs in departments)
                 {
                     var departmentRowStart = row;
                     foreach (var staff in departmentStaffs)
                     {
                         var dailyAttendanceDataCtx = ctx.Extract(staff.id, d);
-                        (rowConsumed, colConsumed) = WriteOneRecord(ws, row, 1, dailyAttendanceDataCtx);
+                        (rowConsumed, colConsumed) = writer.Write(ws, row, 1, dailyAttendanceDataCtx);
                         rowCount += rowConsumed;
                         colCount += colConsumed;
                         row += rowConsumed;
@@ -79,38 +76,11 @@ namespace huaanClient.Report
                     .Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 ws.Rows($"{row+1}").Style.Font.Bold = true;
                 ws.SheetView.FreezeRows(1);
-
-
             }
 
 
         }
 
-        private (int rowCount, int colCount) WriteOneRecord(IXLWorksheet ws, int row, int col, DailyAttendanceDataContext ctx)
-        {
-            var startCol = col;
-            ws.Cell(row, col++).Value = ctx.StaffDetails.Department?.name;
-            ws.Cell(row, col++).Value = ctx.StaffDetails.Employeetype?.Employetype_name;
-            ws.Cell(row, col++).SetDataType(XLDataType.Text).SetValue(ctx.StaffDetails.Staff.Employee_code);
-            ws.Cell(row, col++).Value = ctx.StaffDetails.Staff.name;
-            ws.Cell(row, col++).Value = ctx.Shift?.name;
-            var shift1 = ctx.Shift?.GetShift1();
-            ws.Cell(row, col++).SetValue(shift1?.ShiftStart.ToString("t", CultureInfo.InvariantCulture));
-            ws.Cell(row, col++).SetValue(shift1?.ShiftEnd.ToString("t", CultureInfo.InvariantCulture));
-            if (ctx.DailyAttendanceData.Remark != Remark.OffDuty)
-            {
-                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.CheckIn?.ToString("t", CultureInfo.InvariantCulture));
-                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.CheckOut?.ToString("t", CultureInfo.InvariantCulture));
-                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.LateHour.ToMyString());
-                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.EarlyHour.ToMyString());
-                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.WorkHour.ToMyString());
-                ws.Cell(row, col++).SetValue(ctx.DailyAttendanceData.Remark.ToDisplayText());
-            }
-           
-
-            return (1, col - startCol);
-
-        }
 
         private (int rowConsumed, int colConsumed) WriteTitle(IXLWorksheet ws, int startRow, int startCol)
         {

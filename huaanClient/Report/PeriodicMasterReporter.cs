@@ -10,28 +10,22 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Report
 {
-    public class PeriodicMasterReporter : IReporter 
+    public class PeriodicMasterReporter 
     {
 
-        public void Generate(DataContext ctx, string pathToXlsx)
+        public void Generate(DataContext ctx, IXLWorkbook wb)
         {
-            using (var wb = new ClosedXML.Excel.XLWorkbook())
-            {
-                var sheet = wb.AddWorksheet();
-                WriteTitle(sheet, ctx.From, ctx.To);
-                WriteEmployees(sheet, ctx.From, ctx.To);
-                sheet.Columns().AdjustToContents();
-                sheet.Rows("1").Style
-                    .Fill.SetBackgroundColor(XLColor.LightGray)
-                    .Alignment.SetVertical(XLAlignmentVerticalValues.Top)
-                    .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            var sheet = wb.AddWorksheet("PeriodicMaster");
+            WriteTitle(sheet, ctx.From, ctx.To);
+            WriteEmployees(sheet, ctx.From, ctx.To);
+            sheet.Columns().AdjustToContents();
+            sheet.Rows("1").Style
+                .Fill.SetBackgroundColor(XLColor.LightGray)
+                .Alignment.SetVertical(XLAlignmentVerticalValues.Top)
+                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
-                sheet.SheetView.FreezeRows(1);
-                sheet.SheetView.FreezeColumns(2);
-
-                wb.SaveAs(pathToXlsx);
-            }
-
+            sheet.SheetView.FreezeRows(1);
+            sheet.SheetView.FreezeColumns(2);
         }
 
 

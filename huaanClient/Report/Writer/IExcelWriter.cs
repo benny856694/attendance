@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Report
 {
-    public interface IReporter
+    public interface IExcelWriter
     {
-        void Generate(DataContext dataContext, IXLWorkbook wb);
+        (int rowConsumed, int colConsumed) Write(IXLWorksheet sheet, int startRow, int startCol, DailyAttendanceDataContext ctx);
+
     }
 }
