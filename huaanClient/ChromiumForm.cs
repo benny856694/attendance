@@ -467,10 +467,18 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
         //批量导出门禁记录
-        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string type, string tempFrom, string tempTo)
+        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string type, string tempFrom, string tempTo,string ids)
         {
-
-            string result = GetData.getCapture_Datacuont(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat());
+            string result = "";
+            if (string.IsNullOrEmpty(ids))
+            {
+                result = GetData.getCapture_Datacuont(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat());
+            }
+            else
+            {
+                result =  $"[{{\"count\":{ids.Split(',').Length}}}]";
+            }
+            
             form.Invoke(new Action(() =>
             {
                 JArray jo = (JArray)JsonConvert.DeserializeObject(result);
@@ -486,7 +494,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 }
                 else
                 {
-                    var data = GetData.getCapture_Data1(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat());
+                    var data = GetData.getCapture_Data1(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(),ids);
                     var propertyNames = Tools.GetPropertyNames(nameof(Capture_Data));
                     Func<Capture_Data, string, object, string> convertProperty = (d, pname, v) =>
                     {

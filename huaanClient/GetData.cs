@@ -2508,7 +2508,7 @@ namespace huaanClient
         //0未传值 1保存失败 2成功
         public static string setStaf(string id, string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
-            imge = "";//设备人员注册不要人脸
+            
             if (string.IsNullOrEmpty(Employetype))
             {
                 Employetype = "1";
@@ -3768,13 +3768,29 @@ namespace huaanClient
             return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
         }
 
-        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo)
+        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string ids)
         {
             var pg = new DapperExtensions.PredicateGroup
             {
                 Operator = DapperExtensions.GroupOperator.And,
                 Predicates = new List<DapperExtensions.IPredicate>()
             };
+
+            if (!string.IsNullOrEmpty(ids))
+            {
+                var pg2 = new DapperExtensions.PredicateGroup
+                {
+                    Operator = DapperExtensions.GroupOperator.Or,
+                    Predicates = new List<DapperExtensions.IPredicate>()
+                };
+                var ids2=ids.Split(',');
+                foreach (var id in ids2)
+                {
+                    pg2.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.id, DapperExtensions.Operator.Eq, id));
+                }
+
+                pg.Predicates.Add(pg2);
+            }
 
             if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
             {
@@ -5152,7 +5168,8 @@ namespace huaanClient
 
                                 Int64.Parse(personid);
                                 string name = jo[i]["name"].ToString();
-                                string imge = jo[i]["imge"].ToString();
+                                //string imge = jo[i]["imge"].ToString();
+                                string imge = "";//批量注册设备人员不要带图片
                                 string wg_card_id = jo[i]["wg_card_id"].ToString();
                                 string long_card_id = jo[i]["long_card_id"].ToString();
                                 string source = jo[i]["device_sn"].ToString();
