@@ -295,6 +295,15 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   查找类似 删除失败 的本地化字符串。
+        /// </summary>
+        internal static string DeleteFailed {
+            get {
+                return ResourceManager.GetString("DeleteFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设备离线 的本地化字符串。
         /// </summary>
         internal static string DeviceOffline {
@@ -534,6 +543,15 @@ namespace huaanClient.Properties {
         internal static string PhotoTakenNotQualified {
             get {
                 return ResourceManager.GetString("PhotoTakenNotQualified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 该班次已被使用，请先在考勤组移除该班次！ 的本地化字符串。
+        /// </summary>
+        internal static string PleaseRemoveShiftFromAttendanceGroup {
+            get {
+                return ResourceManager.GetString("PleaseRemoveShiftFromAttendanceGroup", resourceCulture);
             }
         }
         
