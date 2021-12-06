@@ -43,7 +43,7 @@ namespace huaanClient.Report
             for (var d = start; d <= end; d = d.PlusDays(1))
             {
                 var counter = new Counter();
-                var ws = wb.AddWorksheet(d.ToString());
+                var ws = wb.AddWorksheet(d.ToString("d", CultureInfo.CurrentCulture).Replace('/','-'));
                 var row = 1;
                 var col = 1;
                 var rowCount = 0;
