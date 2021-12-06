@@ -166,6 +166,9 @@ namespace huaanClient
         public static void exportForDay(AttendanceData[] data,string te, string[] selectedProperties)
         {
 
+
+
+
             string msg = "每日考勤表";
             if (ApplicationData.LanguageSign.Contains("English"))
                 msg = "Daily attendance sheet";

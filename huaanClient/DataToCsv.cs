@@ -869,13 +869,13 @@ namespace huaanClient
         {
 
             Staff[] data;
-            Employetype[] employeeTypes;
+            Employeetype[] employeeTypes;
             Department[] departments;
 
             using (var conn = SQLiteHelper.GetConnection())
             {
                 data = conn.GetAll<Staff>().ToArray();
-                employeeTypes = conn.GetAll<Employetype>().ToArray();
+                employeeTypes = conn.GetAll<Employeetype>().ToArray();
                 departments = conn.GetAll<Department>().ToArray();
             }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace huaanClient.Database
 {
 	[Table("Employetype")]
-	public class Employetype
+	public class Employeetype
 	{
 		[Key]
 		public long id { get; set; }
