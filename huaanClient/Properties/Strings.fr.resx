@@ -142,10 +142,10 @@
     <value>Congé</value>
   </data>
 	<data name="SaveFailed" xml:space="preserve">
-    <value>Enregistrer avec succès</value>
+    <value>Échec de l'enregistrement</value>
   </data>
 	<data name="SaveSuccess" xml:space="preserve">
-    <value>Échec de l'enregistrement</value>
+    <value>Enregistrer avec succès</value>
   </data>
 	<data name="StaffCodeExists" xml:space="preserve">
     <value>Le numéro d'employé existe déjà</value>
@@ -284,5 +284,29 @@
   </data>
 	<data name="PasswordSpace" xml:space="preserve">
 		<value>Aucun espace ne peut être entré</value>
+	</data>
+	<data name="DeleteFailed" xml:space="preserve">
+		<value>Suppression échouée</value>
+	</data>
+	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
+		<value>Ce poste a déjà été utilisé. Veuillez d’abord le supprimer dans la section de présence!</value>
+	</data>
+	<data name="DefaultShiftGroupName" xml:space="preserve">
+		<value>Groupe de présence par défaut</value>
+	</data>
+	<data name="MenuItemCopyImage" xml:space="preserve">
+		<value>La reproduction</value>
+	</data>
+	<data name="ShowInExplorer" xml:space="preserve">
+		<value>Afficher dans l’explorateur</value>
+	</data>
+	<data name="DatasetIsTooBig" xml:space="preserve">
+		<value>Les données à exporter sont vides</value>
+	</data>
+	<data name="NoDataFound" xml:space="preserve">
+		<value>Les données à exporter sont vides</value>
+	</data>
+	<data name="PhotoCaptureFailed" xml:space="preserve">
+		<value>Échec de la photo, veuillez réessayer</value>
 	</data>
 </root>

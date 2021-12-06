@@ -321,4 +321,10 @@
 	<data name="PasswordSpace" xml:space="preserve">
 		<value>Không thể nhập không gian</value>
 	</data>
+	<data name="DeleteFailed" xml:space="preserve">
+		<value>Xóa lỗi</value>
+	</data>
+	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
+		<value>Các chuyến bay đã được sử dụng, xin vui lòng loại bỏ các chuyến bay trong nhóm làm việc!</value>
+	</data>
 </root>

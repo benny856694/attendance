@@ -142,10 +142,10 @@
     <value>The photo is not valid</value>
   </data>
 	<data name="SaveFailed" xml:space="preserve">
-    <value>Save succeeded</value>
+    <value>Save failed</value>
   </data>
 	<data name="SaveSuccess" xml:space="preserve">
-    <value>Save failed</value>
+    <value>Save succeed</value>
   </data>
 	<data name="Absent" xml:space="preserve">
     <value>Yes</value>
@@ -320,5 +320,11 @@
   </data>
 	<data name="PasswordSpace" xml:space="preserve">
 		<value>Can't enter Spaces</value>
+	</data>
+	<data name="DeleteFailed" xml:space="preserve">
+		<value>Delete failed</value>
+	</data>
+	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
+		<value>This flight is already in use, please remove this flight from the attendance group first!</value>
 	</data>
 </root>
