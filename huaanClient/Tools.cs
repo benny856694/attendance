@@ -1,8 +1,11 @@
 ﻿using huaanClient.Database;
+using huaanClient.Properties;
+using huaanClient.Report;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace huaanClient
 {
@@ -100,6 +103,40 @@ namespace huaanClient
                 result.Add(property[i], names[i]);
             }
             return result;
+        }
+
+
+        public static void GenerateReport(DataContext dataContext, string fileName, IReporter reporter)
+        {
+            var res = ShowSaveFileAsXlsxDialog(fileName);
+            if (res.result == DialogResult.OK)
+            {
+                try
+                {
+                    reporter.Generate(dataContext, res.fileName);
+                    MessageBox.Show($"{Strings.ExportFileSucceed}: {res.fileName}");
+                }
+                catch (Exception ex)
+                {
+                    var msg = string.Format(Strings.ExportFileFailedWithError, ex.Message);
+                    MessageBox.Show(msg);
+                }
+
+            }
+        }
+
+
+        public static (DialogResult result, string fileName) ShowSaveFileAsXlsxDialog(string fileName)
+        {
+            return ShowSaveFileDialog(fileName, Strings.ExcelFile);
+        }
+
+        public static (DialogResult result, string fileName) ShowSaveFileDialog(string fileName, string filter)
+        {
+            var sd = new SaveFileDialog();
+            sd.Filter = filter;
+            sd.FileName = fileName;
+            return (sd.ShowDialog(), sd.FileName);
         }
     }
 }

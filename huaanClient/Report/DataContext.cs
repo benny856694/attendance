@@ -20,9 +20,13 @@ namespace huaanClient.Report
         public Staff[] Staffs { get; private set; }
         public AttendanceGroup[] AttendanceGroups { get; private set; }
         public DailyAttendanceData[] AttendanceData { get; private set; }
+        public LocalDate From { get; private set; }
+        public LocalDate To { get; private set; }
 
         public void Load(LocalDate from, LocalDate to)
         {
+            From = from;
+            To = to;
             using (var c = SQLiteHelper.GetConnection())
             {
                 Departments = c.GetAll<Department>().ToArray();

@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Report
 {
-    public class AttendanceMasterReporter
+    public class AttendanceMasterReporter : IReporter
     {
 
-        public void Generate(LocalDate from, LocalDate to, string pathToXlsx)
+        public void Generate(DataContext ctx, string pathToXlsx)
         {
             using (var wb = new ClosedXML.Excel.XLWorkbook())
             {
                 var sheet = wb.AddWorksheet();
-                WriteTitleLine(sheet, from, to);
-                WriteAttendanceData(sheet, from, to);
+                WriteTitleLine(sheet, ctx.From, ctx.To);
+                WriteAttendanceData(sheet, ctx);
                 sheet.Columns("1").AdjustToContents();
                 sheet.Rows("1").Style
                     .Fill.SetBackgroundColor(XLColor.LightGray)
@@ -32,10 +32,8 @@ namespace huaanClient.Report
 
         }
 
-        private void WriteAttendanceData(IXLWorksheet sheet, LocalDate from, LocalDate to)
+        private void WriteAttendanceData(IXLWorksheet sheet, DataContext ctx)
         {
-            var ctx = new DataContext();
-            ctx.Load(from, to);
             var row = 2;
             var col = 1;
             foreach (var person in ctx.Staffs)
@@ -62,7 +60,7 @@ namespace huaanClient.Report
                 col += 1;
 
 
-                for (var d = from; d <= to; d = d.PlusDays(1))
+                for (var d = ctx.From; d <= ctx.To; d = d.PlusDays(1))
                 {
                     var attendanceContext = ctx.Extract(person.id, d);
                     if (attendanceContext != null)

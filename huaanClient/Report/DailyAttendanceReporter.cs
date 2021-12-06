@@ -15,15 +15,15 @@ using NodaTime;
 
 namespace huaanClient.Report
 {
-    class DailyAttendanceReporter
+    class DailyAttendanceReporter : IReporter 
     {
 
-        public void Generate(string from, string to, string pathToXlsx)
+        public void Generate(DataContext ctx, string pathToXlsx)
         {
 
             using (var wb = new XLWorkbook())
             {
-                WriteEmployees(wb, from, to);
+                WriteEmployees(wb, ctx);
                 wb.SaveAs(pathToXlsx);
             }
         }
@@ -37,16 +37,14 @@ namespace huaanClient.Report
             ws.Cell(row, col++).Value = $"Total Early: {counter.earlyCount}";
         }
 
-        private void WriteEmployees(IXLWorkbook wb, string from, string to)
+        private void WriteEmployees(IXLWorkbook wb, DataContext ctx)
         {
 
-            var ctx = new DataContext();
-            ctx.Load(from.ToLocalDate().Value, to.ToLocalDate().Value);
 
-            var start = from.ToLocalDate();
-            var end = to.ToLocalDate();
+            var start = ctx.From;
+            var end = ctx.To;
             var departments = ctx.Staffs.GroupBy(x => x.department_id);
-            for (var d = start.Value; d <= end.Value; d = d.PlusDays(1))
+            for (var d = start; d <= end; d = d.PlusDays(1))
             {
                 var counter = new Counter();
                 var ws = wb.AddWorksheet(d.ToString());

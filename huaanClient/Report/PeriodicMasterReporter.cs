@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Report
 {
-    public class PeriodicMasterReporter
+    public class PeriodicMasterReporter : IReporter 
     {
 
-        public void Generate(LocalDate from, LocalDate to, string pathToXlsx)
+        public void Generate(DataContext ctx, string pathToXlsx)
         {
             using (var wb = new ClosedXML.Excel.XLWorkbook())
             {
                 var sheet = wb.AddWorksheet();
-                WriteTitle(sheet, from, to);
-                WriteEmployees(sheet, from, to);
+                WriteTitle(sheet, ctx.From, ctx.To);
+                WriteEmployees(sheet, ctx.From, ctx.To);
                 sheet.Columns().AdjustToContents();
                 sheet.Rows("1").Style
                     .Fill.SetBackgroundColor(XLColor.LightGray)

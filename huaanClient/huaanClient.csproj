@@ -421,6 +421,7 @@
     <Compile Include="Report\DailyAttendanceReporter.cs" />
     <Compile Include="Report\DataContext.cs" />
     <Compile Include="Report\Extensions.cs" />
+    <Compile Include="Report\IReporter.cs" />
     <Compile Include="Report\Master.cs" />
     <Compile Include="Report\AttendanceMasterReporter.cs" />
     <Compile Include="Report\PeriodicMasterReporter.cs" />
