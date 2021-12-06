@@ -1463,8 +1463,16 @@ namespace huaanClient
                     e._closeup = null;
                     Task.Factory.StartNew(() =>
                     {
-                        Directory.CreateDirectory(Path.GetDirectoryName(fn));
-                        File.WriteAllBytes(fn, bytes);
+                        try
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(fn));
+                            File.WriteAllBytes(fn, bytes);
+
+                        }
+                        catch (IOException ex)
+                        {
+                            Logger.Error(ex, "error write image file");
+                        }
                     });
                 }
                 CaptureData?.Invoke(this, e);

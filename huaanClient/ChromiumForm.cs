@@ -28,6 +28,11 @@ using Dapper;
 using System.Collections.Generic;
 using huaanClient.Services;
 using huaanClient.Worker;
+using Dapper.Contrib.Extensions;
+using System.Linq;
+using huaanClient.Report;
+using NodaTime;
+using System.Globalization;
 
 namespace InsuranceBrowser
 {
@@ -1002,39 +1007,57 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //导出月度考勤报表
         public void exportMonthlyData(string date, string name, string departments)
         {
-            form.Invoke(new Action(() =>
+            if (CultureInfo.CurrentCulture.Name == Constants.LANG_LOCALE_ENGLISH)
             {
-                date = date.Replace(@"/", "-");
-                var data = GetData.getMonthlyData(date, name, departments);
-                var pnames = Tools.GetPropertyNames(nameof(AttendanceDataMonthly));
-                var selectedProperty = new string[] { "name", "department", "Employee_code", "nowdate", "Attendance", "latedata", "Leaveearlydata", "AbsenteeismCount", "LeaveCount"};
-                Func<AttendanceDataMonthly, string, object, string> convertPropertyToString = (obj, pname, pvalue) =>
+                form.Invoke(new Action(() => 
                 {
-                    switch (pname)
+                    var segments = date.Split('-');
+                    var y = int.Parse(segments[0]);
+                    var m = int.Parse(segments[1]);
+                    var from = new LocalDate(y, m, 1);
+                    var to = from.With(DateAdjusters.EndOfMonth);
+                    var ctx = new DataContext();
+                    ctx.Load(from, to);
+
+                    var reporter = new MonthlyAttendanceReporter();
+                    Tools.GenerateReport(ctx, "MonthlyAttendance.xlsx", reporter);
+                }));
+            }
+            else
+            {
+                form.Invoke(new Action(() =>
+                {
+                    date = date.Replace(@"/", "-");
+                    var data = GetData.getMonthlyData(date, name, departments);
+                    var pnames = Tools.GetPropertyNames(nameof(AttendanceDataMonthly));
+                    var selectedProperty = new string[] { "name", "department", "Employee_code", "nowdate", "Attendance", "latedata", "Leaveearlydata", "AbsenteeismCount", "LeaveCount" };
+                    Func<AttendanceDataMonthly, string, object, string> convertPropertyToString = (obj, pname, pvalue) =>
                     {
-                        case nameof(AttendanceDataMonthly.LeaveCount)://请假天数
-                            var LeaveCountforint = string.Empty;
-                            LeaveCountforint = ((obj.LeaveCount + obj.LeaveCount1) / 2).ToString();
-                            return LeaveCountforint;
-                            break;
-                        default:
-                            return pvalue?.ToString() ?? "";
-                            break;
-                    }
+                        switch (pname)
+                        {
+                            case nameof(AttendanceDataMonthly.LeaveCount)://请假天数
+                                var LeaveCountforint = string.Empty;
+                                LeaveCountforint = ((obj.LeaveCount + obj.LeaveCount1) / 2).ToString();
+                                return LeaveCountforint;
+                                break;
+                            default:
+                                return pvalue?.ToString() ?? "";
+                                break;
+                        }
 
-                };
+                    };
 
-                
-                DataToCsv.ExportDataToXlsx(
-                    $"{Strings.AttendanceDataMonthlyExportFileName}({date})",
-                    data,
-                    pnames,
-                    convertPropertyToString,
-                    selectedProperty
-                    );
-                //exportToCsv.export(data, date);
-            }));
 
+                    DataToCsv.ExportDataToXlsx(
+                        $"{Strings.AttendanceDataMonthlyExportFileName}({date})",
+                        data,
+                        pnames,
+                        convertPropertyToString,
+                        selectedProperty
+                        );
+                    //exportToCsv.export(data, date);
+                }));
+            }
         }
 
         public string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism,string department)
@@ -1088,28 +1111,48 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //导出每日考勤数据
         public void exportAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string departments)
         {
-            form.Invoke(new Action(() =>
+            if (CultureInfo.CurrentCulture.Name == Constants.LANG_LOCALE_ENGLISH)
             {
-                starttime = starttime.Replace(@"/", "-");
-                endtime = endtime.Replace(@"/", "-");
-
-
-                string[] userSelProp  = null;
-                using (var conn = SQLiteHelper.GetConnection())
+                form.Invoke(new Action(() =>
                 {
-                    var csvSetting = (IDictionary<string, object>) conn.QueryFirstOrDefault("select * from CsvSettings");
-                    object keyStr = null;
-                    if (csvSetting?.TryGetValue("keyStr", out keyStr) == true)
-                    {
-                        userSelProp = keyStr.ToString().Split(',');
-                    }
-                }
+                    var from = starttime.ToLocalDate();
+                    var to = endtime.ToLocalDate();
+                    var ctx = new DataContext();
+                    ctx.Load(from.Value, to.Value);
 
-                string other = "重载参数少一个";
-                var selectedProperties = new[] { "name", "department", "Employee_code", "Date", "Punchinformation", "Punchinformation1", "Shiftinformation", "Duration", "late", "Leaveearly", "workOvertime", "isAbsenteeism", "temperature" };
-                var attData = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism,departments,other);
-                exportToCsv.exportForDay(attData, starttime + endtime, userSelProp ?? selectedProperties);
-            }));
+                    var reporter = new DailyAttendanceReporter();
+                    Tools.GenerateReport(ctx, "DailyAttendance.xlsx", reporter);
+                }));
+            }
+            else
+            {
+                form.Invoke(new Action(() =>
+                {
+                    starttime = starttime.Replace(@"/", "-");
+                    endtime = endtime.Replace(@"/", "-");
+
+
+                    string[] userSelProp = null;
+                    using (var conn = SQLiteHelper.GetConnection())
+                    {
+                        var csvSetting = (IDictionary<string, object>)conn.QueryFirstOrDefault("select * from CsvSettings");
+                        object keyStr = null;
+                        if (csvSetting?.TryGetValue("keyStr", out keyStr) == true)
+                        {
+                            userSelProp = keyStr.ToString().Split(',');
+                        }
+                    }
+
+                    string other = "重载参数少一个";
+                    var selectedProperties = new[] { "name", "department", "Employee_code", "Date", "Punchinformation", "Punchinformation1", "Shiftinformation", "Duration", "late", "Leaveearly", "workOvertime", "isAbsenteeism", "temperature" };
+                    var attData = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism, departments, other);
+                    exportToCsv.exportForDay(attData, starttime + endtime, userSelProp ?? selectedProperties);
+                }));
+
+            }
+
+
+
 
         }
         //修改IP地址

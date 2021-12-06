@@ -142,10 +142,10 @@
     <value>The photo is not valid</value>
   </data>
 	<data name="SaveFailed" xml:space="preserve">
-    <value>Save succeeded</value>
+    <value>Save failed</value>
   </data>
 	<data name="SaveSuccess" xml:space="preserve">
-    <value>Save failed</value>
+    <value>Save succeed</value>
   </data>
 	<data name="Absent" xml:space="preserve">
     <value>Yes</value>

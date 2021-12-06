@@ -234,6 +234,15 @@ namespace huaanClient.Properties {
         /// <summary>
         ///   查找类似 请假 的本地化字符串。
         /// </summary>
+        internal static string DailyAttendanceSheetName {
+            get {
+                return ResourceManager.GetString("DailyAttendanceSheetName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 请假.
+        /// </summary>
         internal static string DayOff {
             get {
                 return ResourceManager.GetString("DayOff", resourceCulture);
