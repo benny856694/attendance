@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Report
 {
-    public class PeriodicMasterReporter 
+    public class PeriodicMasterReporter : IReporter
     {
 
         public void Generate(DataContext ctx, IXLWorkbook wb)

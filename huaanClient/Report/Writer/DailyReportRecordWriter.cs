@@ -17,6 +17,7 @@ namespace huaanClient.Report.Writer
             ws.Cell(startRow, col++).Value = ctx.StaffDetails.Employeetype?.Employetype_name;
             ws.Cell(startRow, col++).SetDataType(XLDataType.Text).SetValue(ctx.StaffDetails.Staff.Employee_code);
             ws.Cell(startRow, col++).Value = ctx.StaffDetails.Staff.name;
+            ws.Cell(startRow, col++).Value = ctx.Date.ToString("d", CultureInfo.CurrentCulture);
             ws.Cell(startRow, col++).Value = ctx.Shift?.name;
             var shift1 = ctx.Shift?.GetShift1();
             ws.Cell(startRow, col++).SetValue(shift1?.ShiftStart.ToString("t", CultureInfo.InvariantCulture));
