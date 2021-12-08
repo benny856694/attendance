@@ -1007,57 +1007,38 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //导出月度考勤报表
         public void exportMonthlyData(string date, string name, string departments)
         {
-            if (CultureInfo.CurrentCulture.Name == Constants.LANG_LOCALE_ENGLISH)
+            form.Invoke(new Action(() =>
             {
-                form.Invoke(new Action(() => 
+                date = date.Replace(@"/", "-");
+                var data = GetData.getMonthlyData(date, name, departments);
+                var pnames = Tools.GetPropertyNames(nameof(AttendanceDataMonthly));
+                var selectedProperty = new string[] { "name", "department", "Employee_code", "nowdate", "Attendance", "latedata", "Leaveearlydata", "AbsenteeismCount", "LeaveCount" };
+                Func<AttendanceDataMonthly, string, object, string> convertPropertyToString = (obj, pname, pvalue) =>
                 {
-                    var segments = date.Split('-');
-                    var y = int.Parse(segments[0]);
-                    var m = int.Parse(segments[1]);
-                    var from = new LocalDate(y, m, 1);
-                    var to = from.With(DateAdjusters.EndOfMonth);
-                    var ctx = new DataContext();
-                    ctx.Load(from, to);
-
-                    var reporter = new MonthlyAttendanceReporter();
-                    Tools.GenerateReport(ctx, "MonthlyAttendance.xlsx", reporter);
-                }));
-            }
-            else
-            {
-                form.Invoke(new Action(() =>
-                {
-                    date = date.Replace(@"/", "-");
-                    var data = GetData.getMonthlyData(date, name, departments);
-                    var pnames = Tools.GetPropertyNames(nameof(AttendanceDataMonthly));
-                    var selectedProperty = new string[] { "name", "department", "Employee_code", "nowdate", "Attendance", "latedata", "Leaveearlydata", "AbsenteeismCount", "LeaveCount" };
-                    Func<AttendanceDataMonthly, string, object, string> convertPropertyToString = (obj, pname, pvalue) =>
+                    switch (pname)
                     {
-                        switch (pname)
-                        {
-                            case nameof(AttendanceDataMonthly.LeaveCount)://请假天数
-                                var LeaveCountforint = string.Empty;
-                                LeaveCountforint = ((obj.LeaveCount + obj.LeaveCount1) / 2).ToString();
-                                return LeaveCountforint;
-                                break;
-                            default:
-                                return pvalue?.ToString() ?? "";
-                                break;
-                        }
+                        case nameof(AttendanceDataMonthly.LeaveCount)://请假天数
+                            var LeaveCountforint = string.Empty;
+                            LeaveCountforint = ((obj.LeaveCount + obj.LeaveCount1) / 2).ToString();
+                            return LeaveCountforint;
+                            break;
+                        default:
+                            return pvalue?.ToString() ?? "";
+                            break;
+                    }
 
-                    };
+                };
 
 
-                    DataToCsv.ExportDataToXlsx(
-                        $"{Strings.AttendanceDataMonthlyExportFileName}({date})",
-                        data,
-                        pnames,
-                        convertPropertyToString,
-                        selectedProperty
-                        );
-                    //exportToCsv.export(data, date);
-                }));
-            }
+                DataToCsv.ExportDataToXlsx(
+                    $"{Strings.AttendanceDataMonthlyExportFileName}({date})",
+                    data,
+                    pnames,
+                    convertPropertyToString,
+                    selectedProperty
+                    );
+                //exportToCsv.export(data, date);
+            }));
         }
 
         public string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism,string department)
@@ -1896,6 +1877,40 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             ChromiumForm.userSettings.DefaultAccess = access;
             AccessRuleDeployManager.Instance.DefaultAccess = access;
             Services.Tracker.Persist(ChromiumForm.userSettings);
+        }
+
+        public void ExportAttendanceMasterReport(string date)
+        {
+            form.Invoke(new Action(() =>
+            {
+                var segments = date.Split('-');
+                var y = int.Parse(segments[0]);
+                var m = int.Parse(segments[1]);
+                var from = new LocalDate(y, m, 1);
+                var to = from.With(DateAdjusters.EndOfMonth);
+                var ctx = new DataContext();
+                ctx.Load(from, to);
+
+                var reporter = new AttendanceMasterReporter();
+                Tools.GenerateReport(ctx, "AttendanceMaster.xlsx", reporter);
+            }));
+        }
+
+        public void ExportPeriodicMasterReport(string date)
+        {
+            form.Invoke(new Action(() =>
+            {
+                var segments = date.Split('-');
+                var y = int.Parse(segments[0]);
+                var m = int.Parse(segments[1]);
+                var from = new LocalDate(y, m, 1);
+                var to = from.With(DateAdjusters.EndOfMonth);
+                var ctx = new DataContext();
+                ctx.Load(from, to);
+
+                var reporter = new PeriodicMasterReporter();
+                Tools.GenerateReport(ctx, "PeriodicMaster.xlsx", reporter);
+            }));
         }
     }
 
