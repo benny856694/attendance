@@ -27,11 +27,11 @@ namespace InsuranceBrowserLib
             //根据不同语言设置 文字
             if (language.Contains("US"))
             {
-                this.Text = " Reminder";
-                label1.Text = "You have selected the close button and you want to";
+                this.Text = " Quit";
+                label1.Text = "You have clicked the close button and do you want to";
                 zCheckBox1.Text = "Minimize to the system tray area, do not exit the program";
                 zCheckBox2.Text = "Exit the program";
-                zButton1.Text = "Determine";
+                zButton1.Text = "OK";
                 zButton2.Text = "Cancel";
             }
             else if (language.Contains("JPN"))

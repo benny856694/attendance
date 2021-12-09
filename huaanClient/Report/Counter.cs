@@ -9,13 +9,13 @@ namespace huaanClient.Report
 {
     public class Counter
     {
-        public int presentCount = 0;
-        public int absenceCount = 0;
-        public int overTimeCount = 0;
-        public int lateCount = 0;
-        public int earlyCount = 0;
-        public int offDayCount = 0;
-        public int holidayCount = 0;
+        public int presentCount = 0; //出勤
+        public int absenceCount = 0; //缺勤
+        public int overTimeCount = 0; //加班
+        public int lateCount = 0; //迟到
+        public int earlyCount = 0; //早退
+        public int offDayCount = 0; //休息，请假
+        public int holidayCount = 0; //节假日
         public Period overTimeHours = Period.Zero;
         public Period lateHours = Period.Zero;
         public Period workHours = Period.Zero;
@@ -58,6 +58,9 @@ namespace huaanClient.Report
                     holidayCount++;
                     break;
                 case Remark.Leave:
+                    offDayCount++;
+                    break;
+                case Remark.OffDuty:
                     offDayCount++;
                     break;
                 default:
