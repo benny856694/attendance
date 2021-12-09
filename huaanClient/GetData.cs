@@ -3468,10 +3468,14 @@ namespace huaanClient
             return result;
         }
 
-        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo)
+        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string wg_card_id)
         {
 
             StringBuilder commandText = new StringBuilder("SELECT COUNT(*) as count FROM Capture_Data  WHERE 1=1 AND");
+            if (!string.IsNullOrEmpty(wg_card_id))
+            {
+                commandText.Append(" wg_card_id = '"+ wg_card_id + "' AND");
+            }
             if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
             {
                 commandText.Append(" '" + statime + "' < time AND  time < '" + endtime + "' AND");
@@ -3641,11 +3645,15 @@ namespace huaanClient
             }
         }
 
-        public static string getCapture_Data(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string page, string limt)
+        public static string getCapture_Data(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string page, string limt,string wg_card_id)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
             StringBuilder commandText = new StringBuilder("SELECT ca.* ,sta.picture as TemplateImage FROM Capture_Data ca LEFT JOIN staff sta on sta.id=ca.person_id WHERE 1=1 AND");
+            if (!string.IsNullOrEmpty(wg_card_id))
+            {
+                commandText.Append(" wg_card_id = '" + wg_card_id + "' AND");
+            }
             if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
             {
                 commandText.Append(" '" + statime + "' < time AND  time < '" + endtime + "' AND");
@@ -3768,7 +3776,7 @@ namespace huaanClient
             return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
         }
 
-        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string ids)
+        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string ids,string wg_card_id)
         {
             var pg = new DapperExtensions.PredicateGroup
             {
@@ -3806,6 +3814,11 @@ namespace huaanClient
             if (!string.IsNullOrEmpty(devname))
             {
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.device_sn, DapperExtensions.Operator.Eq, devname));
+            }
+
+            if (!string.IsNullOrEmpty(wg_card_id))
+            {
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.wg_card_id, DapperExtensions.Operator.Eq, wg_card_id));
             }
 
             if (HealthCodeType != "0")
@@ -5174,13 +5187,17 @@ namespace huaanClient
                                 string long_card_id = jo[i]["long_card_id"].ToString();
                                 string source = jo[i]["device_sn"].ToString();
                                 string card_id = "";
-                                if (string.IsNullOrEmpty(wg_card_id))
+                                if (!string.IsNullOrEmpty(wg_card_id))
+                                {
+                                    card_id = wg_card_id;
+                                }
+                                else if (!string.IsNullOrEmpty(long_card_id))
                                 {
                                     card_id = long_card_id;
                                 }
-                                else if (string.IsNullOrEmpty(long_card_id))
+                                else
                                 {
-                                    card_id = wg_card_id;
+                                    card_id = "8";
                                 }
                                 setStaf(personid, name, imge, card_id, source);
                                 deleteDataSyn(personid);

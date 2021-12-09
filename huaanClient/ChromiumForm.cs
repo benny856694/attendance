@@ -472,12 +472,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
         //批量导出门禁记录
-        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string type, string tempFrom, string tempTo,string ids)
+        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string type, string tempFrom, string tempTo,string ids,string wg_card_id)
         {
             string result = "";
             if (string.IsNullOrEmpty(ids))
             {
-                result = GetData.getCapture_Datacuont(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat());
+                result = GetData.getCapture_Datacuont(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(),wg_card_id);
             }
             else
             {
@@ -499,7 +499,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 }
                 else
                 {
-                    var data = GetData.getCapture_Data1(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(),ids);
+                    var data = GetData.getCapture_Data1(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(),ids, wg_card_id);
                     var propertyNames = Tools.GetPropertyNames(nameof(Capture_Data));
                     Func<Capture_Data, string, object, string> convertProperty = (d, pname, v) =>
                     {
@@ -1277,7 +1277,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //getCapture_Data(string statime,string endtime,string name,string devname,string pageint,string limt)
-        public string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt)
+        public string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt, string wg_card_id)
         {
             //Task.Factory.StartNew(() =>
             //{
@@ -1295,7 +1295,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 try
                 {
                     form.ShowLayer();
-                    result = GetData.getCapture_Data(statime, endtime, name, devname, stranger,HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt);
+                    result = GetData.getCapture_Data(statime, endtime, name, devname, stranger,HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt,wg_card_id);
                     form.HideLayer();
                 }
                 catch
@@ -1321,7 +1321,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string result = string.Empty;
             Task.Factory.StartNew(() =>
             {
-                string data = GetData.getCapture_Data(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt);
+                string data = GetData.getCapture_Data(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt,null);
                 callback.ExecuteAsync(data);
             });
 
@@ -1373,11 +1373,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             bool re = GetData.delCapture_DataForid(id);
             return re;
         }
-        public string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo)
+        public string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo,string wg_card_id)
         {
             
             string result = GetData.getCapture_Datacuont(statime, endtime, name, devname, stranger, HealthCodeType,
-                tempFrom.toFloat(), tempTo.toFloat());
+                tempFrom.toFloat(), tempTo.toFloat(), wg_card_id);
 
             return result;
         }
