@@ -399,6 +399,10 @@ namespace huaanClient
                         for (var j = 0; j < selectedPropertyNames.Length; ++j)
                         {
                             var propertyName = selectedPropertyNames[j];
+                            if (propertyName.Equals("closeup"))
+                            {
+                                Console.WriteLine("====");
+                            }
                             var v = d.GetType().GetProperty(propertyName).GetValue(d);
                             var str = convertValueToString(d, propertyName, v);
                             row.CreateCell(j).SetCellValue(str);
