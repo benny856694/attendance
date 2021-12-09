@@ -60,6 +60,9 @@ namespace huaanClient.Report
                 case Remark.Leave:
                     offDayCount++;
                     break;
+                case Remark.OffDuty:
+                    offDayCount++;
+                    break;
                 default:
                     break;
             }
