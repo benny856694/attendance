@@ -474,6 +474,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //批量导出门禁记录
         public void BatchXportforCapture(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string type, string tempFrom, string tempTo,string ids,string wg_card_id)
         {
+            #region 查询数量
             string result = "";
             if (string.IsNullOrEmpty(ids))
             {
@@ -483,7 +484,8 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 result =  $"[{{\"count\":{ids.Split(',').Length}}}]";
             }
-            
+            #endregion
+
             form.Invoke(new Action(() =>
             {
                 JArray jo = (JArray)JsonConvert.DeserializeObject(result);
@@ -861,6 +863,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public bool DeleteIPtoMydevice(string IP)
         {
             bool result = GetData.DeleteIPtoMydevice(IP);
+            return result;
+        }
+
+        public int emptyDeviceFaceByAddr(string addr_name)
+        {
+            int result = GetData.EmptyDeviceByAddr(addr_name);
             return result;
         }
 

@@ -695,6 +695,27 @@ namespace huaanClient
             return result;
         }
 
+        internal static int EmptyDeviceByAddr(string addr_name)
+        {
+            //通过addr_name获取相机
+            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceName == addr_name);
+            string deleteJson = string.Format(UtilsJson.deleteJson3);
+            //判断相机是否在线，在线则清空人脸库
+            if (CameraConfigPortlist.IsConnected)
+            {
+                var restr = GetDevinfo.request(CameraConfigPortlist, deleteJson);
+                JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+                if (restr_json != null)
+                {
+                    string code = restr_json["code"].ToString();
+                    int code_int = int.Parse(code);
+                    if (code_int == 0) return 1;
+                }
+            }
+            //成功则返回1，失败则给出提示并返回0
+            return 0;
+        }
+
         internal static int getRemainDistributeCount()
         {
             string commandText = "SELECT count(*) as count FROM Equipment_distribution WHERE status ='inprogress' AND type != 2 ";
@@ -2524,6 +2545,7 @@ namespace huaanClient
             }
             else
             {
+                id = staff_no;
                 string commandTextdepartmentid = "SELECT COUNT(id) as len FROM staff sta WHERE sta.Employee_code= '" + staff_no + "'";
                 sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
                 if (!string.IsNullOrEmpty(sr))

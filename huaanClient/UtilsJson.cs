@@ -13,6 +13,7 @@ namespace huaanClient
         public static string PersonJsonforterm = "{{\"version\": \"0.9\",\"cmd\": \"add person\",\"id\": \"{0}\",\"name\": \"{1}\",\"role\": 1,\"feature_unit_size\": 0,\"feature_num\": 0,\"feature_data\": [],\"image_num\": 1,\"reg_images\": [{2}],\"norm_image_num\":1,\"norm_images\": [{3}],\"wg_card_id\": 0,\"term\": \"{4}\", \"term_start\":\"{5}\"}}";
         public static string deleteJson = "{\"version\": \"0.2\",\"cmd\": \"delete person(s)\",\"flag\": -1,\"id\": \"\"}";
         public static string deleteJson2 = "{{\"version\": \"0.2\",\"cmd\": \"delete person(s)\",\"flag\": -1,\"id\": \"{0}\"}}";
+        public static string deleteJson3 = "{{\"version\": \"0.2\",\"cmd\": \"delete person(s)\",\"flag\": 3}}";
         public static string openJson = "{\"version\": \"0.2\",\"cmd\": \"gpio control\",\"port\": 1,\"ctrl_type\": \"on\",\"ctrl_mode\": \"force\",\"person_id\": \"0001\"}";
         public static string ttsPlay = "{\"version\": \"0.2\",\"cmd\": \"play audio\", \"audio_no\": 1, \"audio_name\": \"NO0.pass.wav\" }";
         public static string ttsPlayEn = "{\"version\": \"0.2\",\"cmd\": \"tts play\",\"text\":\"Successful opening\" }";
