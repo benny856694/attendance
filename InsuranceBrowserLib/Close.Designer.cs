@@ -31,8 +31,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.zButton1 = new ZXCL.WinFormUI.ZButton();
             this.zButton2 = new ZXCL.WinFormUI.ZButton();
-            this.zCheckBox1 = new ZXCL.WinFormUI.ZCheckBox();
-            this.zCheckBox2 = new ZXCL.WinFormUI.ZCheckBox();
+            this.zCheckBox1 = new ZXCL.WinFormUI.ZRadioButton();
+            this.zCheckBox2 = new ZXCL.WinFormUI.ZRadioButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -77,7 +77,6 @@
             this.zCheckBox1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.zCheckBox1.Location = new System.Drawing.Point(138, 84);
             this.zCheckBox1.Name = "zCheckBox1";
-            this.zCheckBox1.ShowInnerBox = false;
             this.zCheckBox1.Size = new System.Drawing.Size(207, 21);
             this.zCheckBox1.TabIndex = 3;
             this.zCheckBox1.Text = "最小化到系统托盘区，不退出程序";
@@ -90,7 +89,6 @@
             this.zCheckBox2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.zCheckBox2.Location = new System.Drawing.Point(138, 111);
             this.zCheckBox2.Name = "zCheckBox2";
-            this.zCheckBox2.ShowInnerBox = false;
             this.zCheckBox2.Size = new System.Drawing.Size(75, 21);
             this.zCheckBox2.TabIndex = 4;
             this.zCheckBox2.Text = "退出程序";
@@ -144,8 +142,8 @@
         private System.Windows.Forms.Label label1;
         private ZXCL.WinFormUI.ZButton zButton1;
         private ZXCL.WinFormUI.ZButton zButton2;
-        private ZXCL.WinFormUI.ZCheckBox zCheckBox1;
-        private ZXCL.WinFormUI.ZCheckBox zCheckBox2;
+        private ZXCL.WinFormUI.ZRadioButton zCheckBox1;
+        private ZXCL.WinFormUI.ZRadioButton zCheckBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
