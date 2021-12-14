@@ -198,7 +198,7 @@ namespace huaanClient
             lock (jsonInteractiveLocker)
             {
                 jsonRet = string.Empty;
-                Monitor.Wait(jsonInteractiveLocker, 3000);
+                Monitor.Wait(jsonInteractiveLocker, 5000);
             }
             return jsonRet;
         }
