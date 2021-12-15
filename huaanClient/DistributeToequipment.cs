@@ -316,7 +316,7 @@ namespace huaanClient
                             lock (Logger)
                             {
                                 Logger.Warn("{0}下发失败，人员信息：{1}", ip, uploadPersonCmd);
-                                string updatessql = "UPDATE Equipment_distribution SET status='fail',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
+                                string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.TimeOut}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                                 SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                             }
                         }
