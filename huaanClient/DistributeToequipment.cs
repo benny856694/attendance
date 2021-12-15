@@ -191,13 +191,13 @@ namespace huaanClient
                 lock (CameraConfigPortlist)
                 {
                     Console.WriteLine("下发id:{0}，相机IP:{1},时间：{2}", id, CameraConfigPortlist.IP, DateTime.Now.ToString());
-                        //PersonJson["id"] = userid;
-                        //PersonJson["name"] = sqldatajo[0]["name"].ToString().Trim();
+                    //PersonJson["id"] = userid;
+                    //PersonJson["name"] = sqldatajo[0]["name"].ToString().Trim();
 
 
                     //自定义字段
-                    string customer_text = Properties.Strings.DefaultCustomerText;
-                    if (string.IsNullOrEmpty(distributeParams["customer_text"]?.ToString()))
+                    string customer_text = distributeParams["customer_text"]?.ToString();
+                    if (string.IsNullOrEmpty(customer_text))
                     {
                         //如果customer_text没有值则将部门作为customer_text
                         string departmentId = distributeParams["department_id"]?.ToString();
@@ -212,15 +212,14 @@ namespace huaanClient
                                 customer_text = departmentName;
                         }
                     }
-                    else
-                    {
-                        customer_text = distributeParams["customer_text"].ToString().Trim();
-                    }
 
 
                     uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_ID] = downid;
                     uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_NAME] = distributeParams["name"].ToString().Trim();
-                    uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_CUSTOMER_TEXT] = customer_text;
+                    if (customer_text != "")
+                    {
+                        uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_CUSTOMER_TEXT] = customer_text;
+                    }
                     uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_TERM_START] = term_start;
                     uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_TERM] = term;
 
