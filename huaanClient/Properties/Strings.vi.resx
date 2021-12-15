@@ -327,4 +327,7 @@
 	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
 		<value>Các chuyến bay đã được sử dụng, xin vui lòng loại bỏ các chuyến bay trong nhóm làm việc!</value>
 	</data>
+	<data name="TimeOut" xml:space="preserve">
+		<value>hết giờ</value>
+	</data>
 </root>

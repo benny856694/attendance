@@ -342,4 +342,7 @@
 	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
     <value>该班次已被使用，请先在考勤组移除该班次！</value>
   </data>
+	<data name="TimeOut" xml:space="preserve">
+    <value>超时</value>
+  </data>
 </root>

@@ -1516,23 +1516,15 @@ namespace huaanClient
                 CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ip);
                 if (CameraConfigPortlist.IsConnected)
                 {
-                    JObject jo = (JObject)JsonConvert.DeserializeObject(UtilsJson.PersonJson32);
-                    if (jo != null)
-                    {
-                        jo["id"] = Idcode.Trim();
-                        jo["name"] = name;
-                        jo["reg_images"][0]["image_data"] = imgebase64str;
-                    }
-                    string s = jo.ToString();
+                    var uploadPerson = UtilsJson.UploadPersonCmd;
+                    uploadPerson[UtilsJson.UPLOAD_PERSON_FIELD_ID] = Idcode.Trim();
+                    uploadPerson[UtilsJson.UPLOAD_PERSON_FIELD_NAME] = name;
+                    uploadPerson[UtilsJson.UPLOAD_PERSON_FIELD_REG_IMAGE] = imgebase64str;
 
-                    JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
-                    if (deleteJson != null)
-                    {
-                        deleteJson["id"] = Idcode.Trim();
-                    }
                     //先执行删除操作
-                    string ss = GetDevinfo.request(CameraConfigPortlist, deleteJson.ToString());
-                    string restr = GetDevinfo.request(CameraConfigPortlist, jo.ToString());
+                    //string ss = GetDevinfo.request(CameraConfigPortlist, deleteJson.ToString());
+                    var json = JsonConvert.SerializeObject(uploadPerson);
+                    string restr = GetDevinfo.request(CameraConfigPortlist, json);
                     JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
                     if (restr_json != null)
                     {
@@ -3170,6 +3162,7 @@ namespace huaanClient
                             if (!string.IsNullOrEmpty(imge))
                             {
                                 commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "',line_userid='" + line_userid + "',line_type='" + lineType + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "' WHERE id=" + id + "";
+
                             }
                             else
                             {
