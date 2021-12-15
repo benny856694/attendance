@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,9 @@ namespace huaanClient
 {
     class UtilsJson
     {
-        public static string PersonJson64 = "{{\"version\": \"0.9\",\"cmd\": \"add person\",\"id\": \"{0}\",\"name\": \"{1}\",\"role\": 1,\"feature_unit_size\": 0,\"feature_num\": 0,\"feature_data\": [],\"image_num\": 1,\"reg_images\": [{2}],\"norm_image_num\":1,\"norm_images\": [{3}],\"term\": \"forever\", \"term_start\":\"useless\",\"long_card_id\": {4},\"customer_text\": \"{5}\",\"term_start\":\"{6}\",\"term\":\"{7}\"}}";
-        public static string PersonJson32 = "{{\"version\": \"0.9\",\"cmd\": \"add person\",\"id\": \"{0}\",\"name\": \"{1}\",\"role\": 1,\"feature_unit_size\": 0,\"feature_num\": 0,\"feature_data\": [],\"image_num\": 1,\"reg_images\": [{2}],\"norm_image_num\":1,\"norm_images\": [{3}],\"term\": \"forever\", \"term_start\":\"useless\", \"wg_card_id\": {4},\"customer_text\": \"{5}\",\"term_start\":\"{6}\",\"term\":\"{7}\"}}";
-        public static string PersonJson = "{{\"version\": \"0.9\",\"cmd\": \"add person\",\"id\": \"{0}\",\"name\": \"{1}\",\"role\": 1,\"feature_unit_size\": 0,\"feature_num\": 0,\"feature_data\": [],\"image_num\": 1,\"reg_images\": [{2}],\"norm_image_num\":1,\"norm_images\": [{3}],\"wg_card_id\": 0,\"term\": \"forever\", \"term_start\":\"useless\",\"customer_text\": \"{4}\",\"term_start\":\"{5}\",\"term\":\"{6}\"}}";
+        //public static string PersonJson64 = "{{\"version\": \"0.9\",\"cmd\": \"upload person\",\"id\": \"{0}\",\"name\": \"{1}\",\"role\": 1,\"feature_unit_size\": 0,\"feature_num\": 0,\"feature_data\": [],\"image_num\": 1,\"reg_images\": [{2}],\"norm_image_num\":1,\"norm_images\": [{3}],\"term\": \"forever\", \"term_start\":\"useless\",\"long_card_id\": {4},\"customer_text\": \"{5}\",\"term_start\":\"{6}\",\"term\":\"{7}\"}}";
+        //public static string PersonJson32 = "{{\"version\": \"0.9\",\"cmd\": \"upload person\",\"id\": \"{0}\",\"name\": \"{1}\",\"role\": 1,\"feature_unit_size\": 0,\"feature_num\": 0,\"feature_data\": [],\"image_num\": 1,\"reg_images\": [{2}],\"norm_image_num\":1,\"norm_images\": [{3}],\"term\": \"forever\", \"term_start\":\"useless\", \"wg_card_id\": {4},\"customer_text\": \"{5}\",\"term_start\":\"{6}\",\"term\":\"{7}\"}}";
+        //public static string PersonJson = "{{\"version\": \"0.9\",\"cmd\": \"upload person\",\"id\": \"{0}\",\"name\": \"{1}\",\"role\": 1,\"feature_unit_size\": 0,\"feature_num\": 0,\"feature_data\": [],\"image_num\": 1,\"reg_images\": [{2}],\"norm_image_num\":1,\"norm_images\": [{3}],\"wg_card_id\": 0,\"term\": \"forever\", \"term_start\":\"useless\",\"customer_text\": \"{4}\",\"term_start\":\"{5}\",\"term\":\"{6}\"}}";
         public static string PersonJsonforterm = "{{\"version\": \"0.9\",\"cmd\": \"add person\",\"id\": \"{0}\",\"name\": \"{1}\",\"role\": 1,\"feature_unit_size\": 0,\"feature_num\": 0,\"feature_data\": [],\"image_num\": 1,\"reg_images\": [{2}],\"norm_image_num\":1,\"norm_images\": [{3}],\"wg_card_id\": 0,\"term\": \"{4}\", \"term_start\":\"{5}\"}}";
         public static string deleteJson = "{\"version\": \"0.2\",\"cmd\": \"delete person(s)\",\"flag\": -1,\"id\": \"\"}";
         public static string deleteJson2 = "{{\"version\": \"0.2\",\"cmd\": \"delete person(s)\",\"flag\": -1,\"id\": \"{0}\"}}";
@@ -26,5 +27,30 @@ namespace huaanClient
         public static string camera_volume = "{{\"cmd\": \"camera volume\",\"method\": \"SET\",\"volume\": {0}}}";
         public static string request_persons = "{{\"cmd\": \"request persons\",\"role\": -1,\"page_no\": 1,\"page_size\": 10,\"normal_image_flag\": 1,\"image_flag\": 1,\"query_mode\": 0,\"condition\": {{\"person_id\": \"{0}\"}}}}";
         public static string request_persons_by_name = "{{\"cmd\": \"request persons\",\"role\": -1,\"page_no\": {0},\"page_size\": {1},\"normal_image_flag\": 1,\"image_flag\": 1,\"query_mode\": 1,\"condition\": {{\"person_name\": \"{2}\"}}}}";
+
+
+
+        public const string UPLOAD_PERSON_FIELD_ID = "id";
+        public const string UPLOAD_PERSON_FIELD_NAME = "name";
+        public const string UPLOAD_PERSON_FIELD_REG_IMAGE = "reg_image";
+        public const string UPLOAD_PERSON_FIELD_NORMAL_IMAGE = "normal_image";
+        public const string UPLOAD_PERSON_FIELD_WG_CARD_ID = "wg_card_id";
+        public const string UPLOAD_PERSON_FIELD_LONG_WG_CARD_ID = "long_card_id";
+        public const string UPLOAD_PERSON_FIELD_TERM = "term";
+        public const string UPLOAD_PERSON_FIELD_TERM_START = "term_start";
+        public const string UPLOAD_PERSON_FIELD_CUSTOMER_TEXT = "customer_text";
+        public static JObject UploadPersonCmd
+        {
+            get
+            {
+                var o = new JObject();
+                o["version"] = "0.2";
+                o["cmd"] = "upload person";
+                o["role"] = 1;
+                o["term_start"] = "useless";
+                o["term"] = "forever";
+                return o;
+            }
+        }
     }
 }

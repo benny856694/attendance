@@ -1516,12 +1516,12 @@ namespace huaanClient
                 CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ip);
                 if (CameraConfigPortlist.IsConnected)
                 {
-                    JObject jo = (JObject)JsonConvert.DeserializeObject(UtilsJson.PersonJson32);
+                    JObject jo = UtilsJson.UploadPersonCmd;
                     if (jo != null)
                     {
-                        jo["id"] = Idcode.Trim();
-                        jo["name"] = name;
-                        jo["reg_images"][0]["image_data"] = imgebase64str;
+                        jo[UtilsJson.UPLOAD_PERSON_FIELD_ID] = Idcode.Trim();
+                        jo[UtilsJson.UPLOAD_PERSON_FIELD_NAME] = name;
+                        jo[UtilsJson.UPLOAD_PERSON_FIELD_REG_IMAGE] = imgebase64str;
                     }
                     string s = jo.ToString();
 
@@ -1531,7 +1531,7 @@ namespace huaanClient
                         deleteJson["id"] = Idcode.Trim();
                     }
                     //先执行删除操作
-                    string ss = GetDevinfo.request(CameraConfigPortlist, deleteJson.ToString());
+                    //string ss = GetDevinfo.request(CameraConfigPortlist, deleteJson.ToString());
                     string restr = GetDevinfo.request(CameraConfigPortlist, jo.ToString());
                     JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
                     if (restr_json != null)
