@@ -3170,6 +3170,7 @@ namespace huaanClient
                             if (!string.IsNullOrEmpty(imge))
                             {
                                 commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "',line_userid='" + line_userid + "',line_type='" + lineType + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "' WHERE id=" + id + "";
+
                             }
                             else
                             {

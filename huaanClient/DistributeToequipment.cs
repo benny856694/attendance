@@ -245,7 +245,6 @@ namespace huaanClient
 
                     if (!string.IsNullOrEmpty(picturePath))
                     {
-                        string thumb = null, reg_images = null, norm_images = null;
 
                         if (!File.Exists(picturePath))
                         {
@@ -256,21 +255,13 @@ namespace huaanClient
                         }
                         else
                         {
+                            string reg_images = null;
                             //来源于设备同步
-                            if (Regex.IsMatch(source, "^.{6,6}-.{6,6}-.{6,6}$"))
-                            {
-
-                                thumb = Convert.ToBase64String(File.ReadAllBytes(picturePath));
-                                var regImgPath = picturePath.Substring(0, picturePath.Length - 4)
+                            var regImgPath = picturePath.Substring(0, picturePath.Length - 4)
                                     + "reg_images" + ".jpg";
-                                if (File.Exists(regImgPath))
-                                {
-                                    var regImgBase64 = Convert.ToBase64String(File.ReadAllBytes(regImgPath));
-                                    reg_images = regImgBase64;
-                                }
-                                    
-                                norm_images = thumb;
-                                    
+                            if (File.Exists(regImgPath))
+                            {
+                                reg_images = Convert.ToBase64String(File.ReadAllBytes(regImgPath));
                             }
                             else
                             {
@@ -281,15 +272,7 @@ namespace huaanClient
                             {
                                 uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_REG_IMAGE] = reg_images;
                             }
-                            if (!string.IsNullOrEmpty(norm_images))
-                            {
-                                uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_NORMAL_IMAGE] = norm_images;
-                            }
-                            
-
                         }
-
-
                     }
 
                     //string imgebase64str = ReadImageFile(sqldatajo[0]["picture"].ToString().Trim());
