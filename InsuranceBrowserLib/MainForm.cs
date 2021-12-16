@@ -99,7 +99,10 @@ namespace InsuranceBrowserLib
             this.AddTableForm(chromeForm);
             //
             //this.Location = new Point(100, 100);
-
+            if (Debugger.IsAttached)
+            {
+                this.Resizable = true;
+            }
 
         }
         private void language()
