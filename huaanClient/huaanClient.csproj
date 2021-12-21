@@ -347,6 +347,7 @@
     <Compile Include="Database\DistributionItemType.cs" />
     <Compile Include="Database\Extensions.cs" />
     <Compile Include="Database\GroupType.cs" />
+    <Compile Include="Database\Holiday.cs" />
     <Compile Include="Database\RepeatType.cs" />
     <Compile Include="Database\RuleDistributionDevice.cs" />
     <Compile Include="Database\RuleDistributionItem.cs" />

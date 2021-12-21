@@ -15,7 +15,7 @@ namespace huaanClient.Report
 
         public void Generate(DataContext ctx, IXLWorkbook wb)
         {
-            var sheet = wb.AddWorksheet("AttendanceMaster");
+            var sheet = wb.AddWorksheet($"AttendanceMaster({ctx.From.ToYearMonth()})");
             WriteTitleLine(sheet, ctx.From, ctx.To);
             WriteAttendanceData(sheet, ctx);
             sheet.Columns("1").AdjustToContents();
@@ -57,36 +57,42 @@ namespace huaanClient.Report
 
                 for (var d = ctx.From; d <= ctx.To; d = d.PlusDays(1))
                 {
-                    var attendanceContext = ctx.Extract(person.id, d);
-                    if (attendanceContext != null)
+                    var context = ctx.Extract(person.id, d);
+                    if (context != null)
                     {
-                        var attData = attendanceContext.DailyAttendanceData;
-                        sheet.Cell(row + 0, col)
-                            .SetValue(attData.CheckIn?.ToString("t", CultureInfo.InvariantCulture))
-                            .Style
-                            .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                        sheet.Cell(row + 1, col)
-                            .SetValue(attData.CheckOut?.ToString("t", CultureInfo.InvariantCulture))
-                            .Style
-                            .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                        sheet.Cell(row + 2, col)
-                            .SetValue(attData.WorkHour.ToMyString())
-                            .Style
-                            .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                        sheet.Cell(row + 3, col)
-                            .SetValue(attData.LateHour.ToMyString())
-                            .Style
-                            .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                        sheet.Cell(row + 4, col)
-                            .SetValue(attData.Remark.ToDisplayText())
-                            .Style
-                            .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                        sheet.Cell(row + 5, col)
-                            .SetValue(attData.OverTime.ToMyString())
-                            .Style
-                            .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                        var attData = context.DailyAttendanceData;
+                        if (attData != null)
+                        {
+                            sheet.Cell(row + 0, col)
+                           .SetValue(attData.CheckIn?.ToString("t", CultureInfo.InvariantCulture))
+                           .Style
+                           .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                            sheet.Cell(row + 1, col)
+                                .SetValue(attData.CheckOut?.ToString("t", CultureInfo.InvariantCulture))
+                                .Style
+                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                            sheet.Cell(row + 2, col)
+                                .SetValue(attData.WorkHour.ToMyString())
+                                .Style
+                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                            sheet.Cell(row + 3, col)
+                                .SetValue(attData.LateHour.ToMyString())
+                                .Style
+                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                            sheet.Cell(row + 5, col)
+                               .SetValue(attData.OverTime.ToMyString())
+                               .Style
+                               .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
-                        counter.Count(attendanceContext.DailyAttendanceData);
+                        }
+                       
+                        sheet.Cell(row + 4, col)
+                            .SetValue(context.Remark.ToDisplayText())
+                            .Style
+                            .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                       
+
+                        counter.Count(context);
                     }
                     col += 1;
                 }

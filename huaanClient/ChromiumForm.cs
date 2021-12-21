@@ -1110,7 +1110,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     ctx.Load(from.Value, to.Value);
 
                     var reporter = new DailyAttendanceReporter();
-                    Tools.GenerateReport(ctx, "DailyAttendance.xlsx", reporter);
+                    Tools.GenerateReport(ctx, $"DailyAttendance({from.Value:R}-{to.Value:R}).xlsx", reporter);
                 }));
             }
             else
@@ -1900,7 +1900,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 ctx.Load(from, to);
 
                 var reporter = new AttendanceMasterReporter();
-                Tools.GenerateReport(ctx, "AttendanceMaster.xlsx", reporter);
+                Tools.GenerateReport(ctx, $"AttendanceMaster({y}-{m:d2}).xlsx", reporter);
             }));
         }
 
@@ -1917,7 +1917,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 ctx.Load(from, to);
 
                 var reporter = new PeriodicMasterReporter();
-                Tools.GenerateReport(ctx, "PeriodicMaster.xlsx", reporter);
+                Tools.GenerateReport(ctx, $"PeriodicMaster({y}-{m:d2}).xlsx", reporter);
             }));
         }
     }

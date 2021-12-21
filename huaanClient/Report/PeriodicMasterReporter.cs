@@ -15,7 +15,7 @@ namespace huaanClient.Report
 
         public void Generate(DataContext ctx, IXLWorkbook wb)
         {
-            var sheet = wb.AddWorksheet("PeriodicMaster");
+            var sheet = wb.AddWorksheet($"PeriodicMaster({ctx.From.ToYearMonth()})");
             WriteTitle(sheet, ctx.From, ctx.To);
             WriteEmployees(sheet, ctx.From, ctx.To);
             sheet.Columns().AdjustToContents();
@@ -52,13 +52,13 @@ namespace huaanClient.Report
                     for (var d = from; d <= to; d = d.PlusDays(1))
                     {
                         var att = ctx.Extract(staff.id, d);
-                        if (att.DailyAttendanceData.Remark != Remark.OffDuty)
+                        if (att.Remark != Remark.OffDuty)
                         {
                             ws.Cell(row, col++)
-                                .SetValue(att.DailyAttendanceData.Remark.ToDisplayText())
+                                .SetValue(att.Remark.ToDisplayText())
                                 .Style
                                 .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                            counter.Count(att.DailyAttendanceData);
+                            counter.Count(att);
                         }
                         else
                         {

@@ -65,7 +65,7 @@ namespace huaanClient.Report
                         colCount += colConsumed;
                         row += rowConsumed;
                         col += colConsumed;
-                        counter.Count(dailyAttendanceDataCtx.DailyAttendanceData);
+                        counter.Count(dailyAttendanceDataCtx);
                     }
                     ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 }

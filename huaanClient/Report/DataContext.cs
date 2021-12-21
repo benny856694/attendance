@@ -19,6 +19,7 @@ namespace huaanClient.Report
         public Shift[] Shifts { get; private set; }
         public Staff[] Staffs { get; private set; }
         public AttendanceGroup[] AttendanceGroups { get; private set; }
+        public Holiday[] Holidays { get; private set; }
         public DailyAttendanceData[] AttendanceData { get; private set; }
         public LocalDate From { get; private set; }
         public LocalDate To { get; private set; }
@@ -34,6 +35,7 @@ namespace huaanClient.Report
                 Shifts = c.GetAll<Shift>().ToArray();
                 Staffs = c.GetAll<Staff>().ToArray();
                 AttendanceGroups = c.GetAll<AttendanceGroup>().ToArray();
+                Holidays = c.GetAll<Holiday>().ToArray();
             }
 
             AttendanceData = GetData.queryAttendanceinformation(
@@ -59,6 +61,16 @@ namespace huaanClient.Report
             return shiftId;
         }
 
+        public bool? IsHolidayForDay(Staff staff, LocalDate date)
+        {
+            var ag = AttendanceGroups.FirstOrDefault(x => x.id == staff.AttendanceGroup_id);
+            if (ag == null) return null;
+
+            var holiday = Holidays.FirstOrDefault(x=>x.AttendanceGroupid == ag.id && date == x.date.ToLocalDateTime().Date);
+            return holiday != null;
+            
+        }
+
         public StaffDetails GetStaffDetails(string staffId)
         {
             var staff = Staffs.FirstOrDefault(x => x.id == staffId);
@@ -82,18 +94,26 @@ namespace huaanClient.Report
             DailyAttendanceData data = null;
             Shift shift = null;
             var shiftId = GetShiftIdForDay(staffDetails.Staff, date);
+
+            var remark = Remark.Present;
             if (shiftId == 0)
             {
                 data = DailyAttendanceData.OffDuty;
+                remark = Remark.OffDuty;
             }
             else
             {
                 shift = Shifts.FirstOrDefault(x => x.id == shiftId);
-                var d = AttendanceData.FirstOrDefault(x => x.EmployeeId == staffId && x.Date == date) ?? DailyAttendanceData.Absense;
+                var d = AttendanceData.FirstOrDefault(x => x.EmployeeId == staffId && x.Date == date); 
                 data = d;
+                remark = d == null ? Remark.Absence : d.Remark;
             }
-            data.Date = date;
 
+            var isHoliday = IsHolidayForDay(staffDetails.Staff, date);
+            if (isHoliday.Value == true)
+            {
+                remark = Remark.Holiday;
+            }
 
             return new DailyAttendanceDataContext
             {
@@ -101,6 +121,7 @@ namespace huaanClient.Report
                 DailyAttendanceData = data,
                 Shift = shift,
                 Date = date,
+                Remark = remark,
             };
 
         }

@@ -21,9 +21,10 @@ namespace huaanClient.Report
         public Period workHours = Period.Zero;
         public Period earlyHours = Period.Zero;
 
-        public void Count(DailyAttendanceData attData)
+        public void Count(DailyAttendanceDataContext dataContext)
         {
-            switch (attData.Remark)
+            var attData = dataContext.DailyAttendanceData;
+            switch (dataContext.Remark)
             {
                 case Remark.Present:
                     presentCount++;
