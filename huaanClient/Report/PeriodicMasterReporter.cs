@@ -31,8 +31,13 @@ namespace huaanClient.Report
 
         private int WriteEmployees(IXLWorksheet ws, LocalDate from, LocalDate to)
         {
+            var c = new QueryCriteria
+            {
+                From = from,
+                To = to,
+            };
             var ctx = new DataContext();
-            ctx.Load(from, to);
+            ctx.Load(c);
             var row = 2;
             foreach (var deparment in ctx.Staffs.GroupBy(x=>x.department_id))
             {

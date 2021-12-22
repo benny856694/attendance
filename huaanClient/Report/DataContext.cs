@@ -24,10 +24,10 @@ namespace huaanClient.Report
         public LocalDate From { get; private set; }
         public LocalDate To { get; private set; }
 
-        public void Load(LocalDate from, LocalDate to)
+        public void Load(QueryCriteria criteria)
         {
-            From = from;
-            To = to;
+            From = criteria.From;
+            To = criteria.To;
             using (var c = SQLiteHelper.GetConnection())
             {
                 Departments = c.GetAll<Department>().ToArray();
@@ -39,8 +39,8 @@ namespace huaanClient.Report
             }
 
             AttendanceData = GetData.queryAttendanceinformation(
-                from.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), 
-                to.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),  null, null, null, null, null, null)
+                From.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), 
+                To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),  null, null, null, null, null, null)
                 .Select(x=>x.ToAttendanceDataForDay())
                 .ToArray();
         }

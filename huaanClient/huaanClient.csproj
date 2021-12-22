@@ -423,6 +423,7 @@
     <Compile Include="Report\DataContext.cs" />
     <Compile Include="Report\Extensions.cs" />
     <Compile Include="Report\MonthlyAttendanceReporter.cs" />
+    <Compile Include="Report\QueryCriteria.cs" />
     <Compile Include="Report\Writer\AttendanceMasterRecordWriter.cs" />
     <Compile Include="Report\Writer\DailyReportRecordWriter.cs" />
     <Compile Include="Report\Writer\IExcelWriter.cs" />
