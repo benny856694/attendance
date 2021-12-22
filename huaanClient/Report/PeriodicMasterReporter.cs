@@ -52,18 +52,11 @@ namespace huaanClient.Report
                     for (var d = from; d <= to; d = d.PlusDays(1))
                     {
                         var att = ctx.Extract(staff.id, d);
-                        if (att.Remark != Remark.OffDuty)
-                        {
-                            ws.Cell(row, col++)
-                                .SetValue(att.Remark.ToDisplayText())
-                                .Style
-                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                            counter.Count(att);
-                        }
-                        else
-                        {
-                            col++;
-                        }
+                        ws.Cell(row, col++)
+                            .SetValue(att.Remark.ToDisplayText())
+                            .Style
+                            .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                        counter.Count(att);
 
 
                     }
