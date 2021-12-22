@@ -40,7 +40,13 @@ namespace huaanClient.Report
 
             AttendanceData = GetData.queryAttendanceinformation(
                 From.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), 
-                To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),  null, null, null, null, null, null)
+                To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),  
+                name:  criteria.Name,
+                late: criteria.IsLate,
+                Leaveearly: criteria.LeaveEarly,
+                isAbsenteeism: criteria.IsAbsense, 
+                departments: criteria.DepartmentIds, 
+                null)
                 .Select(x=>x.ToAttendanceDataForDay())
                 .ToArray();
         }

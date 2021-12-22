@@ -1111,6 +1111,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     {
                         From = from.Value,
                         To = to.Value,
+                        IsLate = late,
+                        IsAbsense = isAbsenteeism,
+                        LeaveEarly = Leaveearly,
+                        DepartmentIds = departments,
+                        Name = name
                     };
 
                     var ctx = new DataContext();
@@ -1894,7 +1899,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             Services.Tracker.Persist(ChromiumForm.userSettings);
         }
 
-        public void ExportAttendanceMasterReport(string date)
+        public void ExportAttendanceMasterReport(string date, string name, string departments)
         {
             form.Invoke(new Action(() =>
             {
@@ -1908,6 +1913,8 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 {
                     From = from,
                     To = to,
+                    DepartmentIds = departments,
+                    Name = name
                 };
 
                 var ctx = new DataContext();
@@ -1918,7 +1925,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             }));
         }
 
-        public void ExportPeriodicMasterReport(string date)
+        public void ExportPeriodicMasterReport(string date, string name, string departments)
         {
             form.Invoke(new Action(() =>
             {
@@ -1931,7 +1938,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 var criteria = new QueryCriteria
                 {
                     From = from,
-                    To = to
+                    To = to,
+                    DepartmentIds = departments,
+                    Name = name
                 };
 
                 var ctx = new DataContext();

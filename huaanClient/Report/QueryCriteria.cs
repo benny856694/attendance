@@ -12,9 +12,9 @@ namespace huaanClient.Report
        public LocalDate From;
        public LocalDate To;
        public string Name;
-       public int? DepartmentId;
-       public bool? IsAbsense;
-       public bool? IsLate;
-       public bool? LeaveEarly;
+       public string DepartmentIds;
+       public string IsAbsense;
+       public string IsLate;
+       public string LeaveEarly;
     }
 }
