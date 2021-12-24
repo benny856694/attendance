@@ -12,7 +12,7 @@ namespace huaanClient.Report
        public LocalDate From;
        public LocalDate To;
        public string Name;
-       public string DepartmentIds;
+       public string DepartmentNames;
        public string IsAbsense;
        public string IsLate;
        public string LeaveEarly;

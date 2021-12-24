@@ -17,7 +17,7 @@ namespace huaanClient.Report
         {
             var sheet = wb.AddWorksheet($"PeriodicMaster({ctx.From.ToYearMonth()})");
             WriteTitle(sheet, ctx.From, ctx.To);
-            WriteEmployees(sheet, ctx.From, ctx.To);
+            WriteEmployees(sheet, ctx);
             sheet.Columns().AdjustToContents();
             sheet.Rows("1").Style
                 .Fill.SetBackgroundColor(XLColor.LightGray)
@@ -29,15 +29,9 @@ namespace huaanClient.Report
         }
 
 
-        private int WriteEmployees(IXLWorksheet ws, LocalDate from, LocalDate to)
+        private int WriteEmployees(IXLWorksheet ws, DataContext ctx)
         {
-            var c = new QueryCriteria
-            {
-                From = from,
-                To = to,
-            };
-            var ctx = new DataContext();
-            ctx.Load(c);
+            
             var row = 2;
             foreach (var deparment in ctx.Staffs.GroupBy(x=>x.department_id))
             {
@@ -54,7 +48,7 @@ namespace huaanClient.Report
                     ws.Cell(row, col++).SetValue(staff.Employee_code);
                     ws.Cell(row, col++).Value = staff.name;
 
-                    for (var d = from; d <= to; d = d.PlusDays(1))
+                    for (var d = ctx.From; d <= ctx.To; d = d.PlusDays(1))
                     {
                         var att = ctx.Extract(staff.id, d);
                         ws.Cell(row, col++)

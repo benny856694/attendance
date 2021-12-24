@@ -1114,7 +1114,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                         IsLate = late,
                         IsAbsense = isAbsenteeism,
                         LeaveEarly = Leaveearly,
-                        DepartmentIds = departments,
+                        DepartmentNames = departments,
                         Name = name
                     };
 
@@ -1913,7 +1913,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 {
                     From = from,
                     To = to,
-                    DepartmentIds = departments,
+                    DepartmentNames = departments,
                     Name = name
                 };
 
@@ -1939,7 +1939,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 {
                     From = from,
                     To = to,
-                    DepartmentIds = departments,
+                    DepartmentNames = departments,
                     Name = name
                 };
 
