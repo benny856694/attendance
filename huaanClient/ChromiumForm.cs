@@ -1106,11 +1106,23 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 {
                     var from = starttime.ToLocalDate();
                     var to = endtime.ToLocalDate();
+
+                    var criteria = new QueryCriteria
+                    {
+                        From = from.Value,
+                        To = to.Value,
+                        IsLate = late,
+                        IsAbsense = isAbsenteeism,
+                        LeaveEarly = Leaveearly,
+                        DepartmentNames = departments,
+                        Name = name
+                    };
+
                     var ctx = new DataContext();
-                    ctx.Load(from.Value, to.Value);
+                    ctx.Load(criteria);
 
                     var reporter = new DailyAttendanceReporter();
-                    Tools.GenerateReport(ctx, "DailyAttendance.xlsx", reporter);
+                    Tools.GenerateReport(ctx, $"DailyAttendance({from.Value:R}-{to.Value:R}).xlsx", reporter);
                 }));
             }
             else
@@ -1887,7 +1899,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             Services.Tracker.Persist(ChromiumForm.userSettings);
         }
 
-        public void ExportAttendanceMasterReport(string date)
+        public void ExportAttendanceMasterReport(string date, string name, string departments)
         {
             form.Invoke(new Action(() =>
             {
@@ -1896,15 +1908,24 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 var m = int.Parse(segments[1]);
                 var from = new LocalDate(y, m, 1);
                 var to = from.With(DateAdjusters.EndOfMonth);
+
+                var criteria = new QueryCriteria
+                {
+                    From = from,
+                    To = to,
+                    DepartmentNames = departments,
+                    Name = name
+                };
+
                 var ctx = new DataContext();
-                ctx.Load(from, to);
+                ctx.Load(criteria);
 
                 var reporter = new AttendanceMasterReporter();
-                Tools.GenerateReport(ctx, "AttendanceMaster.xlsx", reporter);
+                Tools.GenerateReport(ctx, $"AttendanceMaster({y}-{m:d2}).xlsx", reporter);
             }));
         }
 
-        public void ExportPeriodicMasterReport(string date)
+        public void ExportPeriodicMasterReport(string date, string name, string departments)
         {
             form.Invoke(new Action(() =>
             {
@@ -1913,11 +1934,20 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 var m = int.Parse(segments[1]);
                 var from = new LocalDate(y, m, 1);
                 var to = from.With(DateAdjusters.EndOfMonth);
+
+                var criteria = new QueryCriteria
+                {
+                    From = from,
+                    To = to,
+                    DepartmentNames = departments,
+                    Name = name
+                };
+
                 var ctx = new DataContext();
-                ctx.Load(from, to);
+                ctx.Load(criteria);
 
                 var reporter = new PeriodicMasterReporter();
-                Tools.GenerateReport(ctx, "PeriodicMaster.xlsx", reporter);
+                Tools.GenerateReport(ctx, $"PeriodicMaster({y}-{m:d2}).xlsx", reporter);
             }));
         }
     }

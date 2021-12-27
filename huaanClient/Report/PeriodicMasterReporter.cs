@@ -15,9 +15,9 @@ namespace huaanClient.Report
 
         public void Generate(DataContext ctx, IXLWorkbook wb)
         {
-            var sheet = wb.AddWorksheet("PeriodicMaster");
+            var sheet = wb.AddWorksheet($"PeriodicMaster({ctx.From.ToYearMonth()})");
             WriteTitle(sheet, ctx.From, ctx.To);
-            WriteEmployees(sheet, ctx.From, ctx.To);
+            WriteEmployees(sheet, ctx);
             sheet.Columns().AdjustToContents();
             sheet.Rows("1").Style
                 .Fill.SetBackgroundColor(XLColor.LightGray)
@@ -29,10 +29,9 @@ namespace huaanClient.Report
         }
 
 
-        private int WriteEmployees(IXLWorksheet ws, LocalDate from, LocalDate to)
+        private int WriteEmployees(IXLWorksheet ws, DataContext ctx)
         {
-            var ctx = new DataContext();
-            ctx.Load(from, to);
+            
             var row = 2;
             foreach (var deparment in ctx.Staffs.GroupBy(x=>x.department_id))
             {
@@ -49,21 +48,14 @@ namespace huaanClient.Report
                     ws.Cell(row, col++).SetValue(staff.Employee_code);
                     ws.Cell(row, col++).Value = staff.name;
 
-                    for (var d = from; d <= to; d = d.PlusDays(1))
+                    for (var d = ctx.From; d <= ctx.To; d = d.PlusDays(1))
                     {
                         var att = ctx.Extract(staff.id, d);
-                        if (att.DailyAttendanceData.Remark != Remark.OffDuty)
-                        {
-                            ws.Cell(row, col++)
-                                .SetValue(att.DailyAttendanceData.Remark.ToDisplayText())
-                                .Style
-                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                            counter.Count(att.DailyAttendanceData);
-                        }
-                        else
-                        {
-                            col++;
-                        }
+                        ws.Cell(row, col++)
+                            .SetValue(att.Remark.ToDisplayText())
+                            .Style
+                            .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                        counter.Count(att);
 
 
                     }

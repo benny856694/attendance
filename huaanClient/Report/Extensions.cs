@@ -85,6 +85,10 @@ namespace huaanClient.Report
                 case Remark.Absence:
                     result = "A";
                     break;
+                case Remark.Holiday:
+                case Remark.OffDuty:
+                    result = "HO";
+                    break;
                 default:
                     break;
             }

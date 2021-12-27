@@ -34,12 +34,12 @@ namespace huaanClient
                 string ss = System.Globalization.CultureInfo.InstalledUICulture.Name;
                 if (ss.Contains("ja-JP"))
                 {
-                    MessageBox.Show("Face recognition attendance system is on!", "HEAT CHECK");
+                    MessageBox.Show("Application is running!", "HEAT CHECK");
                     return;
                 }
                 else
                 {
-                    MessageBox.Show("Face recognition attendance system is on!", "提示");
+                    MessageBox.Show("Application is running!", "提示");
                     return;
                 }
             }
