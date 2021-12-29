@@ -309,4 +309,7 @@
 	<data name="PhotoCaptureFailed" xml:space="preserve">
 		<value>Échec de la photo, veuillez réessayer</value>
 	</data>
+	<data name="TimeOut" xml:space="preserve">
+		<value>C'est l'heure.</value>
+	</data>
 </root>

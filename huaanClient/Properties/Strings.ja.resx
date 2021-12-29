@@ -324,4 +324,7 @@
 	<data name="PhotoCaptureFailed" xml:space="preserve">
 		<value>写真を撮るのに失敗したらやり直してください</value>
 	</data>
+	<data name="TimeOut" xml:space="preserve">
+		<value>タイムアウト</value>
+	</data>
 </root>

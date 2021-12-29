@@ -10,6 +10,7 @@ ECHO 2. SmartSchoolNetwork
 ECHO 3. Deepleeds
 ECHO 4. 云卡通
 ECHO 5. Kotak
+ECHO 6. 启功
 set choice=
 set /p choice=请输入数字选择品牌.
 if not '%choice%'=='' set choice=%choice:~0,1%
@@ -19,6 +20,7 @@ if '%choice%'=='2' goto SmartSchoolNetwork
 if '%choice%'=='3' goto Deepleeds
 if '%choice%'=='4' goto YunKaTong
 if '%choice%'=='5' goto kotak
+if '%choice%'=='6' goto qigong
 ECHO "%choice%" 无效, 请重新输入
 ECHO.
 goto menu
@@ -39,6 +41,9 @@ set brand=云卡通
 goto start
 :kotak
 set brand=kotak
+goto start
+:qigong
+set brand=启功
 goto start
 
 :start

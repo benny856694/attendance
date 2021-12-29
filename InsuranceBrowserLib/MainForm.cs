@@ -38,16 +38,7 @@ namespace InsuranceBrowserLib
 
         }
 
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                const int WS_MINIMIZEBOX = 0x00020000; 
-                CreateParams cp = base.CreateParams;
-                cp.Style = cp.Style | WS_MINIMIZEBOX; 
-                return cp;
-            }
-        }
+       
 
         //用于c++启动程序;
         public MainForm(string args)
@@ -99,7 +90,10 @@ namespace InsuranceBrowserLib
             this.AddTableForm(chromeForm);
             //
             //this.Location = new Point(100, 100);
-
+            
+            this.Resizable = true;
+            this.MaximizeBox = true;
+            
 
         }
         private void language()

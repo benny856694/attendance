@@ -55,7 +55,7 @@ namespace huaanClient
             }
             string wg_card_id = string.Empty;
             //获取对应人员的 韦根卡号
-            if (!string.IsNullOrEmpty(CaptureData.person_id)&& !CaptureData.person_id.Contains("*"))
+            if (!string.IsNullOrEmpty(CaptureData.person_id) )
             {
                 string wg_card_iddata = GetData.getwg_card_id(CaptureData.person_id.Trim());
                 JArray jo = (JArray)JsonConvert.DeserializeObject(wg_card_iddata);
@@ -63,6 +63,7 @@ namespace huaanClient
                 {
                     wg_card_id = jo[0]["face_idcard"].ToString();
                 }
+                wg_card_id = string.IsNullOrEmpty(wg_card_id) ? "0" : wg_card_id;
             }
             else if (!string.IsNullOrEmpty(CaptureData.person_id) && CaptureData.person_id.Contains("*") && string.IsNullOrEmpty(CaptureData.idcard_number))
             {

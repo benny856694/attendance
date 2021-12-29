@@ -198,7 +198,7 @@ namespace huaanClient
             lock (jsonInteractiveLocker)
             {
                 jsonRet = string.Empty;
-                Monitor.Wait(jsonInteractiveLocker, 3000);
+                Monitor.Wait(jsonInteractiveLocker, 10000);
             }
             return jsonRet;
         }
@@ -240,7 +240,7 @@ namespace huaanClient
             public ListSnapCriteria(DateTime timeStart, DateTime timeEnd, string personId)
             {
                 page_no = 1;
-                page_size = 100;
+                page_size = 20;
                 img_flag = 1;
                 model_img_flag = 1;
                 condition_flag = 0x1;

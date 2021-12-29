@@ -312,6 +312,7 @@ namespace huaanClient
                 return obj.ToString();
             }
             //将双后缀的文件名保存到字典中
+            #region 图片文件双后缀处理
             string doubleSuffixRegexStr = @"((\.jpg|\.png|\.jpeg){2})$";
             var doubleSuffixFileNames = Directory.GetFiles(DirectoryName).Where(s => Regex.IsMatch(s, doubleSuffixRegexStr));
             Dictionary<string, string> doubleSuffixFilesDic = new Dictionary<string, string>();
@@ -324,6 +325,7 @@ namespace huaanClient
                     doubleSuffixFilesDic.Add(staffName, FileName);
                 }
             }
+            #endregion
 
             //将选择的文件转换成 datatable
             DataTable dataTable = ExcelToDataTable(filePath, 2);
@@ -359,6 +361,10 @@ namespace huaanClient
                         string department = dataTable.Rows[i][4].ToString();
                         string Employetype = dataTable.Rows[i][5].ToString();
                         string face_idcard = dataTable.Rows[i][6].ToString();
+                        if (string.IsNullOrEmpty(face_idcard))
+                        {
+                            face_idcard = "8";
+                        }
                         string custom_text= (lastcell - 7 > 2)?dataTable.Rows[i][7].ToString():"";
                         string term_start= (lastcell - 8 > 2)?dataTable.Rows[i][8].ToString():"";
                         string term = (lastcell-9 > 2)?dataTable.Rows[i][9].ToString():"";

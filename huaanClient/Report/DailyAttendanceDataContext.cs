@@ -13,6 +13,7 @@ namespace huaanClient.Report
         public StaffDetails StaffDetails { get; set; }
         public Shift Shift { get; set; }
         public LocalDate Date { get; set; }
+        public Remark Remark { get; set; }
         public DailyAttendanceData DailyAttendanceData { get; set; }
     }
 }

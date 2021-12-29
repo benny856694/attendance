@@ -26,6 +26,7 @@ namespace huaanClient.Report
 
         public static DailyAttendanceData Absense { get; } = new DailyAttendanceData { Remark = Remark.Absence };
         public static DailyAttendanceData OffDuty { get; } = new DailyAttendanceData { Remark = Remark.OffDuty };
+        public static DailyAttendanceData Holiday { get; } = new DailyAttendanceData { Remark = Remark.Holiday };
 
     }
 }

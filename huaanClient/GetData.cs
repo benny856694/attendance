@@ -695,6 +695,27 @@ namespace huaanClient
             return result;
         }
 
+        internal static int EmptyDeviceByAddr(string addr_name)
+        {
+            //通过addr_name获取相机
+            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceName == addr_name);
+            string deleteJson = string.Format(UtilsJson.deleteJson3);
+            //判断相机是否在线，在线则清空人脸库
+            if (CameraConfigPortlist.IsConnected)
+            {
+                var restr = GetDevinfo.request(CameraConfigPortlist, deleteJson);
+                JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+                if (restr_json != null)
+                {
+                    string code = restr_json["code"].ToString();
+                    int code_int = int.Parse(code);
+                    if (code_int == 0) return 1;
+                }
+            }
+            //成功则返回1，失败则给出提示并返回0
+            return 0;
+        }
+
         internal static int getRemainDistributeCount()
         {
             string commandText = "SELECT count(*) as count FROM Equipment_distribution WHERE status ='inprogress' AND type != 2 ";
@@ -1495,23 +1516,15 @@ namespace huaanClient
                 CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ip);
                 if (CameraConfigPortlist.IsConnected)
                 {
-                    JObject jo = (JObject)JsonConvert.DeserializeObject(UtilsJson.PersonJson32);
-                    if (jo != null)
-                    {
-                        jo["id"] = Idcode.Trim();
-                        jo["name"] = name;
-                        jo["reg_images"][0]["image_data"] = imgebase64str;
-                    }
-                    string s = jo.ToString();
+                    var uploadPerson = UtilsJson.UploadPersonCmd;
+                    uploadPerson[UtilsJson.UPLOAD_PERSON_FIELD_ID] = Idcode.Trim();
+                    uploadPerson[UtilsJson.UPLOAD_PERSON_FIELD_NAME] = name;
+                    uploadPerson[UtilsJson.UPLOAD_PERSON_FIELD_REG_IMAGE] = imgebase64str;
 
-                    JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
-                    if (deleteJson != null)
-                    {
-                        deleteJson["id"] = Idcode.Trim();
-                    }
                     //先执行删除操作
-                    string ss = GetDevinfo.request(CameraConfigPortlist, deleteJson.ToString());
-                    string restr = GetDevinfo.request(CameraConfigPortlist, jo.ToString());
+                    //string ss = GetDevinfo.request(CameraConfigPortlist, deleteJson.ToString());
+                    var json = JsonConvert.SerializeObject(uploadPerson);
+                    string restr = GetDevinfo.request(CameraConfigPortlist, json);
                     JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
                     if (restr_json != null)
                     {
@@ -2524,6 +2537,7 @@ namespace huaanClient
             }
             else
             {
+                id = staff_no;
                 string commandTextdepartmentid = "SELECT COUNT(id) as len FROM staff sta WHERE sta.Employee_code= '" + staff_no + "'";
                 sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
                 if (!string.IsNullOrEmpty(sr))
@@ -3148,6 +3162,7 @@ namespace huaanClient
                             if (!string.IsNullOrEmpty(imge))
                             {
                                 commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "',line_userid='" + line_userid + "',line_type='" + lineType + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "' WHERE id=" + id + "";
+
                             }
                             else
                             {
@@ -3468,10 +3483,14 @@ namespace huaanClient
             return result;
         }
 
-        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo)
+        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string wg_card_id)
         {
 
             StringBuilder commandText = new StringBuilder("SELECT COUNT(*) as count FROM Capture_Data  WHERE 1=1 AND");
+            if (!string.IsNullOrEmpty(wg_card_id))
+            {
+                commandText.Append(" wg_card_id = '"+ wg_card_id + "' AND");
+            }
             if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
             {
                 commandText.Append(" '" + statime + "' < time AND  time < '" + endtime + "' AND");
@@ -3641,11 +3660,15 @@ namespace huaanClient
             }
         }
 
-        public static string getCapture_Data(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string page, string limt)
+        public static string getCapture_Data(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string page, string limt,string wg_card_id)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
             StringBuilder commandText = new StringBuilder("SELECT ca.* ,sta.picture as TemplateImage FROM Capture_Data ca LEFT JOIN staff sta on sta.id=ca.person_id WHERE 1=1 AND");
+            if (!string.IsNullOrEmpty(wg_card_id))
+            {
+                commandText.Append(" wg_card_id = '" + wg_card_id + "' AND");
+            }
             if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
             {
                 commandText.Append(" '" + statime + "' < time AND  time < '" + endtime + "' AND");
@@ -3768,7 +3791,7 @@ namespace huaanClient
             return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
         }
 
-        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string ids)
+        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string ids,string wg_card_id)
         {
             var pg = new DapperExtensions.PredicateGroup
             {
@@ -3806,6 +3829,11 @@ namespace huaanClient
             if (!string.IsNullOrEmpty(devname))
             {
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.device_sn, DapperExtensions.Operator.Eq, devname));
+            }
+
+            if (!string.IsNullOrEmpty(wg_card_id))
+            {
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.wg_card_id, DapperExtensions.Operator.Eq, wg_card_id));
             }
 
             if (HealthCodeType != "0")
@@ -5174,13 +5202,17 @@ namespace huaanClient
                                 string long_card_id = jo[i]["long_card_id"].ToString();
                                 string source = jo[i]["device_sn"].ToString();
                                 string card_id = "";
-                                if (string.IsNullOrEmpty(wg_card_id))
+                                if (!string.IsNullOrEmpty(wg_card_id))
+                                {
+                                    card_id = wg_card_id;
+                                }
+                                else if (!string.IsNullOrEmpty(long_card_id))
                                 {
                                     card_id = long_card_id;
                                 }
-                                else if (string.IsNullOrEmpty(long_card_id))
+                                else
                                 {
-                                    card_id = wg_card_id;
+                                    card_id = "8";
                                 }
                                 setStaf(personid, name, imge, card_id, source);
                                 deleteDataSyn(personid);

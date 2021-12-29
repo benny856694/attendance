@@ -65,7 +65,7 @@ namespace huaanClient.Report
                         colCount += colConsumed;
                         row += rowConsumed;
                         col += colConsumed;
-                        counter.Count(dailyAttendanceDataCtx.DailyAttendanceData);
+                        counter.Count(dailyAttendanceDataCtx);
                     }
                     ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 }
@@ -91,6 +91,7 @@ namespace huaanClient.Report
             ws.Cell(row, col++).Value = "Designation";
             ws.Cell(row, col++).Value = "Emp No.";
             ws.Cell(row, col++).Value = "Emp Name";
+            ws.Cell(row, col++).Value = "Date";
             ws.Cell(row, col++).Value = "Shift";
             ws.Cell(row, col++).Value = "Shift Start";
             ws.Cell(row, col++).Value = "Shift End";

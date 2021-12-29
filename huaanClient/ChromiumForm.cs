@@ -472,18 +472,20 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
         //批量导出门禁记录
-        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string type, string tempFrom, string tempTo,string ids)
+        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string type, string tempFrom, string tempTo,string ids,string wg_card_id)
         {
+            #region 查询数量
             string result = "";
             if (string.IsNullOrEmpty(ids))
             {
-                result = GetData.getCapture_Datacuont(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat());
+                result = GetData.getCapture_Datacuont(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(),wg_card_id);
             }
             else
             {
                 result =  $"[{{\"count\":{ids.Split(',').Length}}}]";
             }
-            
+            #endregion
+
             form.Invoke(new Action(() =>
             {
                 JArray jo = (JArray)JsonConvert.DeserializeObject(result);
@@ -499,7 +501,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 }
                 else
                 {
-                    var data = GetData.getCapture_Data1(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(),ids);
+                    var data = GetData.getCapture_Data1(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(),ids, wg_card_id);
                     var propertyNames = Tools.GetPropertyNames(nameof(Capture_Data));
                     Func<Capture_Data, string, object, string> convertProperty = (d, pname, v) =>
                     {
@@ -864,6 +866,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return result;
         }
 
+        public int emptyDeviceFaceByAddr(string addr_name)
+        {
+            int result = GetData.EmptyDeviceByAddr(addr_name);
+            return result;
+        }
+
         public bool UpdateDeviceName(string newname, string ip)
         {
             if (string.IsNullOrEmpty(ip))
@@ -1007,57 +1015,38 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //导出月度考勤报表
         public void exportMonthlyData(string date, string name, string departments)
         {
-            if (CultureInfo.CurrentCulture.Name == Constants.LANG_LOCALE_ENGLISH)
+            form.Invoke(new Action(() =>
             {
-                form.Invoke(new Action(() => 
+                date = date.Replace(@"/", "-");
+                var data = GetData.getMonthlyData(date, name, departments);
+                var pnames = Tools.GetPropertyNames(nameof(AttendanceDataMonthly));
+                var selectedProperty = new string[] { "name", "department", "Employee_code", "nowdate", "Attendance", "latedata", "Leaveearlydata", "AbsenteeismCount", "LeaveCount" };
+                Func<AttendanceDataMonthly, string, object, string> convertPropertyToString = (obj, pname, pvalue) =>
                 {
-                    var segments = date.Split('-');
-                    var y = int.Parse(segments[0]);
-                    var m = int.Parse(segments[1]);
-                    var from = new LocalDate(y, m, 1);
-                    var to = from.With(DateAdjusters.EndOfMonth);
-                    var ctx = new DataContext();
-                    ctx.Load(from, to);
-
-                    var reporter = new MonthlyAttendanceReporter();
-                    Tools.GenerateReport(ctx, "MonthlyAttendance.xlsx", reporter);
-                }));
-            }
-            else
-            {
-                form.Invoke(new Action(() =>
-                {
-                    date = date.Replace(@"/", "-");
-                    var data = GetData.getMonthlyData(date, name, departments);
-                    var pnames = Tools.GetPropertyNames(nameof(AttendanceDataMonthly));
-                    var selectedProperty = new string[] { "name", "department", "Employee_code", "nowdate", "Attendance", "latedata", "Leaveearlydata", "AbsenteeismCount", "LeaveCount" };
-                    Func<AttendanceDataMonthly, string, object, string> convertPropertyToString = (obj, pname, pvalue) =>
+                    switch (pname)
                     {
-                        switch (pname)
-                        {
-                            case nameof(AttendanceDataMonthly.LeaveCount)://请假天数
-                                var LeaveCountforint = string.Empty;
-                                LeaveCountforint = ((obj.LeaveCount + obj.LeaveCount1) / 2).ToString();
-                                return LeaveCountforint;
-                                break;
-                            default:
-                                return pvalue?.ToString() ?? "";
-                                break;
-                        }
+                        case nameof(AttendanceDataMonthly.LeaveCount)://请假天数
+                            var LeaveCountforint = string.Empty;
+                            LeaveCountforint = ((obj.LeaveCount + obj.LeaveCount1) / 2).ToString();
+                            return LeaveCountforint;
+                            break;
+                        default:
+                            return pvalue?.ToString() ?? "";
+                            break;
+                    }
 
-                    };
+                };
 
 
-                    DataToCsv.ExportDataToXlsx(
-                        $"{Strings.AttendanceDataMonthlyExportFileName}({date})",
-                        data,
-                        pnames,
-                        convertPropertyToString,
-                        selectedProperty
-                        );
-                    //exportToCsv.export(data, date);
-                }));
-            }
+                DataToCsv.ExportDataToXlsx(
+                    $"{Strings.AttendanceDataMonthlyExportFileName}({date})",
+                    data,
+                    pnames,
+                    convertPropertyToString,
+                    selectedProperty
+                    );
+                //exportToCsv.export(data, date);
+            }));
         }
 
         public string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism,string department)
@@ -1117,11 +1106,23 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 {
                     var from = starttime.ToLocalDate();
                     var to = endtime.ToLocalDate();
+
+                    var criteria = new QueryCriteria
+                    {
+                        From = from.Value,
+                        To = to.Value,
+                        IsLate = late,
+                        IsAbsense = isAbsenteeism,
+                        LeaveEarly = Leaveearly,
+                        DepartmentNames = departments,
+                        Name = name
+                    };
+
                     var ctx = new DataContext();
-                    ctx.Load(from.Value, to.Value);
+                    ctx.Load(criteria);
 
                     var reporter = new DailyAttendanceReporter();
-                    Tools.GenerateReport(ctx, "DailyAttendance.xlsx", reporter);
+                    Tools.GenerateReport(ctx, $"DailyAttendance({from.Value:R}-{to.Value:R}).xlsx", reporter);
                 }));
             }
             else
@@ -1277,7 +1278,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //getCapture_Data(string statime,string endtime,string name,string devname,string pageint,string limt)
-        public string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt)
+        public string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt, string wg_card_id)
         {
             //Task.Factory.StartNew(() =>
             //{
@@ -1295,7 +1296,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 try
                 {
                     form.ShowLayer();
-                    result = GetData.getCapture_Data(statime, endtime, name, devname, stranger,HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt);
+                    result = GetData.getCapture_Data(statime, endtime, name, devname, stranger,HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt,wg_card_id);
                     form.HideLayer();
                 }
                 catch
@@ -1321,7 +1322,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string result = string.Empty;
             Task.Factory.StartNew(() =>
             {
-                string data = GetData.getCapture_Data(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt);
+                string data = GetData.getCapture_Data(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt,null);
                 callback.ExecuteAsync(data);
             });
 
@@ -1373,11 +1374,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             bool re = GetData.delCapture_DataForid(id);
             return re;
         }
-        public string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo)
+        public string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo,string wg_card_id)
         {
             
             string result = GetData.getCapture_Datacuont(statime, endtime, name, devname, stranger, HealthCodeType,
-                tempFrom.toFloat(), tempTo.toFloat());
+                tempFrom.toFloat(), tempTo.toFloat(), wg_card_id);
 
             return result;
         }
@@ -1896,6 +1897,58 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             ChromiumForm.userSettings.DefaultAccess = access;
             AccessRuleDeployManager.Instance.DefaultAccess = access;
             Services.Tracker.Persist(ChromiumForm.userSettings);
+        }
+
+        public void ExportAttendanceMasterReport(string date, string name, string departments)
+        {
+            form.Invoke(new Action(() =>
+            {
+                var segments = date.Split('-');
+                var y = int.Parse(segments[0]);
+                var m = int.Parse(segments[1]);
+                var from = new LocalDate(y, m, 1);
+                var to = from.With(DateAdjusters.EndOfMonth);
+
+                var criteria = new QueryCriteria
+                {
+                    From = from,
+                    To = to,
+                    DepartmentNames = departments,
+                    Name = name
+                };
+
+                var ctx = new DataContext();
+                ctx.Load(criteria);
+
+                var reporter = new AttendanceMasterReporter();
+                Tools.GenerateReport(ctx, $"AttendanceMaster({y}-{m:d2}).xlsx", reporter);
+            }));
+        }
+
+        public void ExportPeriodicMasterReport(string date, string name, string departments)
+        {
+            form.Invoke(new Action(() =>
+            {
+                var segments = date.Split('-');
+                var y = int.Parse(segments[0]);
+                var m = int.Parse(segments[1]);
+                var from = new LocalDate(y, m, 1);
+                var to = from.With(DateAdjusters.EndOfMonth);
+
+                var criteria = new QueryCriteria
+                {
+                    From = from,
+                    To = to,
+                    DepartmentNames = departments,
+                    Name = name
+                };
+
+                var ctx = new DataContext();
+                ctx.Load(criteria);
+
+                var reporter = new PeriodicMasterReporter();
+                Tools.GenerateReport(ctx, $"PeriodicMaster({y}-{m:d2}).xlsx", reporter);
+            }));
         }
     }
 

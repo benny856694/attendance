@@ -31,8 +31,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.zButton1 = new ZXCL.WinFormUI.ZButton();
             this.zButton2 = new ZXCL.WinFormUI.ZButton();
-            this.zCheckBox1 = new ZXCL.WinFormUI.ZCheckBox();
-            this.zCheckBox2 = new ZXCL.WinFormUI.ZCheckBox();
+            this.zCheckBox1 = new ZXCL.WinFormUI.ZRadioButton();
+            this.zCheckBox2 = new ZXCL.WinFormUI.ZRadioButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -40,8 +40,8 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(140, 66);
+            this.label1.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(134, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(174, 20);
             this.label1.TabIndex = 5;
@@ -49,7 +49,8 @@
             // 
             // zButton1
             // 
-            this.zButton1.Location = new System.Drawing.Point(227, 166);
+            this.zButton1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.zButton1.Location = new System.Drawing.Point(144, 173);
             this.zButton1.Name = "zButton1";
             this.zButton1.Radius = 5;
             this.zButton1.Size = new System.Drawing.Size(75, 28);
@@ -60,7 +61,8 @@
             // 
             // zButton2
             // 
-            this.zButton2.Location = new System.Drawing.Point(335, 166);
+            this.zButton2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.zButton2.Location = new System.Drawing.Point(228, 173);
             this.zButton2.Name = "zButton2";
             this.zButton2.Radius = 5;
             this.zButton2.Size = new System.Drawing.Size(75, 28);
@@ -72,10 +74,9 @@
             // zCheckBox1
             // 
             this.zCheckBox1.AutoSize = true;
-            this.zCheckBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.zCheckBox1.Location = new System.Drawing.Point(144, 99);
+            this.zCheckBox1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.zCheckBox1.Location = new System.Drawing.Point(138, 84);
             this.zCheckBox1.Name = "zCheckBox1";
-            this.zCheckBox1.ShowInnerBox = false;
             this.zCheckBox1.Size = new System.Drawing.Size(207, 21);
             this.zCheckBox1.TabIndex = 3;
             this.zCheckBox1.Text = "最小化到系统托盘区，不退出程序";
@@ -85,10 +86,9 @@
             // zCheckBox2
             // 
             this.zCheckBox2.AutoSize = true;
-            this.zCheckBox2.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.zCheckBox2.Location = new System.Drawing.Point(144, 126);
+            this.zCheckBox2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.zCheckBox2.Location = new System.Drawing.Point(138, 111);
             this.zCheckBox2.Name = "zCheckBox2";
-            this.zCheckBox2.ShowInnerBox = false;
             this.zCheckBox2.Size = new System.Drawing.Size(75, 21);
             this.zCheckBox2.TabIndex = 4;
             this.zCheckBox2.Text = "退出程序";
@@ -98,7 +98,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::InsuranceBrowserLib.Properties.Resources.question;
-            this.pictureBox1.Location = new System.Drawing.Point(28, 71);
+            this.pictureBox1.Location = new System.Drawing.Point(28, 56);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(75, 75);
             this.pictureBox1.TabIndex = 6;
@@ -117,7 +117,7 @@
             this.Controls.Add(this.zButton2);
             this.Controls.Add(this.zButton1);
             this.Controls.Add(this.label1);
-            this.Font = new System.Drawing.Font("SimSun", 9F);
+            this.Font = new System.Drawing.Font("宋体", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -142,8 +142,8 @@
         private System.Windows.Forms.Label label1;
         private ZXCL.WinFormUI.ZButton zButton1;
         private ZXCL.WinFormUI.ZButton zButton2;
-        private ZXCL.WinFormUI.ZCheckBox zCheckBox1;
-        private ZXCL.WinFormUI.ZCheckBox zCheckBox2;
+        private ZXCL.WinFormUI.ZRadioButton zCheckBox1;
+        private ZXCL.WinFormUI.ZRadioButton zCheckBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
