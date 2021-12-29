@@ -4,6 +4,7 @@ using huaanClient.Properties;
 using huaanClient.Report;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -143,5 +144,12 @@ namespace huaanClient
             sd.FileName = fileName;
             return (sd.ShowDialog(), sd.FileName);
         }
+
+        public static string GetBrandObject()
+        {
+            var p = Path.Combine(Application.StartupPath, "branding/brand.json");
+            return File.ReadAllText(p, Encoding.UTF8);
+        }
+        
     }
 }
