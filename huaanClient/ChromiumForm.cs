@@ -103,6 +103,14 @@ namespace InsuranceBrowser
                     {
                         mainForm.Text = userSettings.TitleLong;
                     }
+                    else
+                    {
+                        dynamic branding = JObject.Parse(Tools.GetBrandObject());
+                        if (!string.IsNullOrEmpty((string)branding?.titleLong))
+                        {
+                            mainForm.Text = branding.titleLong;
+                        }
+                    }
 
                 }));
 
@@ -1734,11 +1742,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return json;
         }
 
-        public string getBrandObject()
-        {
-            var p = Path.Combine(Application.StartupPath, "branding/brand.json");
-            return File.ReadAllText(p);
-        }
+        public string getBrandObject() => Tools.GetBrandObject();
 
         //获取数据库中的设备列表
         public string getAllMyDevices()
