@@ -1,0 +1,16 @@
+{
+  "titleLong": "长标题",
+  "titleShort": "短标题",
+  "command": [
+    {
+      "title": "Calculator",
+      "path": "calc.exe",
+      "visible": false
+    },
+    {
+      "title": "Notepad",
+      "path": "notepad.exe",
+      "visible": false
+    }
+  ]
+}
