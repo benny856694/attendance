@@ -214,7 +214,7 @@ namespace huaanClient
                         //设置默认参数
                         var brandJson = Tools.GetBrandObjectInJson();
                         var brandObj = JObject.Parse(brandJson);
-                        bool? autoCleanExpiredVisitor = (bool)brandObj["autoCleanExpiredVisitor"];
+                        bool? autoCleanExpiredVisitor = (bool?)brandObj["autoCleanExpiredVisitor"];
                         var cmd = UtilsJson.GetSettingObject(cam.DeviceName, autoCleanExpiredVisitor);
                         var json = JsonConvert.SerializeObject(cmd);
                         var _ = request(cam, json);
