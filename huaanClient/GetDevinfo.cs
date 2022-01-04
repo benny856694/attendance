@@ -212,16 +212,14 @@ namespace huaanClient
                     if (cam.IsConnected && cam.DeviceNo == default)
                     {
                         //设置默认参数
-                        string SettingParameters = UtilsJson.SettingParameters;
-                        if (!string.IsNullOrEmpty(d.DeviceName))
-                        {
-                            SettingParameters = string.Format(UtilsJson.SettingParametersFormat, d.DeviceName);
-                        }
-                        
-                        string restr = GetDevinfo.request(cam, SettingParameters);
+                        var brandJson = Tools.GetBrandObjectInJson();
+                        var brandObj = JObject.Parse(brandJson);
+                        bool? autoCleanExpiredVisitor = (bool?)brandObj["autoCleanExpiredVisitor"];
+                        var cmd = UtilsJson.GetSettingObject(cam.DeviceName, autoCleanExpiredVisitor);
+                        var json = JsonConvert.SerializeObject(cmd);
+                        var _ = request(cam, json);
 
                         string result = request(cam);
-
                         JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                         if (jo != null)
                         {

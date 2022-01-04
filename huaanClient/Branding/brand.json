@@ -1,6 +1,7 @@
 {
   "titleLong": "",
   "titleShort": "",
+  "autoCleanExpiredVisitor": true,
   "command": [
     {
       "title": "Calculator",

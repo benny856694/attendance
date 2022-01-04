@@ -19,8 +19,8 @@ namespace huaanClient
         public static string ttsPlay = "{\"version\": \"0.2\",\"cmd\": \"play audio\", \"audio_no\": 1, \"audio_name\": \"NO0.pass.wav\" }";
         public static string ttsPlayEn = "{\"version\": \"0.2\",\"cmd\": \"tts play\",\"text\":\"Successful opening\" }";
         public static string ttsPlayJp = "{\"version\": \"0.2\",\"cmd\": \"tts play\",\"text\":\"ブレーキが成功しました\" }";
-        public static string SettingParameters = "{\"version\": \"0.2\",\"cmd\": \"update app params\",\"face\": {\"enable_dereplication\": true,\"derep_timeout \": 3 },\"record\": {\"save_enable\": true,\"save_path\": \"EMMC\"},\"name_list\":{\"auto_clean\":true}}";
-        public static string SettingParametersFormat = "{{\"version\": \"0.2\",\"cmd\": \"update app params\",\"device_info\": {{\"addr_name\": \"{0}\"}},\"face\": {{\"enable_dereplication\": true,\"derep_timeout \": 3 }},\"record\": {{\"save_enable\": true,\"save_path\": \"EMMC\"}},\"name_list\":{{\"auto_clean\":true}}}}";
+        //public static string SettingParameters = "{\"version\": \"0.2\",\"cmd\": \"update app params\",\"face\": {\"enable_dereplication\": true,\"derep_timeout \": 3 },\"record\": {\"save_enable\": true,\"save_path\": \"EMMC\"},\"name_list\":{\"auto_clean\":true}}";
+        //public static string SettingParametersFormat = "{{\"version\": \"0.2\",\"cmd\": \"update app params\",\"device_info\": {{\"addr_name\": \"{0}\"}},\"face\": {{\"enable_dereplication\": true,\"derep_timeout \": 3 }},\"record\": {{\"save_enable\": true,\"save_path\": \"EMMC\"}},\"name_list\":{{\"auto_clean\":true}}}}";
         public static string CameraParameter = "{{\"version\":\"0.2\",\"cmd\":\"update app params\",\"face\":{{\"enable_same_face_reg\":{0},\"enable_alive\":{1},\"body_temperature\":{{\"enable\":{2},\"limit\":{3}}}}},\"led_control\":{{\"led_mode\":{4},\"led_brightness\":{5},\"led_sensitivity\":\"{6}\"}}}}";
         public static string CameraParameter_output_not_matched = "{{\"version\":\"0.2\",\"cmd\":\"update app params\",\"face\":{{\"enable_same_face_reg\":{0},\"output_not_matched\":{1},\"enable_alive\":{2},\"body_temperature\":{{\"enable\":{3},\"limit\":{4}}}}},\"led_control\":{{\"led_mode\":{5},\"led_brightness\":{6},\"led_sensitivity\":\"{7}\"}}}}";
         public static string CameraParameterforlcd = "{{\"version\":\"0.2\",\"cmd\":\"update lcd screensaver\",\"screensaver_mode\":\"{0}\"}}";
@@ -52,5 +52,41 @@ namespace huaanClient
                 return o;
             }
         }
+
+        public static JObject GetSettingObject(string addrName = null, bool? autoCleanExpiredVisitors = null)
+        {
+            var o = new JObject();
+            o["version"] = "0.2";
+            o["cmd"] = "update app params";
+
+
+            var face = new JObject();
+            face["enable_dereplication"] = true;
+            face["derep_timeout"] = 3;
+            o["face"] = face;
+
+
+            var record = new JObject();
+            record["save_enable"] = true;
+            record["save_path"] = "EMMC";
+            o["record"] = record;
+
+            if (!string.IsNullOrEmpty(addrName))
+            {
+                var deviceInfo = new JObject();
+                deviceInfo["addr_name"] = addrName;
+                o["device_info"] = deviceInfo;
+            }
+
+            if (autoCleanExpiredVisitors.HasValue)
+            {
+                var nameList = new JObject();
+                nameList["auto_clean"] = autoCleanExpiredVisitors.Value;
+                o["name_list"] = nameList;
+            }
+
+            return o;
+        }
+
     }
 }

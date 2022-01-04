@@ -105,7 +105,7 @@ namespace InsuranceBrowser
                     }
                     else
                     {
-                        dynamic branding = JObject.Parse(Tools.GetBrandObject());
+                        dynamic branding = JObject.Parse(Tools.GetBrandObjectInJson());
                         if (!string.IsNullOrEmpty((string)branding?.titleLong))
                         {
                             mainForm.Text = branding.titleLong;
@@ -1742,7 +1742,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return json;
         }
 
-        public string getBrandObject() => Tools.GetBrandObject();
+        public string getBrandObject() => Tools.GetBrandObjectInJson();
 
         //获取数据库中的设备列表
         public string getAllMyDevices()
