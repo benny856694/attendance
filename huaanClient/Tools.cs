@@ -145,7 +145,7 @@ namespace huaanClient
             return (sd.ShowDialog(), sd.FileName);
         }
 
-        public static string GetBrandObject()
+        public static string GetBrandObjectInJson()
         {
             var p = Path.Combine(Application.StartupPath, "branding/brand.json");
             return File.ReadAllText(p, Encoding.UTF8);
