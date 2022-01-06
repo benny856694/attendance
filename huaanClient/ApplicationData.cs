@@ -71,12 +71,12 @@ namespace huaanClient
             }
             set
             {
-                connectionString = "Data Source=" + value + "\\huaanDatabase.sqlite;Version=3;";
+                connectionString = "Data Source=" + value + "\\huaanDatabase.sqlite;Version=3;Pooling=True;Max Pool Size=100;";
                 faceRASystemToolUrl = value;
             }
         }
 
         //public static string connectionString = "Data Source=" + Application.StartupPath + @"\huaanDatabase.sqlite;Version=3;";
-        public static string connectionString = "Data Source=D:\\FaceRASystemTool\\huaanDatabase.sqlite;Version=3;";
+        public static string connectionString = "Data Source=D:\\FaceRASystemTool\\huaanDatabase.sqlite;Version=3;Pooling=True;Max Pool Size=100;";
     }
 }

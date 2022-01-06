@@ -26,10 +26,10 @@ namespace huaanClient
         public static void distrbute()
         {
             var startTime = DateTime.Now;
-            Logger.Info("开始下发...");
+            //Logger.Info("开始下发...");
             //string connectionString = "Data Source=" + Application.StartupPath + @"\huaanDatabase.sqlite;Version=3;";
             string connectionString = ApplicationData.connectionString;
-            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 limit 500";
+            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 group by deviceid limit 500";
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
             
             if (!string.IsNullOrEmpty(sr))
@@ -56,7 +56,7 @@ namespace huaanClient
             Task.WaitAll(taskList.ToArray());
             taskList.Clear();
             var endTime = DateTime.Now;
-            Logger.Info("下发结束!用时{0}",(endTime-startTime).ToString());
+            //Logger.Info("下发结束!用时{0}",(endTime-startTime).ToString());
         }
 
 

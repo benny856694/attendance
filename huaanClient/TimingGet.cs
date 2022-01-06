@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace huaanClient
 {
@@ -24,7 +25,9 @@ namespace huaanClient
             {
                 try
                 {
+                    Logger.Info(s.IP+"query record start");
                     DownloadOneDevice(s, endtime);
+                    Logger.Info(s.IP + "query record end!");
                 }
                 catch (Exception ex)
                 {
