@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NodaTime;
 using NodaTime.Extensions;
+using huaanClient.Properties;
 
 namespace huaanClient.Report
 {
@@ -77,17 +78,17 @@ namespace huaanClient.Report
             switch (rmk)
             {
                 case Remark.Present:
-                    result = "P";
+                    result = Strings.ReportRemarkP;
                     break;
                 case Remark.SinglePunch:
-                    result = "PX";
+                    result = Strings.ReportRemarkPX;
                     break;
                 case Remark.Absence:
-                    result = "A";
+                    result = Strings.ReportRemarkA;
                     break;
                 case Remark.Holiday:
                 case Remark.OffDuty:
-                    result = "HO";
+                    result = Strings.ReportRemarkHO;
                     break;
                 default:
                     break;

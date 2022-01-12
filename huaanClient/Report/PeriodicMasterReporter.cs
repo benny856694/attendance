@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using huaanClient.Database;
+using huaanClient.Properties;
 using NodaTime;
 using System;
 using System.Collections.Generic;
@@ -85,10 +86,10 @@ namespace huaanClient.Report
             //title
             var col = 1;
             var row = 1;
-            ws.Cell(row, col++).Value = "Department";
-            ws.Cell(row, col++).Value = "Designation";
-            ws.Cell(row, col++).Value = "Emp No.";
-            ws.Cell(row, col++).Value = "Emp Name";
+            ws.Cell(row, col++).Value = Strings.PeriodicMasterDepartmentTitle;
+            ws.Cell(row, col++).Value = Strings.PeriodicMasterDesignationTitle;
+            ws.Cell(row, col++).Value = Strings.PeriodicMasterEmpNo;
+            ws.Cell(row, col++).Value = Strings.PeriodicMasterEmpName;
 
             for (var d = from; d <= to; d = d.PlusDays(1))
             {
@@ -98,10 +99,10 @@ namespace huaanClient.Report
                     .Alignment.SetHorizontal(ClosedXML.Excel.XLAlignmentHorizontalValues.Center);
             }
 
-            ws.Cell(row, col++).Value = "PR";
-            ws.Cell(row, col++).Value = "AB";
-            ws.Cell(row, col++).Value = "HO";
-            ws.Cell(row, col++).Value = "WO";
+            ws.Cell(row, col++).Value = Strings.AttendanceMasterSumPR;
+            ws.Cell(row, col++).Value = Strings.AttendanceMasterSumAB;
+            ws.Cell(row, col++).Value = Strings.ReportRemarkHO;
+            ws.Cell(row, col++).Value = Strings.AttendanceMasterSumWO;
 
             var titleRow = ws.Range(ws.Cell(row, 1).Address, ws.Cell(row, col - 1).Address);
             titleRow.Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.LightGray);

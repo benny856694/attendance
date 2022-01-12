@@ -330,4 +330,136 @@
 	<data name="TimeOut" xml:space="preserve">
 		<value>Time out</value>
 	</data>
+	<data name="AttendanceMasterDept" xml:space="preserve">
+		<value>Dept</value>
+	</data>
+	<data name="AttendanceMasterDesig" xml:space="preserve">
+		<value>Desig</value>
+	</data>
+	<data name="AttendanceMasterEmpNo" xml:space="preserve">
+		<value>EmpNo</value>
+	</data>
+	<data name="AttendanceMasterIn" xml:space="preserve">
+		<value>In</value>
+	</data>
+	<data name="AttendanceMasterLate" xml:space="preserve">
+		<value>Late</value>
+	</data>
+	<data name="AttendanceMasterOT" xml:space="preserve">
+		<value>OT</value>
+	</data>
+	<data name="AttendanceMasterOut" xml:space="preserve">
+		<value>Out</value>
+	</data>
+	<data name="AttendanceMasterReportEmpDetailsTitle" xml:space="preserve">
+		<value>Emp Details</value>
+	</data>
+	<data name="AttendanceMasterStatus" xml:space="preserve">
+		<value>Status</value>
+	</data>
+	<data name="AttendanceMasterSumAB" xml:space="preserve">
+		<value>AB</value>
+	</data>
+	<data name="AttendanceMasterSumLateHour" xml:space="preserve">
+		<value>Late Hour</value>
+	</data>
+	<data name="AttendanceMasterSumLT" xml:space="preserve">
+		<value>LT</value>
+	</data>
+	<data name="AttendanceMasterSumOT" xml:space="preserve">
+		<value>OT</value>
+	</data>
+	<data name="AttendanceMasterSumOTHour" xml:space="preserve">
+		<value>OT Hour</value>
+	</data>
+	<data name="AttendanceMasterSumPR" xml:space="preserve">
+		<value>PR</value>
+	</data>
+	<data name="AttendanceMasterSumWO" xml:space="preserve">
+		<value>WO</value>
+	</data>
+	<data name="AttendanceMasterSumWorkHour" xml:space="preserve">
+		<value>Work Hour</value>
+	</data>
+	<data name="AttendanceMasterWH" xml:space="preserve">
+		<value>WH</value>
+	</data>
+	<data name="DailyReportCheckInTitle" xml:space="preserve">
+		<value>Check In</value>
+	</data>
+	<data name="DailyReportCheckOutTitle" xml:space="preserve">
+		<value>Check Out</value>
+	</data>
+	<data name="DailyReportDateTitle" xml:space="preserve">
+		<value>Date</value>
+	</data>
+	<data name="DailyReportDepartmentTitle" xml:space="preserve">
+		<value>Department</value>
+	</data>
+	<data name="DailyReportDesignationTitle" xml:space="preserve">
+		<value>Designation</value>
+	</data>
+	<data name="DailyReportEarlyTitle" xml:space="preserve">
+		<value>Early</value>
+	</data>
+	<data name="DailyReportEmpNameTitle" xml:space="preserve">
+		<value>Emp Name</value>
+	</data>
+	<data name="DailyReportEmpNumberTitle" xml:space="preserve">
+		<value>Emp No.</value>
+	</data>
+	<data name="DailyReportLateTitle" xml:space="preserve">
+		<value>Late</value>
+	</data>
+	<data name="DailyReportRemarksTitle" xml:space="preserve">
+		<value>Remarks</value>
+	</data>
+	<data name="DailyReportShiftEndTitle" xml:space="preserve">
+		<value>Shift End</value>
+	</data>
+	<data name="DailyReportShiftStartTitle" xml:space="preserve">
+		<value>Shift Start</value>
+	</data>
+	<data name="DailyReportShiftTitle" xml:space="preserve">
+		<value>Shift</value>
+	</data>
+	<data name="DailyReportTotalAbsent" xml:space="preserve">
+		<value>Total Absent</value>
+	</data>
+	<data name="DailyReportTotalEarly" xml:space="preserve">
+		<value>Total Early</value>
+	</data>
+	<data name="DailyReportTotalLate" xml:space="preserve">
+		<value>Total Late</value>
+	</data>
+	<data name="DailyReportTotalPresent" xml:space="preserve">
+		<value>Total Present</value>
+	</data>
+	<data name="DailyReportWHTitle" xml:space="preserve">
+		<value>WH</value>
+	</data>
+	<data name="PeriodicMasterDepartmentTitle" xml:space="preserve">
+		<value>Department</value>
+	</data>
+	<data name="PeriodicMasterDesignationTitle" xml:space="preserve">
+		<value>Designation</value>
+	</data>
+	<data name="PeriodicMasterEmpName" xml:space="preserve">
+		<value>Emp Name</value>
+	</data>
+	<data name="PeriodicMasterEmpNo" xml:space="preserve">
+		<value>Emp No.</value>
+	</data>
+	<data name="ReportRemarkHO" xml:space="preserve">
+		<value>HO</value>
+	</data>
+	<data name="ReportRemarkA" xml:space="preserve">
+		<value>A</value>
+	</data>
+	<data name="ReportRemarkP" xml:space="preserve">
+		<value>P</value>
+	</data>
+	<data name="ReportRemarkPX" xml:space="preserve">
+		<value>PX</value>
+	</data>
 </root>
