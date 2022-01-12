@@ -1108,7 +1108,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //导出每日考勤数据
         public void exportAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string departments)
         {
-            if (CultureInfo.CurrentCulture.Name == Constants.LANG_LOCALE_ENGLISH)
+            if (CultureInfo.CurrentCulture.Name == Constants.LANG_LOCALE_ENGLISH
+                || CultureInfo.CurrentCulture.Name == Constants.LANG_LOCALE_VIETNAMESE
+                )
             {
                 form.Invoke(new Action(() =>
                 {

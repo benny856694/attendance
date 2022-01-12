@@ -330,4 +330,136 @@
 	<data name="TimeOut" xml:space="preserve">
 		<value>hết giờ</value>
 	</data>
+	<data name="AttendanceMasterDept" xml:space="preserve">
+		<value>Bộ phận</value>
+	</data>
+	<data name="AttendanceMasterDesig" xml:space="preserve">
+		<value>Chức vụ</value>
+	</data>
+	<data name="AttendanceMasterEmpNo" xml:space="preserve">
+		<value>Số nhân viên</value>
+	</data>
+	<data name="AttendanceMasterIn" xml:space="preserve">
+		<value>Giờ vào</value>
+	</data>
+	<data name="AttendanceMasterLate" xml:space="preserve">
+		<value>Trễ</value>
+	</data>
+	<data name="AttendanceMasterOT" xml:space="preserve">
+		<value>Tăng ca</value>
+	</data>
+	<data name="AttendanceMasterOut" xml:space="preserve">
+		<value>Giờ ra</value>
+	</data>
+	<data name="AttendanceMasterReportEmpDetailsTitle" xml:space="preserve">
+		<value>Thông tin nhân viên</value>
+	</data>
+	<data name="AttendanceMasterStatus" xml:space="preserve">
+		<value>Trạng thái</value>
+	</data>
+	<data name="AttendanceMasterSumAB" xml:space="preserve">
+		<value>Tổng vắng</value>
+	</data>
+	<data name="AttendanceMasterSumLateHour" xml:space="preserve">
+		<value>Giờ trễ</value>
+	</data>
+	<data name="AttendanceMasterSumLT" xml:space="preserve">
+		<value>Số lần trễ</value>
+	</data>
+	<data name="AttendanceMasterSumOT" xml:space="preserve">
+		<value>Số lần tăng ca</value>
+	</data>
+	<data name="AttendanceMasterSumOTHour" xml:space="preserve">
+		<value>Giờ tăng ca</value>
+	</data>
+	<data name="AttendanceMasterSumPR" xml:space="preserve">
+		<value>Tổng có mặt</value>
+	</data>
+	<data name="AttendanceMasterSumWO" xml:space="preserve">
+		<value>Ngày nghỉ</value>
+	</data>
+	<data name="AttendanceMasterSumWorkHour" xml:space="preserve">
+		<value>Giờ làm việc</value>
+	</data>
+	<data name="AttendanceMasterWH" xml:space="preserve">
+		<value>Giờ làm việc</value>
+	</data>
+	<data name="DailyReportCheckInTitle" xml:space="preserve">
+		<value>Giờ vào</value>
+	</data>
+	<data name="DailyReportCheckOutTitle" xml:space="preserve">
+		<value>Giờ ra</value>
+	</data>
+	<data name="DailyReportDateTitle" xml:space="preserve">
+		<value>Ngày</value>
+	</data>
+	<data name="DailyReportDepartmentTitle" xml:space="preserve">
+		<value>Bộ phận</value>
+	</data>
+	<data name="DailyReportDesignationTitle" xml:space="preserve">
+		<value>Chức vụ</value>
+	</data>
+	<data name="DailyReportEarlyTitle" xml:space="preserve">
+		<value>Sớm</value>
+	</data>
+	<data name="DailyReportEmpNameTitle" xml:space="preserve">
+		<value>Tên nhân viên</value>
+	</data>
+	<data name="DailyReportEmpNumberTitle" xml:space="preserve">
+		<value>Số nhân viên</value>
+	</data>
+	<data name="DailyReportLateTitle" xml:space="preserve">
+		<value>Trễ</value>
+	</data>
+	<data name="DailyReportRemarksTitle" xml:space="preserve">
+		<value>Trạng thái</value>
+	</data>
+	<data name="DailyReportShiftEndTitle" xml:space="preserve">
+		<value>Kết thúc ca</value>
+	</data>
+	<data name="DailyReportShiftStartTitle" xml:space="preserve">
+		<value>Bắt đầu ca</value>
+	</data>
+	<data name="DailyReportShiftTitle" xml:space="preserve">
+		<value>Tên ca</value>
+	</data>
+	<data name="DailyReportTotalAbsent" xml:space="preserve">
+		<value>Tổng vắng</value>
+	</data>
+	<data name="DailyReportTotalEarly" xml:space="preserve">
+		<value>Tổng sớm</value>
+	</data>
+	<data name="DailyReportTotalLate" xml:space="preserve">
+		<value>Tổng trễ</value>
+	</data>
+	<data name="DailyReportTotalPresent" xml:space="preserve">
+		<value>Tổng có mặt</value>
+	</data>
+	<data name="DailyReportWHTitle" xml:space="preserve">
+		<value>Giờ làm việc</value>
+	</data>
+	<data name="PeriodicMasterDepartmentTitle" xml:space="preserve">
+		<value>Bộ phận</value>
+	</data>
+	<data name="PeriodicMasterDesignationTitle" xml:space="preserve">
+		<value>Chức vụ</value>
+	</data>
+	<data name="PeriodicMasterEmpName" xml:space="preserve">
+		<value>Tên nhân viên</value>
+	</data>
+	<data name="PeriodicMasterEmpNo" xml:space="preserve">
+		<value>Số nhân viên</value>
+	</data>
+	<data name="ReportRemarkHO" xml:space="preserve">
+		<value>Ngày lễ</value>
+	</data>
+	<data name="ReportRemarkA" xml:space="preserve">
+		<value>Vắng</value>
+	</data>
+	<data name="ReportRemarkP" xml:space="preserve">
+		<value>Có mặt</value>
+	</data>
+	<data name="ReportRemarkPX" xml:space="preserve">
+		<value>Thiếu giờ công</value>
+	</data>
 </root>

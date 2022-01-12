@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using huaanClient.Database;
+using huaanClient.Properties;
 using NodaTime;
 using System;
 using System.Collections.Generic;
@@ -39,19 +40,19 @@ namespace huaanClient.Report
 
                 var counter = new Counter();
                 var personDetail = 
-                    $"EmpNo:{staffDetails.Staff.Employee_code}{Environment.NewLine}" +
+                    $"{Strings.AttendanceMasterEmpNo}:{staffDetails.Staff.Employee_code}{Environment.NewLine}" +
                     $"{staffDetails.Staff.name}{Environment.NewLine}" +
-                    $"Dept:{staffDetails.Department?.name}{Environment.NewLine}" +
-                    $"Desig:{staffDetails.Employeetype?.Employetype_name}";
+                    $"{Strings.AttendanceMasterDept}:{staffDetails.Department?.name}{Environment.NewLine}" +
+                    $"{Strings.AttendanceMasterDesig}:{staffDetails.Employeetype?.Employetype_name}";
                 sheet.Cell(row, col).SetValue(personDetail).Style.Font.SetBold();
                 col += 1;
 
-                sheet.Cell(row + 0, col).Value = "In";
-                sheet.Cell(row + 1, col).Value = "Out";
-                sheet.Cell(row + 2, col).Value = "WH";
-                sheet.Cell(row + 3, col).Value = "Late";
-                sheet.Cell(row + 4, col).Value = "Status";
-                sheet.Cell(row + 5, col).Value = "OT";
+                sheet.Cell(row + 0, col).Value = Strings.AttendanceMasterIn;
+                sheet.Cell(row + 1, col).Value = Strings.AttendanceMasterOut;
+                sheet.Cell(row + 2, col).Value = Strings.AttendanceMasterWH;
+                sheet.Cell(row + 3, col).Value = Strings.AttendanceMasterLate;
+                sheet.Cell(row + 4, col).Value = Strings.AttendanceMasterStatus;
+                sheet.Cell(row + 5, col).Value = Strings.AttendanceMasterOT;
                 col += 1;
 
 
@@ -97,11 +98,11 @@ namespace huaanClient.Report
                     col += 1;
                 }
 
-                sheet.Cell(row, col).SetValue($"PR-{counter.presentCount}"); sheet.Cell(row, col + 1).SetValue($"OT-{counter.overTimeCount}");
-                sheet.Cell(row + 1, col).SetValue($"AB-{counter.absenceCount}"); sheet.Cell(row + 1, col + 1).SetValue($"LT-{counter.lateCount}");
-                sheet.Cell(row + 2, col).SetValue($"WO-{counter.offDayCount}"); sheet.Cell(row + 2, col + 1).SetValue($"HO-{counter.holidayCount}");
-                sheet.Cell(row + 3, col).SetValue($"OT Hour-{counter.overTimeHours.Normalize().ToMyString()}"); sheet.Cell(row + 3, col + 1).SetValue($"Late Hour-{counter.lateHours.Normalize().ToMyString()}");
-                sheet.Cell(row + 4, col + 1).SetValue($"Work Hour-{counter.workHours.Normalize().ToMyString()}");
+                sheet.Cell(row, col).SetValue($"{Strings.AttendanceMasterSumPR}-{counter.presentCount}"); sheet.Cell(row, col + 1).SetValue($"{Strings.AttendanceMasterSumOT}-{counter.overTimeCount}");
+                sheet.Cell(row + 1, col).SetValue($"{Strings.AttendanceMasterSumAB}-{counter.absenceCount}"); sheet.Cell(row + 1, col + 1).SetValue($"{Strings.AttendanceMasterSumLT}-{counter.lateCount}");
+                sheet.Cell(row + 2, col).SetValue($"{Strings.AttendanceMasterSumWO}-{counter.offDayCount}"); sheet.Cell(row + 2, col + 1).SetValue($"{Strings.ReportRemarkHO}-{counter.holidayCount}");
+                sheet.Cell(row + 3, col).SetValue($"{Strings.AttendanceMasterSumOTHour}-{counter.overTimeHours.Normalize().ToMyString()}"); sheet.Cell(row + 3, col + 1).SetValue($"{Strings.AttendanceMasterSumLateHour}-{counter.lateHours.Normalize().ToMyString()}");
+                sheet.Cell(row + 4, col + 1).SetValue($"{Strings.AttendanceMasterSumWorkHour}-{counter.workHours.Normalize().ToMyString()}");
                 sheet.Columns($"{col}:{col + 1}").AdjustToContents();
 
                 sheet.Range($"A{row}:A{row + 6}").Merge()
@@ -122,7 +123,7 @@ namespace huaanClient.Report
         {
             var row = 1;
             var col = 1;
-            sheet.Cell(row, col++).Value = "Emp Details";
+            sheet.Cell(row, col++).Value = Strings.AttendanceMasterReportEmpDetailsTitle;
             col++;
             for (var  d = from; d <= to; d = d.PlusDays(1))
             {

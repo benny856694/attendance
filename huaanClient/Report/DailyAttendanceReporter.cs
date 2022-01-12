@@ -27,10 +27,10 @@ namespace huaanClient.Report
         private void WriteStatistics(IXLWorksheet ws, int row, int col, Counter counter)
         {
             ++col;
-            ws.Cell(row, col++).Value = $"Total Present: {counter.presentCount}";
-            ws.Cell(row, col++).Value = $"Total Absent: {counter.absenceCount}";
-            ws.Cell(row, col++).Value = $"Total Late: {counter.lateCount}";
-            ws.Cell(row, col++).Value = $"Total Early: {counter.earlyCount}";
+            ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalPresent}: {counter.presentCount}";
+            ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalAbsent}: {counter.absenceCount}";
+            ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalLate}: {counter.lateCount}";
+            ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalEarly}: {counter.earlyCount}";
         }
 
         private void WriteEmployees(IXLWorkbook wb, DataContext ctx)
@@ -87,20 +87,20 @@ namespace huaanClient.Report
             //title
             var col = startCol;
             var row = startRow;
-            ws.Cell(row, col++).Value = "Department";
-            ws.Cell(row, col++).Value = "Designation";
-            ws.Cell(row, col++).Value = "Emp No.";
-            ws.Cell(row, col++).Value = "Emp Name";
-            ws.Cell(row, col++).Value = "Date";
-            ws.Cell(row, col++).Value = "Shift";
-            ws.Cell(row, col++).Value = "Shift Start";
-            ws.Cell(row, col++).Value = "Shift End";
-            ws.Cell(row, col++).Value = "Check In";
-            ws.Cell(row, col++).Value = "Check Out";
-            ws.Cell(row, col++).Value = "Late";
-            ws.Cell(row, col++).Value = "Early";
-            ws.Cell(row, col++).Value = "WH";
-            ws.Cell(row, col++).Value = "Remarks";
+            ws.Cell(row, col++).Value = Strings.DailyReportDepartmentTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportDesignationTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportEmpNumberTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportEmpNameTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportDateTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportShiftTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportShiftStartTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportShiftEndTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportCheckInTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportCheckOutTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportLateTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportEarlyTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportWHTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportRemarksTitle;
             var titleRow = ws.Range(ws.Cell(row, 1).Address, ws.Cell(row, col - 1).Address);
             titleRow.Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.LightGray);
             return (1, col - startCol);
