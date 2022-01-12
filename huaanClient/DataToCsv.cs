@@ -402,21 +402,23 @@ namespace huaanClient
                             var propertyName = selectedPropertyNames[j];
                             var v = d.GetType().GetProperty(propertyName).GetValue(d);
                             var str = convertValueToString(d, propertyName, v);
-                            if (propertyName.Equals("closeup")|| propertyName.Equals("picture"))
-                            {
-                                byte[] bytes = null;
-                                try
-                                {
-                                    bytes = System.IO.File.ReadAllBytes(str);
-                                    int pictureIdx = workbook.AddPicture(bytes, XSSFWorkbook.PICTURE_TYPE_JPEG);
-                                    XSSFClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, j, i+1, j+1, i+2);
-                                    var pict = patriarch.CreatePicture(anchor, pictureIdx);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e.Message);
-                                }
-                            }
+                            #region 插入图片到表格
+                            //if (propertyName.Equals("closeup")|| propertyName.Equals("picture"))
+                            //{
+                            //    byte[] bytes = null;
+                            //    try
+                            //    {
+                            //        bytes = System.IO.File.ReadAllBytes(str);
+                            //        int pictureIdx = workbook.AddPicture(bytes, XSSFWorkbook.PICTURE_TYPE_JPEG);
+                            //        XSSFClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, j, i+1, j+1, i+2);
+                            //        var pict = patriarch.CreatePicture(anchor, pictureIdx);
+                            //    }
+                            //    catch (Exception e)
+                            //    {
+                            //        Console.WriteLine("export picture error:"+e.Message);
+                            //    }
+                            //}
+                            #endregion
                             row.CreateCell(j).SetCellValue(str);
 
                         }

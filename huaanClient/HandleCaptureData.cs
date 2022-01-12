@@ -19,6 +19,7 @@ namespace huaanClient
     {
         public static void setCaptureDataToDatabase(CaptureDataEventArgs CaptureData, string DeviceNo,string DeviceName)
         {
+            return;
             if (string.IsNullOrEmpty(DeviceNo))
             {
                 DeviceNo = CaptureData.device_sn;

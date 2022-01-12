@@ -25,9 +25,9 @@ namespace huaanClient
             {
                 try
                 {
-                    Logger.Info(s.IP+"query record start");
+                    Logger.Debug(s.IP+"主动查询抓拍开始");
                     DownloadOneDevice(s, endtime);
-                    Logger.Info(s.IP + "query record end!");
+                    Logger.Debug(s.IP + "主动查询抓拍结束!\n");
                 }
                 catch (Exception ex)
                 {
