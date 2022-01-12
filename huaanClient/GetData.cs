@@ -463,7 +463,7 @@ namespace huaanClient
             }
 
             string commandText = st.ToString().Substring(0, st.ToString().Length - 3).ToString()
-               + " LIMIT " + pageint + "," + limt;
+               + " ORDER BY staf.publish_time DESC LIMIT " + pageint + "," + limt;
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
 
             return sr;
@@ -4277,7 +4277,7 @@ namespace huaanClient
             }
 
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
-            commandText2 = commandText2 +
+            commandText2 = commandText2 + "ORDER BY eq.date DESC " +
                 "LIMIT " + pageint + "," + limt;
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2);
 
