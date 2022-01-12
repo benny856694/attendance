@@ -26,10 +26,10 @@ namespace huaanClient
         public static void distrbute()
         {
             var startTime = DateTime.Now;
-            //Logger.Info("开始下发...");
+            //Logger.Debug("开始下发...");
             //string connectionString = "Data Source=" + Application.StartupPath + @"\huaanDatabase.sqlite;Version=3;";
             string connectionString = ApplicationData.connectionString;
-            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 group by deviceid limit 500";
+            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 ORDER BY deviceid ASC limit 500";
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
             
             if (!string.IsNullOrEmpty(sr))
@@ -39,24 +39,20 @@ namespace huaanClient
                 {
                     foreach (JObject jo in srjo)
                     {
-                        var t = Task.Run(() => {
                         try
                         {
-                              handleOneDistribute(jo, connectionString);
+                            handleOneDistribute(jo, connectionString);
                         }
                         catch (Exception ex)
                         {
                             Logger.Error(ex, "process distribution exception");
                         }
-                        });
-                        taskList.Add(t);
                     }
                 }
             }
-            Task.WaitAll(taskList.ToArray());
-            taskList.Clear();
-            var endTime = DateTime.Now;
-            //Logger.Info("下发结束!用时{0}",(endTime-startTime).ToString());
+
+            //var endTime = DateTime.Now;
+            //Logger.Debug("下发结束!用时{0}",(endTime-startTime).ToString());
         }
 
 
@@ -188,9 +184,8 @@ namespace huaanClient
                 return;
             if (CameraConfigPortlist.IsConnected)
             {
-                lock (CameraConfigPortlist)
-                {
-                    Console.WriteLine("下发id:{0}，相机IP:{1},时间：{2}", id, CameraConfigPortlist.IP, DateTime.Now.ToString());
+
+                    Console.WriteLine("下发id:{0}，相机IP:{1},人员ID：{2}", id, CameraConfigPortlist.IP, distribute["userid"]);
                     //PersonJson["id"] = userid;
                     //PersonJson["name"] = sqldatajo[0]["name"].ToString().Trim();
 
@@ -289,39 +284,33 @@ namespace huaanClient
                     var json = JsonConvert.SerializeObject(uploadPersonCmd);
                     string restr = GetDevinfo.request(CameraConfigPortlist, json);
                     JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
-                    lock (Logger)//更新数据库需要阻塞，避免数据库lock
+                    if (restr_json != null)
                     {
-                        if (restr_json != null)
+                        string code = restr_json["code"].ToString();
+                        int code_int = int.Parse(code);
+                        if (code_int == 0)
                         {
-                            string code = restr_json["code"].ToString();
-                            int code_int = int.Parse(code);
-                            if (code_int == 0)
-                            {
-                                string updatessql = "UPDATE Equipment_distribution SET errMsg='', status='success',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
-                                SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
-                            }
-                            else
-                            {
-                                string updatessql = "UPDATE Equipment_distribution SET status='fail', type='2', code='" + code_int + "',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
-                                SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
-                            }
-                            //else if (code_int == 35 || code_int == 36 || code_int == 37 || code_int == 38 || code_int == 39 || code_int == 40 || code_int == 41)
-                            //{
-                            //    obj["data"] = "照片不合格";
-                            //}
+                            string updatessql = "UPDATE Equipment_distribution SET errMsg='', status='success',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
+                            SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                         }
                         else
                         {
-                            lock (Logger)
-                            {
-                                Logger.Warn("{0}下发失败，人员信息：{1}", ip, uploadPersonCmd);
-                                string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.TimeOut}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
-                                SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
-                            }
+                            string updatessql = "UPDATE Equipment_distribution SET status='fail', type='2', code='" + code_int + "',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
+                            SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                         }
+                        //else if (code_int == 35 || code_int == 36 || code_int == 37 || code_int == 38 || code_int == 39 || code_int == 40 || code_int == 41)
+                        //{
+                        //    obj["data"] = "照片不合格";
+                        //}
                     }
-                }
+                    else
+                    {
+                        Logger.Warn("{0}下发失败，人员信息：{1}", ip, uploadPersonCmd);
+                        string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.TimeOut}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
+                        SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                    }
             }
+            
             else
             {
                 string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.DeviceOffline}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
