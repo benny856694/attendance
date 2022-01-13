@@ -1,4 +1,5 @@
-﻿using CCWin.SkinControl;
+﻿using AForge.Imaging.Filters;
+using CCWin.SkinControl;
 using HaSdkWrapper;
 using System;
 using System.Collections.Generic;
@@ -15,35 +16,42 @@ namespace huaanClient
 {
     class copyfile
     {
-        public static string copyimge(string url,string filename)
+        public static string copyimge(string path, string filename)
         {
-            string imgeurl = "";
+            string ext = Path.GetExtension(path);//截取后缀名
+            if (!Constants.AllowedImageFileFormats.Contains(ext.ToLowerInvariant()))
+            {
+                return null;
+            }
+
+            var imgeurl = "";
             try
             {
                 //新建一个文件夹
-                var imgPath = ApplicationData.FaceRASystemToolUrl+"\\imgefile";
-                if (!Directory.Exists(imgPath))
+                var targetFolder = ApplicationData.FaceRASystemToolUrl+"\\imgefile";
+                if (!Directory.Exists(targetFolder))
                 {
-                    Directory.CreateDirectory(imgPath);
+                    Directory.CreateDirectory(targetFolder);
                 }
-                var a = url;//需要进行复制的图片的路径
-                string b = a.Substring(a.LastIndexOf('.'));//截取后缀名
-                                                           //文件(*.jpg)|*.jpg|png文件(*.png)|*.png|jpeg文件(*.png)|*.jpeg  判断是否为图片
-                if (b.Contains("jpg") && b.Contains("png") && b.Contains("jpeg"))
+                
+                var img = new ImageMagick.MagickImage(path);
+                img.Format = ImageMagick.MagickFormat.Jpg;
+                if(img.BaseWidth > 800)
                 {
-                    return null;
+                    var targetFilePath = Path.Combine(targetFolder, filename + ".jpg");
+                    img.AutoOrient(); //调整方向
+                    img.Strip(); //去除exif信息
+                    img.Resize(800, 0);
+                    File.WriteAllBytes(targetFilePath, img.ToByteArray());
+                    imgeurl = targetFilePath;
                 }
-                if (!b.Contains("jp"))
+                else
                 {
-                    b = ".jpg";
+                    var targetFilePath = Path.Combine(targetFolder, filename + ext);
+                    File.Copy(path, targetFilePath);
+                    imgeurl = targetFilePath;
                 }
-                var newname = imgPath + "\\" + filename + b;//目标文件夹中文件的名称，即将复制后对文件进行重命名
-                var nf = Path.Combine(newname);//将新的文件名称路径字符串结合成路径。
-                if (!nf.ToString().IsNullOrEmpty())
-                {
-                    imgeurl = nf.ToString();
-                    File.Copy(a, nf);//进行文件复制，第一个参数是需要复制的文件路径，第二个参数是目标文件夹中文件路径
-                }
+                img.Dispose();
                 return imgeurl;
             }
             catch
