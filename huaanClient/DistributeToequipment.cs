@@ -259,7 +259,14 @@ namespace huaanClient
                             }
                             else
                             {
-                                reg_images = Convert.ToBase64String(File.ReadAllBytes(picturePath));
+                                if (Tools.TryDownscaleImage(picturePath, out var array))
+                                {
+                                    reg_images = Convert.ToBase64String(array);
+                                }
+                                else
+                                {
+                                    reg_images = Convert.ToBase64String(File.ReadAllBytes(picturePath));
+                                }
                             }
 
                             if (!string.IsNullOrEmpty(reg_images))

@@ -150,6 +150,25 @@ namespace huaanClient
             var p = Path.Combine(Application.StartupPath, "branding/brand.json");
             return File.ReadAllText(p, Encoding.UTF8);
         }
+
+        public static bool TryDownscaleImage(string path, out byte[] array)
+        {
+            array = null;
+            using (var img = new ImageMagick.MagickImage(path))
+            {
+                img.Format = ImageMagick.MagickFormat.Jpg;
+                if (img.BaseWidth > 800)
+                {
+                    img.AutoOrient(); //调整方向
+                    img.Strip(); //去除exif信息
+                    img.Resize(800, 0);
+                    array = img.ToByteArray();
+                    return true;
+                }
+                return false;
+            }
+            
+        }
         
     }
 }

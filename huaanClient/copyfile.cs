@@ -34,15 +34,10 @@ namespace huaanClient
                     Directory.CreateDirectory(targetFolder);
                 }
                 
-                var img = new ImageMagick.MagickImage(path);
-                img.Format = ImageMagick.MagickFormat.Jpg;
-                if(img.BaseWidth > 800)
+                if(Tools.TryDownscaleImage(path, out var array))
                 {
                     var targetFilePath = Path.Combine(targetFolder, filename + ".jpg");
-                    img.AutoOrient(); //调整方向
-                    img.Strip(); //去除exif信息
-                    img.Resize(800, 0);
-                    File.WriteAllBytes(targetFilePath, img.ToByteArray());
+                    File.WriteAllBytes(targetFilePath, array);
                     imgeurl = targetFilePath;
                 }
                 else
@@ -51,7 +46,6 @@ namespace huaanClient
                     File.Copy(path, targetFilePath);
                     imgeurl = targetFilePath;
                 }
-                img.Dispose();
                 return imgeurl;
             }
             catch
