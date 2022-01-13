@@ -21,5 +21,7 @@ namespace huaanClient
         public const string LANG_LOCALE_FRENCH = "fr";
         public const string LANG_LOCALE_VIETNAMESE = "vi";
 
+        public static readonly string[] AllowedImageFileFormats = { ".jpg", ".jpeg", ".png" };
+
     }
 }
