@@ -739,6 +739,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return re;
         }
 
+        //批量更改下发表的状态
+        public int issueByEquipmentDistributionIds(string jsondata)
+        {
+            int result = GetData.issueByEquipmentDistributionIds(jsondata);
+            return result;
+        }
+
         public void delVisitorforId(string id)
         {
             DistributeToequipment.delVisitorforId(id.Trim());

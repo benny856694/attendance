@@ -627,6 +627,15 @@ namespace huaanClient
             return obj.ToString();
         }
 
+        internal static int issueByEquipmentDistributionIds(string jsondata)
+        {
+            JArray jo = (JArray)JsonConvert.DeserializeObject(jsondata);
+            var userids=jsondata.Replace('[', '(').Replace(']', ')');
+            string updatessql = "UPDATE Equipment_distribution SET status='inprogress',type=0 WHERE id in " + userids;
+            int res=SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
+            return res;
+        }
+
         internal static void deleteDataSyn(string person_id)
         {
             string sql = "delete from DataSyn where personid = " + person_id;
@@ -4245,6 +4254,7 @@ namespace huaanClient
             //DeviceName
             StringBuilder commandText = new StringBuilder("" +
                 "SELECT " +
+                "eq.id," +
                 "my.DeviceName," +
                 "my.number,st.name,my.ipAddress,eq.status,eq.date,eq.code, eq.errMsg " +
                 "from Equipment_distribution eq LEFT JOIN MyDevice my on my.id=eq.deviceid  LEFT JOIN staff st on st.id=eq.userid  WHERE type != '1' AND 1=1 AND");
