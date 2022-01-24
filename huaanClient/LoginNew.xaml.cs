@@ -189,6 +189,7 @@ namespace huaanClient
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message, "Have you installed Microsoft Runtime?", MessageBoxButton.OK, MessageBoxImage.Error);
                 Logger.Error(ex, "init db error");
                 
                 ShowStatus(Strings.InitializeDbFailed);
