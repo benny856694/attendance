@@ -439,24 +439,28 @@ namespace huaanClient
             }
         }
 
-        public static bool distrbute(string name,string imgeurl,string statime,string endtime,string id)
+        public static bool distrbute(string name,string imgeurl,string statime,string endtime,string id,string deivces)
         {
+            Console.WriteLine(deivces);
+            JArray arrDevices = (JArray)JsonConvert.DeserializeObject(deivces);
+            JArray arrDetail = new JArray();
             statime= statime.Replace("-", "/").Trim()+ ":00";
             endtime = endtime.Replace("-", "/").Trim() + ":00";
-            bool re = false;
+            bool re = true;
             if (string.IsNullOrEmpty(imgeurl)|| Deviceinfo.MyDevicelist.Count==0 || string.IsNullOrEmpty(id))
             {
-                return re;
+                return false;
             }
-            Deviceinfo.MyDevicelist.ForEach(d => {
-                if (d.IsConnected==true)
+
+            foreach (var device in arrDevices) {
+                var d = Deviceinfo.MyDevicelist.Find((de) => { return de.Deviceid.Equals((string)device["Deviceid"]); });
+                if (d!=null && d.IsConnected)
                 {
                     string PersonJson = string.Empty;
                     string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
 
-
                     //将图片转换成符合相机需求
-                    if (twistImageCore(File.ReadAllBytes(imgeurl.Trim()), d.DevicVersion, out thumb, out twis, out bool IsNew))
+                    if (twistImageCore(File.ReadAllBytes(imgeurl.Trim()),(string)device["DevicVersion"], out thumb, out twis, out bool IsNew))
                     {
                         reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
 
@@ -468,13 +472,14 @@ namespace huaanClient
                             norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
                     }
 
-                    PersonJson = string.Format(UtilsJson.PersonJsonforterm, id, name.Trim(), reg_images, norm_images, endtime,statime);
+                    PersonJson = string.Format(UtilsJson.PersonJsonforterm, id, name.Trim(), reg_images, norm_images, endtime, statime);
 
                     JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
                     if (deleteJson != null)
                     {
                         deleteJson["id"] = id;
                     }
+                    
                     //先执行删除操作
                     string sss = GetDevinfo.request(d, deleteJson.ToString());
                     //在执行下发操作
@@ -484,19 +489,94 @@ namespace huaanClient
                     {
                         string code = restr_json["code"].ToString();
                         int code_int = int.Parse(code);
+
+                        JObject jsonDownStatus = new JObject();
+                        jsonDownStatus["Deviceid"] = (string)device["Deviceid"];
+                        jsonDownStatus["code"] = code_int;
+                        arrDetail.Add(jsonDownStatus);
                         if (code_int != 0)
                         {
                             re = false;
                         }
                         else
                         {
-                            re = true;
-                            string updatessql = "UPDATE Visitor SET isDown='1' WHERE id=" + id;
-                            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
+                            
                         }
-                    } 
+                    }
                 }
-            });
+                else
+                {
+                    JObject jsonDownStatus = new JObject();
+                    jsonDownStatus["Deviceid"] = (string)device["Deviceid"];
+                    jsonDownStatus["errMsg"] = Properties.Strings.DeviceOffline;
+                    arrDetail.Add(jsonDownStatus);
+                    re = false;
+                }
+            }
+
+            string donwDetail = JsonConvert.SerializeObject(arrDetail);
+            if (re)
+            {
+                string updatessql = "UPDATE Visitor SET isDown='1',downDetail='"+ donwDetail + "' WHERE id=" + id;
+                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
+            }
+            else
+            {
+                string updatessql = "UPDATE Visitor SET isDown='2',downDetail='"+ donwDetail + "' WHERE id=" + id;
+                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
+            }
+
+            #region 注释掉之前方法：不记录下发状态
+            //Deviceinfo.MyDevicelist.ForEach(d => {
+            //    if (d.IsConnected==true)
+            //    {
+            //        string PersonJson = string.Empty;
+            //        string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
+
+
+            //        //将图片转换成符合相机需求
+            //        if (twistImageCore(File.ReadAllBytes(imgeurl.Trim()), d.DevicVersion, out thumb, out twis, out bool IsNew))
+            //        {
+            //            reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
+
+            //            if (IsNew)
+            //            {
+            //                norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", twis);
+            //            }
+            //            else
+            //                norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
+            //        }
+
+            //        PersonJson = string.Format(UtilsJson.PersonJsonforterm, id, name.Trim(), reg_images, norm_images, endtime,statime);
+
+            //        JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
+            //        if (deleteJson != null)
+            //        {
+            //            deleteJson["id"] = id;
+            //        }
+            //        //先执行删除操作
+            //        string sss = GetDevinfo.request(d, deleteJson.ToString());
+            //        //在执行下发操作
+            //        string restr = GetDevinfo.request(d, PersonJson);
+            //        JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+            //        if (restr_json != null)
+            //        {
+            //            string code = restr_json["code"].ToString();
+            //            int code_int = int.Parse(code);
+            //            if (code_int != 0)
+            //            {
+            //                re = false;
+            //            }
+            //            else
+            //            {
+            //                re = true;
+            //                string updatessql = "UPDATE Visitor SET isDown='1' WHERE id=" + id;
+            //                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
+            //            }
+            //        } 
+            //    }
+            //});
+            #endregion
             return re;
         }
 

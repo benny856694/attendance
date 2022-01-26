@@ -486,7 +486,8 @@ namespace huaanClient.DatabaseTool
   "imge TEXT",
   "staTime TEXT",
   "endTime TEXT",
-  "isDown TEXT"
+  "isDown TEXT",
+  "downDetail TEXT"
         };
 
         //DataSyn role

@@ -719,7 +719,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
         //下发访客
-        public bool downVisitorForid(string name, string imgeurl, string statime, string endtime, string id)
+        public bool downVisitorForid(string name, string imgeurl, string statime, string endtime, string id, string devices)
         {
             bool re = false;
             form.Invoke(new Action(() =>
@@ -727,7 +727,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 try
                 {
                     form.ShowLayer();
-                    re = DistributeToequipment.distrbute(name.Trim(), imgeurl.Trim(), statime.Trim(), endtime.Trim(), id);
+                    re = DistributeToequipment.distrbute(name.Trim(), imgeurl.Trim(), statime.Trim(), endtime.Trim(), id, devices);
                     form.HideLayer();
                 }
                 catch
