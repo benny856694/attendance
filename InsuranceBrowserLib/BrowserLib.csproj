@@ -96,6 +96,7 @@
     <Compile Include="management.cs" />
     <Compile Include="NativeMethods\IDocHostUIHandler.cs" />
     <Compile Include="NativeMethods\IHttpSecurity.cs" />
+    <Compile Include="NativeMethods\NativeMethods.cs" />
     <Compile Include="NativeMethods\OleClientSite.cs" />
     <Compile Include="NativeMethods\OleObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
