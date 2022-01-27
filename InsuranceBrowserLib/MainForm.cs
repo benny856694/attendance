@@ -960,6 +960,15 @@ namespace InsuranceBrowserLib
                 this.ShowInTaskbar = true;//图标显示在任务栏
             }
         }
+
+        protected override void DefWndProc(ref Message m)
+        {
+            if (m.Msg ==  NativeMethods.NativeMethods.WM_SHOWME)
+            {
+                ShowMainForm();
+            }
+            base.DefWndProc(ref m);
+        }
     }
 
     #region ---地址域名类---

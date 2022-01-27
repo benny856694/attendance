@@ -30,18 +30,12 @@ namespace huaanClient
 
             if (System.Diagnostics.Process.GetProcessesByName("FaceRASystem").ToList().Count > 1)
             {
-                //获取地区自动显示中英日文
-                string ss = System.Globalization.CultureInfo.InstalledUICulture.Name;
-                if (ss.Contains("ja-JP"))
-                {
-                    MessageBox.Show("Application is running!", "HEAT CHECK");
-                    return;
-                }
-                else
-                {
-                    MessageBox.Show("Application is running!", "提示");
-                    return;
-                }
+                InsuranceBrowserLib.NativeMethods.NativeMethods.PostMessage(
+                (IntPtr)InsuranceBrowserLib.NativeMethods.NativeMethods.HWND_BROADCAST,
+                InsuranceBrowserLib.NativeMethods.NativeMethods.WM_SHOWME,
+                IntPtr.Zero,
+                IntPtr.Zero);
+                return;
             }
 
 
