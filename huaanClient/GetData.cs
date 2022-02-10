@@ -1434,6 +1434,26 @@ namespace huaanClient
 
         }
 
+        internal static Object[] getAllMyDeviceExt(MyDevice[] mydevice)
+        {
+            if (mydevice == null|| mydevice.Length==0)
+            {
+                return mydevice;
+            }
+            var deviceJArr = mydevice.AsParallel().Select<MyDevice, JObject>((m) => {
+                var ipAddress = m.ipAddress;
+                var mjson = JObject.FromObject(m);
+                //通过IP找到这个设备
+                CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ipAddress);
+                //通过这个设备查出平台
+                mjson["platForm"] = CameraConfigPortlist?.platform;
+                mjson["master_buildtime"] = CameraConfigPortlist?.master_buildtime;
+                return mjson;
+            }).ToArray();
+
+            return deviceJArr;
+        }
+
         internal static bool deleteDataSynRealTime(string personid,string device_sn)
         {
             string deleteJson = string.Format(UtilsJson.deleteJson2,personid);

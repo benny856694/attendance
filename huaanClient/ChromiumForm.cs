@@ -1756,8 +1756,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //获取数据库中的设备列表
         public string getAllMyDevices()
         {
-            var json = JsonConvert.SerializeObject(GetData.getAllMyDevice());
-            return json;
+            //var json = JsonConvert.SerializeObject(GetData.getAllMyDevice());
+            var jsonExt = JsonConvert.SerializeObject(GetData.getAllMyDeviceExt(GetData.getAllMyDevice()));
+            return jsonExt;
         }
 
         public string getInOutCount()
