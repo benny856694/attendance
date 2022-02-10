@@ -69,6 +69,15 @@ namespace huaanClient
         {
             IP = ip;
         }
+        /// <summary>
+        /// 获取设备平台
+        /// </summary>
+        public string platform { get; set; }
+
+        /// <summary>
+        /// 获取固件版本时间
+        /// </summary>
+        public string master_buildtime { get; set; }
 
         private volatile bool m_isconnected;
         /// <summary>
@@ -111,6 +120,12 @@ namespace huaanClient
                         {
                             m_DevicVersion = jObject["alg_version"].ToString().Trim();
                         }
+                        JToken j_platform = jObject["platform"];
+                        if (j_platform != null)
+                        {
+                            platform = jObject["platform"].ToString();
+                        }
+                        master_buildtime = jObject["master_buildtime"]?.ToString();
 
                     }
                     catch { }
