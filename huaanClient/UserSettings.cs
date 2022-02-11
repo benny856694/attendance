@@ -18,6 +18,8 @@ namespace huaanClient
         public bool ShowTemperatureInCelsius {  get; set; } = true;
         public Access DefaultAccess { get; set; } = Access.FullAccess;
         public bool AutoIssue { get; set; } = true;
+        public bool AutoDataSyn { get; set; } = false;
+        public bool AutoCaptureSyn { get; set; } = true;
 
         public void ConfigureTracking(TrackingConfiguration configuration)
         {
@@ -34,6 +36,8 @@ namespace huaanClient
                     setting.ShowTemperatureInCelsius,
                     setting.DefaultAccess,
                     setting.AutoIssue,
+                    setting.AutoDataSyn,
+                    setting.AutoCaptureSyn
                 });
         }
     }

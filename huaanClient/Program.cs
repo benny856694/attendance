@@ -118,13 +118,18 @@ namespace huaanClient
                 try
                 {
                     Thread.Sleep(10 * 1000);
-                    DataSynchronization.DataSynchronizationtask();
+                    if (ChromiumForm.userSettings.AutoDataSyn)
+                    {
+                        Console.WriteLine("自动同步设备人员开始...");
+                        DataSynchronization.DataSynchronizationtask();
+                    } 
                     Thread.Sleep(60 * 1000 * 5);
                 }
                 catch (Exception ex)
                 {
                     Logger.Error(ex, "设备人员同步异常");
                 }
+                
             })
             {
                 IsBackground = true
@@ -137,7 +142,10 @@ namespace huaanClient
                     try
                     {
                         Thread.Sleep(10 * 1000);
-                        TimingGet.Timingquery();
+                        if (ChromiumForm.userSettings.AutoCaptureSyn)
+                        {
+                            TimingGet.Timingquery();
+                        }
                     }
                     catch (Exception ex)
                     {

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,9 +26,9 @@ namespace huaanClient
             {
                 try
                 {
-                    Logger.Debug(s.IP+"主动查询抓拍开始");
+                    Logger.Debug(s.IP+"主动查询抓拍开始....");
                     DownloadOneDevice(s, endtime);
-                    Logger.Debug(s.IP + "主动查询抓拍结束!\n");
+                    Logger.Debug(s.IP + "主动查询抓拍结束....!\n");
                 }
                 catch (Exception ex)
                 {
@@ -84,9 +85,18 @@ namespace huaanClient
                 {
                     Logger.Debug("no record");
                 }
-                if (!string.IsNullOrEmpty(ATT_STA_time))
+                if (!string.IsNullOrEmpty(ATT_STA_time)&&list.Count>0)
+                {
+                    Stopwatch watch = new Stopwatch();
+                    watch.Start();
+                    Console.WriteLine("计算考勤开始。。。");
                     AttendanceAlgorithm.getpersonnel(ATT_STA_time, endtime.ToString("yyyy-MM-dd HH:mm:ss") + ".999", 1);
-
+                    Console.WriteLine("计算考勤结束。。。");
+                    watch.Stop();
+                    string time = watch.ElapsedMilliseconds.ToString();
+                    Console.WriteLine("考勤计算用时毫秒：" + time);
+                }
+                    
             }
 
         }

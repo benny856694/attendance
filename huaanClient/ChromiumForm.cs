@@ -1635,6 +1635,20 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             Services.Tracker.Persist(ChromiumForm.userSettings);
         }
 
+        //自动同步设备人员
+        public void setParamData_syn(string enable)
+        {
+            ChromiumForm.userSettings.AutoDataSyn = enable == "true" || enable == "1";
+            Services.Tracker.Persist(ChromiumForm.userSettings);
+        }
+
+        //自动获取抓拍记录
+        public void setParamCapture_syn(string enable)
+        {
+            ChromiumForm.userSettings.AutoCaptureSyn = enable == "true" || enable == "1";
+            Services.Tracker.Persist(ChromiumForm.userSettings);
+        }
+
         //是否提示新手引导 如果返回true则不显示新手提示
         public bool IsNoNoviceGuide()
         {
