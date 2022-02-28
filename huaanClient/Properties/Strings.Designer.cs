@@ -115,6 +115,168 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterDept {
+            get {
+                return ResourceManager.GetString("AttendanceMasterDept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterDesig {
+            get {
+                return ResourceManager.GetString("AttendanceMasterDesig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterEmpNo {
+            get {
+                return ResourceManager.GetString("AttendanceMasterEmpNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterIn {
+            get {
+                return ResourceManager.GetString("AttendanceMasterIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterLate {
+            get {
+                return ResourceManager.GetString("AttendanceMasterLate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterOT {
+            get {
+                return ResourceManager.GetString("AttendanceMasterOT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterOut {
+            get {
+                return ResourceManager.GetString("AttendanceMasterOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterReportEmpDetailsTitle {
+            get {
+                return ResourceManager.GetString("AttendanceMasterReportEmpDetailsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterStatus {
+            get {
+                return ResourceManager.GetString("AttendanceMasterStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterSumAB {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumAB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterSumLateHour {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumLateHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterSumLT {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumLT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterSumOT {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumOT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterSumOTHour {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumOTHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterSumPR {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumPR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterSumWO {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumWO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterSumWorkHour {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumWorkHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string AttendanceMasterWH {
+            get {
+                return ResourceManager.GetString("AttendanceMasterWH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 考勤组名称不能为空！.
         /// </summary>
         internal static string AttendanceNameCanBeNotNull {
@@ -219,6 +381,168 @@ namespace huaanClient.Properties {
         internal static string ConnectDbFailed {
             get {
                 return ResourceManager.GetString("ConnectDbFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportCheckInTitle {
+            get {
+                return ResourceManager.GetString("DailyReportCheckInTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportCheckOutTitle {
+            get {
+                return ResourceManager.GetString("DailyReportCheckOutTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportDateTitle {
+            get {
+                return ResourceManager.GetString("DailyReportDateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportDepartmentTitle {
+            get {
+                return ResourceManager.GetString("DailyReportDepartmentTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportDesignationTitle {
+            get {
+                return ResourceManager.GetString("DailyReportDesignationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportEarlyTitle {
+            get {
+                return ResourceManager.GetString("DailyReportEarlyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportEmpNameTitle {
+            get {
+                return ResourceManager.GetString("DailyReportEmpNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportEmpNumberTitle {
+            get {
+                return ResourceManager.GetString("DailyReportEmpNumberTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportLateTitle {
+            get {
+                return ResourceManager.GetString("DailyReportLateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportRemarksTitle {
+            get {
+                return ResourceManager.GetString("DailyReportRemarksTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportShiftEndTitle {
+            get {
+                return ResourceManager.GetString("DailyReportShiftEndTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportShiftStartTitle {
+            get {
+                return ResourceManager.GetString("DailyReportShiftStartTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportShiftTitle {
+            get {
+                return ResourceManager.GetString("DailyReportShiftTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportTotalAbsent {
+            get {
+                return ResourceManager.GetString("DailyReportTotalAbsent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportTotalEarly {
+            get {
+                return ResourceManager.GetString("DailyReportTotalEarly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportTotalLate {
+            get {
+                return ResourceManager.GetString("DailyReportTotalLate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportTotalPresent {
+            get {
+                return ResourceManager.GetString("DailyReportTotalPresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DailyReportWHTitle {
+            get {
+                return ResourceManager.GetString("DailyReportWHTitle", resourceCulture);
             }
         }
         
@@ -538,6 +862,42 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string PeriodicMasterDepartmentTitle {
+            get {
+                return ResourceManager.GetString("PeriodicMasterDepartmentTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string PeriodicMasterDesignationTitle {
+            get {
+                return ResourceManager.GetString("PeriodicMasterDesignationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string PeriodicMasterEmpName {
+            get {
+                return ResourceManager.GetString("PeriodicMasterEmpName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string PeriodicMasterEmpNo {
+            get {
+                return ResourceManager.GetString("PeriodicMasterEmpNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 拍照失败，请重试.
         /// </summary>
         internal static string PhotoCaptureFailed {
@@ -588,6 +948,42 @@ namespace huaanClient.Properties {
         internal static string RememberPassword {
             get {
                 return ResourceManager.GetString("RememberPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ReportRemarkA {
+            get {
+                return ResourceManager.GetString("ReportRemarkA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ReportRemarkHO {
+            get {
+                return ResourceManager.GetString("ReportRemarkHO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ReportRemarkP {
+            get {
+                return ResourceManager.GetString("ReportRemarkP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ReportRemarkPX {
+            get {
+                return ResourceManager.GetString("ReportRemarkPX", resourceCulture);
             }
         }
         
