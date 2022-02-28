@@ -157,11 +157,17 @@ namespace huaanClient
             using (var img = new ImageMagick.MagickImage(path))
             {
                 img.Format = ImageMagick.MagickFormat.Jpg;
-                if (img.BaseWidth > 800)
+                var isPng = Path.GetExtension(path).ToUpperInvariant().EndsWith(".PNG");
+                var biggerThan800 = img.BaseWidth > 800;
+                var shouldConvert = isPng || biggerThan800;
+                if (shouldConvert)
                 {
                     img.AutoOrient(); //调整方向
                     img.Strip(); //去除exif信息
-                    img.Resize(800, 0);
+                    if(biggerThan800)
+                    {
+                        img.Resize(800, 0);
+                    }
                     array = img.ToByteArray();
                     return true;
                 }

@@ -135,31 +135,39 @@ namespace huaanClient
         private void Camera_Load(object sender, EventArgs e)
         {
             videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            if (videoDevices.Count != 0)
+            try
             {
-                for (int i = 0; i < videoDevices.Count; i++)
+                if (videoDevices.Count != 0)
                 {
-                    Iplist iplist = new Iplist();
-                    var v = i;
-                    iplist.Controls["btn"].Click += (object sender_, EventArgs e_) => chanvideo((v).ToString());
-                    iplist.Controls["Iplabel"].Text = $"{Properties.Strings.Camera}"+(i+1);
-                    plView.Controls.Add(iplist);
+                    for (int i = 0; i < videoDevices.Count; i++)
+                    {
+                        Iplist iplist = new Iplist();
+                        var v = i;
+                        iplist.Controls["btn"].Click += (object sender_, EventArgs e_) => chanvideo((v).ToString());
+                        iplist.Controls["Iplabel"].Text = $"{Properties.Strings.Camera}" + (i + 1);
+                        plView.Controls.Add(iplist);
+                    }
+
+                    selectedDeviceIndex = 0;
+                    videoSource = new VideoCaptureDevice(videoDevices[selectedDeviceIndex].MonikerString);//连接摄像头。
+                    videoSource.VideoResolution = videoSource.VideoCapabilities[selectedDeviceIndex];
+
+                    myWidth = videoSource.VideoResolution.FrameSize.Width;
+                    myHeight = videoSource.VideoResolution.FrameSize.Height;
+
+
+
+                    setwidthAndheight();
+
+                    videoSourcePlayer1.VideoSource = videoSource;
+                    videoSourcePlayer1.Start();
                 }
-                
-                selectedDeviceIndex = 0;
-                videoSource = new VideoCaptureDevice(videoDevices[selectedDeviceIndex].MonikerString);//连接摄像头。
-                videoSource.VideoResolution = videoSource.VideoCapabilities[selectedDeviceIndex];
-
-                myWidth = videoSource.VideoResolution.FrameSize.Width;
-                myHeight = videoSource.VideoResolution.FrameSize.Height;
-
-                
-
-                setwidthAndheight();
-
-                videoSourcePlayer1.VideoSource = videoSource;
-                videoSourcePlayer1.Start();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(Strings.EnumerateBuildInCameraErrorMsg.Format(ex.Message), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
             //查询所有的IP地址
             string data = GetData.getDeviceDiscover();
             JArray jArray = (JArray)JsonConvert.DeserializeObject(data);
