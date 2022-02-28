@@ -15,7 +15,7 @@ using Dapper.Contrib.Extensions;
 using System.Dynamic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Threading;
+
 
 namespace huaanClient
 {
@@ -26,8 +26,7 @@ namespace huaanClient
         public static void distrbute()
         {
             var startTime = DateTime.Now;
-            //Logger.Debug("开始下发...");
-            //string connectionString = "Data Source=" + Application.StartupPath + @"\huaanDatabase.sqlite;Version=3;";
+            Logger.Debug("开始查询待下发数据...");
             string connectionString = ApplicationData.connectionString;
             string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 ORDER BY id ASC limit 500";
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
@@ -39,20 +38,23 @@ namespace huaanClient
                 {
                     foreach (JObject jo in srjo)
                     {
+                        var staffDistribution = jo.ToObject<EquipmentDistribution>();
+                        var msg = $"开始下发staff({staffDistribution.userid})到device({staffDistribution.deviceid})";
                         try
                         {
+                            Logger.Debug(msg);
                             handleOneDistribute(jo, connectionString);
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error(ex, "process distribution exception");
+                            Logger.Error(ex, msg);
                         }
                     }
                 }
             }
 
-            //var endTime = DateTime.Now;
-            //Logger.Debug("下发结束!用时{0}",(endTime-startTime).ToString());
+            var endTime = DateTime.Now;
+            Logger.Debug("下发结束!用时{0}",(endTime-startTime).ToString());
         }
 
 
@@ -182,10 +184,11 @@ namespace huaanClient
             CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ip);
             if (CameraConfigPortlist == null)
                 return;
+            Logger.Debug("开始下发id:{0}，相机IP:{1},人员ID：{2}", id, CameraConfigPortlist.IP, distribute["userid"]);
+
             if (CameraConfigPortlist.IsConnected)
             {
 
-                    Console.WriteLine("下发id:{0}，相机IP:{1},人员ID：{2}", id, CameraConfigPortlist.IP, distribute["userid"]);
                     //PersonJson["id"] = userid;
                     //PersonJson["name"] = sqldatajo[0]["name"].ToString().Trim();
 
@@ -299,27 +302,26 @@ namespace huaanClient
                         {
                             string updatessql = "UPDATE Equipment_distribution SET errMsg='', status='success',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
                             SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                            
                         }
                         else
                         {
                             string updatessql = "UPDATE Equipment_distribution SET status='fail', type='2', code='" + code_int + "',date='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' WHERE id=" + id;
                             SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                         }
-                        //else if (code_int == 35 || code_int == 36 || code_int == 37 || code_int == 38 || code_int == 39 || code_int == 40 || code_int == 41)
-                        //{
-                        //    obj["data"] = "照片不合格";
-                        //}
+                        var msg = code_int == 0 ? "成功" : "失败";
+                        Logger.Debug($"开始下发id:{0}，相机IP:{1},人员ID：{2} {msg}", id, CameraConfigPortlist.IP, distribute["userid"]);
                     }
                     else
                     {
-                        Logger.Warn("{0}下发失败，人员信息：{1}", ip, uploadPersonCmd);
+                        Logger.Debug("{0}下发失败，人员信息：{1} 超时", ip, uploadPersonCmd);
                         string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.TimeOut}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                         SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                     }
             }
-            
             else
             {
+                Logger.Debug("下发失败 id:{0}，相机IP:{1},人员ID：{2} 设备离线", id, CameraConfigPortlist.IP, distribute["userid"]);
                 string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.DeviceOffline}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                 SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
             }
