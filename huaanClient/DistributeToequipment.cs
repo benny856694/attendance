@@ -28,7 +28,7 @@ namespace huaanClient
             var startTime = DateTime.Now;
             Logger.Debug("开始查询待下发数据...");
             string connectionString = ApplicationData.connectionString;
-            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 ORDER BY id ASC limit 500";
+            string commandText = "SELECT * FROM Equipment_distribution WHERE status <> 'success' AND type != 2 ORDER BY userid ASC limit 500";
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
             
             if (!string.IsNullOrEmpty(sr))
