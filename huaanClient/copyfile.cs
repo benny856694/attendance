@@ -34,7 +34,7 @@ namespace huaanClient
                     Directory.CreateDirectory(targetFolder);
                 }
                 
-                if(Tools.TryDownscaleImage(path, out var array))
+                if(Tools.TryDownscaleImage(path, out var array, Properties.Settings.Default.resizeImageWidthTo))
                 {
                     var targetFilePath = Path.Combine(targetFolder, filename + ".jpg");
                     File.WriteAllBytes(targetFilePath, array);

@@ -40,5 +40,14 @@ namespace huaanClient.Properties {
                 return ((bool)(this["saveFailedImage"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public int resizeImageWidthTo {
+            get {
+                return ((int)(this["resizeImageWidthTo"]));
+            }
+        }
     }
 }

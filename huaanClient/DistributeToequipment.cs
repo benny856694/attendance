@@ -262,7 +262,7 @@ namespace huaanClient
                         }
                         else
                         {
-                            if (Tools.TryDownscaleImage(picturePath, out var array))
+                            if (Tools.TryDownscaleImage(picturePath, out var array, Properties.Settings.Default.resizeImageWidthTo))
                             {
                                 reg_images = Convert.ToBase64String(array);
                             }
@@ -313,7 +313,7 @@ namespace huaanClient
                     Logger.Debug($"开始下发id:{0}，相机IP:{1},人员ID：{2} {msg}", id, CameraConfigPortlist.IP, distribute["userid"]);
                     if (Properties.Settings.Default.saveFailedImage && code_int != 0)
                     {
-                        var array = uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_REG_IMAGE]?.Value<byte[]>();
+                        var array = Convert.FromBase64String(uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_REG_IMAGE]?.Value<string>());
                         if (array != null)
                         {
                             var name = uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_NAME];
@@ -327,7 +327,7 @@ namespace huaanClient
                     Logger.Debug("{0}下发失败，人员信息：{1} 超时", ip, uploadPersonCmd);
                     if (Properties.Settings.Default.saveFailedImage)
                     {
-                        var array = uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_REG_IMAGE]?.Value<byte[]>();
+                        var array = Convert.FromBase64String(uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_REG_IMAGE]?.Value<string>());
                         if (array != null)
                         {
                             var name = uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_NAME];
