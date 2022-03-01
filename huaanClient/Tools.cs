@@ -179,6 +179,17 @@ namespace huaanClient
             }
             
         }
+
+        public static string GetFullPathForFile(string relativeFileName, bool createDirectoryIfNotExists = true)
+        {
+            var root = Environment.CurrentDirectory;
+            var fullPath = Path.Combine(root, relativeFileName);
+            if (createDirectoryIfNotExists)
+            {
+                new FileInfo(fullPath).Directory.Create();
+            }
+            return fullPath;
+        }
         
     }
 }
