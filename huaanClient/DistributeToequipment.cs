@@ -315,6 +315,10 @@ namespace huaanClient
                     else
                     {
                         Logger.Debug("{0}下发失败，人员信息：{1} 超时", ip, uploadPersonCmd);
+                        var array = (byte[]) uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_REG_IMAGE];
+                    var name = uploadPersonCmd[UtilsJson.UPLOAD_PERSON_FIELD_NAME];
+                        File.WriteAllBytes(name + ".jpg", array);
+
                         string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.TimeOut}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                         SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                     }

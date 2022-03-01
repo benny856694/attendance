@@ -158,8 +158,8 @@ namespace huaanClient
             {
                 //img.Format = ImageMagick.MagickFormat.Jpg;
                 var isPng = img.Format == ImageMagick.MagickFormat.Png;
-                var biggerThan800 = img.BaseWidth > 800;
-                var shouldConvert = isPng || biggerThan800;
+                var biggerThan600 = img.BaseWidth > 600;
+                var shouldConvert = isPng || biggerThan600;
                 if (shouldConvert)
                 {
                     if (isPng)
@@ -168,9 +168,9 @@ namespace huaanClient
                     }
                     img.AutoOrient(); //调整方向
                     img.Strip(); //去除exif信息
-                    if(biggerThan800)
+                    if(biggerThan600)
                     {
-                        img.Resize(800, 0);
+                        img.Resize(600, 0);
                     }
                     array = img.ToByteArray();
                     return true;
