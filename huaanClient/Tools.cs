@@ -151,15 +151,15 @@ namespace huaanClient
             return File.ReadAllText(p, Encoding.UTF8);
         }
 
-        public static bool TryDownscaleImage(string path, out byte[] array)
+        public static bool TryDownscaleImage(string path, out byte[] array, int width)
         {
             array = null;
             using (var img = new ImageMagick.MagickImage(path))
             {
                 //img.Format = ImageMagick.MagickFormat.Jpg;
                 var isPng = img.Format == ImageMagick.MagickFormat.Png;
-                var biggerThan600 = img.BaseWidth > 600;
-                var shouldConvert = isPng || biggerThan600;
+                var imageIsTooBig = img.BaseWidth > width;
+                var shouldConvert = isPng || imageIsTooBig;
                 if (shouldConvert)
                 {
                     if (isPng)
@@ -168,9 +168,9 @@ namespace huaanClient
                     }
                     img.AutoOrient(); //调整方向
                     img.Strip(); //去除exif信息
-                    if(biggerThan600)
+                    if(imageIsTooBig)
                     {
-                        img.Resize(600, 0);
+                        img.Resize(width, 0);
                     }
                     array = img.ToByteArray();
                     return true;
@@ -178,6 +178,17 @@ namespace huaanClient
                 return false;
             }
             
+        }
+
+        public static string GetFullPathForFile(string relativeFileName, bool createDirectoryIfNotExists = true)
+        {
+            var root = Environment.CurrentDirectory;
+            var fullPath = Path.Combine(root, relativeFileName);
+            if (createDirectoryIfNotExists)
+            {
+                new FileInfo(fullPath).Directory.Create();
+            }
+            return fullPath;
         }
         
     }
