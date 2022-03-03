@@ -631,7 +631,7 @@ namespace huaanClient
         {
             JArray jo = (JArray)JsonConvert.DeserializeObject(jsondata);
             var userids=jsondata.Replace('[', '(').Replace(']', ')');
-            string updatessql = "UPDATE Equipment_distribution SET status='inprogress',type=0 WHERE id in " + userids;
+            string updatessql = "UPDATE Equipment_distribution SET status='inprogress',type=0,code='',errMsg='' WHERE id in " + userids;
             int res=SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
             return res;
         }
