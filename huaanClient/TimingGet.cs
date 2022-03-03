@@ -22,23 +22,53 @@ namespace huaanClient
             {
                 return;
             }
+            //准备容器存储相机和对应last_query时间
+            Dictionary<CameraConfigPort, DateTime> cameraQueryTimes = new Dictionary<CameraConfigPort, DateTime>();
+            //保存所有相机首次查询
+            List<DateTime> firstQuerys=new List<DateTime>();
             Devicelistdata.ForEach(s =>
             {
                 try
                 {
                     Logger.Debug(s.IP+"主动查询抓拍开始....");
-                    DownloadOneDevice(s, endtime);
-                    Logger.Debug(s.IP + "主动查询抓拍结束....!\n");
+                    DownloadOneDevice(s, endtime, firstQuerys, cameraQueryTimes);
                 }
                 catch (Exception ex)
                 {
                     Logger.Error(ex, $"下载{s.IP}抓拍数据异常");
                 }
             });
+
             
+            if (firstQuerys.Count >0)
+            {
+                //计算最早查询
+                DateTime firstQuery = firstQuerys[0];
+                foreach(var item in firstQuerys)
+                {
+                    int compNum=DateTime.Compare(firstQuery, item);
+                    if (compNum > 0)
+                    {
+                        firstQuery = item;
+                    }
+                }
+                AttendanceAlgorithm.getpersonnel(firstQuery.ToString("yyyy-MM-dd HH:mm:ss") + ".999", endtime.ToString("yyyy-MM-dd HH:mm:ss") + ".999", 1);//计算考勤
+            }
+
+            //遍历相机，保存last_query
+            foreach (var cameraQueryTime in cameraQueryTimes)
+            {
+                var s=cameraQueryTime.Key;
+                var time = cameraQueryTime.Value;
+                //保存最后一条的记录
+                GetData.setMyDeviceforLast_query(time.ToString("yyyy-MM-dd HH:mm:ss.fff"), s.IP);
+            }
+
+            Logger.Info("主动获取抓拍并计算考勤完成！！！");
+
         }
 
-        private static void DownloadOneDevice(CameraConfigPort s, DateTime endtime)
+        private static void DownloadOneDevice(CameraConfigPort s,DateTime endtime, List<DateTime> firstQuerys, Dictionary<CameraConfigPort, DateTime> cameraQueryTimes)
         {
             string ATT_STA_time;
             //获取开始时间时如果数据库没有就默认取值当天时间
@@ -61,7 +91,6 @@ namespace huaanClient
 
             ATT_STA_time = statime_str;
             DateTime statime = Convert.ToDateTime(statime_str);
-
             if (s.IsConnected)
             {
                 Logger.Debug($"beging query data from camera {statime}-{endtime}");
@@ -69,22 +98,26 @@ namespace huaanClient
                 if (list.Count > 0)
                 {
                     var time = list.Max(t => t.time);
-
                     list.ForEach(l =>
                     {
                         Logger.Debug($"save capture data to db seq: {l.sequnce}");
                         HandleCaptureData.setCaptureDataToDatabase(l, s.DeviceNo, s.DeviceName);
                     });
+                    firstQuerys.Add(statime);//保存所有首次查询
+                    cameraQueryTimes.Add(s, endtime);//抓拍记录保存成功后，保存相机和lastquery对应关系
+                    /*改为保存考勤记录之后再保存抓拍记录
                     if (!string.IsNullOrEmpty(time.ToString("yyyy-MM-dd HH:mm:ss.fff")))
                     {
                         //保存最后一条的记录
                         GetData.setMyDeviceforLast_query(time.ToString("yyyy-MM-dd HH:mm:ss.fff"), s.IP);
                     }
+                    */
                 }
                 else
                 {
                     Logger.Debug("no record");
                 }
+                /* 改为所有相机保存抓拍记录完成之后再计算考勤
                 if (!string.IsNullOrEmpty(ATT_STA_time)&&list.Count>0)
                 {
                     Stopwatch watch = new Stopwatch();
@@ -96,7 +129,7 @@ namespace huaanClient
                     string time = watch.ElapsedMilliseconds.ToString();
                     Console.WriteLine("考勤计算用时毫秒：" + time);
                 }
-                    
+                */    
             }
 
         }
