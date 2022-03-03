@@ -134,9 +134,9 @@ namespace huaanClient.Report
             }
             else
             {
-                shift = AllShifts.FirstOrDefault(x => x.id == shiftId);
                 var d = AttendanceData.FirstOrDefault(x => x.EmployeeId == staffId && x.Date == date); 
                 data = d;
+                shift = d?.ToShift();
                 remark = d == null ? Remark.Absence : d.Remark;
             }
 

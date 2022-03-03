@@ -123,6 +123,8 @@ namespace huaanClient.Report
             return $"{period.Days*24+period.Hours:d2}:{period.Minutes:d2}";
         }
 
+        public static string ToDbTimeString(this LocalTime time) => $"{time.Hour.ToString("d2")}:{time.Minute.ToString("d2")}";
+
         
     }
         

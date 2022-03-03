@@ -1,4 +1,5 @@
-﻿using NodaTime;
+﻿using huaanClient.Database;
+using NodaTime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,14 @@ namespace huaanClient.Report
         public static DailyAttendanceData Absense { get; } = new DailyAttendanceData { Remark = Remark.Absence };
         public static DailyAttendanceData OffDuty { get; } = new DailyAttendanceData { Remark = Remark.OffDuty };
         public static DailyAttendanceData Holiday { get; } = new DailyAttendanceData { Remark = Remark.Holiday };
+        public Shift ToShift()
+        {
+            return new Shift
+            {
+                name = this.ShiftName,
+                gotowork1 = this.ShiftStart.HasValue && this.ShiftEnd.HasValue ? $"{this.ShiftStart.Value.ToDbTimeString()}-{this.ShiftEnd.Value.ToDbTimeString()}" : ""
+            };
+        }
 
     }
 }
