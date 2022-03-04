@@ -3714,7 +3714,7 @@ namespace huaanClient
             {
                 commandText.Append(" device_sn='" + devname + "' AND");
             }
-            if (HealthCodeType != "0")
+            if (!string.IsNullOrEmpty(HealthCodeType))
             {
                 if (HealthCodeType == "1")
                 {
@@ -3727,6 +3727,9 @@ namespace huaanClient
                 else if (HealthCodeType == "3")
                 {
                     commandText.Append(" QRcodestatus LIKE '%红码%' AND");
+                }else
+                {
+                    commandText.Append(" QRcodestatus LIKE '%" + HealthCodeType + "%' AND");//查询普通自定义字段
                 }
             }
             if (!string.IsNullOrEmpty(selectedPersonTypes))
