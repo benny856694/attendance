@@ -54,17 +54,19 @@ namespace huaanClient
                 }
                 AttendanceAlgorithm.getpersonnel(firstQuery.ToString("yyyy-MM-dd HH:mm:ss") + ".999", endtime.ToString("yyyy-MM-dd HH:mm:ss") + ".999", 1);//计算考勤
             }
-
-            //遍历相机，保存last_query
-            foreach (var cameraQueryTime in cameraQueryTimes)
+            if (cameraQueryTimes.Count > 0)
             {
-                var s=cameraQueryTime.Key;
-                var time = cameraQueryTime.Value;
-                //保存最后一条的记录
-                GetData.setMyDeviceforLast_query(time.ToString("yyyy-MM-dd HH:mm:ss.fff"), s.IP);
+                //遍历相机，保存last_query
+                foreach (var cameraQueryTime in cameraQueryTimes)
+                {
+                    var s = cameraQueryTime.Key;
+                    var time = cameraQueryTime.Value;
+                    //保存最后一条的记录
+                    GetData.setMyDeviceforLast_query(time.ToString("yyyy-MM-dd HH:mm:ss.fff"), s.IP);
+                }
             }
-
-            Logger.Info("主动获取抓拍并计算考勤完成！！！");
+            
+            Logger.Info($"主动获取抓拍并计算考勤完成。查询相机数：{cameraQueryTimes.Count}/{Devicelistdata.Count}");
 
         }
 
