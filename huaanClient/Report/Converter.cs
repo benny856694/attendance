@@ -1,4 +1,5 @@
 ﻿using huaanClient.Database;
+using NodaTime;
 using NodaTime.Extensions;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace huaanClient.Report
             result.Date = data.Date.ToLocalDateTime().Date;
             result.CheckIn = data.Punchinformation.ToLocalTime();
             result.CheckOut = data.Punchinformation1.ToLocalTime();
+            result.IsCrossMidnight = data.IsAcrossNight == "True";
 
             if (result.CheckIn.HasValue && result.CheckOut.HasValue)
             {
@@ -37,7 +39,12 @@ namespace huaanClient.Report
                 }
 
                 var shiftHour = result.ShiftEnd.Value - result.ShiftStart.Value;
-                var workHour = result.CheckOut.Value - result.CheckIn.Value;
+                var workHour =  result.CheckOut.Value - result.CheckIn.Value;
+                if (result.IsCrossMidnight)
+                {
+                    shiftHour += Period.FromHours(24);
+                    workHour += Period.FromHours(24);
+                }
                 result.WorkHour = workHour.Normalize();
                 var ot = (workHour - shiftHour).Normalize();
                 if (!(ot.Hours < 0 || ot.Minutes < 0))
@@ -50,6 +57,8 @@ namespace huaanClient.Report
             return result;
 
         }
+
+        
 
     }
 }
