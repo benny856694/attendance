@@ -115,7 +115,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Dept.
         /// </summary>
         internal static string AttendanceMasterDept {
             get {
@@ -124,7 +124,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Desig.
         /// </summary>
         internal static string AttendanceMasterDesig {
             get {
@@ -133,7 +133,16 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Early.
+        /// </summary>
+        internal static string AttendanceMasterEarly {
+            get {
+                return ResourceManager.GetString("AttendanceMasterEarly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EmpNo.
         /// </summary>
         internal static string AttendanceMasterEmpNo {
             get {
@@ -142,7 +151,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to In.
         /// </summary>
         internal static string AttendanceMasterIn {
             get {
@@ -151,7 +160,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Late.
         /// </summary>
         internal static string AttendanceMasterLate {
             get {
@@ -160,7 +169,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to OT.
         /// </summary>
         internal static string AttendanceMasterOT {
             get {
@@ -169,7 +178,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Out.
         /// </summary>
         internal static string AttendanceMasterOut {
             get {
@@ -178,7 +187,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Emp Details.
         /// </summary>
         internal static string AttendanceMasterReportEmpDetailsTitle {
             get {
@@ -187,7 +196,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Status.
         /// </summary>
         internal static string AttendanceMasterStatus {
             get {
@@ -196,7 +205,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to AB.
         /// </summary>
         internal static string AttendanceMasterSumAB {
             get {
@@ -205,7 +214,25 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Early.
+        /// </summary>
+        internal static string AttendanceMasterSumEarly {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumEarly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Early Hour.
+        /// </summary>
+        internal static string AttendanceMasterSumEarlyHour {
+            get {
+                return ResourceManager.GetString("AttendanceMasterSumEarlyHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Late Hour.
         /// </summary>
         internal static string AttendanceMasterSumLateHour {
             get {
@@ -214,7 +241,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to LT.
         /// </summary>
         internal static string AttendanceMasterSumLT {
             get {
@@ -223,7 +250,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to OT.
         /// </summary>
         internal static string AttendanceMasterSumOT {
             get {
@@ -232,7 +259,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to OT Hour.
         /// </summary>
         internal static string AttendanceMasterSumOTHour {
             get {
@@ -241,7 +268,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to PR.
         /// </summary>
         internal static string AttendanceMasterSumPR {
             get {
@@ -250,7 +277,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to WO.
         /// </summary>
         internal static string AttendanceMasterSumWO {
             get {
@@ -259,7 +286,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Work Hour.
         /// </summary>
         internal static string AttendanceMasterSumWorkHour {
             get {
@@ -268,7 +295,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to WH.
         /// </summary>
         internal static string AttendanceMasterWH {
             get {
@@ -385,7 +412,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Check In.
         /// </summary>
         internal static string DailyReportCheckInTitle {
             get {
@@ -394,7 +421,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Check Out.
         /// </summary>
         internal static string DailyReportCheckOutTitle {
             get {
@@ -403,7 +430,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Date.
         /// </summary>
         internal static string DailyReportDateTitle {
             get {
@@ -412,7 +439,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Department.
         /// </summary>
         internal static string DailyReportDepartmentTitle {
             get {
@@ -421,7 +448,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Designation.
         /// </summary>
         internal static string DailyReportDesignationTitle {
             get {
@@ -430,7 +457,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Early.
         /// </summary>
         internal static string DailyReportEarlyTitle {
             get {
@@ -439,7 +466,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Emp Name.
         /// </summary>
         internal static string DailyReportEmpNameTitle {
             get {
@@ -448,7 +475,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Emp No..
         /// </summary>
         internal static string DailyReportEmpNumberTitle {
             get {
@@ -457,7 +484,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Late.
         /// </summary>
         internal static string DailyReportLateTitle {
             get {
@@ -466,7 +493,16 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to OT.
+        /// </summary>
+        internal static string DailyReportOTTitle {
+            get {
+                return ResourceManager.GetString("DailyReportOTTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remarks.
         /// </summary>
         internal static string DailyReportRemarksTitle {
             get {
@@ -475,7 +511,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Shift End.
         /// </summary>
         internal static string DailyReportShiftEndTitle {
             get {
@@ -484,7 +520,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Shift Start.
         /// </summary>
         internal static string DailyReportShiftStartTitle {
             get {
@@ -493,7 +529,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Shift.
         /// </summary>
         internal static string DailyReportShiftTitle {
             get {
@@ -502,7 +538,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Total Absent.
         /// </summary>
         internal static string DailyReportTotalAbsent {
             get {
@@ -511,7 +547,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Total Early.
         /// </summary>
         internal static string DailyReportTotalEarly {
             get {
@@ -520,7 +556,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Total Late.
         /// </summary>
         internal static string DailyReportTotalLate {
             get {
@@ -529,7 +565,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Total Present.
         /// </summary>
         internal static string DailyReportTotalPresent {
             get {
@@ -538,7 +574,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to WH.
         /// </summary>
         internal static string DailyReportWHTitle {
             get {
@@ -862,7 +898,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Department.
         /// </summary>
         internal static string PeriodicMasterDepartmentTitle {
             get {
@@ -871,7 +907,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Designation.
         /// </summary>
         internal static string PeriodicMasterDesignationTitle {
             get {
@@ -880,7 +916,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Emp Name.
         /// </summary>
         internal static string PeriodicMasterEmpName {
             get {
@@ -889,7 +925,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Emp No..
         /// </summary>
         internal static string PeriodicMasterEmpNo {
             get {
@@ -952,7 +988,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to A.
         /// </summary>
         internal static string ReportRemarkA {
             get {
@@ -961,7 +997,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to HO.
         /// </summary>
         internal static string ReportRemarkHO {
             get {
@@ -970,7 +1006,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to P.
         /// </summary>
         internal static string ReportRemarkP {
             get {
@@ -979,7 +1015,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to PX.
         /// </summary>
         internal static string ReportRemarkPX {
             get {

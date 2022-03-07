@@ -29,6 +29,7 @@ namespace huaanClient.Report.Writer
                 ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.LateHour.ToMyString());
                 ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.EarlyHour.ToMyString());
                 ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.WorkHour.ToMyString());
+                ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.OverTime.ToMyString());
             }
             else
             {

@@ -100,6 +100,7 @@ namespace huaanClient.Report
             ws.Cell(row, col++).Value = Strings.DailyReportLateTitle;
             ws.Cell(row, col++).Value = Strings.DailyReportEarlyTitle;
             ws.Cell(row, col++).Value = Strings.DailyReportWHTitle;
+            ws.Cell(row, col++).Value = Strings.DailyReportOTTitle;
             ws.Cell(row, col++).Value = Strings.DailyReportRemarksTitle;
             var titleRow = ws.Range(ws.Cell(row, 1).Address, ws.Cell(row, col - 1).Address);
             titleRow.Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.LightGray);
