@@ -462,4 +462,16 @@
 	<data name="ReportRemarkPX" xml:space="preserve">
 		<value>PX</value>
 	</data>
+	<data name="DailyReportOTTitle" xml:space="preserve">
+		<value>OT</value>
+	</data>
+	<data name="AttendanceMasterEarly" xml:space="preserve">
+		<value>Early</value>
+	</data>
+	<data name="AttendanceMasterSumEarly" xml:space="preserve">
+		<value>Early</value>
+	</data>
+	<data name="AttendanceMasterSumEarlyHour" xml:space="preserve">
+		<value>Early Hour</value>
+	</data>
 </root>

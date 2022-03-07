@@ -462,4 +462,16 @@
 	<data name="ReportRemarkPX" xml:space="preserve">
 		<value>Thiếu giờ công</value>
 	</data>
+	<data name="DailyReportOTTitle" xml:space="preserve">
+		<value>Tăng ca</value>
+	</data>
+	<data name="AttendanceMasterEarly" xml:space="preserve">
+		<value>Sớm</value>
+	</data>
+	<data name="AttendanceMasterSumEarly" xml:space="preserve">
+		<value>Sớm</value>
+	</data>
+	<data name="AttendanceMasterSumEarlyHour" xml:space="preserve">
+		<value>Giờ đầu</value>
+	</data>
 </root>
