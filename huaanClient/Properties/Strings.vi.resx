@@ -466,12 +466,12 @@
 		<value>Tăng ca</value>
 	</data>
 	<data name="AttendanceMasterEarly" xml:space="preserve">
-		<value>Sớm</value>
+		<value>Số lần sớm</value>
 	</data>
 	<data name="AttendanceMasterSumEarly" xml:space="preserve">
-		<value>Sớm</value>
+		<value>Số lần sớm</value>
 	</data>
 	<data name="AttendanceMasterSumEarlyHour" xml:space="preserve">
-		<value>Giờ đầu</value>
+		<value>Giờ sớm</value>
 	</data>
 </root>
