@@ -177,17 +177,9 @@ namespace huaanClient
         /// </summary>
         public static void getinfoToMyDev()
         {
-            List<Mydeviceinfo> Mydevicelist = null;
-            string mydevice = GetData.getDeviceforMyDevice();
-            if (mydevice.Length > 2)
-            {
-                int IndexofA = mydevice.IndexOf("[");
-                int IndexofB = mydevice.IndexOf("]");
-                string Ru = mydevice.Substring(IndexofA, IndexofB - IndexofA + 1);
-
-                JavaScriptSerializer Serializer = new JavaScriptSerializer();
-                Mydevicelist = Serializer.Deserialize<List<Mydeviceinfo>>(Ru);
-            }
+            
+            var str = GetData.getDeviceforMyDevice();
+            var Mydevicelist = JsonConvert.DeserializeObject<List<Mydeviceinfo>>(str) ;
 
             if (Mydevicelist!=null)
             {
@@ -215,7 +207,7 @@ namespace huaanClient
                         var brandJson = Tools.GetBrandObjectInJson();
                         var brandObj = JObject.Parse(brandJson);
                         bool? autoCleanExpiredVisitor = (bool?)brandObj["autoCleanExpiredVisitor"];
-                        var cmd = UtilsJson.GetSettingObject(cam.DeviceName, autoCleanExpiredVisitor);
+                        var cmd = UtilsJson.GetSettingObject(d.DeviceName, autoCleanExpiredVisitor);
                         var json = JsonConvert.SerializeObject(cmd);
                         var _ = request(cam, json);
 
