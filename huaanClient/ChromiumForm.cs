@@ -665,14 +665,14 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             , rows7, rows8, rows9, rows10, rows11, rows12);
             return data;
         }
-        public string getStaffDataQuey(string name, string no, string qu_phone, string pageint, string limt,string dep)
+        public string getStaffDataQuey(string name, string no, string qu_phone, string pageint, string limt, string dep, string employeeTypeName)
         {
-            string data = GetData.getStaffData(name, no, qu_phone, pageint, limt,dep);
+            string data = GetData.getStaffData(name, no, qu_phone, pageint, limt, dep, employeeTypeName);
             return data;
         }
-        public string getStaffDataQueyforcount(string name, string no, string qu_phone,string dep)
+        public string getStaffDataQueyforcount(string name, string no, string qu_phone, string dep, string employeeTypeName)
         {
-            string data = GetData.getStaffDataforcount(name, no, qu_phone,dep);
+            string data = GetData.getStaffDataforcount(name, no, qu_phone, dep, employeeTypeName);
             return data;
         }
 

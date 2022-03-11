@@ -419,7 +419,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getStaffData(string name, string no, string qu_phone, string page, string limt,string dep)
+        public static string getStaffData(string name, string no, string qu_phone, string page, string limt,string dep, string employeeTypeName)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
@@ -462,6 +462,12 @@ namespace huaanClient
 
             }
 
+            if (!string.IsNullOrEmpty(employeeTypeName))
+            {
+                var names = string.Join(",", employeeTypeName.Split(',').Select(x=>$"'{x}'"));
+                st.Append($" em.Employetype_name in ({names}) AND");
+            }
+
             string commandText = st.ToString().Substring(0, st.ToString().Length - 3).ToString()
                + " ORDER BY staf.publish_time DESC LIMIT " + pageint + "," + limt;
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
@@ -481,7 +487,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getStaffDataforcount(string name, string no, string qu_phone,string dep)
+        public static string getStaffDataforcount(string name, string no, string qu_phone,string dep, string employeeTypeName)
         {
 
             StringBuilder st = new StringBuilder("SELECT COUNT(*) as count FROM staff staf LEFT JOIN department de ON de.id=staf.department_id LEFT JOIN Employetype em ON em.id = staf.Employetype_id WHERE 1=1  AND");
@@ -517,6 +523,12 @@ namespace huaanClient
                     string dtsName = string.Join(",", split2.Select(x => $"'{x}'"));
                     st.Append($" staf.department_id in ({dtsName}) AND");
                 }
+            }
+
+            if (!string.IsNullOrEmpty(employeeTypeName))
+            {
+                var names = string.Join(",", employeeTypeName.Split(',').Select(x => $"'{x}'"));
+                st.Append($" em.Employetype_name in ({names}) AND");
             }
 
             string commandText = st.ToString().Substring(0, st.ToString().Length - 3).ToString();
