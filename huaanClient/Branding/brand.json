@@ -13,5 +13,63 @@
       "path": "notepad.exe",
       "visible": false
     }
-  ]
+  ],
+  "menus": {
+    "Home": {
+      "visible": true,
+      "children": {
+        "Index": true
+      }
+    },
+    "Personnel": {
+      "visible": true,
+      "children": {
+        "PersonnelIndex": true,
+        "Visitor": true,
+        "Issue": true,
+        "DataSync": true
+      }
+    },
+    "Device": {
+      "visible": true,
+      "children": {
+        "DeviceIndex": true,
+        "Online": true
+      }
+    },
+    "Snapshot": {
+      "visible": true,
+      "children": {
+        "Record": true
+      }
+    },
+    "Attendance": {
+      "visible": true,
+      "children": {
+        "Everyday": true,
+        "Monthly": true
+      }
+    },
+    "AttendanceSet": {
+      "visible": true,
+      "children": {
+        "Classes": true,
+        "Group": true
+      }
+    },
+    "AccessControl": {
+      "visible": true,
+      "children": {
+        "Rules": true,
+        "Distribute": true,
+        "Tasks": true
+      },
+      "System": {
+        "Department": true,
+        "Classification": true,
+        "Parameter": true
+      }
+    }
+
+  }
 }
