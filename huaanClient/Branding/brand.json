@@ -63,8 +63,11 @@
         "Rules": true,
         "Distribute": true,
         "Tasks": true
-      },
-      "System": {
+      }
+    },
+    "System": {
+      "visible": true,
+      "children": {
         "Department": true,
         "Classification": true,
         "Parameter": true
