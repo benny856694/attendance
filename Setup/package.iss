@@ -14,6 +14,7 @@
 AppId={{1A3868D7-49C1-4F4D-A0B2-22535C75DF5B}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
+MinVersion=6.0
 ;AppVerName={#MyAppName} {#MyAppVersion}
 DefaultGroupName={#MyAppName}
 AppPublisher={#MyAppPublisher}
