@@ -73,6 +73,9 @@
         "Parameter": true
       }
     }
-
+  },
+  "copyData": {
+    "enabled": false,
+    "connectionString": "Persist Security Info=True;User ID=sa;Password=123;Initial Catalog=HAData;Data Source=127.0.0.1,8829"
   }
 }

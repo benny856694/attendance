@@ -1,4 +1,7 @@
-﻿using DBUtility.SQLite;
+﻿using Dapper;
+using Dapper.Contrib.Extensions;
+using DBUtility.SQLite;
+using huaanClient.Database;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -118,6 +121,39 @@ namespace huaanClient
             new SQLiteParameter("@trip_infor", CaptureData.trip_infor),
             };
             SQLiteHelper.ExecSQL(connectionString, strSql.ToString(), parameters);
+            //
+            if (ApplicationData.CopyData)
+            {
+                using (var conn = new System.Data.SqlClient.SqlConnection(ApplicationData.sqlServerConnectionString))
+                {
+                    var capture = new Database.Capture_Data
+                    {
+                        sequnce = CaptureData.sequnce.ToString(),
+                        device_id = CaptureData.device_id,
+                        addr_name = DeviceName,
+                        time = CaptureData.time,
+                        match_status = CaptureData.match_status.ToString(),
+                        person_id = CaptureData.person_id,
+                        person_name = CaptureData.person_name,
+                        hatColor = CaptureData.hatColor.ToIntString(),
+                        wg_card_id = wg_card_id,
+                        match_failed_reson = CaptureData.match_failed_reson.ToIntString(),
+                        exist_mask = CaptureData.exist_mask ? "1" : "0",
+                        body_temp = CaptureData.body_temp.ToString(),
+                        device_sn = DeviceNo,
+                        idcard_number = CaptureData.idcard_number,
+                        idcard_name = CaptureData.idcard_name,
+                        closeup = CaptureData.closeup,
+                        match_type = CaptureData.match_type.ToIntString(),
+                        QRcodestatus = CaptureData.customer_text,
+                        QRcode = CaptureData.QRcode,
+                        trip_infor = CaptureData.trip_infor
+                    };
+                    conn.Insert(capture);
+                }
+                
+
+            }
         }
         /// <summary>
         /// 计算字符串中子串出现的次数

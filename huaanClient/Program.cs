@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Dapper;
 
 namespace huaanClient
 {
@@ -44,6 +45,10 @@ namespace huaanClient
             Application.SetCompatibleTextRenderingDefault(false);
             LoginNew loginNew = new LoginNew();
             loginNew.ShowDialog();
+
+            //init dapper
+            SqlMapper.RemoveTypeMap(typeof(DateTime));
+            SqlMapper.AddTypeHandler(new DateTimeHandler());
 
             //LoginForm f = new LoginForm();
             //f.ShowDialog();
