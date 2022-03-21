@@ -78,7 +78,7 @@ namespace huaanClient
                     if (_copyData == null)
                     {
                         var json = Tools.GetBrandObjectInJson();
-                        var obj = JObject.Parse(json);
+                        var obj = JObject.Parse(json)["copyData"];
                         _copyData = obj["enabled"].Value<bool>();
                         sqlServerConnectionString = obj["connectionString"].Value<string>();
                     }
