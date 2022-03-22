@@ -350,6 +350,7 @@
     <Compile Include="Database\AttendanceGroup.cs" />
     <Compile Include="Database\Capture_Data.cs" />
     <Compile Include="Database\AccessRule.cs" />
+    <Compile Include="Database\DateTimeHandler.cs" />
     <Compile Include="Database\DistributionItemType.cs" />
     <Compile Include="Database\Extensions.cs" />
     <Compile Include="Database\GroupType.cs" />

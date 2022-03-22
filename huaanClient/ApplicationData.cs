@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -63,6 +64,30 @@ namespace huaanClient
         public static bool isrealtime { get; set; }
 
         private static string faceRASystemToolUrl;
+
+        private static object _locker = new object();
+        private static bool? _copyData;
+        public static string sqlServerConnectionString;
+
+        public static bool CopyData
+        {
+            get
+            {
+                lock (_locker)
+                {
+                    if (_copyData == null)
+                    {
+                        var json = Tools.GetBrandObjectInJson();
+                        var obj = JObject.Parse(json)["copyData"];
+                        _copyData = obj["enabled"].Value<bool>();
+                        sqlServerConnectionString = obj["connectionString"].Value<string>();
+                    }
+                    return _copyData.Value;
+                }
+            }
+        }
+
+
         public static string FaceRASystemToolUrl
         {
             get

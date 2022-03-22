@@ -14,6 +14,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Dapper;
+using System.Diagnostics;
 
 namespace huaanClient
 {
@@ -38,12 +40,30 @@ namespace huaanClient
                 return;
             }
 
+            //检查sqlserver是否在运行
+            if (ApplicationData.CopyData)
+            {
+                var p = Process.GetProcessesByName("SQL2000");
+                if (p.Length == 0)
+                {
+                    MessageBox.Show(
+                        "已经打开了复制数据到SqlServer功能, 但是SqlServer没有运行, 请确保SqlServer已经启动, 本程序即将退出。",
+                        null, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
 
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             LoginNew loginNew = new LoginNew();
             loginNew.ShowDialog();
+
+            //init dapper
+            SqlMapper.RemoveTypeMap(typeof(DateTime));
+            SqlMapper.AddTypeHandler(new DateTimeHandler());
 
             //LoginForm f = new LoginForm();
             //f.ShowDialog();

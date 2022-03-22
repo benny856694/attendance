@@ -24,5 +24,12 @@ namespace huaanClient.Database
             var lt2 = new LocalTime(int.Parse(time2Segments[0]), int.Parse(time2Segments[1]));
             return (lt1, lt2);
         }
+
+        public static string ToIntString(this Enum v)
+        {
+            var i = Convert.ToInt32(v);
+            return i.ToString();
+        }
+
     }
 }
