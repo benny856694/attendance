@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -78,9 +79,9 @@ namespace huaanClient
                     if (_copyData == null)
                     {
                         var json = Tools.GetBrandObjectInJson();
-                        var obj = JObject.Parse(json)["copyData"];
-                        _copyData = obj["enabled"].Value<bool>();
-                        sqlServerConnectionString = obj["connectionString"].Value<string>();
+                        var copyData = JsonConvert.DeserializeObject<dynamic>(json).copyData;
+                        _copyData = copyData.enabled;
+                        sqlServerConnectionString = copyData.connectionString;
                     }
                     return _copyData.Value;
                 }
