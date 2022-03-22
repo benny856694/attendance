@@ -20,6 +20,7 @@ namespace huaanClient
 {
     class HandleCaptureData
     {
+        private static NLog.Logger NLogger = NLog.LogManager.GetCurrentClassLogger();
         public static void setCaptureDataToDatabase(CaptureDataEventArgs CaptureData, string DeviceNo,string DeviceName)
         {
             if (string.IsNullOrEmpty(DeviceNo))
@@ -31,9 +32,9 @@ namespace huaanClient
                 DeviceName = CaptureData.addr_name;
             }
 
-            string time = CaptureData.time.ToString("yyyy-MM-dd") + " " +CaptureData.time.TimeOfDay;
+            string time = CaptureData.time.ToString("yyyy-MM-dd") + " " + CaptureData.time.TimeOfDay;
             //先根据设备编号和编号去查询是否重复time
-            string spl = "SELECT COUNT(*) as len FROM Capture_Data WHERE time=='"+ time.TrimEnd('0') + "' AND device_sn='" + DeviceNo.Trim() + "'";
+            string spl = "SELECT COUNT(*) as len FROM Capture_Data WHERE time=='" + time.TrimEnd('0') + "' AND device_sn='" + DeviceNo.Trim() + "'";
             string quIPsr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, spl);
             if (!string.IsNullOrEmpty(quIPsr))
             {
@@ -58,7 +59,7 @@ namespace huaanClient
             }
             string wg_card_id = string.Empty;
             //获取对应人员的 韦根卡号
-            if (!string.IsNullOrEmpty(CaptureData.person_id) )
+            if (!string.IsNullOrEmpty(CaptureData.person_id))
             {
                 string wg_card_iddata = GetData.getwg_card_id(CaptureData.person_id.Trim());
                 JArray jo = (JArray)JsonConvert.DeserializeObject(wg_card_iddata);
@@ -94,7 +95,7 @@ namespace huaanClient
                 else
                 {
                     CaptureData.person_name = "";
-                }  
+                }
             }
             SQLiteParameter[] parameters = {
             new SQLiteParameter("@sequnce", CaptureData.sequnce),
@@ -121,7 +122,19 @@ namespace huaanClient
             new SQLiteParameter("@trip_infor", CaptureData.trip_infor),
             };
             SQLiteHelper.ExecSQL(connectionString, strSql.ToString(), parameters);
-            //
+            //保存抓拍数据副本给客户使用
+            try
+            {
+                SaveDataCopy(CaptureData, DeviceNo, DeviceName, wg_card_id);
+            }
+            catch (Exception ex)
+            {
+                NLogger.Error(ex, "保存抓拍数据副本到sqlserver异常");
+            }
+        }
+
+        private static void SaveDataCopy(CaptureDataEventArgs CaptureData, string DeviceNo, string DeviceName, string wg_card_id)
+        {
             if (ApplicationData.CopyData)
             {
                 using (var conn = new System.Data.SqlClient.SqlConnection(ApplicationData.sqlServerConnectionString))
@@ -151,10 +164,9 @@ namespace huaanClient
                     };
                     conn.Insert(capture);
                 }
-                
-
             }
         }
+
         /// <summary>
         /// 计算字符串中子串出现的次数
         /// </summary>
