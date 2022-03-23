@@ -14,6 +14,7 @@ namespace huaanClient.Database
 		private static string datetimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
 		public override DateTime Parse(object value)
 		{
+			if (value is DateTime) return (DateTime)value;
 			return DateTime.ParseExact(value as string, datetimeFormat, CultureInfo.InvariantCulture);
 		}
 
