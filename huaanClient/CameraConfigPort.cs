@@ -1493,8 +1493,11 @@ namespace huaanClient
                 CaptureData?.Invoke(this, e);
                 try
                 {
-                    HandleCaptureData.setCaptureDataToDatabase(e, "","");
-                    ApplicationData.isrealtime = true;
+                    if(Properties.Settings.Default.saveRealTimeCaptureData)
+                    {
+                        HandleCaptureData.setCaptureDataToDatabase(e, "", "");
+                        ApplicationData.isrealtime = true;
+                    }
                 }
                 catch (Exception x){ }
                 

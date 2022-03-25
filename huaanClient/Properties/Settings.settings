@@ -11,5 +11,8 @@
     <Setting Name="resizeImageWidthTo" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">600</Value>
     </Setting>
+    <Setting Name="saveRealTimeCaptureData" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

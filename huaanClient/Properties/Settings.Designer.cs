@@ -49,5 +49,14 @@ namespace huaanClient.Properties {
                 return ((int)(this["resizeImageWidthTo"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool saveRealTimeCaptureData {
+            get {
+                return ((bool)(this["saveRealTimeCaptureData"]));
+            }
+        }
     }
 }
