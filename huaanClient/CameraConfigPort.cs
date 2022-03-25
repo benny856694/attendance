@@ -1281,226 +1281,225 @@ namespace huaanClient
             }
             if (msgType == 5 && CaptureData != default)
             {
-                CaptureDataEventArgs e = new CaptureDataEventArgs();
-                int idx = 0;
-                e.sequnce = BitConverter.ToUInt32(_v, idx);
-                idx += 4;
-                e.device_id = Encoding.UTF8.GetString(_v, idx, 32).TrimEnd('\0');
-                idx += 32;
-                e.addr_id = Encoding.UTF8.GetString(_v, idx, 32).TrimEnd('\0');
-                idx += 32;
-                e.addr_name = Encoding.UTF8.GetString(_v, idx, 96).TrimEnd('\0');
-                idx += 96;
-                uint tv_sec = BitConverter.ToUInt32(_v, idx);
-                idx += 4;
-                uint tv_usec = BitConverter.ToUInt32(_v, idx);
-                idx += 4;
-                e.time = ConvertToDateTime(tv_sec, tv_usec);
-                idx += 2; // is_realtime
-                e.match_status = BitConverter.ToInt16(_v, idx);
-                idx += 2;
-                if(e.match_status > 0)
+                if(Properties.Settings.Default.receiveRealTimeData)
                 {
-                    e.person_id = Encoding.UTF8.GetString(_v, idx, 20).TrimEnd('\0');
-                    idx += 20;
-                    e.person_name = Encoding.UTF8.GetString(_v, idx, 16).TrimEnd('\0');
-                    idx += 16;
-                    e.person_role = (PersonRole)BitConverter.ToInt32(_v, idx);
+                    CaptureDataEventArgs e = new CaptureDataEventArgs();
+                    int idx = 0;
+                    e.sequnce = BitConverter.ToUInt32(_v, idx);
                     idx += 4;
-                }
-                int exist_overall = BitConverter.ToInt32(_v, idx);
-                idx += 4;
-                if(exist_overall > 0)
-                {
-                    idx += 4;//format
-                    e.overall = new byte[BitConverter.ToInt32(_v, idx)];
+                    e.device_id = Encoding.UTF8.GetString(_v, idx, 32).TrimEnd('\0');
+                    idx += 32;
+                    e.addr_id = Encoding.UTF8.GetString(_v, idx, 32).TrimEnd('\0');
+                    idx += 32;
+                    e.addr_name = Encoding.UTF8.GetString(_v, idx, 96).TrimEnd('\0');
+                    idx += 96;
+                    uint tv_sec = BitConverter.ToUInt32(_v, idx);
                     idx += 4;
-                    e.face_region_overall = new Rectangle();
-                    e.face_region_overall.X = BitConverter.ToUInt16(_v, idx);
-                    idx += 2;
-                    e.face_region_overall.Y = BitConverter.ToUInt16(_v, idx);
-                    idx += 2;
-                    e.face_region_overall.Width = BitConverter.ToUInt16(_v, idx);
-                    idx += 2;
-                    e.face_region_overall.Height = BitConverter.ToUInt16(_v, idx);
-                    idx += 2;
-                }
-                int exist_closeup = BitConverter.ToInt32(_v, idx);
-                idx += 4;
-                if(exist_closeup > 0)
-                {
-                    idx += 4;//format
-                    e._closeup = new byte[BitConverter.ToInt32(_v, idx)];
+                    uint tv_usec = BitConverter.ToUInt32(_v, idx);
                     idx += 4;
-                    e.face_region_closeup = new Rectangle();
-                    e.face_region_closeup.X = BitConverter.ToUInt16(_v, idx);
+                    e.time = ConvertToDateTime(tv_sec, tv_usec);
+                    idx += 2; // is_realtime
+                    e.match_status = BitConverter.ToInt16(_v, idx);
                     idx += 2;
-                    e.face_region_closeup.Y = BitConverter.ToUInt16(_v, idx);
-                    idx += 2;
-                    e.face_region_closeup.Width = BitConverter.ToUInt16(_v, idx);
-                    idx += 2;
-                    e.face_region_closeup.Height = BitConverter.ToUInt16(_v, idx);
-                    idx += 2;
-                }
-                idx += 4;//exist_video
-                try
-                {
-                    idx += 8;//性别 年龄 表情 肤色 q值 注册来源 有效属性 活体标记
-                    e.hatColor = (HatColor)_v[idx];
-                    idx += 1;
-                    idx += 2;//角度
-                    idx += 1;//加密
-                    e.match_type = (MatchMode)BitConverter.ToUInt32(_v, idx);
-                    idx += 4;
-                    e.wg_card_id = BitConverter.ToUInt32(_v, idx);
-                    idx += 4;
-                    e.long_card_id = BitConverter.ToUInt64(_v, idx);
-                    idx += 8;
-                    idx += 36;//gps
-                    e.match_failed_reson = (MatchFailedReason)BitConverter.ToInt32(_v, idx);
-                    idx += 4;
-                    byte _tmp_byte = _v[idx];
-                    if(_tmp_byte == 1)
+                    if (e.match_status > 0)
                     {
-                        e.QRcodestatus = "0";
+                        e.person_id = Encoding.UTF8.GetString(_v, idx, 20).TrimEnd('\0');
+                        idx += 20;
+                        e.person_name = Encoding.UTF8.GetString(_v, idx, 16).TrimEnd('\0');
+                        idx += 16;
+                        e.person_role = (PersonRole)BitConverter.ToInt32(_v, idx);
+                        idx += 4;
                     }
-                    else if (_tmp_byte == 2)
-                    {
-                        e.QRcodestatus = "2";
-                    }
-                    else if (_tmp_byte == 3)
-                    {
-                        e.QRcodestatus = "1";
-                    }
-                    else
-                    {
-                        e.QRcodestatus = "";
-                    }
-                    idx += 55;//resv
-                    e.exist_mask = _v[idx] == 1;
-                    idx += 1;
-                    e.body_temp = BitConverter.ToSingle(_v, idx);
+                    int exist_overall = BitConverter.ToInt32(_v, idx);
                     idx += 4;
                     if (exist_overall > 0)
-                    {
-                        Array.Copy(_v, idx, e.overall, 0, e.overall.Length);
-                        idx += e.overall.Length;
-                    }
-                    if (exist_closeup > 0)
-                    {
-                        Array.Copy(_v, idx, e._closeup, 0, e._closeup.Length);
-                        idx += e._closeup.Length;
-                    }
-                    int feature_size = BitConverter.ToInt32(_v, idx);
-                    idx += 4;
-                    idx += 4 * feature_size;// 特征数据
-                    int face_img_len = BitConverter.ToInt32(_v, idx);
-                    idx += 4;
-                    if (face_img_len > 0)
                     {
                         idx += 4;//format
-                        idx += face_img_len;
+                        e.overall = new byte[BitConverter.ToInt32(_v, idx)];
+                        idx += 4;
+                        e.face_region_overall = new Rectangle();
+                        e.face_region_overall.X = BitConverter.ToUInt16(_v, idx);
+                        idx += 2;
+                        e.face_region_overall.Y = BitConverter.ToUInt16(_v, idx);
+                        idx += 2;
+                        e.face_region_overall.Width = BitConverter.ToUInt16(_v, idx);
+                        idx += 2;
+                        e.face_region_overall.Height = BitConverter.ToUInt16(_v, idx);
+                        idx += 2;
                     }
-                    if (exist_overall > 0)
-                    {
-                        idx += 20; // 关键点
-                    }
+                    int exist_closeup = BitConverter.ToInt32(_v, idx);
+                    idx += 4;
                     if (exist_closeup > 0)
                     {
-                        idx += 20; //关键点
+                        idx += 4;//format
+                        e._closeup = new byte[BitConverter.ToInt32(_v, idx)];
+                        idx += 4;
+                        e.face_region_closeup = new Rectangle();
+                        e.face_region_closeup.X = BitConverter.ToUInt16(_v, idx);
+                        idx += 2;
+                        e.face_region_closeup.Y = BitConverter.ToUInt16(_v, idx);
+                        idx += 2;
+                        e.face_region_closeup.Width = BitConverter.ToUInt16(_v, idx);
+                        idx += 2;
+                        e.face_region_closeup.Height = BitConverter.ToUInt16(_v, idx);
+                        idx += 2;
                     }
-                    e.device_sn = Encoding.UTF8.GetString(_v, idx, 32).TrimEnd('\0');
-                    idx += 32;
-                    int exist_idard = BitConverter.ToInt32(_v, idx);
-                    idx += 4;
-                    if (exist_idard > 0)
-                    {
-                        e.idcard_number = Encoding.UTF8.GetString(_v, idx, 36).TrimEnd('\0');
-                        idx += 36;
-                        e.idcard_name = Encoding.UTF8.GetString(_v, idx, 43).TrimEnd('\0');
-                        idx += 43;
-                        e.idcard_birth = Encoding.UTF8.GetString(_v, idx, 17).TrimEnd('\0');
-                        idx += 17;
-                        e.idcard_sex = _v[idx];
-                        idx += 1;
-                        e.idcard_national = Encoding.UTF8.GetString(_v, idx, 19).TrimEnd('\0');
-                        idx += 19;
-                        e.idcard_residence_address = Encoding.UTF8.GetString(_v, idx, 103).TrimEnd('\0');
-                        idx += 103;
-                        e.idcard_organ_issue = Encoding.UTF8.GetString(_v, idx, 43).TrimEnd('\0');
-                        idx += 43;
-                        e.idcard_valid_date_start = Encoding.UTF8.GetString(_v, idx, 17).TrimEnd('\0');
-                        idx += 17;
-                        e.idcard_valid_date_end = Encoding.UTF8.GetString(_v, idx, 17).TrimEnd('\0');
-                        idx += 17;
-                    }
-                    if (e.match_status > 0)
-                    {
-                        e.customer_text = Encoding.UTF8.GetString(_v, idx, 68).TrimEnd('\0');
-                        idx += 68;
-                    }
-                    int exist_qr = BitConverter.ToInt32(_v, idx);
-                    idx += 4;
-                    if (exist_qr == 1)
-                    {
-                        idx += 32;//type
-                        e.qr_code = Encoding.UTF8.GetString(_v, idx, 1024).TrimEnd('\0');
-                        idx += 1024;
-                    }
-                    if (e.match_status > 0)
-                    {
-                        e.person_name_ext = Encoding.UTF8.GetString(_v, idx, 64).TrimEnd('\0');
-                        idx += 130; 
-                    }
+                    idx += 4;//exist_video
                     try
                     {
-                        //区分健康码版本 取行程信息 普通版本无行程信息
-                        if (_v.Length - idx > 511)
+                        idx += 8;//性别 年龄 表情 肤色 q值 注册来源 有效属性 活体标记
+                        e.hatColor = (HatColor)_v[idx];
+                        idx += 1;
+                        idx += 2;//角度
+                        idx += 1;//加密
+                        e.match_type = (MatchMode)BitConverter.ToUInt32(_v, idx);
+                        idx += 4;
+                        e.wg_card_id = BitConverter.ToUInt32(_v, idx);
+                        idx += 4;
+                        e.long_card_id = BitConverter.ToUInt64(_v, idx);
+                        idx += 8;
+                        idx += 36;//gps
+                        e.match_failed_reson = (MatchFailedReason)BitConverter.ToInt32(_v, idx);
+                        idx += 4;
+                        byte _tmp_byte = _v[idx];
+                        if (_tmp_byte == 1)
                         {
-                            e.trip_infor = Encoding.UTF8.GetString(_v, idx, 512).TrimEnd('\0').Trim();
+                            e.QRcodestatus = "0";
                         }
-                        //e.trip_infor = Encoding.UTF8.GetString(_v, idx, 512).TrimEnd('\0');
-                    }
-                    catch { }
-                }
-                catch(IndexOutOfRangeException)
-                {
-
-                }
-                if (e._closeup != null)
-                {
-                    string imgename = MD5Util.MD5Encrypt32(e._closeup);
-                    string fn = $@"{ApplicationData.FaceRASystemToolUrl}\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename}.jpg";
-                    //Console.WriteLine("22222");
-                    e.closeup = fn;
-
-                    byte[] bytes = e._closeup;
-                    e._closeup = null;
-                    Task.Factory.StartNew(() =>
-                    {
+                        else if (_tmp_byte == 2)
+                        {
+                            e.QRcodestatus = "2";
+                        }
+                        else if (_tmp_byte == 3)
+                        {
+                            e.QRcodestatus = "1";
+                        }
+                        else
+                        {
+                            e.QRcodestatus = "";
+                        }
+                        idx += 55;//resv
+                        e.exist_mask = _v[idx] == 1;
+                        idx += 1;
+                        e.body_temp = BitConverter.ToSingle(_v, idx);
+                        idx += 4;
+                        if (exist_overall > 0)
+                        {
+                            Array.Copy(_v, idx, e.overall, 0, e.overall.Length);
+                            idx += e.overall.Length;
+                        }
+                        if (exist_closeup > 0)
+                        {
+                            Array.Copy(_v, idx, e._closeup, 0, e._closeup.Length);
+                            idx += e._closeup.Length;
+                        }
+                        int feature_size = BitConverter.ToInt32(_v, idx);
+                        idx += 4;
+                        idx += 4 * feature_size;// 特征数据
+                        int face_img_len = BitConverter.ToInt32(_v, idx);
+                        idx += 4;
+                        if (face_img_len > 0)
+                        {
+                            idx += 4;//format
+                            idx += face_img_len;
+                        }
+                        if (exist_overall > 0)
+                        {
+                            idx += 20; // 关键点
+                        }
+                        if (exist_closeup > 0)
+                        {
+                            idx += 20; //关键点
+                        }
+                        e.device_sn = Encoding.UTF8.GetString(_v, idx, 32).TrimEnd('\0');
+                        idx += 32;
+                        int exist_idard = BitConverter.ToInt32(_v, idx);
+                        idx += 4;
+                        if (exist_idard > 0)
+                        {
+                            e.idcard_number = Encoding.UTF8.GetString(_v, idx, 36).TrimEnd('\0');
+                            idx += 36;
+                            e.idcard_name = Encoding.UTF8.GetString(_v, idx, 43).TrimEnd('\0');
+                            idx += 43;
+                            e.idcard_birth = Encoding.UTF8.GetString(_v, idx, 17).TrimEnd('\0');
+                            idx += 17;
+                            e.idcard_sex = _v[idx];
+                            idx += 1;
+                            e.idcard_national = Encoding.UTF8.GetString(_v, idx, 19).TrimEnd('\0');
+                            idx += 19;
+                            e.idcard_residence_address = Encoding.UTF8.GetString(_v, idx, 103).TrimEnd('\0');
+                            idx += 103;
+                            e.idcard_organ_issue = Encoding.UTF8.GetString(_v, idx, 43).TrimEnd('\0');
+                            idx += 43;
+                            e.idcard_valid_date_start = Encoding.UTF8.GetString(_v, idx, 17).TrimEnd('\0');
+                            idx += 17;
+                            e.idcard_valid_date_end = Encoding.UTF8.GetString(_v, idx, 17).TrimEnd('\0');
+                            idx += 17;
+                        }
+                        if (e.match_status > 0)
+                        {
+                            e.customer_text = Encoding.UTF8.GetString(_v, idx, 68).TrimEnd('\0');
+                            idx += 68;
+                        }
+                        int exist_qr = BitConverter.ToInt32(_v, idx);
+                        idx += 4;
+                        if (exist_qr == 1)
+                        {
+                            idx += 32;//type
+                            e.qr_code = Encoding.UTF8.GetString(_v, idx, 1024).TrimEnd('\0');
+                            idx += 1024;
+                        }
+                        if (e.match_status > 0)
+                        {
+                            e.person_name_ext = Encoding.UTF8.GetString(_v, idx, 64).TrimEnd('\0');
+                            idx += 130;
+                        }
                         try
                         {
-                            Directory.CreateDirectory(Path.GetDirectoryName(fn));
-                            File.WriteAllBytes(fn, bytes);
+                            //区分健康码版本 取行程信息 普通版本无行程信息
+                            if (_v.Length - idx > 511)
+                            {
+                                e.trip_infor = Encoding.UTF8.GetString(_v, idx, 512).TrimEnd('\0').Trim();
+                            }
+                            //e.trip_infor = Encoding.UTF8.GetString(_v, idx, 512).TrimEnd('\0');
+                        }
+                        catch { }
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
 
-                        }
-                        catch (IOException ex)
+                    }
+                    if (e._closeup != null)
+                    {
+                        string imgename = MD5Util.MD5Encrypt32(e._closeup);
+                        string fn = $@"{ApplicationData.FaceRASystemToolUrl}\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename}.jpg";
+                        //Console.WriteLine("22222");
+                        e.closeup = fn;
+
+                        byte[] bytes = e._closeup;
+                        e._closeup = null;
+                        Task.Factory.StartNew(() =>
                         {
-                            Logger.Error(ex, "error write image file");
-                        }
-                    });
-                }
-                CaptureData?.Invoke(this, e);
-                try
-                {
-                    if(Properties.Settings.Default.saveRealTimeCaptureData)
+                            try
+                            {
+                                Directory.CreateDirectory(Path.GetDirectoryName(fn));
+                                File.WriteAllBytes(fn, bytes);
+
+                            }
+                            catch (IOException ex)
+                            {
+                                Logger.Error(ex, "error write image file");
+                            }
+                        });
+                    }
+                    CaptureData?.Invoke(this, e);
+                    try
                     {
                         HandleCaptureData.setCaptureDataToDatabase(e, "", "");
                         ApplicationData.isrealtime = true;
                     }
+                    catch (Exception x) { }
                 }
-                catch (Exception x){ }
-                
             }
             if(msgType == 210)
             {

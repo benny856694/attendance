@@ -53,9 +53,9 @@ namespace huaanClient.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool saveRealTimeCaptureData {
+        public bool receiveRealTimeData {
             get {
-                return ((bool)(this["saveRealTimeCaptureData"]));
+                return ((bool)(this["receiveRealTimeData"]));
             }
         }
     }
