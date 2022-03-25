@@ -190,6 +190,12 @@ namespace huaanClient
             }
             return fullPath;
         }
+
+
+        public static string GetReadme()
+        {
+            return File.ReadAllText("README.md");
+        }
         
     }
 }
