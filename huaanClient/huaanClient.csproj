@@ -475,6 +475,10 @@
     <EmbeddedResource Include="Controls\MasterControl.resx">
       <DependentUpon>MasterControl.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="..\README.md">
+      <Link>README.md</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

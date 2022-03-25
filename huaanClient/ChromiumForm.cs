@@ -1999,6 +1999,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             }
             
         }
+
+        public string GetReadme()
+        {
+            return Tools.GetReadme();
+        }
     }
 
     class KeyboardHandler : IKeyboardHandler
