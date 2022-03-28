@@ -79,11 +79,24 @@ namespace huaanClient
         /// </summary>
         public string master_buildtime { get; set; }
 
-        private volatile bool m_isconnected;
+        private object _lockIsConnected = new object();
+        private volatile bool _isconnected;
         /// <summary>
         /// 与设备的网络连接是否正常
         /// </summary>
-        public bool IsConnected { get => m_isconnected; }
+        public bool IsConnected
+        {
+            get
+            {
+                lock(_lockIsConnected)
+                    return _isconnected;
+            }
+            set
+            {
+                lock (_lockIsConnected)
+                    _isconnected = value;
+            }
+        }
 
         private object reconnectLocker = new object();
         private Timer reconnectTimer;
@@ -104,8 +117,8 @@ namespace huaanClient
             reconnectTimer.Interval = 15 * 1000;
             reconnectTimer.Elapsed += ReconnectTimer_Elapsed; 
             reconnectTimer.Start();
-            m_isconnected = tlv.Connect();
-            if (m_isconnected)
+            IsConnected = tlv.Connect();
+            if (IsConnected)
             {
                 SendAuth();
                 //取回设备版本
@@ -134,26 +147,26 @@ namespace huaanClient
                 
             }
 
-            return m_isconnected;
+            return IsConnected;
         }
 
         private void Tlv_Disconnected(TLVClient sender)
         {
-            m_isconnected = false;
+            IsConnected = false;
         }
 
         private void ReconnectTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             lock (reconnectLocker)
             {
-                if (needReconnect && m_isconnected == false)
+                if (needReconnect && IsConnected == false)
                 {
                     tlv?.DisConnect();
                     tlv = new TLVClient(IP, 9527);
                     tlv.MessageReceived += Tlv_MessageReceived;
                     tlv.Disconnected += Tlv_Disconnected;
-                    m_isconnected = tlv.Connect();
-                    if (m_isconnected) SendAuth();
+                    IsConnected = tlv.Connect();
+                    if (IsConnected) SendAuth();
                 }
             }
         }
