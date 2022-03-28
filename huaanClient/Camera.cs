@@ -179,7 +179,7 @@ namespace huaanClient
                     Iplist iplist = new Iplist();
                     // j["IP"].ToString().Trim()+ j["DeviceName"].ToString().Trim()
 
-                    if (Database.Deviceinfo.MyDevicelist.Find(a=>a.IP== j["IP"].ToString().Trim()).IsConnected)
+                    if (Database.Deviceinfo.GetByIp(j["IP"].Value<string>().Trim())?.IsConnected == true)
                     {
                         iplist.Controls["Iplabel"].Text = j["IP"].ToString().Trim();
 
