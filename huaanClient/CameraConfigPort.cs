@@ -159,6 +159,7 @@ namespace huaanClient
         {
             lock (reconnectLocker)
             {
+                lock(_lockIsConnected)
                 if (needReconnect && IsConnected == false)
                 {
                     tlv?.DisConnect();
