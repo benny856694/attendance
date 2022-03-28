@@ -117,8 +117,9 @@ namespace huaanClient
             reconnectTimer.Interval = 15 * 1000;
             reconnectTimer.Elapsed += ReconnectTimer_Elapsed; 
             reconnectTimer.Start();
-            IsConnected = tlv.Connect();
-            if (IsConnected)
+            var c = lv.Connect();
+            IsConnected = c;
+            if (c)
             {
                 SendAuth();
                 //取回设备版本
