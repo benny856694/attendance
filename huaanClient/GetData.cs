@@ -546,7 +546,7 @@ namespace huaanClient
         }
         public static string getDeviceDiscover()
         {
-            List<CameraConfigPort> Devicelistdata = Deviceinfo.MyDevicelist;
+            var Devicelistdata = Deviceinfo.GetAllMyDevices();
             string DevicelistdataJsonStr = JsonConvert.SerializeObject(Devicelistdata);
 
             return DevicelistdataJsonStr;
@@ -670,7 +670,7 @@ namespace huaanClient
                 int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
                 if (re == 1)
                 {
-                    Deviceinfo.MyDevicelist.RemoveAll(c => c.IP == oldIp.Trim());
+                    Deviceinfo.RemoveAll(c => c.IP == oldIp.Trim());
                     obj["result"] = 2;
                     obj["data"] = Strings.SaveSuccess;
                 }
@@ -701,7 +701,7 @@ namespace huaanClient
                 int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
                 if (re >= 0)
                 {
-                    Deviceinfo.MyDevicelist.RemoveAll(c => c.IP == IP);
+                    Deviceinfo.RemoveAll(c => c.IP == IP);
                     result = true;
                 }
                 if (d != null)
@@ -719,10 +719,10 @@ namespace huaanClient
         internal static int EmptyDeviceByAddr(string addr_name)
         {
             //通过addr_name获取相机
-            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceName == addr_name);
+            var CameraConfigPortlist = Deviceinfo.GetByAddrName(addr_name);
             string deleteJson = string.Format(UtilsJson.deleteJson3);
             //判断相机是否在线，在线则清空人脸库
-            if (CameraConfigPortlist.IsConnected)
+            if (CameraConfigPortlist?.IsConnected == true)
             {
                 var restr = GetDevinfo.request(CameraConfigPortlist, deleteJson);
                 JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
@@ -1456,7 +1456,7 @@ namespace huaanClient
                 var ipAddress = m.ipAddress;
                 var mjson = JObject.FromObject(m);
                 //通过IP找到这个设备
-                CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ipAddress);
+                CameraConfigPort CameraConfigPortlist = Deviceinfo.GetByIp(ipAddress);
                 //通过这个设备查出平台
                 mjson["platForm"] = CameraConfigPortlist?.platform;
                 mjson["master_buildtime"] = CameraConfigPortlist?.master_buildtime;
@@ -1469,8 +1469,8 @@ namespace huaanClient
         internal static bool deleteDataSynRealTime(string personid,string device_sn)
         {
             string deleteJson = string.Format(UtilsJson.deleteJson2,personid);
-            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceNo == device_sn);
-            if (CameraConfigPortlist.IsConnected)
+            var CameraConfigPortlist = Deviceinfo.GetByDeviceSN(device_sn);
+            if (CameraConfigPortlist?.IsConnected == true)
             {
                 var restr = GetDevinfo.request(CameraConfigPortlist, deleteJson);
                 JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
@@ -1489,7 +1489,7 @@ namespace huaanClient
             //请求设备人员信息
             //{"cmd":"request persons","role":-1,"page_no":1,"page_size":10,"nomal_image_flag":1,"image_flag":1,"query_mode":1,"condition":{"person_name":""}}
             string queryJson = string.Format(UtilsJson.request_persons_by_name, page, limt, name);
-            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.DeviceName == addr_name);
+            var CameraConfigPortlist = Deviceinfo.GetByAddrName(addr_name);
             JObject retJson = new JObject();
             retJson["count"] = 0;
             retJson["list"] = new JArray();
@@ -1554,8 +1554,8 @@ namespace huaanClient
             else
             {
                 string imgebase64str = ReadImageFile(imgeurl);
-                CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ip);
-                if (CameraConfigPortlist.IsConnected)
+                var CameraConfigPortlist = Deviceinfo.GetByIp(ip);
+                if (CameraConfigPortlist?.IsConnected == true)
                 {
                     var uploadPerson = UtilsJson.UploadPersonCmd;
                     uploadPerson[UtilsJson.UPLOAD_PERSON_FIELD_ID] = Idcode.Trim();
@@ -1626,8 +1626,8 @@ namespace huaanClient
         public static bool Open(string ip)
         {
             bool re = false;
-            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ip);//new CameraConfigPort(ip);
-            if (CameraConfigPortlist == null || !CameraConfigPortlist.IsConnected) return false;
+            var CameraConfigPortlist = Deviceinfo.GetByIp(ip);//new CameraConfigPort(ip);
+            if (CameraConfigPortlist?.IsConnected == false) return false;
             string result = UtilsJson.openJson;
             string ttspaly = UtilsJson.ttsPlay;
 
@@ -2989,7 +2989,7 @@ namespace huaanClient
         }
         public static string getindexforNumberequipment()
         {
-            string re = Deviceinfo.MyDevicelist.Count(t => t.IsConnected == true).ToString();
+            string re = Deviceinfo.GetOnlineCount().ToString();
             return re;
         }
 
@@ -4032,7 +4032,7 @@ namespace huaanClient
                 return false;
             }
 
-            Deviceinfo.MyDevicelist.ForEach(d =>
+            Array.ForEach(Deviceinfo.GetAllMyDevices(), d =>
             {
                 if (d.IsConnected == true)
                 {
@@ -4613,8 +4613,8 @@ namespace huaanClient
         public static string getCameraParameters(string ip)
         {
             string re = "0";
-            List<CameraConfigPort> Devicelistdata = Deviceinfo.MyDevicelist;
-            Devicelistdata.ForEach(s =>
+            
+            Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
             {
                 if (s.IP == ip.Trim())
                 {
@@ -4665,8 +4665,7 @@ namespace huaanClient
             )
         {
             bool re = false;
-            List<CameraConfigPort> Devicelistdata = Deviceinfo.MyDevicelist;
-            Devicelistdata.ForEach(s =>
+            Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
             {
                 //先设置息屏模式 成功后在设置其他参数，如果不成功直接返回失败；
                 if (s.IP == ip.Trim())
@@ -4741,7 +4740,7 @@ namespace huaanClient
             string paramString = "";
             try
             {
-                Deviceinfo.MyDevicelist.ForEach(s =>
+                Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
                 {
                     if (s.IP == ip.Trim())
                     {
@@ -4767,7 +4766,7 @@ namespace huaanClient
             bool re = false;
             try
             {
-                Deviceinfo.MyDevicelist.ForEach(s =>
+                Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
                 {
                     if (s.IP == oldip.Trim())
                     {
@@ -5098,7 +5097,7 @@ namespace huaanClient
         public static bool deleteDataSyn(string id, string personid,string device_sn)
         {
             bool re = false;
-            CameraConfigPort cameraConfigPort = Deviceinfo.MyDevicelist.Find(a => a.DeviceNo == device_sn);
+            var cameraConfigPort = Deviceinfo.GetByDeviceSN(device_sn);
             if (cameraConfigPort != null)
             {
                 //先刪除相机上的人员

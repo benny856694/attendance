@@ -98,8 +98,8 @@ namespace huaanClient
             var employeeCode = distribute["employeeCode"].ToString();
             var isDistributeByCode = (int)distribute["isDistributedByEmployeeCode"];
 
-            var Devicelistdata = Deviceinfo.MyDevicelist;
-            Devicelistdata.ForEach(s =>
+            var Devicelistdata = Deviceinfo.GetAllMyDevices();
+            Array.ForEach(Devicelistdata, s =>
             {
                 if (s.IsConnected)
                 {
@@ -153,8 +153,8 @@ namespace huaanClient
             {
                 deleteJson["id"] = id;
             }
-            List<CameraConfigPort> Devicelistdata = Deviceinfo.MyDevicelist;
-            Devicelistdata.ForEach(s =>
+            var Devicelistdata = Deviceinfo.GetAllMyDevices();
+            Array.ForEach(Devicelistdata, s =>
             {
                 if (s.IsConnected)
                 {
@@ -181,7 +181,7 @@ namespace huaanClient
             string source = distributeParams["source"].ToString().Trim();
             string term_start = distributeParams["term_start"].ToString().Trim().Length > 1 ? distributeParams["term_start"].ToString().Replace("-", "/").Trim() : "useless";
             string term = distributeParams["term"].ToString().Trim().Length > 1 ? distributeParams["term"].ToString().Replace("-", "/").Trim() : "forever";
-            CameraConfigPort CameraConfigPortlist = Deviceinfo.MyDevicelist.Find(d => d.IP == ip);
+            var CameraConfigPortlist = Deviceinfo.GetByIp(ip);
             if (CameraConfigPortlist == null)
                 return;
             Logger.Debug("开始下发id:{0}，相机IP:{1},人员ID：{2}", id, CameraConfigPortlist.IP, distribute["userid"]);
@@ -381,7 +381,7 @@ namespace huaanClient
 
                     if (staff != null && deviceInfo != null)
                     {
-                        var device = Deviceinfo.MyDevicelist.FirstOrDefault(x => x.IP == deviceInfo.ipAddress);
+                        var device = Deviceinfo.GetByIp(deviceInfo.ipAddress);
                         if (device?.IsConnected == true)
                         {
                             if (!File.Exists(staff.picture))
@@ -470,15 +470,15 @@ namespace huaanClient
             statime = statime.Replace("-", "/").Trim() + ":00";
             endtime = endtime.Replace("-", "/").Trim() + ":00";
             bool re = true;
-            if (string.IsNullOrEmpty(imgeurl) || Deviceinfo.MyDevicelist.Count == 0 || string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(imgeurl) || Deviceinfo.Count == 0 || string.IsNullOrEmpty(id))
             {
                 return false;
             }
 
             foreach (var device in arrDevices)
             {
-                var d = Deviceinfo.MyDevicelist.Find((de) => { return de.Deviceid.Equals((string)device["Deviceid"]); });
-                if (d != null && d.IsConnected)
+                var d = Deviceinfo.GetByDeviceId(device["Deviceid"].Value<string>());
+                if (d?.IsConnected == true)
                 {
                     string PersonJson = string.Empty;
                     string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
@@ -617,7 +617,7 @@ namespace huaanClient
                 {
                     if (!string.IsNullOrEmpty(s[i]))
                     {
-                        Deviceinfo.MyDevicelist.ForEach(d =>
+                        Array.ForEach(Deviceinfo.GetAllMyDevices(), d =>
                         {
                             if (d.IsConnected == true)
                             {

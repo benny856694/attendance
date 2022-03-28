@@ -201,36 +201,13 @@ namespace huaanClient
             DateTime sta = Convert.ToDateTime(starttime);
             DateTime end = Convert.ToDateTime(endtime);
 
-            List<CameraConfigPort> Devicelistdata = Deviceinfo.MyDevicelist;
-
-            if (Devicelistdata.Count < 1) {
-                return;
-            }
-            //var cam = Devicelistdata.Find(c => c.IP == "192.168.0.182");
-
-            ////测试用
-            //if (cam.IsConnected)
-            //{
-            //    var list = cam.GetRecords(sta, end, personId, 3000);
-            //    for (int i = 0; i < list.Count; i++)
-            //    {
-            //        data da = new data();
-            //        da.captureTime = list[i].captureTime;
-            //        da.matchScore = list[i].matchScore;
-            //        da.personName = list[i].personName;
-            //        da.personRole = list[i].personRole;
-            //        da.temperature = list[i].temperature;
-            //        da.personId = personId;
-            //        listAll.Add(da);
-            //    }
-
-            //}
-            //循环设备
-            for (int m = 0; m < Devicelistdata.Count; m++)
+            var devices = Deviceinfo.GetAllMyDevices();
+           
+            for (int m = 0; m < devices.Length; m++)
             {
-                if (Devicelistdata[m].IsConnected)
+                if (devices[m].IsConnected)
                 {
-                    var list = Devicelistdata[m].GetRecords(sta, end, personId, 1500);
+                    var list = devices[m].GetRecords(sta, end, personId, 1500);
                     for (int i = 0; i < list.Count; i++)
                     {
                         data da = new data();
@@ -242,29 +219,8 @@ namespace huaanClient
                         da.personId = personId;
                         allCaptureData.Add(da);
                     }
-
                 }
             }
-
-            //废弃
-            //foreach (var Device in Devicelistdata)
-            //{
-            //    if (Device.IsConnected)
-            //    {
-            //        var list = Device.GetRecords(sta, end, personId, 1500);
-            //        for (int i = 0; i < list.Count; i++)
-            //        {
-            //            data da = new data();
-            //            da.captureTime = list[i].captureTime;
-            //            da.matchScore = list[i].matchScore;
-            //            da.personName = list[i].personName;
-            //            da.personRole = list[i].personRole;
-            //            da.temperature = list[i].temperature;
-            //            da.personId = personId;
-            //            listAll.Add(da);
-            //        }
-            //    }
-            //}
         }
         public static string GetShiftId(string AttendanceGroup_id,string date)
         {

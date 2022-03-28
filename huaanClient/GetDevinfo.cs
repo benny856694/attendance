@@ -185,7 +185,7 @@ namespace huaanClient
             {
                 Mydevicelist.ForEach(d => {
                     string number = d.number;
-                    var cam = Deviceinfo.MyDevicelist.Find(c => c.IP == d.ipAddress);
+                    var cam = Deviceinfo.GetByIp(d.ipAddress);
                     bool exists = true;
                     if (cam == null)
                     {
@@ -235,7 +235,7 @@ namespace huaanClient
                                     }
                                 }
                                 cam.DeviceNo = device_no;
-                                Deviceinfo.MyDevicelist.RemoveAll(c_ => c_.DeviceNo == device_no);
+                                Deviceinfo.RemoveAll(c_ => c_.DeviceNo == device_no);
                             }
                             //JObject device_info = (JObject)jo["device_info"];
                             //if (device_info != null)
@@ -254,7 +254,7 @@ namespace huaanClient
                     }
                     if (!exists)
                     {
-                        Deviceinfo.MyDevicelist.Add(cam);
+                        Deviceinfo.Add(cam);
                     }
                         
                 });
@@ -267,10 +267,9 @@ namespace huaanClient
         {
             //先判断是否开启时间同步开关
             var isSyncByNtp = GetData.getIsNtpSync();
-            
-            for (var i=0;i< Deviceinfo.MyDevicelist.Count();i++)
+            var devices = Deviceinfo.GetAllMyDevices();
+            foreach (var device in devices)
             {
-                var device = Deviceinfo.MyDevicelist[i];
                 if (device.IsConnected)
                 {
                     try
@@ -280,7 +279,7 @@ namespace huaanClient
                         if (isDeviceSyncByNtp != isSyncByNtp)
                         {
                             //关两次
-                            Deviceinfo.MyDevicelist[i].ToggleNtpEnable(isSyncByNtp);
+                            device.ToggleNtpEnable(isSyncByNtp);
                             //Deviceinfo.MyDevicelist[i].ToggleNtpEnable(isSyncByNtp);
                         }
 

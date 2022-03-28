@@ -16,9 +16,9 @@ namespace huaanClient
         public static void Timingquery()
         {
             DateTime endtime = DateTime.Now;
-            List<CameraConfigPort> Devicelistdata = Deviceinfo.MyDevicelist;
+            var Devicelistdata = Deviceinfo.GetAllMyDevices();
 
-            if (Devicelistdata.Count < 1)
+            if (Devicelistdata.Length < 1)
             {
                 return;
             }
@@ -26,7 +26,7 @@ namespace huaanClient
             Dictionary<CameraConfigPort, DateTime> cameraQueryTimes = new Dictionary<CameraConfigPort, DateTime>();
             //保存所有相机首次查询
             List<DateTime> firstQuerys=new List<DateTime>();
-            Devicelistdata.ForEach(s =>
+            Array.ForEach(Devicelistdata, s =>
             {
                 try
                 {
@@ -66,7 +66,7 @@ namespace huaanClient
                 }
             }
             
-            Logger.Info($"主动获取抓拍并计算考勤完成。查询相机数：{cameraQueryTimes.Count}/{Devicelistdata.Count}");
+            Logger.Info($"主动获取抓拍并计算考勤完成。查询相机数：{cameraQueryTimes.Count}/{Devicelistdata.Length}");
 
         }
 
