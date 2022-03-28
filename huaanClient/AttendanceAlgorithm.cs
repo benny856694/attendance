@@ -201,7 +201,7 @@ namespace huaanClient
             DateTime sta = Convert.ToDateTime(starttime);
             DateTime end = Convert.ToDateTime(endtime);
 
-            var devices = Deviceinfo.GetAll();
+            var devices = Deviceinfo.GetAllMyDevices();
            
             for (int m = 0; m < devices.Length; m++)
             {

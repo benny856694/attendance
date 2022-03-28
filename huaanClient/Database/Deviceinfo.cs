@@ -88,7 +88,7 @@ namespace huaanClient.Database
             }
         }
 
-        public static CameraConfigPort[] GetAll()
+        public static CameraConfigPort[] GetAllMyDevices()
         {
             lock(_lockerMyDeviceList)
             {

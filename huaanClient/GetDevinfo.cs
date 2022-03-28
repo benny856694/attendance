@@ -267,7 +267,7 @@ namespace huaanClient
         {
             //先判断是否开启时间同步开关
             var isSyncByNtp = GetData.getIsNtpSync();
-            var devices = Deviceinfo.GetAll();
+            var devices = Deviceinfo.GetAllMyDevices();
             foreach (var device in devices)
             {
                 if (device.IsConnected)

@@ -17,10 +17,10 @@ namespace huaanClient
         {
             //先获取所有的人员ID和所有的人员同步表的ID
             var localIds = GetData.getIDsforstaffAndDataSyn();
-            
 
-            List<CameraConfigPort> cameraConfigPorts = Deviceinfo.MyDevicelist;
-            cameraConfigPorts.ForEach(a =>
+
+            var cameraConfigPorts = Deviceinfo.GetAllMyDevices();
+            Array.ForEach(cameraConfigPorts, a =>
             {
                 if (a.IsConnected)
                 {

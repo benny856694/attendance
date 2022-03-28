@@ -546,7 +546,7 @@ namespace huaanClient
         }
         public static string getDeviceDiscover()
         {
-            var Devicelistdata = Deviceinfo.GetAll();
+            var Devicelistdata = Deviceinfo.GetAllMyDevices();
             string DevicelistdataJsonStr = JsonConvert.SerializeObject(Devicelistdata);
 
             return DevicelistdataJsonStr;
@@ -4032,7 +4032,7 @@ namespace huaanClient
                 return false;
             }
 
-            Array.ForEach(Deviceinfo.GetAll(), d =>
+            Array.ForEach(Deviceinfo.GetAllMyDevices(), d =>
             {
                 if (d.IsConnected == true)
                 {
@@ -4614,7 +4614,7 @@ namespace huaanClient
         {
             string re = "0";
             
-            Array.ForEach(Deviceinfo.GetAll(), s =>
+            Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
             {
                 if (s.IP == ip.Trim())
                 {
@@ -4665,7 +4665,7 @@ namespace huaanClient
             )
         {
             bool re = false;
-            Array.ForEach(Deviceinfo.GetAll(), s =>
+            Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
             {
                 //先设置息屏模式 成功后在设置其他参数，如果不成功直接返回失败；
                 if (s.IP == ip.Trim())
@@ -4740,7 +4740,7 @@ namespace huaanClient
             string paramString = "";
             try
             {
-                Array.ForEach(Deviceinfo.GetAll(), s =>
+                Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
                 {
                     if (s.IP == ip.Trim())
                     {
@@ -4766,7 +4766,7 @@ namespace huaanClient
             bool re = false;
             try
             {
-                Array.ForEach(Deviceinfo.GetAll(), s =>
+                Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
                 {
                     if (s.IP == oldip.Trim())
                     {

@@ -98,7 +98,7 @@ namespace huaanClient
             var employeeCode = distribute["employeeCode"].ToString();
             var isDistributeByCode = (int)distribute["isDistributedByEmployeeCode"];
 
-            var Devicelistdata = Deviceinfo.GetAll();
+            var Devicelistdata = Deviceinfo.GetAllMyDevices();
             Array.ForEach(Devicelistdata, s =>
             {
                 if (s.IsConnected)
@@ -153,7 +153,7 @@ namespace huaanClient
             {
                 deleteJson["id"] = id;
             }
-            var Devicelistdata = Deviceinfo.GetAll();
+            var Devicelistdata = Deviceinfo.GetAllMyDevices();
             Array.ForEach(Devicelistdata, s =>
             {
                 if (s.IsConnected)
@@ -617,7 +617,7 @@ namespace huaanClient
                 {
                     if (!string.IsNullOrEmpty(s[i]))
                     {
-                        Array.ForEach(Deviceinfo.GetAll(), d =>
+                        Array.ForEach(Deviceinfo.GetAllMyDevices(), d =>
                         {
                             if (d.IsConnected == true)
                             {

@@ -16,7 +16,7 @@ namespace huaanClient
         public static void Timingquery()
         {
             DateTime endtime = DateTime.Now;
-            var Devicelistdata = Deviceinfo.GetAll();
+            var Devicelistdata = Deviceinfo.GetAllMyDevices();
 
             if (Devicelistdata.Length < 1)
             {
