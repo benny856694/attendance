@@ -133,51 +133,52 @@ namespace huaanClient
                 IsBackground = true
             }.Start();
             //同步设备人员
-            new Thread(() =>
+            if (ChromiumForm.userSettings.AutoDataSyn)
             {
-                try
-                {
-                    Thread.Sleep(10 * 1000);
-                    if (ChromiumForm.userSettings.AutoDataSyn)
-                    {
-                        Console.WriteLine("自动同步设备人员开始...");
-                        DataSynchronization.DataSynchronizationtask();
-                    } 
-                    Thread.Sleep(60 * 1000 * 5);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex, "设备人员同步异常");
-                }
-                
-            })
-            {
-                IsBackground = true
-            }.Start();
-            //抓拍记录下载
-            new Thread(() =>
-            {
-                while (true)
+                new Thread(() =>
                 {
                     try
                     {
-                        var hasData = false;
                         Thread.Sleep(10 * 1000);
-                        if (ChromiumForm.userSettings.AutoCaptureSyn)
-                        {
-                           hasData = TimingGet.Timingquery();
-                        }
-                        Thread.Sleep(hasData ? 10 * 1000 : 60 * 1000);
+                        Console.WriteLine("自动同步设备人员开始...");
+                        DataSynchronization.DataSynchronizationtask();
+                        Thread.Sleep(60 * 1000 * 5);
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex, "获取抓拍记录异常");
+                        Logger.Error(ex, "设备人员同步异常");
                     }
-                }
-            })
+
+                })
+                {
+                    IsBackground = true
+                }.Start();
+            }
+            
+            //抓拍记录下载
+            if (ChromiumForm.userSettings.AutoCaptureSyn)
             {
-                IsBackground = true
-            }.Start();
+                new Thread(() =>
+                {
+                    while (true)
+                    {
+                        try
+                        {
+                            Thread.Sleep(10 * 1000);
+                            var hasData = TimingGet.Timingquery();
+                            Thread.Sleep(hasData ? 10 * 1000 : 60 * 1000);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex, "获取抓拍记录异常");
+                        }
+                    }
+                })
+                {
+                    IsBackground = true
+                }.Start();
+            }
+            
 
 
             string url = Application.StartupPath + @"\detached\index.html"; 
