@@ -162,6 +162,7 @@ namespace huaanClient
                     try
                     {
                         var hasData = false;
+                        Thread.Sleep(10 * 1000);
                         if (ChromiumForm.userSettings.AutoCaptureSyn)
                         {
                            hasData = TimingGet.Timingquery();
