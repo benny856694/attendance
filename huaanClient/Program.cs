@@ -161,11 +161,12 @@ namespace huaanClient
                 {
                     try
                     {
-                        Thread.Sleep(10 * 1000);
+                        var hasData = false;
                         if (ChromiumForm.userSettings.AutoCaptureSyn)
                         {
-                            TimingGet.Timingquery();
+                           hasData = TimingGet.Timingquery();
                         }
+                        Thread.Sleep(hasData ? 10 * 1000 : 60 * 1000);
                     }
                     catch (Exception ex)
                     {

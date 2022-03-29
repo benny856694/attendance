@@ -13,14 +13,15 @@ namespace huaanClient
     class TimingGet
     {
         static NLog.Logger Logger= NLog.LogManager.GetCurrentClassLogger();
-        public static void Timingquery()
+        public static bool Timingquery()
         {
+            var hasData = false;
             DateTime endtime = DateTime.Now;
             var Devicelistdata = Deviceinfo.GetAllMyDevices();
 
             if (Devicelistdata.Length < 1)
             {
-                return;
+                return hasData;
             }
             //准备容器存储相机和对应last_query时间
             Dictionary<CameraConfigPort, DateTime> cameraQueryTimes = new Dictionary<CameraConfigPort, DateTime>();
@@ -31,7 +32,11 @@ namespace huaanClient
                 try
                 {
                     Logger.Debug(s.IP+"主动查询抓拍开始....");
-                    DownloadOneDevice(s, endtime, firstQuerys, cameraQueryTimes);
+                    var notEmpty = DownloadOneDevice(s, endtime, firstQuerys, cameraQueryTimes);
+                    if (notEmpty)
+                    {
+                        hasData = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -67,14 +72,16 @@ namespace huaanClient
             }
             
             Logger.Info($"主动获取抓拍并计算考勤完成。查询相机数：{cameraQueryTimes.Count}/{Devicelistdata.Length}");
+            return hasData;
 
         }
 
-        private static void DownloadOneDevice(CameraConfigPort s,DateTime endtime, List<DateTime> firstQuerys, Dictionary<CameraConfigPort, DateTime> cameraQueryTimes)
+        private static bool DownloadOneDevice(CameraConfigPort s,DateTime endtime, List<DateTime> firstQuerys, Dictionary<CameraConfigPort, DateTime> cameraQueryTimes)
         {
             string ATT_STA_time;
             //获取开始时间时如果数据库没有就默认取值当天时间
             string statime_str = DateTime.Now.ToString("yyyy-MM") + "-01 00:00:00";
+            var hasData = false;
 
             string time_json = GetData.getMyDeviceforLast_query(s.IP);
             if (!string.IsNullOrEmpty(time_json))
@@ -99,6 +106,7 @@ namespace huaanClient
                 var list = s.GetRecords(statime, endtime, 3000, 30000);
                 if (list.Count > 0)
                 {
+                    hasData = true;
                     var time = list.Max(t => t.time);
                     list.ForEach(l =>
                     {
@@ -133,6 +141,8 @@ namespace huaanClient
                 }
                 */    
             }
+
+            return hasData;
 
         }
     }
