@@ -93,13 +93,13 @@ namespace huaanClient
             //下发人脸
             Thread thread1 = new Thread(() =>
             {
+                Thread.Sleep(10 * 1000);
                 while (true)
                 {
                     try
                     {
-                        Thread.Sleep(10 * 1000);
+                        DistributeToequipment.Wait();
                         DistributeToequipment.distrbute();
-                        Thread.Sleep(10 * 1000);
                     }
                     catch (Exception ex)
                     {
@@ -107,9 +107,11 @@ namespace huaanClient
                     }
                 }
             });
+            
             thread.IsBackground = true;
             thread.Start();
 
+            thread1.Name = "人脸下发线程";
             thread1.IsBackground = true;
             thread1.Start();
             //时间同步线程

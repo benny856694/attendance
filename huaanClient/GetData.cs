@@ -1404,48 +1404,6 @@ namespace huaanClient
 
         }
 
-        public static void setAddPersonToEquipmentOld(string id)
-        {
-            try
-            {
-                //查找出设备
-                string commandText_dev = "SELECT id FROM MyDevice";
-                string data_dev = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText_dev);
-                JArray jo_dev = (JArray)JsonConvert.DeserializeObject(data_dev);
-
-                if (jo_dev.Count > 0)
-                {
-                    foreach (JObject s in jo_dev)
-                    {
-                        string userid = id.ToString().Trim();
-                        string deviceid = s["id"].ToString().Trim();
-
-                        string commandText = "SELECT COUNT(userid) as len ,type from Equipment_distribution WHERE userid=" + userid + " AND deviceid=" + deviceid;
-                        string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
-                        if (!string.IsNullOrEmpty(sr))
-                        {
-                            JArray srjo = (JArray)JsonConvert.DeserializeObject(sr);
-                            string reint = srjo[0]["len"].ToString();
-                            if (int.Parse(reint) == 0)
-                            {
-                                string updatessql = "INSERT INTO Equipment_distribution (type,status,userid, deviceid) VALUES (0,'inprogress'," + userid + "," + deviceid + ")";
-                                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
-                            }
-                            if (int.Parse(reint) == 1)
-                            {
-                                string updatessql = "UPDATE Equipment_distribution SET status='',type=0 WHERE userid=" + userid;
-                                SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
-                            }
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
-
-        }
-
         internal static Object[] getAllMyDeviceExt(MyDevice[] mydevice)
         {
             if (mydevice == null|| mydevice.Length==0)
