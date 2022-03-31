@@ -15,7 +15,7 @@ using Dapper.Contrib.Extensions;
 using System.Dynamic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
+using System.Threading;
 
 namespace huaanClient
 {
@@ -23,6 +23,23 @@ namespace huaanClient
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private static List<Task> taskList = new List<Task>();
+        private readonly static ManualResetEvent signal = new ManualResetEvent(true);
+
+        public static void Wait()
+        {
+            signal.WaitOne();
+        }
+        
+        public static void Wakeup()
+        {
+            signal.Set();
+        }
+
+        public static void Sleep()
+        {
+            signal.Reset();
+        }
+        
         public static void distrbute()
         {
             var startTime = DateTime.Now;
@@ -36,6 +53,7 @@ namespace huaanClient
                 JArray srjo = (JArray)JsonConvert.DeserializeObject(sr);
                 if (srjo.Count > 0)
                 {
+                    var results = new List<FaceDeploymentResult>();
                     foreach (JObject jo in srjo)
                     {
                         var staffDistribution = jo.ToObject<EquipmentDistribution>();
@@ -43,13 +61,29 @@ namespace huaanClient
                         try
                         {
                             Logger.Debug(msg);
-                            handleOneDistribute(jo, connectionString);
+                            var res = handleOneDistribute(jo, connectionString);
+                            results.Add(res);
                         }
                         catch (Exception ex)
                         {
                             Logger.Error(ex, msg);
                         }
                     }
+
+                    if (results.All(x=>x == FaceDeploymentResult.DeviceOffline) 
+                        || results.All(x=>x == FaceDeploymentResult.Timeout))
+                    {
+                        Thread.Sleep(60 * 1000);
+                    }
+                    else 
+                    {
+                        Thread.Sleep(10 * 1000);
+                    }
+                }
+                else
+                {
+                    Logger.Info("没有待下发数据,下发线程开始睡眠");
+                    Sleep();
                 }
             }
 
@@ -58,7 +92,7 @@ namespace huaanClient
         }
 
 
-        private static void handleOneDistribute(JObject distribute, string connectionString)
+        private static FaceDeploymentResult handleOneDistribute(JObject distribute, string connectionString)
         {
             //type 0 下发 1删除 2异常
             if (distribute["type"].ToString().Trim().Equals("0") && !distribute["status"].ToString().Trim().Equals("success"))
@@ -81,13 +115,18 @@ namespace huaanClient
 
                 if (distroParams != null)
                 {
-                    innerHandleDistribute(distribute, connectionString, id, downid, distroParams);
+                    return innerHandleDistribute(distribute, connectionString, id, downid, distroParams);
                 }
+
+                return FaceDeploymentResult.Failed;
             }
             else if (distribute["type"].ToString().Trim().Equals("1") && !distribute["status"].ToString().Trim().Equals("success"))
             {
                 DeleteDistribute(distribute, connectionString);
+                return FaceDeploymentResult.Success;
             }
+
+            return FaceDeploymentResult.Success;
 
         }
 
@@ -173,7 +212,7 @@ namespace huaanClient
             });
         }
 
-        private static void innerHandleDistribute(JObject distribute, string connectionString, string id, string downid, JObject distributeParams)
+        private static FaceDeploymentResult innerHandleDistribute(JObject distribute, string connectionString, string id, string downid, JObject distributeParams)
         {
             /*JObject PersonJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.PersonJson)*/
             var uploadPersonCmd = UtilsJson.UploadPersonCmd;
@@ -183,7 +222,7 @@ namespace huaanClient
             string term = distributeParams["term"].ToString().Trim().Length > 1 ? distributeParams["term"].ToString().Replace("-", "/").Trim() : "forever";
             var CameraConfigPortlist = Deviceinfo.GetByIp(ip);
             if (CameraConfigPortlist == null)
-                return;
+                return FaceDeploymentResult.Failed;
             Logger.Debug("开始下发id:{0}，相机IP:{1},人员ID：{2}", id, CameraConfigPortlist.IP, distribute["userid"]);
 
             if (CameraConfigPortlist.IsConnected)
@@ -247,7 +286,7 @@ namespace huaanClient
                     {
                         string updatessql = $"UPDATE Equipment_distribution SET status='fail', type='2', errMsg='{Properties.Strings.ImageMissing}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                         SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
-                        return;
+                        return FaceDeploymentResult.Failed;
 
                     }
                     else
@@ -321,6 +360,7 @@ namespace huaanClient
                             File.WriteAllBytes(fullPath, array);
                         }
                     }
+                    return code_int == 0 ? FaceDeploymentResult.Success : FaceDeploymentResult.Failed;
                 }
                 else
                 {
@@ -338,6 +378,7 @@ namespace huaanClient
 
                     string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.TimeOut}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                     SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                    return FaceDeploymentResult.Timeout;
                 }
             }
             else
@@ -345,6 +386,8 @@ namespace huaanClient
                 Logger.Debug("下发失败 id:{0}，相机IP:{1},人员ID：{2} 设备离线", id, CameraConfigPortlist.IP, distribute["userid"]);
                 string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.DeviceOffline}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                 SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
+                return FaceDeploymentResult.DeviceOffline;
+                
             }
         }
 

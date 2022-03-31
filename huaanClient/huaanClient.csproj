@@ -389,6 +389,7 @@
     <Compile Include="DistributeToequipment.cs" />
     <Compile Include="exportToCsv.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FaceDeploymentResult.cs" />
     <Compile Include="FTPHelper.cs" />
     <Compile Include="GetData.cs" />
     <Compile Include="GetDevinfo.cs" />

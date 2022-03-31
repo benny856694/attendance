@@ -743,6 +743,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public int issueByEquipmentDistributionIds(string jsondata)
         {
             int result = GetData.issueByEquipmentDistributionIds(jsondata);
+            DistributeToequipment.Wakeup();
             return result;
         }
 
@@ -928,7 +929,8 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         {
             Task.Factory.StartNew(() =>
             {
-                bool data = GetData.setAddPersonToEquipment_distribution(); ;
+                bool data = GetData.setAddPersonToEquipment_distribution();
+                DistributeToequipment.Wakeup();
                 callback.ExecuteAsync(data);
             });
         }
@@ -936,6 +938,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public void AddPersonToEquipment_distribution(string datajson)
         {
             GetData.setAddPersonToEquipment_distribution(datajson);
+            DistributeToequipment.Wakeup();
         }
 
         public string queryPerson(string id)
