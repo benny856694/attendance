@@ -15,7 +15,7 @@ namespace huaanClient.Database
 		public override DateTime Parse(object value)
 		{
 			if (value is DateTime) return (DateTime)value;
-			return DateTime.ParseExact(value as string, datetimeFormat, CultureInfo.InvariantCulture);
+			return DateTime.Parse(value as string);
 		}
 
 		public override void SetValue(IDbDataParameter parameter, DateTime value)

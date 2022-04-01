@@ -25,6 +25,7 @@ namespace huaanClient.Report
             result.CheckIn = data.Punchinformation.ToLocalTime();
             result.CheckOut = data.Punchinformation1.ToLocalTime();
             result.IsCrossMidnight = data.IsAcrossNight == "True";
+            result.Temperature = data.temperature.toFloat();
 
             if (result.CheckIn.HasValue && result.CheckOut.HasValue)
             {

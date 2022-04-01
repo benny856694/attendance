@@ -14,7 +14,7 @@ namespace huaanClient.Report
         public int overTimeCount = 0; //加班
         public int lateCount = 0; //迟到
         public int earlyCount = 0; //早退
-        public int offDayCount = 0; //休息，请假
+        public int leaveDayCount = 0; //休息，请假
         public int holidayCount = 0; //节假日
         public Period overTimeHours = Period.Zero;
         public Period lateHours = Period.Zero;
@@ -59,10 +59,10 @@ namespace huaanClient.Report
                     holidayCount++;
                     break;
                 case Remark.Leave:
-                    offDayCount++;
+                    leaveDayCount++;
                     break;
                 case Remark.OffDuty:
-                    offDayCount++;
+                    leaveDayCount++;
                     break;
                 default:
                     break;

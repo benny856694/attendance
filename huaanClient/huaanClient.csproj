@@ -423,6 +423,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="recursionJSON.cs" />
+    <Compile Include="Report\DailyAttendance.cs" />
     <Compile Include="Report\DailyAttendanceData.cs" />
     <Compile Include="Report\Converter.cs" />
     <Compile Include="Report\Counter.cs" />
@@ -430,6 +431,7 @@
     <Compile Include="Report\DailyAttendanceReporter.cs" />
     <Compile Include="Report\DataContext.cs" />
     <Compile Include="Report\Extensions.cs" />
+    <Compile Include="Report\MonthlyAttendance.cs" />
     <Compile Include="Report\MonthlyAttendanceReporter.cs" />
     <Compile Include="Report\QueryCriteria.cs" />
     <Compile Include="Report\Writer\AttendanceMasterRecordWriter.cs" />

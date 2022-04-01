@@ -29,6 +29,8 @@ namespace huaanClient.Report
         public static DailyAttendanceData Absense { get; } = new DailyAttendanceData { Remark = Remark.Absence };
         public static DailyAttendanceData OffDuty { get; } = new DailyAttendanceData { Remark = Remark.OffDuty };
         public static DailyAttendanceData Holiday { get; } = new DailyAttendanceData { Remark = Remark.Holiday };
+        public float? Temperature { get; internal set; }
+
         public Shift ToShift()
         {
             return new Shift

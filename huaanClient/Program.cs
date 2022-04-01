@@ -30,14 +30,17 @@ namespace huaanClient
         {
             DapperExtensions.DapperExtensions.SetMappingAssemblies(new[] { typeof(StaffMapper).Assembly });
 
-            if (System.Diagnostics.Process.GetProcessesByName("FaceRASystem").ToList().Count > 1)
+            if (Process.GetProcessesByName("FaceRASystem").ToList().Count > 1)
             {
-                InsuranceBrowserLib.NativeMethods.NativeMethods.PostMessage(
-                (IntPtr)InsuranceBrowserLib.NativeMethods.NativeMethods.HWND_BROADCAST,
-                InsuranceBrowserLib.NativeMethods.NativeMethods.WM_SHOWME,
-                IntPtr.Zero,
-                IntPtr.Zero);
-                return;
+                if(!Debugger.IsAttached)
+                {
+                    InsuranceBrowserLib.NativeMethods.NativeMethods.PostMessage(
+                    (IntPtr)InsuranceBrowserLib.NativeMethods.NativeMethods.HWND_BROADCAST,
+                    InsuranceBrowserLib.NativeMethods.NativeMethods.WM_SHOWME,
+                    IntPtr.Zero,
+                    IntPtr.Zero);
+                    return;
+                }
             }
 
             //检查sqlserver是否在运行

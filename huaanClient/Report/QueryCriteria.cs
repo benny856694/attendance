@@ -16,5 +16,7 @@ namespace huaanClient.Report
        public string IsAbsense;
        public string IsLate;
        public string LeaveEarly;
+        public string PageIndex;
+        public string PageSize;
     }
 }

@@ -1084,7 +1084,40 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 form.ShowLayer();
                 form.Invoke(new Action(() =>
                 {
-                    string data = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism,  page,  limt, department);
+                    string data = null;
+                    if(CultureInfo.CurrentCulture.Name == Constants.LANG_LOCALE_CHINESE)
+                    {
+                        data = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism, page, limt, department);
+                    }
+                    else
+                    {
+                        var from = starttime.ToLocalDate();
+                        var to = endtime.ToLocalDate();
+                        var criteria = new QueryCriteria
+                        {
+                            From = from.Value,
+                            To = to.Value,
+                            IsLate = late,
+                            IsAbsense = isAbsenteeism,
+                            LeaveEarly = Leaveearly,
+                            DepartmentNames = department,
+                            Name = name,
+                            PageIndex = page,
+                            PageSize = limt,
+                        };
+
+                        var ctx = new DataContext();
+                        ctx.Load(criteria);
+                        
+                        var att = ctx.ToDailyAttendance();
+                        Debug.WriteLine("-------------");
+                        foreach (var d in att)
+                        {
+                            Debug.WriteLine($"{d.Name}-{d.Date}");
+                        }
+                        data = JsonConvert.SerializeObject(att);
+                    }
+
                     form.HideLayer();
                     callback.ExecuteAsync(data);
                 }));

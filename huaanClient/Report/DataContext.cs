@@ -40,19 +40,30 @@ namespace huaanClient.Report
                 AllHolidays = c.GetAll<Holiday>().ToArray();
             }
 
-
+            
             Staffs = GetStaffs(criteria);
 
-            AttendanceData = GetData.queryAttendanceinformation(
-                From.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), 
-                To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),  
-                name:  criteria.Name,
+            int? pageIndex = null;
+            int? pageSize = null;
+            if (criteria.PageIndex != null && criteria.PageSize != null)
+            {
+                pageIndex = int.Parse(criteria.PageIndex);
+                pageSize = int.Parse(criteria.PageSize);
+            }
+
+            AttendanceData = 
+                GetData.queryAttendanceinformation(
+                From.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                To.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                name: criteria.Name,
                 late: criteria.IsLate,
                 Leaveearly: criteria.LeaveEarly,
-                isAbsenteeism: criteria.IsAbsense, 
-                departments: criteria.DepartmentNames, 
-                null)
-                .Select(x=>x.ToAttendanceDataForDay())
+                isAbsenteeism: criteria.IsAbsense,
+                departments: criteria.DepartmentNames,
+                null,
+                pageIndex: pageIndex,
+                pageSize: pageSize)
+                .Select(x => x.ToAttendanceDataForDay())
                 .ToArray();
         }
 
@@ -155,6 +166,33 @@ namespace huaanClient.Report
                 Remark = remark,
             };
 
+        }
+
+        public List<DailyAttendance> ToDailyAttendance()
+        {
+            var result = new List<DailyAttendance>();
+            foreach (var data in AttendanceData)
+            {
+                var details = GetStaffDetails(data.EmployeeId);
+                var dailyAttendance = new DailyAttendance()
+                {
+                    Name = details.Staff?.name,
+                    Department = details.Department?.name,
+                    PersonalNo = details.Staff.Employee_code,
+                    Date = data.Date,
+                    Shift = data.ShiftName,
+                    CheckIn1 = data.CheckIn,
+                    CheckOut1 = data.CheckOut,
+                    Temperature = data.Temperature,
+                    LateMinutes = data.LateHour,
+                    EarlyMinutes = data.EarlyHour,
+                    WorkHour = data.WorkHour,
+                    Status = data.Remark,
+                };
+
+                result.Add(dailyAttendance);
+            }
+            return result;
         }
     }
 }

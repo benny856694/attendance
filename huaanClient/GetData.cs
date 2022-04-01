@@ -1016,13 +1016,13 @@ namespace huaanClient
         }
 
 
-        public static AttendanceData[] queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string departments, string other)
+        public static AttendanceData[] queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string departments, string other, int? pageSize = null, int? pageIndex = null)
         {
             var pg = new DapperExtensions.PredicateGroup() { Operator = DapperExtensions.GroupOperator.And, Predicates = new List<DapperExtensions.IPredicate>() };
             pg.Predicates.Add(DapperExtensions.Predicates.Between<AttendanceData>(
                 a => a.Date,
                 new DapperExtensions.BetweenValues { Value1 = starttime, Value2 = endtime }));
-
+            
             if (!string.IsNullOrEmpty(name))
             {
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.name, DapperExtensions.Operator.Like, $"%{name}%"));
@@ -1062,7 +1062,12 @@ namespace huaanClient
 
             using (var con = SQLiteHelper.GetConnection())
             {
-                var data = DapperExtensions.DapperExtensions.GetList<AttendanceData>(con, pg, sort).ToArray();
+                var data = pageIndex.HasValue 
+                    ? 
+                    DapperExtensions.DapperExtensions.GetPage<AttendanceData>(con, pg, sort, pageIndex.Value - 1, pageSize.Value)
+                    :
+                    DapperExtensions.DapperExtensions.GetList<AttendanceData>(con, pg, sort);
+
                 if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
                 {
                     foreach (var item in data)
@@ -1070,7 +1075,7 @@ namespace huaanClient
                         item.temperature = item.temperature.toFahreinheit();
                     }
                 }
-                return data;
+                return data.ToArray();
             }
 
         }

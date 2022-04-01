@@ -64,7 +64,7 @@ namespace huaanClient.Report
                     ws.Cell(row, col++).SetValue(counter.presentCount);
                     ws.Cell(row, col++).SetValue(counter.absenceCount);
                     ws.Cell(row, col++).SetValue(counter.holidayCount);
-                    ws.Cell(row, col++).SetValue(counter.offDayCount);
+                    ws.Cell(row, col++).SetValue(counter.leaveDayCount);
 
                     row++;
                 }
