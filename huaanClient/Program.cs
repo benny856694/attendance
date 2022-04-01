@@ -67,6 +67,8 @@ namespace huaanClient
             //init dapper
             SqlMapper.RemoveTypeMap(typeof(DateTime));
             SqlMapper.AddTypeHandler(new DateTimeHandler());
+            DapperExtensions.DapperExtensions.SqlDialect = new DapperExtensions.Sql.SqliteDialect();
+
 
             //LoginForm f = new LoginForm();
             //f.ShowDialog();

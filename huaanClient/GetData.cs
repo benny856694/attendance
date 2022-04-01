@@ -1018,37 +1018,37 @@ namespace huaanClient
 
         public static AttendanceData[] queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string departments, string other, int? pageSize = null, int? pageIndex = null)
         {
-            var pg = new DapperExtensions.PredicateGroup() { Operator = DapperExtensions.GroupOperator.And, Predicates = new List<DapperExtensions.IPredicate>() };
+            var pg = new DapperExtensions.Predicate.PredicateGroup() { Operator = DapperExtensions.Predicate.GroupOperator.And, Predicates = new List<DapperExtensions.Predicate.IPredicate>() };
             pg.Predicates.Add(DapperExtensions.Predicates.Between<AttendanceData>(
                 a => a.Date,
-                new DapperExtensions.BetweenValues { Value1 = starttime, Value2 = endtime }));
+                new DapperExtensions.Predicate.BetweenValues { Value1 = starttime, Value2 = endtime }));
             
             if (!string.IsNullOrEmpty(name))
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.name, DapperExtensions.Operator.Like, $"%{name}%"));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.name, DapperExtensions.Predicate.Operator.Like, $"%{name}%"));
             }
             if (late?.Trim().Equals("1") == true)
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.late, DapperExtensions.Operator.Gt, 0));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.late, DapperExtensions.Predicate.Operator.Gt, 0));
             }
             if (Leaveearly?.Trim().Equals("1") == true)
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.Leaveearly, DapperExtensions.Operator.Gt, 0));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.Leaveearly, DapperExtensions.Predicate.Operator.Gt, 0));
             }
             if (isAbsenteeism?.Trim().Equals("1") == true)
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.isAbsenteeism, DapperExtensions.Operator.Eq, 0));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.isAbsenteeism, DapperExtensions.Predicate.Operator.Eq, 0));
             }
             if (!string.IsNullOrEmpty(departments))
             {
                 
                 // string dts = string.Join(",", split.Select(x => $"'{x}'"));
                 //commandText.Append(" att.department in( " + dts.Trim() + ") AND");
-                var pgDepartments = new DapperExtensions.PredicateGroup() { Operator = DapperExtensions.GroupOperator.Or, Predicates = new List<DapperExtensions.IPredicate>() };
+                var pgDepartments = new DapperExtensions.Predicate.PredicateGroup() { Operator = DapperExtensions.Predicate.GroupOperator.Or, Predicates = new List<DapperExtensions.Predicate.IPredicate>() };
                 var split = departments.Split(',');
                 foreach (var dep in split)
                 {
-                    pgDepartments.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.department, DapperExtensions.Operator.Eq, dep));
+                    pgDepartments.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.department, DapperExtensions.Predicate.Operator.Eq, dep));
 
                 }
                 pg.Predicates.Add(pgDepartments);
@@ -1056,15 +1056,15 @@ namespace huaanClient
             }
 
 
-            var sort = new List<DapperExtensions.ISort>();
-            sort.Add(new DapperExtensions.Sort { PropertyName = nameof(AttendanceData.name), Ascending = true });
-            sort.Add(new DapperExtensions.Sort { PropertyName = nameof(AttendanceData.Date), Ascending = true });
+            var sort = new List<DapperExtensions.Predicate.ISort>();
+            sort.Add(DapperExtensions.Predicates.Sort<AttendanceData>(x=>x.name));
+            sort.Add(DapperExtensions.Predicates.Sort<AttendanceData>(x => x.Date));
 
             using (var con = SQLiteHelper.GetConnection())
             {
                 var data = pageIndex.HasValue 
                     ? 
-                    DapperExtensions.DapperExtensions.GetPage<AttendanceData>(con, pg, sort, pageIndex.Value - 1, pageSize.Value)
+                    DapperExtensions.DapperExtensions.GetPage<AttendanceData>(con, pg, sort, pageIndex.Value, pageSize.Value)
                     :
                     DapperExtensions.DapperExtensions.GetList<AttendanceData>(con, pg, sort);
 
@@ -3804,23 +3804,23 @@ namespace huaanClient
 
         public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string ids,string wg_card_id)
         {
-            var pg = new DapperExtensions.PredicateGroup
+            var pg = new DapperExtensions.Predicate.PredicateGroup
             {
-                Operator = DapperExtensions.GroupOperator.And,
-                Predicates = new List<DapperExtensions.IPredicate>()
+                Operator = DapperExtensions.Predicate.GroupOperator.And,
+                Predicates = new List<DapperExtensions.Predicate.IPredicate>()
             };
 
             if (!string.IsNullOrEmpty(ids))
             {
-                var pg2 = new DapperExtensions.PredicateGroup
+                var pg2 = new DapperExtensions.Predicate.PredicateGroup
                 {
-                    Operator = DapperExtensions.GroupOperator.Or,
-                    Predicates = new List<DapperExtensions.IPredicate>()
+                    Operator = DapperExtensions.Predicate.GroupOperator.Or,
+                    Predicates = new List<DapperExtensions.Predicate.IPredicate>()
                 };
                 var ids2=ids.Split(',');
                 foreach (var id in ids2)
                 {
-                    pg2.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.id, DapperExtensions.Operator.Eq, id));
+                    pg2.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.id, DapperExtensions.Predicate.Operator.Eq, id));
                 }
 
                 pg.Predicates.Add(pg2);
@@ -3828,46 +3828,46 @@ namespace huaanClient
 
             if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.time, DapperExtensions.Operator.Gt, statime));
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.time, DapperExtensions.Operator.Lt, endtime));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.time, DapperExtensions.Predicate.Operator.Gt, statime));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.time, DapperExtensions.Predicate.Operator.Lt, endtime));
             }
 
             if (!string.IsNullOrEmpty(name))
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_name, DapperExtensions.Operator.Like, $"%{name}%"));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_name, DapperExtensions.Predicate.Operator.Like, $"%{name}%"));
             }
 
             if (!string.IsNullOrEmpty(devname))
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.device_sn, DapperExtensions.Operator.Eq, devname));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.device_sn, DapperExtensions.Predicate.Operator.Eq, devname));
             }
 
             if (!string.IsNullOrEmpty(wg_card_id))
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.wg_card_id, DapperExtensions.Operator.Eq, wg_card_id));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.wg_card_id, DapperExtensions.Predicate.Operator.Eq, wg_card_id));
             }
 
             if (HealthCodeType != "0")
             {
                 if (HealthCodeType == "1")
                 {
-                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Operator.Like, "%绿码%"));
+                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Predicate.Operator.Like, "%绿码%"));
                 }
                 else if (HealthCodeType == "2")
                 {
-                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Operator.Like, "%黄码%"));
+                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Predicate.Operator.Like, "%黄码%"));
                 }
                 else if (HealthCodeType == "3")
                 {
-                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Operator.Like, "%红码%"));
+                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Predicate.Operator.Like, "%红码%"));
                 }
             }
             if (!string.IsNullOrEmpty(selectedPersonTypes))
             {
-                var personTypeGroup = new DapperExtensions.PredicateGroup()
+                var personTypeGroup = new DapperExtensions.Predicate.PredicateGroup()
                 {
-                    Operator = DapperExtensions.GroupOperator.Or,
-                    Predicates = new List<DapperExtensions.IPredicate>()
+                    Operator = DapperExtensions.Predicate.GroupOperator.Or,
+                    Predicates = new List<DapperExtensions.Predicate.IPredicate>()
                 };
                 var sections = selectedPersonTypes.Split(',');
                 foreach (var personType in sections)
@@ -3875,10 +3875,10 @@ namespace huaanClient
                     switch (personType)
                     {
                         case "1":
-                            personTypeGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_id, DapperExtensions.Operator.Eq, null, true));
+                            personTypeGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_id, DapperExtensions.Predicate.Operator.Eq, null, true));
                             break;
                         case "0":
-                            personTypeGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_id, DapperExtensions.Operator.Eq, null));
+                            personTypeGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_id, DapperExtensions.Predicate.Operator.Eq, null));
                             break;
                     }
                 }
@@ -3887,12 +3887,12 @@ namespace huaanClient
 
             if (tempFrom != null)
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.body_temp, DapperExtensions.Operator.Ge, tempFrom.Value));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.body_temp, DapperExtensions.Predicate.Operator.Ge, tempFrom.Value));
             }
 
             if (tempTo != null)
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.body_temp, DapperExtensions.Operator.Le, tempTo.Value));
+                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.body_temp, DapperExtensions.Predicate.Operator.Le, tempTo.Value));
             }
 
 
@@ -3902,7 +3902,7 @@ namespace huaanClient
                 var data = DapperExtensions.DapperExtensions.GetList<Capture_Data>(
                     conn, 
                     pg, 
-                    new List<DapperExtensions.ISort>() { new DapperExtensions.Sort() { PropertyName = nameof(Capture_Data.time), Ascending = true } }
+                    new List<DapperExtensions.Predicate.ISort>() { new DapperExtensions.Predicate.Sort() { PropertyName = nameof(Capture_Data.time), Ascending = true } }
                     ).ToArray();
                 if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
                 {
