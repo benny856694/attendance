@@ -4,27 +4,29 @@ cls
 :menu
 ECHO.
 ECHO 请选择品牌
-ECHO 0. 缺省(Tommi)
+ECHO 0. 唐米(Tommi)
 ECHO 1. Mox
 ECHO 2. SmartSchoolNetwork
 ECHO 3. Deepleeds
 ECHO 4. 云卡通
 ECHO 5. Kotak
 ECHO 6. 启功
+ECHO 7. 中性(无品牌)
 set choice=
 set /p choice=请输入数字选择品牌.
 if not '%choice%'=='' set choice=%choice:~0,1%
-if '%choice%'=='0' goto default
+if '%choice%'=='0' goto tommi
 if '%choice%'=='1' goto mox
 if '%choice%'=='2' goto SmartSchoolNetwork
 if '%choice%'=='3' goto Deepleeds
 if '%choice%'=='4' goto YunKaTong
 if '%choice%'=='5' goto kotak
 if '%choice%'=='6' goto qigong
+if '%choice%'=='7' goto neutral
 ECHO "%choice%" 无效, 请重新输入
 ECHO.
 goto menu
-:default
+:tommi
 set brand=default
 goto start
 :mox
@@ -45,6 +47,8 @@ goto start
 :qigong
 set brand=启功
 goto start
+:neutral
+set brand=neutral
 
 :start
 ECHO 你选择了 %brand%
