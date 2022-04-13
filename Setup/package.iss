@@ -3,9 +3,9 @@
 
 #define MyAppName "FaceRASystem"
 #define MyAppVersion "2.10.9.0"
-#define MyAppPublisher "FaceRASystem"
-#define MyAppURL "http://www.huaanvision.com/"
+#define MyAppPublisher "FaceSystem"
 #define MyAppExeName "FaceRASystem.exe"
+#define MyLinkName "FaceSystem"
 
 [Setup]
 ; 注: AppId的值为单独标识该应用程序。
@@ -18,9 +18,6 @@ MinVersion=6.0
 ;AppVerName={#MyAppName} {#MyAppVersion}
 DefaultGroupName={#MyAppName}
 AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
 VersionInfoVersion={#MyAppVersion}
 VersionInfoTextVersion={#MyAppVersion}
 
@@ -57,11 +54,11 @@ Source: "Dependencies\IsTask.dll"; Flags: dontcopy noencryption
 Source: "Dependencies\IsTask.dll"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
-Name: "{commonstartmenu}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
+Name: "{group}\{#MyLinkName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
+Name: "{commonstartmenu}\{#MyLinkName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
 ;Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
+Name: "{group}\{cm:UninstallProgram,{#MyLinkName}}"; Filename: "{uninstallexe}"
+Name: "{commondesktop}\{#MyLinkName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\branding\logo.ico"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
