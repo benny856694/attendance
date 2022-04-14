@@ -27,7 +27,7 @@ namespace huaanClient
 
         public static void Wait()
         {
-            signal.WaitOne();
+            signal.WaitOne(TimeSpan.FromMinutes(5));
         }
         
         public static void Wakeup()
