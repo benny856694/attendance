@@ -72,7 +72,7 @@ xcopy MultiPlayer\bin\Release Setup\InstallFiles /e /y /exclude:exclude.txt
 ECHO copy 4
 xcopy WinFormUI\bin\Release Setup\InstallFiles /e /y /exclude:exclude.txt
 ECHO copy 5
-xcopy ..\HaSdkDemoCsharp\lib\ Setup\InstallFiles /e /y /exclude:exclude.txt
+xcopy ..\HaSdkDemoCsharp\lib\ Setup\InstallFiles /e /y /exclude:exclude.txt+excludeHaSdkWrapper.txt
 ECHO copy 6
 xcopy ..\AttendanceWeb\dist Setup\InstallFiles\detached /e /y /exclude:exclude.txt
 ECHO copy 7
