@@ -4542,9 +4542,9 @@ namespace huaanClient
                     return false;
                 }
             }
-            catch (Exception x)
+            catch (Exception ex)
             {
-                Logger.Error(e, "getvolume");
+                Logger.Error(ex, "getvolume");
                 volume = "";
                 return false;
             }
@@ -4568,9 +4568,9 @@ namespace huaanClient
                     return false;
                 }
             }
-            catch (Exception x)
+            catch (Exception ex)
             {
-                Logger.Error(e, "getlcdscreensaver");
+                Logger.Error(ex, "getlcdscreensaver");
                 volume = "";
                 return false;
             }
