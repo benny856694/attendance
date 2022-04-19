@@ -498,7 +498,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 JArray jo = (JArray)JsonConvert.DeserializeObject(result);
                 string reint = jo[0]["count"].ToString();
-                if (int.Parse(reint) > 10000)
+                if (int.Parse(reint) > 30000)
                 {
                     MessageBox.Show(Strings.DatasetIsTooBig);
                     return;
