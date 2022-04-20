@@ -307,10 +307,10 @@
     <value>班次</value>
   </data>
 	<data name="DefaultCompanyName" xml:space="preserve">
-    <value>公司名称</value>
+    <value>组织机构名称</value>
   </data>
 	<data name="DefaultDepartmentName" xml:space="preserve">
-    <value>下属部门</value>
+    <value>下属组织机构</value>
   </data>
 	<data name="DefaultShiftGroupName" xml:space="preserve">
     <value>默认考勤组</value>
