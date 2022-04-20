@@ -601,7 +601,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 公司名称.
+        ///   Looks up a localized string similar to 组织机构名称.
         /// </summary>
         internal static string DefaultCompanyName {
             get {
@@ -619,7 +619,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 下属部门.
+        ///   Looks up a localized string similar to 下属组织机构.
         /// </summary>
         internal static string DefaultDepartmentName {
             get {

@@ -213,7 +213,7 @@ namespace huaanClient
                     }
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { Logger.Error(ex); }
             try
             {
 
@@ -226,8 +226,9 @@ namespace huaanClient
                 else
                     return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Error(ex);
                 return false;
             }
         }
@@ -1011,6 +1012,7 @@ namespace huaanClient
             }
             catch (Exception ex)
             {
+                Logger.Error(ex);
                 return result;
             }
         }
@@ -1164,8 +1166,9 @@ namespace huaanClient
                 else
                     return false;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error(e);
                 return false;
             }
         }
@@ -1336,12 +1339,11 @@ namespace huaanClient
                     }
                 }
 
-
-
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Error(e, "一键下发失败");
                 return false;
             }
 
@@ -3356,8 +3358,9 @@ namespace huaanClient
                 else
                     return false;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error(e, "删除考勤组失败");
                 return false;
             }
         }
@@ -3388,8 +3391,9 @@ namespace huaanClient
                     return false;
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error(e, "设置默认考勤组失败");
                 return false;
             }
         }
@@ -3662,8 +3666,9 @@ namespace huaanClient
                 return true;
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error(e, "删除人员失败");
                 return false;
             }
         }
@@ -4518,9 +4523,9 @@ namespace huaanClient
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
-
+                Logger.Error(e, "sendOutforLine");
             }
             return re;
         }
@@ -4542,8 +4547,9 @@ namespace huaanClient
                     return false;
                 }
             }
-            catch (Exception x)
+            catch (Exception ex)
             {
+                Logger.Error(ex, "getvolume");
                 volume = "";
                 return false;
             }
@@ -4567,8 +4573,9 @@ namespace huaanClient
                     return false;
                 }
             }
-            catch (Exception x)
+            catch (Exception ex)
             {
+                Logger.Error(ex, "getlcdscreensaver");
                 volume = "";
                 return false;
             }
@@ -4690,6 +4697,7 @@ namespace huaanClient
                         }
                         catch (Exception ex)
                         {
+                            Logger.Error(ex, "setCameraParameters");
                         }
 
                     }
@@ -4720,7 +4728,7 @@ namespace huaanClient
                     }
                 });
             }
-            catch { }
+            catch (Exception e) { Logger.Error(e, "GetNetworkInfo"); }
             return paramString;
         }
 
@@ -4737,7 +4745,7 @@ namespace huaanClient
                     }
                 });
             }
-            catch { }
+            catch (Exception e) { Logger.Error(e, "SetNetworkInfo"); }
             return re;
         }
         public static bool getIscode_syn()
@@ -4749,7 +4757,7 @@ namespace huaanClient
                 if (Inihelper1.ReadBool("Setting", "Iscode_syn", false))
                     result = true;
             }
-            catch { }
+            catch (Exception e) { Logger.Error(e, "getIscode_syn"); }
             return result;
         }
         public static bool setIscode_syn(string nooff)
@@ -4773,7 +4781,7 @@ namespace huaanClient
                     result = true;
                 }
             }
-            catch { }
+            catch (Exception e) { Logger.Error(e, "setIscode_syn"); }
             return result;
         }
         public static bool setIsNtpSync(string trurOrFalse)
@@ -4859,7 +4867,7 @@ namespace huaanClient
                 //    }
                 //}
             }
-            catch { }
+            catch (Exception e) { Logger.Error(e, "GetIpforPC"); }
             if (!string.IsNullOrEmpty(result))
                 result = result.Remove(result.Length - 1, 1);
             return result;
@@ -4887,8 +4895,9 @@ namespace huaanClient
                     c.Close();
                     return ip;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Logger.Error(e, "GetLocalIP");
                     return null;
                 }
             }
@@ -4943,7 +4952,7 @@ namespace huaanClient
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex);
+                Logger.Error(ex, "RunApp");
                 return ex.Message;
             }
         }
@@ -5228,9 +5237,9 @@ namespace huaanClient
                                 setStaf(personid, name, imge, card_id, source);
                                 deleteDataSyn(personid);
                             }
-                            catch
+                            catch (Exception e)
                             {
-
+                                Logger.Error(e, "registDataSynTostaff");
                             }
                         }
                     }

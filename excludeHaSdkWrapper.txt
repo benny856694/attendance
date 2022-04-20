@@ -1,0 +1,3 @@
+HaSdkWrapper.dll
+HaSdkWrapper.xml
+HaSdkWrapper.pdb
