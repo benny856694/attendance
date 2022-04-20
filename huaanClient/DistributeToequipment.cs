@@ -384,7 +384,7 @@ namespace huaanClient
             else
             {
                 Logger.Debug("下发失败 id:{0}，相机IP:{1},人员ID：{2} 设备离线", id, CameraConfigPortlist.IP, distribute["userid"]);
-                string updatessql = $"UPDATE Equipment_distribution SET status='fail', errMsg='{Properties.Strings.DeviceOffline}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
+                string updatessql = $"UPDATE Equipment_distribution SET status='fail', type = '2', errMsg='{Properties.Strings.DeviceOffline}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                 SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                 return FaceDeploymentResult.DeviceOffline;
                 
