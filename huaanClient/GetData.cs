@@ -640,6 +640,13 @@ namespace huaanClient
             return obj.ToString();
         }
 
+        internal static int emptyEuipmentDistribution()
+        {
+            string sql = "delete from Equipment_Distribution";
+            int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+            return sr;
+        }
+
         internal static int issueByEquipmentDistributionIds(string jsondata)
         {
             JArray jo = (JArray)JsonConvert.DeserializeObject(jsondata);
