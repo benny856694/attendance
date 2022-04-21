@@ -1030,9 +1030,19 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //获取月度考勤信息
         public string getMonthlyData(string date, string name, string departments)
         {
-            date = date.Replace(@"/", "-");
-            var data = GetData.getMonthlyData(date, name, departments);
-            return JsonConvert.SerializeObject(data);
+            if (CultureInfo.CurrentCulture.Name != Constants.LANG_LOCALE_ENGLISH)
+            {
+                date = date.Replace(@"/", "-");
+                var data = GetData.getMonthlyData(date, name, departments);
+                return JsonConvert.SerializeObject(data);
+            }
+            else
+            {
+                var ctx = LoadData(date, name, departments);
+                var data = ctx.ToMonthlyAttendance();
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+            }
         }
         //导出月度考勤报表
         public void exportMonthlyData(string date, string name, string departments)
@@ -1089,7 +1099,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 form.Invoke(new Action(() =>
                 {
                     string data = null;
-                    if(CultureInfo.CurrentCulture.Name == Constants.LANG_LOCALE_CHINESE)
+                    if(CultureInfo.CurrentCulture.Name != Constants.LANG_LOCALE_ENGLISH)
                     {
                         data = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism, page, limt, department);
                     }
@@ -1114,12 +1124,8 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                         ctx.Load(criteria);
                         
                         var att = ctx.ToDailyAttendance();
-                        Debug.WriteLine("-------------");
-                        foreach (var d in att)
-                        {
-                            Debug.WriteLine($"{d.Name}-{d.Date}");
-                        }
-                        data = JsonConvert.SerializeObject(att);
+                        data = JsonConvert.SerializeObject(att, Formatting.Indented);
+                        Debug.Write(data);
                     }
 
                     form.HideLayer();
@@ -2003,26 +2009,32 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         {
             form.Invoke(new Action(() =>
             {
-                var segments = date.Split('-');
-                var y = int.Parse(segments[0]);
-                var m = int.Parse(segments[1]);
-                var from = new LocalDate(y, m, 1);
-                var to = from.With(DateAdjusters.EndOfMonth);
-
-                var criteria = new QueryCriteria
-                {
-                    From = from,
-                    To = to,
-                    DepartmentNames = departments,
-                    Name = name
-                };
-
-                var ctx = new DataContext();
-                ctx.Load(criteria);
+                var ctx = LoadData(date, name, departments);
 
                 var reporter = new PeriodicMasterReporter();
-                Tools.GenerateReport(ctx, $"PeriodicMaster({y}-{m:d2}).xlsx", reporter);
+                Tools.GenerateReport(ctx, $"PeriodicMaster({ctx.From.Year}-{ctx.From.Month:d2}).xlsx", reporter);
             }));
+        }
+
+        private static DataContext LoadData(string date, string name, string departments)
+        {
+            var segments = date.Split('-');
+            var y = int.Parse(segments[0]);
+            var m = int.Parse(segments[1]);
+            var from = new LocalDate(y, m, 1);
+            var to = from.With(DateAdjusters.EndOfMonth);
+
+            var criteria = new QueryCriteria
+            {
+                From = from,
+                To = to,
+                DepartmentNames = departments,
+                Name = name
+            };
+
+            var ctx = new DataContext();
+            ctx.Load(criteria);
+            return ctx;
         }
 
         public void ExecCommand(string path)

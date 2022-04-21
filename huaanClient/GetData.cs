@@ -33,8 +33,15 @@ namespace huaanClient
         //返回json
         public static JObject obj = null;
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
+        
         private static IDbConnection GetConnection() => SQLiteHelper.GetConnection();
+        
+        static Lazy<IFreeSql> sqliteLazy = new Lazy<IFreeSql>(() => new FreeSql.FreeSqlBuilder()
+          .UseConnectionString(FreeSql.DataType.Sqlite, GetConnection().ConnectionString)
+          .UseAutoSyncStructure(false) //自动同步实体结构到数据库，FreeSql不会扫描程序集，只有CRUD时才会生成表。
+          .Build(), true);
+
+        public static IFreeSql Sqlite => sqliteLazy.Value;
         public static string getDepartmentDataI()
         {
 

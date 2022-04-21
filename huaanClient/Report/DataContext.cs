@@ -4,6 +4,7 @@ using DBUtility.SQLite;
 using huaanClient.Database;
 using NodaTime;
 using NodaTime.Extensions;
+using NodaTime.Text;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -170,6 +171,7 @@ namespace huaanClient.Report
 
         public List<DailyAttendance> ToDailyAttendance()
         {
+            var timePattern = LocalTimePattern.CreateWithInvariantCulture("HH:mm");
             var result = new List<DailyAttendance>();
             foreach (var data in AttendanceData)
             {
@@ -180,7 +182,7 @@ namespace huaanClient.Report
                     Department = details.Department?.name,
                     PersonalNo = details.Staff.Employee_code,
                     Date = data.Date,
-                    Shift = data.ShiftName,
+                    Shift = $"{data.ShiftName}-{timePattern.Format(data.ShiftStart.GetValueOrDefault())}-{timePattern.Format(data.ShiftEnd.GetValueOrDefault())}",
                     CheckIn1 = data.CheckIn,
                     CheckOut1 = data.CheckOut,
                     Temperature = data.Temperature,
@@ -192,6 +194,49 @@ namespace huaanClient.Report
 
                 result.Add(dailyAttendance);
             }
+            return result;
+        }
+
+
+        public List<MonthlyAttendance> ToMonthlyAttendance()
+        {
+            var result = new List<MonthlyAttendance>();
+            foreach (var person in Staffs)
+            {
+                var monthlyAttendance = new MonthlyAttendance();
+
+                var staffDetails = this.GetStaffDetails(person.id);
+                if (staffDetails == null) continue;
+
+                monthlyAttendance.Department = staffDetails.Department?.name;
+                monthlyAttendance.Designation = staffDetails.Employeetype?.Employetype_name;
+                monthlyAttendance.EmployeeNo = staffDetails.Staff.Employee_code;
+                monthlyAttendance.EmployeeName = staffDetails.Staff.name;
+                monthlyAttendance.YearMonth = this.From.ToYearMonth();
+
+                
+                
+                var counter = new Counter();
+                for (var d = this.From; d <= this.To; d = d.PlusDays(1))
+                {
+                    var context = this.Extract(person.id, d);
+                    if (context != null)
+                    {
+                        counter.Count(context);
+                    }
+                }
+
+                monthlyAttendance.PresentDaysCount = counter.presentCount;
+                monthlyAttendance.AbsentDaysCount = counter.absenceCount;
+                monthlyAttendance.LeaveDaysCount = counter.leaveDayCount;
+                monthlyAttendance.HolidaysCount = counter.holidayCount;
+                monthlyAttendance.TotalLateHours = counter.lateHours;
+                monthlyAttendance.TotalLateDays = counter.lateCount;
+                monthlyAttendance.TotalEarlyHours = counter.earlyHours;
+                monthlyAttendance.TotalEarlyDays = counter.earlyCount;
+                result.Add(monthlyAttendance);
+            }
+
             return result;
         }
     }
