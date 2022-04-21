@@ -1406,6 +1406,36 @@ namespace huaanClient
 
         }
 
+        public static void DeleteStaffFromDevice(string staffId, int deviceId, IDbConnection conn)
+        {
+
+            var distributions = conn.Query<EquipmentDistribution>(
+                    "select * from Equipment_distribution " +
+                    "where userid = @userid and deviceid = @deviceid",
+                    new { userid = staffId, deviceid = deviceId });
+            if (distributions.Count() == 0)
+            {
+                var distro = new EquipmentDistribution()
+                {
+                    userid = staffId,
+                    deviceid = deviceId,
+                    status = "deleting",
+                    type="1"
+                };
+
+                SqlMapperExtensions.Insert(conn, distro);
+            }
+            else
+            {
+                foreach (var distro in distributions)
+                {
+                    distro.MarkForDelete();
+                }
+                conn.Update(distributions);
+            }
+
+        }
+
         internal static Object[] getAllMyDeviceExt(MyDevice[] mydevice)
         {
             if (mydevice == null|| mydevice.Length==0)

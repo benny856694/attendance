@@ -9,6 +9,7 @@ using System.Diagnostics;
 namespace huaanClient.Worker
 {
     using Business;
+    using DBUtility.SQLite;
     using Polly;
     using System.Net.Http;
     using System.Threading;
@@ -109,6 +110,13 @@ namespace huaanClient.Worker
                         item.ErrorCode = res.code;
                         item.State = res.code == 0 ? DeployResult.Succeed : DeployResult.Failed;
                         ItemDeployedEvent?.Invoke(this, new DeployEventArgs { ErrorCode = res.code });
+                        if (AccessRuleDeployManager.Instance.DefaultAccess.Equals(Access.NoAccess)&& req.kind==1)//默认规则不准通行并且调度类别为1的加入到下发列表，进行删除
+                        {
+                            using (var conn = SQLiteHelper.GetConnection())
+                            {
+                                GetData.DeleteStaffFromDevice(item.id?.ToString(),(int)item.DeviceId, conn);
+                            }
+                        }
                     }, token);
                 }
                 catch (Exception ex)
@@ -120,8 +128,8 @@ namespace huaanClient.Worker
                     ItemDeployedEvent?.Invoke(this, arg);
                 }
             }
-               
 
+            DistributeToequipment.Wakeup();
             _http.Dispose();
         }
 

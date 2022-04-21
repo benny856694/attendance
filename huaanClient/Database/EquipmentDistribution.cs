@@ -39,5 +39,14 @@ namespace huaanClient.Database
             code = "";
             type = "0";
         }
+
+        public void MarkForDelete()
+        {
+            status = "deleting";
+            date = DateTime.Now;
+            errMsg = "";
+            code = "";
+            type = "1";
+        }
     }
 }
