@@ -1035,21 +1035,29 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             });
         }
         //获取月度考勤信息
-        public string getMonthlyData(string date, string name, string departments)
+        public void getMonthlyData(IJavascriptCallback cb, string date, string name, string departments)
         {
-            if (CultureInfo.CurrentCulture.Name != Constants.LANG_LOCALE_ENGLISH)
+            Task.Factory.StartNew(() =>
             {
-                date = date.Replace(@"/", "-");
-                var data = GetData.getMonthlyData(date, name, departments);
-                return JsonConvert.SerializeObject(data);
-            }
-            else
-            {
-                var ctx = LoadData(date, name, departments);
-                var data = ctx.ToMonthlyAttendance();
-                var json = JsonConvert.SerializeObject(data);
-                return json;
-            }
+                using (cb)
+                {
+                    string json = null;
+                    if (CultureInfo.CurrentCulture.Name != Constants.LANG_LOCALE_ENGLISH)
+                    {
+                        date = date.Replace(@"/", "-");
+                        var data = GetData.getMonthlyData(date, name, departments);
+                        json =  JsonConvert.SerializeObject(data);
+                    }
+                    else
+                    {
+                        var ctx = LoadData(date, name, departments);
+                        var data = ctx.ToMonthlyAttendance();
+                        json = JsonConvert.SerializeObject(data);
+                    }
+                    cb.ExecuteAsync(json);
+                }
+            });
+            
         }
         //导出月度考勤报表
         public void exportMonthlyData(string date, string name, string departments)
