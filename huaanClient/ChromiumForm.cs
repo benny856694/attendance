@@ -751,6 +751,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return result;
         }
 
+        //一键清空下发记录
+        public int emptyEquipmentDistribution()
+        {
+            int result = GetData.emptyEuipmentDistribution();
+            return result;
+        }
+
         public void delVisitorforId(string id)
         {
             DistributeToequipment.delVisitorforId(id.Trim());

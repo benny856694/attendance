@@ -647,6 +647,13 @@ namespace huaanClient
             return obj.ToString();
         }
 
+        internal static int emptyEuipmentDistribution()
+        {
+            string sql = "delete from Equipment_Distribution";
+            int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+            return sr;
+        }
+
         internal static int issueByEquipmentDistributionIds(string jsondata)
         {
             JArray jo = (JArray)JsonConvert.DeserializeObject(jsondata);
@@ -1412,6 +1419,36 @@ namespace huaanClient
                 foreach (var distro in distributions)
                 {
                     distro.MarkForDistribution();
+                }
+                conn.Update(distributions);
+            }
+
+        }
+
+        public static void DeleteStaffFromDevice(string staffId, int deviceId, IDbConnection conn)
+        {
+
+            var distributions = conn.Query<EquipmentDistribution>(
+                    "select * from Equipment_distribution " +
+                    "where userid = @userid and deviceid = @deviceid",
+                    new { userid = staffId, deviceid = deviceId });
+            if (distributions.Count() == 0)
+            {
+                var distro = new EquipmentDistribution()
+                {
+                    userid = staffId,
+                    deviceid = deviceId,
+                    status = "deleting",
+                    type="1"
+                };
+
+                SqlMapperExtensions.Insert(conn, distro);
+            }
+            else
+            {
+                foreach (var distro in distributions)
+                {
+                    distro.MarkForDelete();
                 }
                 conn.Update(distributions);
             }
