@@ -1140,7 +1140,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                         
                         var att = ctx.ToDailyAttendance();
                         data = JsonConvert.SerializeObject(att, Formatting.Indented);
-                        Debug.Write(data);
+                        
                     }
 
                     form.HideLayer();

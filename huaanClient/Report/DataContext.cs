@@ -186,9 +186,9 @@ namespace huaanClient.Report
                     CheckIn1 = data.CheckIn,
                     CheckOut1 = data.CheckOut,
                     Temperature = data.Temperature,
-                    LateMinutes = data.LateHour,
-                    EarlyMinutes = data.EarlyHour,
-                    WorkHour = data.WorkHour,
+                    LateMinutes = data.LateHour.Normalize(),
+                    EarlyMinutes = data.EarlyHour.Normalize(),
+                    WorkHour = data.WorkHour.Normalize(),
                     Status = data.Remark,
                 };
 
@@ -230,9 +230,9 @@ namespace huaanClient.Report
                 monthlyAttendance.AbsentDaysCount = counter.absenceCount;
                 monthlyAttendance.LeaveDaysCount = counter.leaveDayCount;
                 monthlyAttendance.HolidaysCount = counter.holidayCount;
-                monthlyAttendance.TotalLateHours = counter.lateHours;
+                monthlyAttendance.TotalLateHours = counter.lateHours.Normalize();
                 monthlyAttendance.TotalLateDays = counter.lateCount;
-                monthlyAttendance.TotalEarlyHours = counter.earlyHours;
+                monthlyAttendance.TotalEarlyHours = counter.earlyHours.Normalize();
                 monthlyAttendance.TotalEarlyDays = counter.earlyCount;
                 result.Add(monthlyAttendance);
             }
