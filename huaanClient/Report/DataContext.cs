@@ -237,7 +237,7 @@ namespace huaanClient.Report
                 result.Add(monthlyAttendance);
             }
 
-            return result;
+            return result.OrderBy(x => x.Department).ToList();
         }
     }
 }
