@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FreeSql.DataAnnotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Database
 {
+    [Table(Name = "Attendance_Data")]
     public class AttendanceData
     {
+        [Column(IsIdentity = true, IsPrimary = true)]
         public long id { get; set; }
         public string name { get; set; }
         public string personId { get; set; }

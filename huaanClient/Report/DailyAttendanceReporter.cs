@@ -26,24 +26,25 @@ namespace huaanClient.Report
 
         private void WriteStatistics(IXLWorksheet ws, int row, int col, Counter counter)
         {
-            ++col;
-            ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalPresent}: {counter.presentCount}";
-            ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalAbsent}: {counter.absenceCount}";
-            ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalLate}: {counter.lateCount}";
-            ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalEarly}: {counter.earlyCount}";
+            if (ws != null)
+            {
+                ++col;
+                ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalPresent}: {counter.presentCount}";
+                ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalAbsent}: {counter.absenceCount}";
+                ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalLate}: {counter.lateCount}";
+                ws.Cell(row, col++).Value = $"{Strings.DailyReportTotalEarly}: {counter.earlyCount}";
+            }
         }
-
-        private void WriteEmployees(IXLWorkbook wb, DataContext ctx)
+        
+        public void WriteEmployees(IXLWorkbook wb, DataContext ctx)
         {
-
-
             var start = ctx.From;
             var end = ctx.To;
             var departments = ctx.Staffs.GroupBy(x => x.department_id);
             for (var d = start; d <= end; d = d.PlusDays(1))
             {
                 var counter = new Counter();
-                var ws = wb.AddWorksheet(d.ToString("d", CultureInfo.CurrentCulture).Replace('/','-'));
+                var ws = wb?.AddWorksheet(d.ToString("d", CultureInfo.CurrentCulture).Replace('/','-'));
                 var row = 1;
                 var col = 1;
                 var rowCount = 0;
@@ -67,44 +68,53 @@ namespace huaanClient.Report
                         col += colConsumed;
                         counter.Count(dailyAttendanceDataCtx);
                     }
-                    ws.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
+                    ws?.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 }
                 WriteStatistics(ws, row+1, 1, counter);
 
-                ws.Columns().AdjustToContents().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                ws.Rows("1")
-                    .Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                ws.Rows($"{row+1}").Style.Font.Bold = true;
-                ws.SheetView.FreezeRows(1);
-            }
+                if (ws != null)
+                {
+                    ws.Columns().AdjustToContents().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                    ws.Rows("1")
+                        .Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    ws.Rows($"{row + 1}").Style.Font.Bold = true;
+                    ws.SheetView.FreezeRows(1);
 
+                }
+            }
 
         }
 
 
         private (int rowConsumed, int colConsumed) WriteTitle(IXLWorksheet ws, int startRow, int startCol)
         {
-            //title
-            var col = startCol;
-            var row = startRow;
-            ws.Cell(row, col++).Value = Strings.DailyReportDepartmentTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportDesignationTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportEmpNumberTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportEmpNameTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportDateTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportShiftTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportShiftStartTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportShiftEndTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportCheckInTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportCheckOutTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportLateTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportEarlyTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportWHTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportOTTitle;
-            ws.Cell(row, col++).Value = Strings.DailyReportRemarksTitle;
-            var titleRow = ws.Range(ws.Cell(row, 1).Address, ws.Cell(row, col - 1).Address);
-            titleRow.Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.LightGray);
-            return (1, col - startCol);
+            
+            if(ws != null)
+            {
+                var col = startCol;
+                var row = startRow;
+                ws.Cell(row, col++).Value = Strings.DailyReportDepartmentTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportDesignationTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportEmpNumberTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportEmpNameTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportDateTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportShiftTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportShiftStartTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportShiftEndTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportCheckInTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportCheckOutTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportLateTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportEarlyTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportWHTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportOTTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportRemarksTitle;
+                var titleRow = ws.Range(ws.Cell(row, 1).Address, ws.Cell(row, col - 1).Address);
+                titleRow.Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.LightGray);
+                return (1, col - startCol);
+            }
+
+            return (0, 0);
+            
         }
     }
 }

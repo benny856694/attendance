@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 namespace huaanClient.Database
 {
     [Table("staff")]
+    [FreeSql.DataAnnotations.Table(Name = "staff")]
     public class Staff
     {
         [ExplicitKey]
+        
         public string id { get; set; }
         public string name { get; set; }
         public string Email { get; set; }
