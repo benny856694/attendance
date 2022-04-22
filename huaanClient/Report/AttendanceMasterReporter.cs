@@ -30,23 +30,16 @@ namespace huaanClient.Report
             }
         }
 
-        public List<MonthlyAttendance> WriteAttendanceData(IXLWorksheet sheet, DataContext ctx)
+        public void WriteAttendanceData(IXLWorksheet sheet, DataContext ctx)
         {
             var row = 2;
             var col = 1;
-            var result = new List<MonthlyAttendance>();
             foreach (var person in ctx.Staffs)
             {
-                var monthlyAttendance = new MonthlyAttendance();
                 
                 var staffDetails = ctx.GetStaffDetails(person.id);
                 if (staffDetails == null) continue;
 
-                monthlyAttendance.Department = staffDetails.Department?.name;
-                monthlyAttendance.Designation = staffDetails.Employeetype?.Employetype_name;
-                monthlyAttendance.EmployeeNo = staffDetails.Staff.Employee_code;
-                monthlyAttendance.EmployeeName = staffDetails.Staff.name;
-                monthlyAttendance.YearMonth = ctx.From.ToYearMonth();
 
                 if (sheet != null)
                 {
@@ -116,15 +109,6 @@ namespace huaanClient.Report
                     col += 1;
                 }
 
-                monthlyAttendance.PresentDaysCount = counter.presentCount;
-                monthlyAttendance.AbsentDaysCount = counter.absenceCount;
-                monthlyAttendance.LeaveDaysCount = counter.leaveDayCount;
-                monthlyAttendance.HolidaysCount = counter.holidayCount;
-                monthlyAttendance.TotalLateHours = counter.lateHours;
-                monthlyAttendance.TotalLateDays = counter.lateCount;
-                monthlyAttendance.TotalEarlyHours = counter.earlyHours;
-                monthlyAttendance.TotalEarlyDays = counter.earlyCount;
-                result.Add(monthlyAttendance);
 
                 if(sheet != null)
                 {
@@ -150,7 +134,6 @@ namespace huaanClient.Report
                 col = 1;
             }
 
-            return result;
 
         }
 

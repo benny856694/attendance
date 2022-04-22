@@ -36,14 +36,11 @@ namespace huaanClient.Report
             }
         }
         
-        public List<DailyAttendance> WriteEmployees(IXLWorkbook wb, DataContext ctx)
+        public void WriteEmployees(IXLWorkbook wb, DataContext ctx)
         {
-
-
             var start = ctx.From;
             var end = ctx.To;
             var departments = ctx.Staffs.GroupBy(x => x.department_id);
-            var result = new List<DailyAttendance>();
             for (var d = start; d <= end; d = d.PlusDays(1))
             {
                 var counter = new Counter();
@@ -70,26 +67,6 @@ namespace huaanClient.Report
                         row += rowConsumed;
                         col += colConsumed;
                         counter.Count(dailyAttendanceDataCtx);
-                        if(dailyAttendanceDataCtx.DailyAttendanceData != null)
-                        {
-                            var dailyAttendance = new DailyAttendance()
-                            {
-                                Name = dailyAttendanceDataCtx.StaffDetails.Staff?.name,
-                                Department = dailyAttendanceDataCtx.StaffDetails.Department?.name,
-                                PersonalNo = dailyAttendanceDataCtx.StaffDetails.Staff.Employee_code,
-                                Date = d,
-                                Shift = dailyAttendanceDataCtx.Shift?.name,
-                                CheckIn1 = dailyAttendanceDataCtx.DailyAttendanceData.CheckIn,
-                                CheckOut1 = dailyAttendanceDataCtx.DailyAttendanceData.CheckOut,
-                                Temperature = dailyAttendanceDataCtx.DailyAttendanceData.Temperature,
-                                LateMinutes = dailyAttendanceDataCtx.DailyAttendanceData.LateHour,
-                                EarlyMinutes = dailyAttendanceDataCtx.DailyAttendanceData.EarlyHour,
-                                WorkHour = dailyAttendanceDataCtx.DailyAttendanceData.WorkHour,
-                                Status = dailyAttendanceDataCtx.DailyAttendanceData.Remark,
-                            };
-
-                            result.Add(dailyAttendance);
-                        }
                     }
                     ws?.Range($"A{departmentRowStart}:A{row - 1}").Merge().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 }
@@ -106,7 +83,6 @@ namespace huaanClient.Report
                 }
             }
 
-            return result;
         }
 
 
