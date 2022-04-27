@@ -63,6 +63,7 @@ namespace huaanClient
             var face = new JObject();
             face["enable_dereplication"] = true;
             face["derep_timeout"] = 3;
+            face["enable_same_face_reg"] = true;
             o["face"] = face;
 
 
