@@ -13,6 +13,7 @@ namespace huaanClient.Report
         public string EmployeeId { get; set; }
         public string EmployeeCode { get; set; }
         public string EmployeeName { get; set; }
+        public string EmployeeDepartment { get; set; }
         public LocalDate Date { get; set; }
         public string ShiftName { get; set; }
         public LocalTime? ShiftStart { get; set; }

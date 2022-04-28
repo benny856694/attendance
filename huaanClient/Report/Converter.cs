@@ -18,6 +18,7 @@ namespace huaanClient.Report
             result.EmployeeId = data.personId;
             result.EmployeeCode = data.Employee_code;
             result.EmployeeName = data.name;
+            result.EmployeeDepartment = data.department;
             result.ShiftName = shift.Name;
             result.ShiftStart = shift.ShiftStart.ToLocalTime();
             result.ShiftEnd = shift.ShiftEnd.ToLocalTime();

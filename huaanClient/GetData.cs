@@ -3760,7 +3760,7 @@ namespace huaanClient
             {
                 var sb = new StringBuilder(" ");
                 var sections = selectedPersonTypes.Split(',')
-                    .Select(x => x == "1" ? " person_id is not null" : " person_id is null");
+                    .Select(x => x == "1" ? " person_id != ''" : " person_id is null or person_id == ''");
                 var s = String.Join(" or ", sections);
 
                 sb.AppendFormat(" ({0}) AND", s);

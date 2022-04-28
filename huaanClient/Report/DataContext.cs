@@ -2,6 +2,7 @@
 using Dapper.Contrib.Extensions;
 using DBUtility.SQLite;
 using huaanClient.Database;
+using huaanClient.Properties;
 using NodaTime;
 using NodaTime.Extensions;
 using NodaTime.Text;
@@ -178,9 +179,9 @@ namespace huaanClient.Report
                 var details = GetStaffDetails(data.EmployeeId);
                 var dailyAttendance = new DailyAttendance()
                 {
-                    Name = details.Staff?.name,
-                    Department = details.Department?.name,
-                    PersonalNo = details.Staff.Employee_code,
+                    Name = details?.Staff?.name ?? $"{data.EmployeeName}({Strings.Deleted})",
+                    Department = details?.Department?.name ?? data.EmployeeDepartment,
+                    PersonalNo = details?.Staff?.Employee_code ?? data.EmployeeCode,
                     Date = data.Date,
                     Shift = $"{data.ShiftName}-{timePattern.Format(data.ShiftStart.GetValueOrDefault())}-{timePattern.Format(data.ShiftEnd.GetValueOrDefault())}",
                     CheckIn1 = data.CheckIn,
@@ -207,11 +208,10 @@ namespace huaanClient.Report
 
                 var staffDetails = this.GetStaffDetails(person.id);
                 if (staffDetails == null) continue;
-
-                monthlyAttendance.Department = staffDetails.Department?.name;
-                monthlyAttendance.Designation = staffDetails.Employeetype?.Employetype_name;
-                monthlyAttendance.EmployeeNo = staffDetails.Staff.Employee_code;
-                monthlyAttendance.EmployeeName = staffDetails.Staff.name;
+                monthlyAttendance.Department = staffDetails?.Department?.name;
+                monthlyAttendance.Designation = staffDetails?.Employeetype?.Employetype_name;
+                monthlyAttendance.EmployeeNo = staffDetails?.Staff.Employee_code;
+                monthlyAttendance.EmployeeName = staffDetails?.Staff.name;
                 monthlyAttendance.YearMonth = this.From.ToYearMonth();
 
                 
