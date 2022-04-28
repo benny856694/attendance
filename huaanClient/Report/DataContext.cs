@@ -180,6 +180,7 @@ namespace huaanClient.Report
                 var dailyAttendance = new DailyAttendance()
                 {
                     Name = details?.Staff?.name ?? $"{data.EmployeeName}({Strings.Deleted})",
+                    Id = data.EmployeeId,
                     Department = details?.Department?.name ?? data.EmployeeDepartment,
                     PersonalNo = details?.Staff?.Employee_code ?? data.EmployeeCode,
                     Date = data.Date,

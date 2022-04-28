@@ -10,6 +10,7 @@ namespace huaanClient.Report
     public class DailyAttendance
     {
         public string Name { get; set; }
+        public string Id { get; set; }
         public string Department { get; set; }
         public string PersonalNo { get; set; }
         public LocalDate Date { get; set; }
