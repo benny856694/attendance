@@ -16,10 +16,14 @@ namespace huaanClient.Report
         public string EmployeeDepartment { get; set; }
         public LocalDate Date { get; set; }
         public string ShiftName { get; set; }
-        public LocalTime? ShiftStart { get; set; }
-        public LocalTime? ShiftEnd { get; set; }
-        public LocalTime? CheckIn { get; set; }
-        public LocalTime? CheckOut { get; set; }
+        public LocalTime? ShiftStart1 { get; set; }
+        public LocalTime? ShiftEnd1 { get; set; }
+        public LocalTime? ShiftStart2 { get; set; }
+        public LocalTime? ShiftEnd2 { get; set; }
+        public LocalTime? CheckIn1 { get; set; }
+        public LocalTime? CheckOut1 { get; set; }
+        public LocalTime? CheckIn2 { get; set; }
+        public LocalTime? CheckOut2 { get; set; }
         public Period LateHour { get; set; } = Period.Zero;
         public Period EarlyHour { get; set; } = Period.Zero;
         public Period WorkHour { get; set; } = Period.Zero;
@@ -37,7 +41,10 @@ namespace huaanClient.Report
             return new Shift
             {
                 name = this.ShiftName,
-                gotowork1 = this.ShiftStart.HasValue && this.ShiftEnd.HasValue ? $"{this.ShiftStart.Value.ToDbTimeString()}-{this.ShiftEnd.Value.ToDbTimeString()}" : ""
+                gotowork1 = this.ShiftStart1.HasValue && this.ShiftEnd1.HasValue ? $"{this.ShiftStart1.Value.ToDbTimeString()}-{this.ShiftEnd1.Value.ToDbTimeString()}" : "",
+                gotowork2 = this.ShiftStart2.HasValue && this.ShiftEnd2.HasValue ? $"{this.ShiftStart2.Value.ToDbTimeString()}-{this.ShiftEnd2.Value.ToDbTimeString()}" : "",
+                //gooffwork3 = this.ShiftStart3.HasValue && this.ShiftEnd3.HasValue ? $"{this.ShiftStart3.Value.ToDbTimeString()}-{this.ShiftEnd3.Value.ToDbTimeString()}" : ""
+
             };
         }
 

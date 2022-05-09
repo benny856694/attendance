@@ -12,20 +12,38 @@ namespace huaanClient.Report
 {
     internal static class Extensions
     {
-        public static (string Name, string ShiftStart, string ShiftEnd) CalcShift(this string data)
+        public static (string Name, string ShiftStart1, string ShiftEnd1, string ShiftStart2, string ShiftEnd2) CalcShift(this string data)
         {
-            if (string.IsNullOrEmpty(data))
+            string name = null,  shiftStart1 = null, shiftEnd1 = null, shiftStart2 = null, shiftEnd2 = null;
+
+            string commute1 = null, commute2 = null;
+            if (data.Contains(";"))
             {
-                return (null, null, null);
+                var s = data.Split(';');
+                commute1 = s[0];
+                commute2 = s[1];
+            }
+            else
+            {
+                commute1 = data;
             }
 
-            var sections = data.Split('-');
-            if (sections.Length < 3)
+            var sectionsCommute1 = commute1?.Split('-');
+            if (sectionsCommute1?.Length == 3)
             {
-                return (null, null, null);
+                name = sectionsCommute1[0];
+                shiftStart1 = sectionsCommute1[1];
+                shiftEnd1 = sectionsCommute1[2];
             }
 
-            return (sections[0], sections[1], sections[2]);
+            var sectionsCommute2 = commute2?.Split('-');
+            if (sectionsCommute2?.Length == 2)
+            {
+                shiftStart2 = sectionsCommute2[0];
+                shiftEnd2 = sectionsCommute2[1];
+            }
+
+            return (name, shiftStart1, shiftEnd1, shiftStart2, shiftEnd2);
         }
 
         public static LocalTime? ToLocalTime(this string data)
@@ -45,31 +63,44 @@ namespace huaanClient.Report
             {
                 return null;
             }
-
+            
             
 
             var segments = s.Split('-');
             return new LocalDate(Convert.ToInt32(segments[0]), Convert.ToInt32(segments[1]), Convert.ToInt32(segments[2]));
         }
 
-        public static Remark CalcRemarks(this AttendanceData data)
+        public static Remark CalcRemarks(this DailyAttendanceData data)
         {
-            if (string.IsNullOrEmpty(data.Punchinformation) && string.IsNullOrEmpty(data.Punchinformation1))
+            var expectedPunchCount = 0;
+            if (data.ShiftStart1.HasValue) expectedPunchCount++;
+            if (data.ShiftStart2.HasValue) expectedPunchCount++;
+            if (data.ShiftEnd1.HasValue) expectedPunchCount++;
+            if (data.ShiftEnd2.HasValue) expectedPunchCount++;
+
+            var actualPunchCount = 0;
+            if (data.CheckIn1.HasValue) actualPunchCount++;
+            if (data.CheckIn2.HasValue) actualPunchCount++;
+            if (data.CheckOut1.HasValue) actualPunchCount++;
+            if (data.CheckOut2.HasValue) actualPunchCount++;
+
+
+            if (actualPunchCount == 0)
             {
                 return Remark.Absence;
             }
-            if (string.IsNullOrEmpty(data.Punchinformation) || string.IsNullOrEmpty(data.Punchinformation1) )
+            
+            if (actualPunchCount < expectedPunchCount)
             {
                 return Remark.SinglePunch;
             }
-            
-            //请假
-            if (string.Compare(data.Remarks, "3", StringComparison.InvariantCultureIgnoreCase) == 0)
+
+            if (actualPunchCount == expectedPunchCount)
             {
-                return Remark.Leave;
+                return Remark.Present;
             }
 
-            return Remark.Present;
+            return Remark.Absence;
         }
 
         public static string ToDisplayText(this Remark rmk)

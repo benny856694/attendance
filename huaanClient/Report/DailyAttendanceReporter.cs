@@ -101,8 +101,10 @@ namespace huaanClient.Report
                 ws.Cell(row, col++).Value = Strings.DailyReportShiftTitle;
                 ws.Cell(row, col++).Value = Strings.DailyReportShiftStartTitle;
                 ws.Cell(row, col++).Value = Strings.DailyReportShiftEndTitle;
-                ws.Cell(row, col++).Value = Strings.DailyReportCheckInTitle;
-                ws.Cell(row, col++).Value = Strings.DailyReportCheckOutTitle;
+                ws.Cell(row, col++).Value = Strings.DailyReportCheckInTitle + "1";
+                ws.Cell(row, col++).Value = Strings.DailyReportCheckOutTitle + "1";
+                ws.Cell(row, col++).Value = Strings.DailyReportCheckInTitle + "2";
+                ws.Cell(row, col++).Value = Strings.DailyReportCheckOutTitle + "2";
                 ws.Cell(row, col++).Value = Strings.DailyReportLateTitle;
                 ws.Cell(row, col++).Value = Strings.DailyReportEarlyTitle;
                 ws.Cell(row, col++).Value = Strings.DailyReportWHTitle;

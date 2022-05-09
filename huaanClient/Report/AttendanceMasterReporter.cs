@@ -72,11 +72,11 @@ namespace huaanClient.Report
                         if (attData != null && sheet!=null)
                         {
                             sheet.Cell(row + 0, col)
-                                   .SetValue(attData.CheckIn?.ToString("t", CultureInfo.InvariantCulture))
+                                   .SetValue(attData.CheckIn1?.ToString("t", CultureInfo.InvariantCulture))
                                    .Style
                                    .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                             sheet.Cell(row + 1, col)
-                                .SetValue(attData.CheckOut?.ToString("t", CultureInfo.InvariantCulture))
+                                .SetValue(attData.CheckOut1?.ToString("t", CultureInfo.InvariantCulture))
                                 .Style
                                 .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                             sheet.Cell(row + 2, col)

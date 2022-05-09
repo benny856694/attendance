@@ -22,12 +22,15 @@ namespace huaanClient.Report.Writer
                 ws.Cell(startRow, col++).SetValue($"{ctx.Date:d}, {ctx.Date:ddd}");
                 ws.Cell(startRow, col++).Value = ctx.Shift?.name;
                 var shift1 = ctx.Shift?.GetShift1();
+                var shift2 = ctx.Shift?.GetShift2();
                 ws.Cell(startRow, col++).SetValue(shift1?.ShiftStart.ToString("t", CultureInfo.InvariantCulture));
-                ws.Cell(startRow, col++).SetValue(shift1?.ShiftEnd.ToString("t", CultureInfo.InvariantCulture));
+                ws.Cell(startRow, col++).SetValue(shift2?.ShiftEnd.ToString("t", CultureInfo.InvariantCulture) ?? shift1?.ShiftEnd.ToString("t", CultureInfo.InvariantCulture));
                 if (ctx.DailyAttendanceData != null)
                 {
-                    ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.CheckIn?.ToString("t", CultureInfo.InvariantCulture));
-                    ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.CheckOut?.ToString("t", CultureInfo.InvariantCulture));
+                    ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.CheckIn1?.ToString("t", CultureInfo.InvariantCulture));
+                    ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.CheckOut1?.ToString("t", CultureInfo.InvariantCulture));
+                    ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.CheckIn2?.ToString("t", CultureInfo.InvariantCulture));
+                    ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.CheckOut2?.ToString("t", CultureInfo.InvariantCulture));
                     ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.LateHour.ToMyString());
                     ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.EarlyHour.ToMyString());
                     ws.Cell(startRow, col++).SetValue(ctx.DailyAttendanceData.WorkHour.ToMyString());
@@ -35,7 +38,7 @@ namespace huaanClient.Report.Writer
                 }
                 else
                 {
-                    col += 5;
+                    col += 8;
                 }
                 ws.Cell(startRow, col++).SetValue(ctx.Remark.ToDisplayText());
 
