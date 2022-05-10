@@ -474,4 +474,7 @@
 	<data name="AttendanceMasterSumEarlyHour" xml:space="preserve">
 		<value>Early Hour</value>
 	</data>
+	<data name="Deleted" xml:space="preserve">
+		<value>Deleted</value>
+	</data>
 </root>
