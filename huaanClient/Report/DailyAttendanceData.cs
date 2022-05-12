@@ -30,6 +30,7 @@ namespace huaanClient.Report
         public Period OverTime { get; set; } = Period.Zero;
         public Remark Remark { get; set; } = Remark.Absence;
         public bool IsCrossMidnight { get; set; } //是否跨夜
+        public Shift Shift { get; set; }
 
         public static DailyAttendanceData Absense { get; } = new DailyAttendanceData { Remark = Remark.Absence };
         public static DailyAttendanceData OffDuty { get; } = new DailyAttendanceData { Remark = Remark.OffDuty };

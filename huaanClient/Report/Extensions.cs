@@ -14,7 +14,7 @@ namespace huaanClient.Report
     {
         public static (string Name, string ShiftStart1, string ShiftEnd1, string ShiftStart2, string ShiftEnd2) CalcShift(this string data)
         {
-            string name = null,  shiftStart1 = null, shiftEnd1 = null, shiftStart2 = null, shiftEnd2 = null;
+            string name = null, shiftStart1 = null, shiftEnd1 = null, shiftStart2 = null, shiftEnd2 = null;
 
             string commute1 = null, commute2 = null;
             if (data.Contains(";"))
@@ -52,7 +52,7 @@ namespace huaanClient.Report
             {
                 return null;
             }
-            
+
             var time = data.Contains(";") ? data.Split(';')[0].Split(':') : data.Split(':');
             return new LocalTime(Convert.ToInt32(time[0]), Convert.ToInt32(time[1]));
         }
@@ -63,8 +63,8 @@ namespace huaanClient.Report
             {
                 return null;
             }
-            
-            
+
+
 
             var segments = s.Split('-');
             return new LocalDate(Convert.ToInt32(segments[0]), Convert.ToInt32(segments[1]), Convert.ToInt32(segments[2]));
@@ -72,6 +72,11 @@ namespace huaanClient.Report
 
         public static Remark CalcRemarks(this DailyAttendanceData data)
         {
+            if (data.Shift == null)
+            {
+                return Remark.OffDuty;
+            }
+            
             var expectedPunchCount = 0;
             if (data.ShiftStart1.HasValue) expectedPunchCount++;
             if (data.ShiftStart2.HasValue) expectedPunchCount++;
@@ -89,7 +94,7 @@ namespace huaanClient.Report
             {
                 return Remark.Absence;
             }
-            
+
             if (actualPunchCount < expectedPunchCount)
             {
                 return Remark.SinglePunch;
@@ -136,7 +141,7 @@ namespace huaanClient.Report
                 return null;
             }
 
-            if (period.Hours < 0 || period.Minutes <0)
+            if (period.Hours < 0 || period.Minutes < 0)
             {
                 return null;
             }
@@ -146,18 +151,22 @@ namespace huaanClient.Report
             //{
             //    sb.AppendFormat("{0}:", period.Days);
             //}
-            
-            //sb.AppendFormat("{0:d2}:{1:d2}", period.Hours+period.Days*24, period.Minutes);
-            
-            
 
-            return $"{period.Days*24+period.Hours:d2}:{period.Minutes:d2}";
+            //sb.AppendFormat("{0:d2}:{1:d2}", period.Hours+period.Days*24, period.Minutes);
+
+
+
+            return $"{period.Days * 24 + period.Hours:d2}:{period.Minutes:d2}";
         }
 
         public static string ToDbTimeString(this LocalTime time) => $"{time.Hour.ToString("d2")}:{time.Minute.ToString("d2")}";
 
-        
+        public static (LocalTime start, LocalTime end) ToLocalTimeFrame(this string data)
+        {
+            var time = data.Replace(" ","").Split('-');
+            return (time[0].ToLocalTime().Value, time[1].ToLocalTime().Value);
+        }
     }
-        
-  
+
+
 }

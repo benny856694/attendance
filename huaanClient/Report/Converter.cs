@@ -11,19 +11,19 @@ namespace huaanClient.Report
 {
     public static class Converter
     {
-        public static DailyAttendanceData ToAttendanceDataForDay(this AttendanceData data)
+        public static DailyAttendanceData ToAttendanceDataForDay(this AttendanceData data, DataContext context)
         {
-            var shift = data.Shiftinformation.CalcShift();
+            var shiftFromShiftInfo = data.Shiftinformation.CalcShift();
             var result = new DailyAttendanceData();
             result.EmployeeId = data.personId;
             result.EmployeeCode = data.Employee_code;
             result.EmployeeName = data.name;
             result.EmployeeDepartment = data.department;
-            result.ShiftName = shift.Name;
-            result.ShiftStart1 = shift.ShiftStart1.ToLocalTime();
-            result.ShiftEnd1 = shift.ShiftEnd1.ToLocalTime();
-            result.ShiftStart2 = shift.ShiftStart2.ToLocalTime();
-            result.ShiftEnd2 = shift.ShiftEnd2.ToLocalTime();
+            result.ShiftName = shiftFromShiftInfo.Name;
+            result.ShiftStart1 = shiftFromShiftInfo.ShiftStart1.ToLocalTime();
+            result.ShiftEnd1 = shiftFromShiftInfo.ShiftEnd1.ToLocalTime();
+            result.ShiftStart2 = shiftFromShiftInfo.ShiftStart2.ToLocalTime();
+            result.ShiftEnd2 = shiftFromShiftInfo.ShiftEnd2.ToLocalTime();
             result.Date = data.Date.ToLocalDateTime().Date;
             result.CheckIn1 = data.Punchinformation.ToLocalTime();
             result.CheckOut1 = data.Punchinformation1.ToLocalTime();
@@ -31,24 +31,24 @@ namespace huaanClient.Report
             result.CheckOut2 = data.Punchinformation22.ToLocalTime();
             result.IsCrossMidnight = data.IsAcrossNight == "True";
             result.Temperature = data.temperature.toFloat();
+            var shiftId = context.GetShiftIdForDay(result.EmployeeId, result.Date);
+            if (shiftId != 0)
+            {
+                result.Shift = context.AllShifts.FirstOrDefault(x => x.id == shiftId);
+            }
             CalcHours(result);
             result.Remark = result.CalcRemarks();
-            if (result.Remark == Remark.Absence)
+            //请假
+            if (string.Compare(data.Remarks, "3", StringComparison.InvariantCultureIgnoreCase) == 0)
             {
-                //请假
-                if (string.Compare(data.Remarks, "3", StringComparison.InvariantCultureIgnoreCase) == 0)
-                {
-                    result.Remark = Remark.Leave;
-                }
+                result.Remark = Remark.Leave;
             }
+            
             return result;
 
         }
 
-        private static void CalcOneCommuteHours()
-        {
-            
-        }
+      
 
         private static void CalcLateNEarlyHour(DailyAttendanceData result)
         {
@@ -161,43 +161,61 @@ namespace huaanClient.Report
             result.OverTime = ot.Normalize();
             result.WorkHour = workHour.Normalize();
         }
-        
-      
-        
+
+
+        private static void CalcOneCommutHour(DailyAttendanceData result)
+        {
+            if (result.CheckIn1.HasValue && result.CheckOut1.HasValue)
+            {
+                if (result.CheckIn1.Value > result.ShiftStart1.Value)
+                {
+                    result.LateHour += (result.CheckIn1.Value - result.ShiftStart1.Value);
+                }
+
+                if (result.CheckOut1.Value < result.ShiftEnd1.Value)
+                {
+                    result.EarlyHour += (result.ShiftEnd1.Value - result.CheckOut1.Value);
+                }
+
+                var shiftHour = result.ShiftEnd1.Value - result.ShiftStart1.Value;
+                var breakTimeFrame = result.Shift?.rest_time?.ToLocalTimeFrame();
+                if (breakTimeFrame.HasValue)
+                {
+                    shiftHour -= breakTimeFrame.Value.end - breakTimeFrame.Value.start;
+                }
+                var workHour = result.CheckOut1.Value - result.CheckIn1.Value;
+                if (result.IsCrossMidnight)
+                {
+                    shiftHour += Period.FromHours(24);
+                    workHour += Period.FromHours(24);
+                }
+                result.WorkHour += workHour.Normalize();
+                var ot = (workHour - shiftHour).Normalize();
+                if (!(ot.Hours < 0 || ot.Minutes < 0))
+                {
+                    result.OverTime += ot;
+                }
+
+            }
+        }
+
+
+
+
         private static void CalcHours(DailyAttendanceData result)
         {
             var isFullPresent = result.CheckIn1.HasValue && result.CheckOut2.HasValue;
-            CalcWorkHourNOverTimeHour(result, isFullPresent);
+            var isOneCommute = !result.ShiftStart2.HasValue;
+            if (isOneCommute)
+            {
+                CalcOneCommutHour(result);
+            }
+            else
+            {
+                CalcWorkHourNOverTimeHour(result, isFullPresent);
+            }
+
             CalcLateNEarlyHour(result);
-
-
-            //if (checkIn.HasValue && checkOut.HasValue)
-            //{
-            //    if (checkIn.Value > start.Value)
-            //    {
-            //        result.LateHour += (checkIn.Value - start.Value).Normalize();
-            //    }
-
-            //    if (checkOut.Value < end.Value)
-            //    {
-            //        result.EarlyHour += (end.Value - checkOut.Value).Normalize();
-            //    }
-
-            //    var shiftHour = end.Value - start.Value;
-            //    var workHour = checkOut.Value - checkIn.Value;
-            //    if (result.IsCrossMidnight)
-            //    {
-            //        shiftHour += Period.FromHours(24);
-            //        workHour += Period.FromHours(24);
-            //    }
-            //    result.WorkHour += workHour.Normalize();
-            //    var ot = (workHour - shiftHour).Normalize();
-            //    if (!(ot.Hours < 0 || ot.Minutes < 0))
-            //    {
-            //        result.OverTime += ot;
-            //    }
-
-            //}
         }
 
 

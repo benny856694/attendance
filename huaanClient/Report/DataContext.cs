@@ -65,7 +65,7 @@ namespace huaanClient.Report
                 null,
                 pageIndex: pageIndex,
                 pageSize: pageSize)
-                .Select(x => x.ToAttendanceDataForDay())
+                .Select(x => x.ToAttendanceDataForDay(this))
                 .ToArray();
         }
 
@@ -89,7 +89,7 @@ namespace huaanClient.Report
 
         }
 
-        //0: 表示休息，其他：对应的shift id
+        //0: 数据库中表示休息，其他：对应的shift id
         public int GetShiftIdForDay(string staffId, LocalDate date)
         {
             var staff = AllStaffs.FirstOrDefault(x => x.id == staffId);
@@ -142,7 +142,6 @@ namespace huaanClient.Report
             var remark = Remark.Present;
             if (shiftId == 0)
             {
-                data = DailyAttendanceData.OffDuty;
                 remark = Remark.OffDuty;
             }
             else

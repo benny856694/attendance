@@ -51,13 +51,16 @@ namespace huaanClient.Report
                     sheet.Cell(row, col).SetValue(personDetail).Style.Font.SetBold();
                     col += 1;
 
-                    sheet.Cell(row + 0, col).Value = Strings.AttendanceMasterIn;
-                    sheet.Cell(row + 1, col).Value = Strings.AttendanceMasterOut;
-                    sheet.Cell(row + 2, col).Value = Strings.AttendanceMasterWH;
-                    sheet.Cell(row + 3, col).Value = Strings.AttendanceMasterEarly;
-                    sheet.Cell(row + 4, col).Value = Strings.AttendanceMasterLate;
-                    sheet.Cell(row + 5, col).Value = Strings.AttendanceMasterOT;
-                    sheet.Cell(row + 6, col).Value = Strings.AttendanceMasterStatus;
+                    sheet.Cell(row + 0, col).Value = Strings.DailyReportShiftTitle;
+                    sheet.Cell(row + 1, col).Value = Strings.AttendanceMasterIn+"1";
+                    sheet.Cell(row + 2, col).Value = Strings.AttendanceMasterOut+"1";
+                    sheet.Cell(row + 3, col).Value = Strings.AttendanceMasterIn + "2";
+                    sheet.Cell(row + 4, col).Value = Strings.AttendanceMasterOut + "2";
+                    sheet.Cell(row + 5, col).Value = Strings.AttendanceMasterWH;
+                    sheet.Cell(row + 6, col).Value = Strings.AttendanceMasterEarly;
+                    sheet.Cell(row + 7, col).Value = Strings.AttendanceMasterLate;
+                    sheet.Cell(row + 8, col).Value = Strings.AttendanceMasterOT;
+                    sheet.Cell(row + 9, col).Value = Strings.AttendanceMasterStatus;
                     col += 1;
                 }
                
@@ -72,33 +75,58 @@ namespace huaanClient.Report
                         if (attData != null && sheet!=null)
                         {
                             sheet.Cell(row + 0, col)
-                                   .SetValue(attData.CheckIn1?.ToString("t", CultureInfo.InvariantCulture))
+                                   .SetValue(attData.ShiftName ?? attData.Shift?.name)
                                    .Style
                                    .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                             sheet.Cell(row + 1, col)
+                                   .SetValue(attData.CheckIn1?.ToString("t", CultureInfo.InvariantCulture))
+                                   .Style
+                                   .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                            var out2OffSet = attData.CheckIn2.HasValue ? 2 : 4;
+                            sheet.Cell(row + out2OffSet, col)
                                 .SetValue(attData.CheckOut1?.ToString("t", CultureInfo.InvariantCulture))
                                 .Style
                                 .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                            sheet.Cell(row + 2, col)
+                            sheet.Cell(row + 3, col)
+                                   .SetValue(attData.CheckIn2?.ToString("t", CultureInfo.InvariantCulture))
+                                   .Style
+                                   .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                            if (attData.CheckOut2.HasValue)
+                            {
+                                sheet.Cell(row + 4, col)
+                                .SetValue(attData.CheckOut2?.ToString("t", CultureInfo.InvariantCulture))
+                                .Style
+                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                            }
+                            
+                            sheet.Cell(row + 5, col)
                                 .SetValue(attData.WorkHour.ToMyString())
                                 .Style
                                 .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                            sheet.Cell(row + 3, col)
+                            sheet.Cell(row + 6, col)
                                 .SetValue(attData.EarlyHour.ToMyString())
                                 .Style
                                 .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                            sheet.Cell(row + 4, col)
+                            sheet.Cell(row + 7, col)
                                 .SetValue(attData.LateHour.ToMyString())
                                 .Style
                                 .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                            sheet.Cell(row + 5, col)
+                            sheet.Cell(row + 8, col)
                                .SetValue(attData.OverTime.ToMyString())
                                .Style
                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
                         }
+                        else
+                        {
+                            sheet.Cell(row + 0, col)
+                                   .SetValue(context.Shift?.name ?? 
+                                   (context.Date.DayOfWeek == IsoDayOfWeek.Saturday || context.Date.DayOfWeek == IsoDayOfWeek.Sunday ? Strings.ReportRemarkHO : "") )
+                                   .Style
+                                   .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                        }
                        
-                        sheet?.Cell(row + 6, col)
+                        sheet?.Cell(row + 9, col)
                             .SetValue(context.Remark.ToDisplayText())
                             .Style
                             .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
@@ -112,15 +140,25 @@ namespace huaanClient.Report
 
                 if(sheet != null)
                 {
-                    sheet.Cell(row, col).SetValue($"{Strings.AttendanceMasterSumPR}-{counter.presentCount}"); sheet.Cell(row, col + 1).SetValue($"{Strings.AttendanceMasterSumOT}-{counter.overTimeCount}");
-                    sheet.Cell(row + 1, col).SetValue($"{Strings.AttendanceMasterSumAB}-{counter.absenceCount}"); sheet.Cell(row + 1, col + 1).SetValue($"{Strings.AttendanceMasterSumLT}-{counter.lateCount}");
-                    sheet.Cell(row + 2, col).SetValue($"{Strings.AttendanceMasterSumWO}-{counter.leaveDayCount}"); sheet.Cell(row + 2, col + 1).SetValue($"{Strings.ReportRemarkHO}-{counter.holidayCount}");
-                    sheet.Cell(row + 3, col).SetValue($"{Strings.AttendanceMasterSumEarly}-{counter.earlyCount}");
-                    sheet.Cell(row + 4, col).SetValue($"{Strings.AttendanceMasterSumOTHour}-{counter.overTimeHours.Normalize().ToMyString()}"); sheet.Cell(row + 4, col + 1).SetValue($"{Strings.AttendanceMasterSumLateHour}-{counter.lateHours.Normalize().ToMyString()}");
-                    sheet.Cell(row + 5, col).SetValue($"{Strings.AttendanceMasterSumEarlyHour}-{counter.earlyHours.Normalize().ToMyString()}"); sheet.Cell(row + 5, col + 1).SetValue($"{Strings.AttendanceMasterSumWorkHour}-{counter.workHours.Normalize().ToMyString()}");
+                    sheet.Cell(row + 0, col).SetValue($"{Strings.AttendanceMasterSumPR}-{counter.presentCount}");
+                    sheet.Cell(row + 1, col).SetValue($"{Strings.AttendanceMasterSumAB}-{counter.absenceCount}");
+                    sheet.Cell(row + 2, col).SetValue($"{Strings.AttendanceMasterSumWO}-{counter.leaveDayCount}");
+                    sheet.Cell(row + 3, col).SetValue($"{Strings.ReportRemarkHO}-{counter.holidayCount}");
+                    sheet.Cell(row + 4, col).SetValue($"{Strings.AttendanceMasterSumWorkHour}-{counter.workHours.Normalize().ToMyString()}");
+ 
+                    sheet.Cell(row + 5, col).SetValue($"{Strings.AttendanceMasterSumLateHour}-{counter.lateHours.Normalize().ToMyString()}");
+                    sheet.Cell(row + 6, col).SetValue($"{Strings.AttendanceMasterSumLT}-{counter.lateCount}");
+  
+                    
+                    sheet.Cell(row + 7, col).SetValue($"{Strings.AttendanceMasterSumEarlyHour}-{counter.earlyHours.Normalize().ToMyString()}"); 
+                    sheet.Cell(row + 8, col).SetValue($"{Strings.AttendanceMasterSumEarly}-{counter.earlyCount}");
+
+                    sheet.Cell(row + 9, col).SetValue($"{Strings.AttendanceMasterSumOTHour}-{counter.overTimeHours.Normalize().ToMyString()}"); 
+                    //sheet.Cell(row + 1, col).SetValue($"{Strings.AttendanceMasterSumOT}-{counter.overTimeCount}");
+                    
                     sheet.Columns($"{col}:{col + 1}").AdjustToContents();
 
-                    sheet.Range($"A{row}:A{row + 6}").Merge()
+                    sheet.Range($"A{row}:A{row + 9}").Merge()
                         .Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left)
                         .Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                     sheet.Row(row + 6)
@@ -130,7 +168,7 @@ namespace huaanClient.Report
                 }
                 
 
-                row += 7;
+                row += 11;
                 col = 1;
             }
 
@@ -144,7 +182,7 @@ namespace huaanClient.Report
                 var row = 1;
                 var col = 1;
                 sheet.Cell(row, col++).Value = Strings.AttendanceMasterReportEmpDetailsTitle;
-                col++;
+                sheet.Cell(row, col++).Value = Strings.DailyReportDateTitle;
                 for (var d = from; d <= to; d = d.PlusDays(1))
                 {
                     sheet.Cell(row, col++).SetValue($"{d.Day}{Environment.NewLine}{d:ddd}")
@@ -152,6 +190,7 @@ namespace huaanClient.Report
                         .Font.SetBold()
                         .Alignment.SetHorizontal(ClosedXML.Excel.XLAlignmentHorizontalValues.Center);
                 }
+                sheet.Cell(row, col++).Value = Strings.Summary;
             }
         }
     }
