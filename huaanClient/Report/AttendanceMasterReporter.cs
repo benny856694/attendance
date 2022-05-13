@@ -77,12 +77,18 @@ namespace huaanClient.Report
                     if (context != null)
                     {
                         var attData = context.DailyAttendanceData;
+
+                        //shift name
+                        var shiftNameColor = black;
+                        shiftNameColor = context.Shift?.name != null ? blue : orange;
+                        sheet.Cell(row + 0, col)
+                               .SetValue(attData?.ShiftName ?? attData?.Shift?.name ?? context.Shift?.name ??
+                               (context.Date.DayOfWeek == IsoDayOfWeek.Saturday || context.Date.DayOfWeek == IsoDayOfWeek.Sunday ? Strings.ReportRemarkHO : ""))
+                               .Style.Font.SetFontColor(shiftNameColor)
+                               .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+
                         if (attData != null && sheet!=null)
                         {
-                            sheet.Cell(row + 0, col)
-                                   .SetValue(attData.ShiftName ?? attData.Shift?.name)
-                                   .Style.Font.SetFontColor(blue)
-                                   .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                             sheet.Cell(row + 1, col)
                                    .SetValue(attData.CheckIn1?.ToString("t", CultureInfo.InvariantCulture))
                                    .Style.Font.SetFontColor(green)
@@ -121,16 +127,6 @@ namespace huaanClient.Report
                                .Style
                                .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
-                        }
-                        else//shift name
-                        {
-                            var shiftNameColor = black;
-                            shiftNameColor = context.Shift?.name != null ? blue : orange;
-                            sheet.Cell(row + 0, col)
-                                   .SetValue(context.Shift?.name ?? 
-                                   (context.Date.DayOfWeek == IsoDayOfWeek.Saturday || context.Date.DayOfWeek == IsoDayOfWeek.Sunday ? Strings.ReportRemarkHO : "") )
-                                   .Style.Font.SetFontColor(shiftNameColor)
-                                   .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                         }
 
                         var statusColor = black;
