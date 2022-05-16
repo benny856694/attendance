@@ -65,7 +65,7 @@ namespace huaanClient.Report
                 null,
                 pageIndex: pageIndex,
                 pageSize: pageSize)
-                .Select(x => x.ToAttendanceDataForDay())
+                .Select(x => x.ToAttendanceDataForDay(this))
                 .ToArray();
         }
 
@@ -89,7 +89,7 @@ namespace huaanClient.Report
 
         }
 
-        //0: 表示休息，其他：对应的shift id
+        //0: 数据库中表示休息，其他：对应的shift id
         public int GetShiftIdForDay(string staffId, LocalDate date)
         {
             var staff = AllStaffs.FirstOrDefault(x => x.id == staffId);
@@ -142,14 +142,13 @@ namespace huaanClient.Report
             var remark = Remark.Present;
             if (shiftId == 0)
             {
-                data = DailyAttendanceData.OffDuty;
                 remark = Remark.OffDuty;
             }
             else
             {
                 var d = AttendanceData.FirstOrDefault(x => x.EmployeeId == staffId && x.Date == date); 
                 data = d;
-                shift = d?.ToShift();
+                shift = d?.ToShift() ?? AllShifts.FirstOrDefault(x => x.id == shiftId);
                 remark = d == null ? Remark.Absence : d.Remark;
             }
 
@@ -184,9 +183,11 @@ namespace huaanClient.Report
                     Department = details?.Department?.name ?? data.EmployeeDepartment,
                     PersonalNo = details?.Staff?.Employee_code ?? data.EmployeeCode,
                     Date = data.Date,
-                    Shift = $"{data.ShiftName}-{timePattern.Format(data.ShiftStart.GetValueOrDefault())}-{timePattern.Format(data.ShiftEnd.GetValueOrDefault())}",
-                    CheckIn1 = data.CheckIn,
-                    CheckOut1 = data.CheckOut,
+                    Shift = BuildShiftDesc(timePattern, data),
+                    CheckIn1 = data.CheckIn1,
+                    CheckOut1 = data.CheckOut1,
+                    CheckIn2 = data.CheckIn2,
+                    CheckOut2 = data.CheckOut2,
                     Temperature = data.Temperature,
                     LateMinutes = data.LateHour.Normalize(),
                     EarlyMinutes = data.EarlyHour.Normalize(),
@@ -199,6 +200,15 @@ namespace huaanClient.Report
             return result;
         }
 
+        private static string BuildShiftDesc(LocalTimePattern timePattern, DailyAttendanceData data)
+        {
+            var s = $"{data.ShiftName}-{timePattern.Format(data.ShiftStart1.GetValueOrDefault())}-{timePattern.Format(data.ShiftEnd1.GetValueOrDefault())}";
+            if (data.ShiftStart2.HasValue && data.ShiftEnd2.HasValue)
+            {
+                s += $";{timePattern.Format(data.ShiftStart2.GetValueOrDefault())}-{timePattern.Format(data.ShiftEnd2.GetValueOrDefault())}";
+            }
+            return s;
+        }
 
         public List<MonthlyAttendance> ToMonthlyAttendance()
         {

@@ -495,4 +495,7 @@
 	<data name="Deleted" xml:space="preserve">
     <value>已删除</value>
   </data>
+	<data name="Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
 </root>
