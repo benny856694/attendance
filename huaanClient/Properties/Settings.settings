@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="debug" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="saveFailedImage" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>

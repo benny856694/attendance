@@ -4640,17 +4640,17 @@ namespace huaanClient
                             string outstr = "";
                             string screensaver_mode = "";
                             re = GetDevinfo.request(s);
+                            JObject jObj = JObject.Parse(re.Trim());
                             if (getvolume(out outstr, s))
                             {
-                                JObject jObj = JObject.Parse(re.Trim());
-                                jObj.Add(new JProperty("volume", outstr));
-
-                                if (getlcdscreensaver(out screensaver_mode, s))
-                                {
-                                    jObj.Add(new JProperty("screensaver_mode", screensaver_mode));
-                                }
-                                re = jObj.ToString();
+                                
+                                jObj.Add(new JProperty("volume", outstr)); 
                             }
+                            if (getlcdscreensaver(out screensaver_mode, s))
+                            {
+                                jObj.Add(new JProperty("screensaver_mode", screensaver_mode));
+                            }
+                            re = jObj.ToString();
                         }
                         catch
                         {
@@ -4689,55 +4689,56 @@ namespace huaanClient
                         //通过HTTP请求回相机的参数
                         try
                         {
-                            string CameraParameterforlcd = UtilsJson.CameraParameterforlcd;
-                            CameraParameterforlcd = string.Format(CameraParameterforlcd, screensaver_mode);
-                            string requestre = GetDevinfo.request(s, CameraParameterforlcd);
-                            JObject restr_json = (JObject)JsonConvert.DeserializeObject(requestre.Trim());
-                            if (restr_json != null)
+                            if (!string.IsNullOrEmpty(screensaver_mode))//设置屏幕保护
                             {
-                                string code = restr_json["code"].ToString();
+                                string CameraParameterforlcd = UtilsJson.CameraParameterforlcd;
+                                CameraParameterforlcd = string.Format(CameraParameterforlcd, screensaver_mode);
+                                string requestre = GetDevinfo.request(s, CameraParameterforlcd);
+                                //JObject restr_json = (JObject)JsonConvert.DeserializeObject(requestre.Trim());
+                                Console.WriteLine("设置屏幕保护：" + requestre);
+                            }
+
+                            //先设置声音
+                            if (!String.IsNullOrEmpty(volume))
+                            {
+                                string camera_volume = UtilsJson.camera_volume;
+                                camera_volume = string.Format(camera_volume, volume);
+                                string requestre2=GetDevinfo.request(s, camera_volume);
+                                Console.WriteLine("设置声音：" + requestre2);
+                            }
+
+                            string CameraParameter = "";
+                            //在设置基础参数
+                            if (String.IsNullOrEmpty(output_not_matched))
+                            {
+                                CameraParameter = UtilsJson.CameraParameter;
+                                CameraParameter = string.Format(CameraParameter,
+                                    dereplication, enable_alive,
+                                    enable, limit, led_mode,
+                                    led_brightness, led_sensitivity);
+                            }
+                            else
+                            {
+                                CameraParameter = UtilsJson.CameraParameter_output_not_matched;
+                                CameraParameter = string.Format(CameraParameter,
+                                    dereplication, output_not_matched, enable_alive,
+                                    enable, limit, led_mode,
+                                    led_brightness, led_sensitivity);
+                            }
+
+                            string requestre3 = GetDevinfo.request(s, CameraParameter);
+                            Console.WriteLine("设置基础参数：" + requestre3);
+                            JObject retJson = (JObject)JsonConvert.DeserializeObject(requestre3.Trim());
+                            if (retJson != null)
+                            {
+                                string code = retJson["code"].ToString();
                                 int code_int = int.Parse(code);
                                 if (code_int == 0)
                                 {
-                                    //先设置声音
-                                    if (!volume.Contains("no"))
-                                    {
-                                        string camera_volume = UtilsJson.camera_volume;
-                                        camera_volume = string.Format(camera_volume, volume);
-                                        GetDevinfo.request(s, camera_volume);
-                                    }
-                                    string CameraParameter = "";
-                                    //在设置基础参数
-                                    if (output_not_matched.Contains("no"))
-                                    {
-                                        CameraParameter = UtilsJson.CameraParameter;
-                                        CameraParameter = string.Format(CameraParameter,
-                                            dereplication, enable_alive,
-                                            enable, limit, led_mode,
-                                            led_brightness, led_sensitivity);
-                                    }
-                                    else
-                                    {
-                                        CameraParameter = UtilsJson.CameraParameter_output_not_matched;
-                                        CameraParameter = string.Format(CameraParameter,
-                                            dereplication, output_not_matched, enable_alive,
-                                            enable, limit, led_mode,
-                                            led_brightness, led_sensitivity);
-                                    }
-
-                                    requestre = GetDevinfo.request(s, CameraParameter);
-                                    restr_json = (JObject)JsonConvert.DeserializeObject(requestre.Trim());
-                                    if (restr_json != null)
-                                    {
-                                        code = restr_json["code"].ToString();
-                                        code_int = int.Parse(code);
-                                        if (code_int == 0)
-                                        {
-                                            re = true;
-                                        }
-                                    }
+                                    re = true;
                                 }
                             }
+  
                         }
                         catch (Exception ex)
                         {
