@@ -3250,8 +3250,8 @@ namespace huaanClient
                                 if (restr.Count > 0)
                                 {
                                     string staffid = restr[0]["id"].ToString();
-
-                                    setAddPersonToEquipment(staffid);
+                                    if (ChromiumForm.userSettings.AutoIssue)//是否自动下发
+                                        setAddPersonToEquipment(staffid);
                                 }
 
                             }
