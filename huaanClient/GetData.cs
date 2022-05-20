@@ -427,7 +427,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getStaffData(string name, string no, string qu_phone, string page, string limt,string dep, string employeeTypeName)
+        public static string getStaffData(string name, string no, string qu_phone, string page, string limt,string dep, string employeeTypeName,string haspicture)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
@@ -442,6 +442,14 @@ namespace huaanClient
             if (!string.IsNullOrEmpty(no))
             {
                 st.Append(" staf.Employee_code='" + no.Trim() + "' AND");
+            }
+            if (haspicture.Equals("1"))
+            {
+                st.Append(" staf.picture!=''" + " AND");
+            }
+            if (haspicture.Equals("0"))
+            {
+                st.Append(" staf.picture=''" + " AND");
             }
             if (!string.IsNullOrEmpty(qu_phone))
             {

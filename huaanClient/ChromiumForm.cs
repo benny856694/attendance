@@ -665,9 +665,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             , rows7, rows8, rows9, rows10, rows11, rows12);
             return data;
         }
-        public string getStaffDataQuey(string name, string no, string qu_phone, string pageint, string limt, string dep, string employeeTypeName)
+        public string getStaffDataQuey(string name, string no, string qu_phone, string pageint, string limt, string dep, string employeeTypeName,string haspicture)
         {
-            string data = GetData.getStaffData(name, no, qu_phone, pageint, limt, dep, employeeTypeName);
+            string data = GetData.getStaffData(name, no, qu_phone, pageint, limt, dep, employeeTypeName,haspicture);
             return data;
         }
         public string getStaffDataQueyforcount(string name, string no, string qu_phone, string dep, string employeeTypeName)
