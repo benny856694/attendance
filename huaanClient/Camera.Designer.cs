@@ -66,6 +66,7 @@
             this.plView.Name = "plView";
             this.plView.Size = new System.Drawing.Size(187, 350);
             this.plView.TabIndex = 28;
+            this.plView.AutoScroll = true;
             // 
             // Camera
             // 
