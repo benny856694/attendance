@@ -945,11 +945,29 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 callback.ExecuteAsync(data);
             });
         }
-        //批量下发 / 选择单个相机一键下发
+        //批量下发
         public void AddPersonToEquipment_distribution(string datajson)
         {
             GetData.setAddPersonToEquipment_distribution(datajson);
             DistributeToequipment.Wakeup();
+        }
+
+        //选择单个相机下发
+        public void AllpersonToEquipment_distribution(IJavascriptCallback callback,string datajson)
+        {
+            form.ShowLayer();
+            form.BeginInvoke(new Action(async ()=> {
+                string result = "success";
+                try
+                {
+                    Task<string> task = GetData.AllpersonToEquipment_distribution(datajson);
+                    result = await task;
+                    DistributeToequipment.Wakeup();
+                }
+                catch(Exception e) { result = e.Message; }
+                form.HideLayer();
+                await callback.ExecuteAsync(result);
+            }));
         }
 
         public string queryPerson(string id)

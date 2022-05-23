@@ -770,6 +770,37 @@ namespace huaanClient
             return remainCount;
         }
 
+        internal static Task<string> AllpersonToEquipment_distribution(string datajson)
+        {
+ 
+            Task<string> task = Task.Run<string>(()=> {
+                try
+                {
+                    int deviceId = int.Parse(datajson);
+                    MyDevice device = null;
+                    IEnumerable<Staff> staffs = null;
+                    var distributeByCode = getIscode_syn();
+                    using (var conn = SQLiteHelper.GetConnection())
+                    {
+
+                        device=conn.Get<MyDevice>(deviceId);
+                        staffs = DapperExtensions.DapperExtensions.GetList<Staff>(conn);
+                        foreach (var staff in staffs)
+                        {
+                            DistributeStaffToDevice(staff, device, distributeByCode, conn);
+                        }
+                    }
+                    return "success";
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e.Message);
+                    return e.Message;
+                }
+            });
+            return task;
+        }
+
         public static string queryPerson(string id)
         {
             obj = new JObject();
