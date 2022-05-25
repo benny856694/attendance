@@ -503,7 +503,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getStaffDataforcount(string name, string no, string qu_phone,string dep, string employeeTypeName)
+        public static string getStaffDataforcount(string name, string no, string qu_phone,string dep, string employeeTypeName,string haspicture)
         {
 
             StringBuilder st = new StringBuilder("SELECT COUNT(*) as count FROM staff staf LEFT JOIN department de ON de.id=staf.department_id LEFT JOIN Employetype em ON em.id = staf.Employetype_id WHERE 1=1  AND");
@@ -518,6 +518,14 @@ namespace huaanClient
             if (!string.IsNullOrEmpty(qu_phone))
             {
                 st.Append(" staf.phone='" + qu_phone.Trim() + "' AND");
+            }
+            if (haspicture.Equals("1"))
+            {
+                st.Append(" staf.picture!=''" + " AND");
+            }
+            if (haspicture.Equals("0"))
+            {
+                st.Append(" staf.picture=''" + " AND");
             }
             if (!string.IsNullOrEmpty(dep))
             {
@@ -1339,7 +1347,7 @@ namespace huaanClient
             }
             else
             {
-                //传入的是deviceId
+                //传入的是deviceId(废弃)
                 if (data.Length > 0)
                 {
                     try

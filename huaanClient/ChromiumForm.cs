@@ -670,9 +670,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string data = GetData.getStaffData(name, no, qu_phone, pageint, limt, dep, employeeTypeName,haspicture);
             return data;
         }
-        public string getStaffDataQueyforcount(string name, string no, string qu_phone, string dep, string employeeTypeName)
+        public string getStaffDataQueyforcount(string name, string no, string qu_phone, string dep, string employeeTypeName, string haspicture)
         {
-            string data = GetData.getStaffDataforcount(name, no, qu_phone, dep, employeeTypeName);
+            string data = GetData.getStaffDataforcount(name, no, qu_phone, dep, employeeTypeName, haspicture);
             return data;
         }
 
@@ -2139,7 +2139,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 model.Clear();
             }
-            if (!string.IsNullOrEmpty(parameters.SourceUrl))
+            if (!string.IsNullOrEmpty(parameters.SourceUrl)&& parameters.SourceUrl.Length<200)
             {
                 model.AddItem(CefMenuCommand.Find, Strings.ShowInExplorer);
             }
