@@ -58,11 +58,8 @@ namespace huaanClient
 
             //test
             var count = 0;
-            var client = new Api.Client
-            {
-                IP = "192.168.0.75",
-            };
-            client.BuildClient();
+            var client = new Api.Client("192.168.0.75");
+            
             client.OnRecordReceived += (s, e) =>
             {
                 count+=e.count;

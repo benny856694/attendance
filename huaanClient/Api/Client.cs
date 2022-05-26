@@ -9,15 +9,22 @@ namespace huaanClient.Api
 {
     public class Client : IDisposable
     {
-        public string IP { get; set; }
-        public int Port { get; set; } = 8000;
+        public string IP { get; private set; }
+        public int Port { get; private set; } = 8000;
 
         public event EventHandler<ResponseCaptureRecord> OnRecordReceived;
 
         private HttpClient _client;
         private bool disposedValue;
 
-        public void BuildClient()
+        public Client(string ip, int port = 8000)
+        {
+            IP = ip;
+            Port = port;
+            BuildClient();
+        }
+
+        private void BuildClient()
         {
             _client = new HttpClient();
             _client.BaseAddress = new Uri($"http://{IP}:{Port}/");
