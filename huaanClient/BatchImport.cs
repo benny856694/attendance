@@ -354,13 +354,13 @@ namespace huaanClient
                     try
                     {
                         string name = dataTable.Rows[i][0].ToString().Trim();
-                        string staff_no = dataTable.Rows[i][1].ToString();
-                        string phone = dataTable.Rows[i][2].ToString();
-                        string email = dataTable.Rows[i][3].ToString();
+                        string staff_no = dataTable.Rows[i][1].ToString().Trim();
+                        string phone = dataTable.Rows[i][2].ToString().Trim();
+                        string email = dataTable.Rows[i][3].ToString().Trim();
                         //
-                        string department = dataTable.Rows[i][4].ToString();
-                        string Employetype = dataTable.Rows[i][5].ToString();
-                        string face_idcard = dataTable.Rows[i][6].ToString();
+                        string department = dataTable.Rows[i][4].ToString().Trim();
+                        string Employetype = dataTable.Rows[i][5].ToString().Trim();
+                        string face_idcard = dataTable.Rows[i][6].ToString().Trim();
                         if (string.IsNullOrEmpty(face_idcard))
                         {
                             face_idcard = "8";
