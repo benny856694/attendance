@@ -60,6 +60,7 @@ namespace huaanClient
 
         public static string Format(this string template, params object[] args) => string.Format(template, args);
 
+        public static long ToUnixTimestamp(this DateTime dt) => (long)(dt - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds;
 
     }
 }

@@ -56,6 +56,27 @@ namespace huaanClient
                 }
             }
 
+            //test
+            var count = 0;
+            var client = new Api.Client
+            {
+                IP = "192.168.0.75",
+            };
+            client.BuildClient();
+            client.OnRecordReceived += (s, e) =>
+            {
+                count+=e.count;
+               
+                Debug.WriteLine("接收到数据：" + String.Join(", ", e.records.Select(x=>x.sequence.ToString())));
+                
+                if (e.count < 5)
+                {
+                    Debug.WriteLine("count：" + count);
+
+                }
+            };
+            
+            client.QueryCaptureRecordAsync(5, DateTime.Parse("2018-01-01 00:00:00"), DateTime.Parse("2022-05-23 11:54:44"));
 
 
             Application.EnableVisualStyles();

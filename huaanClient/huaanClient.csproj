@@ -322,8 +322,11 @@
     <Compile Include="Access.cs" />
     <Compile Include="Api\AddPerson.cs" />
     <Compile Include="Api\CameraVolume.cs" />
+    <Compile Include="Api\Client.cs" />
+    <Compile Include="Api\RequestCaptureRecord.cs" />
     <Compile Include="Api\RequestPersons.cs" />
     <Compile Include="Api\Response.cs" />
+    <Compile Include="Api\ResponseCaptureRecord.cs" />
     <Compile Include="Api\UpdateLcdScreensaver.cs" />
     <Compile Include="Api\UpdateAppParams.cs" />
     <Compile Include="Api\MiscClass.cs" />
