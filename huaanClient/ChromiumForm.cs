@@ -794,6 +794,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public bool DeleteUser(string userid)
         {
             bool data = GetData.DeleteUser(userid);
+            DistributeToequipment.Wakeup();
             return data;
         }
 
