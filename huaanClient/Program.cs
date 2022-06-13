@@ -57,23 +57,23 @@ namespace huaanClient
             }
 
             //test
-            var count = 0;
-            var client = new Api.Client("192.168.0.75");
+            //var count = 0;
+            //var client = new Api.Client("192.168.0.38");
             
-            client.OnRecordReceived += (s, e) =>
-            {
-                count+=e.count;
+            //client.OnRecordReceived += (s, e) =>
+            //{
+            //    count+=e.count;
                
-                Debug.WriteLine("接收到数据：" + String.Join(", ", e.records.Select(x=>x.sequence.ToString())));
+            //    Debug.WriteLine("接收到数据：" + String.Join(", ", e.records.Select(x=>x.sequence.ToString())));
                 
-                if (e.count < 5)
-                {
-                    Debug.WriteLine("count：" + count);
+            //    if (e.count < 5)
+            //    {
+            //        Debug.WriteLine("count：" + count);
 
-                }
-            };
+            //    }
+            //};
             
-            client.QueryCaptureRecordAsync(5, DateTime.Parse("2018-01-01 00:00:00"), DateTime.Parse("2022-05-23 11:54:44"));
+            //client.QueryCaptureRecordAsync(5, DateTime.Parse("2018-01-01 00:00:00"), DateTime.Parse("2022-06-07 10:53:43"));
 
 
             Application.EnableVisualStyles();

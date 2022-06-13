@@ -23,11 +23,13 @@ namespace huaanClient.Api
     {
         public float body_temp { get; set; }
         public string customer_id { get; set; }
+        public string face_image { get; set; }
         public string id { get; set; }
         public int match_failed_reson { get; set; }
         public int match_type { get; set; }
         public string name { get; set; }
         public string person_name_ext { get; set; }
+        public string reg_image { get; set; }
         public int role { get; set; }
         public int score { get; set; }
         public int sequence { get; set; }

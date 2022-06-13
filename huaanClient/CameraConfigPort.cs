@@ -434,38 +434,40 @@ namespace huaanClient
         /// <returns>当前设备特定时间区间内的打卡记录</returns>
         public List<CaptureDataEventArgs> GetRecords(DateTime timeStart, DateTime timeEnd, int timeoutms = 5000, int timeouttotal = 30000)
         {
-            lock (this)
+            var result = new List<CaptureDataEventArgs>();
+            using (var client = new Api.Client(this.IP))
             {
-                int page_no = 1;
-                List<CaptureDataEventArgs> ret = new List<CaptureDataEventArgs>();
-                ListSnapCriteria listSnapCriteria = new ListSnapCriteria(timeStart, timeEnd, null);
-                recordsTotal = 100;
-                int tickStart = Environment.TickCount;
-                lblRecords:
-                if (Environment.TickCount - tickStart > timeouttotal) return ret;
-                listSnapCriteria.page_no = page_no;
-                byte[] criteriaBytes = StructToBytes(listSnapCriteria);
-                tlv?.Write(SysType, Marjor, Minor, 217, criteriaBytes);
-                lock (recordsLocker)
+                client.OnRecordReceived += (sender, e) =>
                 {
-                    _queriedRecords.Clear();
-                    if (!Monitor.Wait(recordsLocker, timeoutms))
+                    if (e.records != null)
                     {
-                        _queriedRecords.Clear();
+                        foreach (var item in e.records)
+                        {
+                            var r = new CaptureDataEventArgs();
+                            r.person_id = item.id;
+                            r.person_name = item.name ?? item.person_name_ext;
+                            r.time = DateTime.Parse(item.time);
+                            if (!string.IsNullOrEmpty(item.face_image))
+                                r._closeup = Convert.FromBase64String(item.face_image);
+                            if (!string.IsNullOrEmpty(item.reg_image))
+                                r.regImage = Convert.FromBase64String(item.reg_image);
+                            r.sequnce = (uint)item.sequence;
+                            r.person_role = (PersonRole)item.role;
+                            r.match_status = (short)item.score;
+                            r.match_failed_reson = (MatchFailedReason)item.match_failed_reson;
+                            r.body_temp = item.body_temp;
+                            if (r._closeup != null)
+                                SaveCloseup(r);
+                            result.Add(r);
+                        }
                     }
-                }
-                if (_queriedRecords.Count < 1)
-                {
-                    return ret;
-                }
-                ret.AddRange(_queriedRecords);
-                if (recordsTotal > ret.Count)
-                {
-                    page_no++;
-                    goto lblRecords;
-                }
-                return ret;
+                    
+                };
+                client.QueryCaptureRecordAsync(5, timeStart, timeEnd, true, true).Wait();
             }
+
+            Logger.Debug($"device: {this.IP}, time: {timeStart}-{timeEnd}, count: {result.Count}");
+            return result;
         }
 
         public enum PersonRole : int
@@ -1273,24 +1275,7 @@ namespace huaanClient
                     _queriedRecords.Add(e);
                     if(e._closeup != null)
                     {
-                        string imgename = MD5Util.MD5Encrypt32(e._closeup);
-                        //string fn = $@"D:\FaceRASystemTool\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{DateTime.Now.Minute}_{DateTime.Now.Second}_{DateTime.Now.Millisecond}_{imgIdx++}.jpg";
-                        string fn = $@"{ApplicationData.FaceRASystemToolUrl}\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename}.jpg";
-                        e.closeup = fn;
-                        byte[] bytes = e._closeup;
-                        e._closeup = null;
-                        Task.Factory.StartNew(new Action(() => {
-                            try
-                            {
-                                Directory.CreateDirectory(Path.GetDirectoryName(fn));
-                                File.WriteAllBytes(fn, bytes);
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Error(ex,  "save image exception");
-                            }
-                           
-                        }));
+                        SaveCloseup(e);
                     }
                 }
             }
@@ -1550,6 +1535,28 @@ namespace huaanClient
                     Monitor.Pulse(snapshortLocker);
                 }
             }
+        }
+
+        private unsafe void SaveCloseup(CaptureDataEventArgs e)
+        {
+            string imgename = MD5Util.MD5Encrypt32(e._closeup);
+            //string fn = $@"D:\FaceRASystemTool\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{DateTime.Now.Minute}_{DateTime.Now.Second}_{DateTime.Now.Millisecond}_{imgIdx++}.jpg";
+            string fn = $@"{ApplicationData.FaceRASystemToolUrl}\imge_timing\{DateTime.Now.Year}\{DateTime.Now.Month}\{DateTime.Now.Day}\{DateTime.Now.Hour}\{imgename}.jpg";
+            e.closeup = fn;
+            byte[] bytes = e._closeup;
+            e._closeup = null;
+            
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(fn));
+                File.WriteAllBytes(fn, bytes);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "save image exception");
+            }
+
+            
         }
     }
 }

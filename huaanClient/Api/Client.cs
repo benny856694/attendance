@@ -31,7 +31,7 @@ namespace huaanClient.Api
         }
 
 
-        public async Task QueryCaptureRecordAsync(int pageSize, DateTime from, DateTime to)
+        public async Task QueryCaptureRecordAsync(int pageSize, DateTime from, DateTime to, bool includeRegimage, bool includeFaceImage)
         {
             if (from >= to) throw new ArgumentException("from must be smaller than to");
 
@@ -41,7 +41,9 @@ namespace huaanClient.Api
                 page_no = 0,
                 page_size = pageSize,
                 time_start = from.ToUnixTimestamp(),
-                time_end = to.ToUnixTimestamp()
+                time_end = to.ToUnixTimestamp(),
+                reg_image_flag = includeRegimage ? 1 : 0,
+                face_image_flag = includeFaceImage ? 1 : 0
             };
             while (true)
             {
@@ -51,7 +53,7 @@ namespace huaanClient.Api
                 var res = await response.Content.ReadAsAsync<ResponseCaptureRecord>();
                 OnRecordReceived?.Invoke(this, res);
 
-                if (res.records.Length == 0) break;
+                if (res.records?.Length == 0) break;
                 if (res.count < req.page_size) break;
             }
            
