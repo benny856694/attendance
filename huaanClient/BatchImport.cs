@@ -509,7 +509,6 @@ namespace huaanClient
                         {
                             try
                             {
-                                int.Parse(face_idcard);
                                 if (4294967295 < ulong.Parse(face_idcard)&&ulong.Parse(face_idcard) < 18446744073709551615)
                                 {
                                     idcardtype = "64";
@@ -519,8 +518,9 @@ namespace huaanClient
                                     idcardtype = "32";
                                 }
                             }
-                            catch
+                            catch(Exception e)
                             {
+                                Console.WriteLine(e);
                             }
                         }
                         string data = "";
