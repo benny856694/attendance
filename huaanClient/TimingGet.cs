@@ -103,16 +103,10 @@ namespace huaanClient
             if (s.IsConnected)
             {
                 Logger.Debug($"beging query data from camera {statime}-{endtime}");
-                var list = s.GetRecords(statime, endtime, 3000, 30000);
-                if (list.Count > 0)
+                var count = s.GetRecords(statime, endtime, 3000, 30000);
+                if (count > 0)
                 {
                     hasData = true;
-                    var time = list.Max(t => t.time);
-                    list.ForEach(l =>
-                    {
-                        Logger.Debug($"save capture data to db seq: {l.sequnce}");
-                        HandleCaptureData.setCaptureDataToDatabase(l, s.DeviceNo, s.DeviceName);
-                    });
                     firstQuerys.Add(statime);//保存所有首次查询
                     cameraQueryTimes.Add(s, endtime);//抓拍记录保存成功后，保存相机和lastquery对应关系
                     /*改为保存考勤记录之后再保存抓拍记录

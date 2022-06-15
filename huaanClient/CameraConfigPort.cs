@@ -432,9 +432,9 @@ namespace huaanClient
         /// <param name="timeoutms">每接收100条数据超时时间</param>
         /// <param name="timeouttotal">当此查询总共的超时时间（会在每次分页完成后判定）</param>
         /// <returns>当前设备特定时间区间内的打卡记录</returns>
-        public List<CaptureDataEventArgs> GetRecords(DateTime timeStart, DateTime timeEnd, int timeoutms = 5000, int timeouttotal = 30000)
+        public int GetRecords(DateTime timeStart, DateTime timeEnd, int timeoutms = 5000, int timeouttotal = 30000)
         {
-            var result = new List<CaptureDataEventArgs>();
+            var recordsCount = 0;
             using (var client = new Api.Client(this.IP))
             {
                 client.OnRecordReceived += (sender, e) =>
@@ -458,7 +458,11 @@ namespace huaanClient
                             r.body_temp = item.body_temp;
                             if (r._closeup != null)
                                 SaveCloseup(r);
-                            result.Add(r);
+                            
+                            Logger.Debug($"save capture data to db seq: {r.sequnce}");
+                            HandleCaptureData.setCaptureDataToDatabase(r, DeviceNo, DeviceName);
+                            
+                            recordsCount++;
                         }
                     }
                     
@@ -466,8 +470,8 @@ namespace huaanClient
                 client.QueryCaptureRecordAsync(5, timeStart, timeEnd, true, true).Wait();
             }
 
-            Logger.Debug($"device: {this.IP}, time: {timeStart}-{timeEnd}, count: {result.Count}");
-            return result;
+            Logger.Debug($"device: {this.IP}, time: {timeStart}-{timeEnd}, count: {recordsCount}");
+            return recordsCount;
         }
 
         public enum PersonRole : int
