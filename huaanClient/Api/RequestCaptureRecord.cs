@@ -17,6 +17,13 @@ namespace huaanClient.Api
         public int reg_image_flag { get; set; }
         public long time_start { get; set; }
         public long time_end { get; set; }
+        
+        public new string ToString()
+        {
+            return $"cmd={cmd}&page_no={page_no}&page_size={page_size}&face_image_flag={face_image_flag}&reg_image_flag={reg_image_flag}&time_start={time_start}&time_end={time_end}";
+        }
+           
+            
     }
 
 }

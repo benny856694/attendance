@@ -68,6 +68,7 @@ namespace huaanClient
                     var time = cameraQueryTime.Value;
                     //保存最后一条的记录
                     GetData.setMyDeviceforLast_query(time.ToString("yyyy-MM-dd HH:mm:ss.fff"), s.IP);
+                    Logger.Debug($"update lastquery time {s.IP} to {time}");
                 }
             }
             
@@ -103,12 +104,12 @@ namespace huaanClient
             if (s.IsConnected)
             {
                 Logger.Debug($"beging query data from camera {statime}-{endtime}");
-                var count = s.GetRecords(statime, endtime, 3000, 30000);
-                if (count > 0)
+                var result = s.GetRecords(statime, endtime, 3000, 30000);
+                if (result.count > 0)
                 {
                     hasData = true;
                     firstQuerys.Add(statime);//保存所有首次查询
-                    cameraQueryTimes.Add(s, endtime);//抓拍记录保存成功后，保存相机和lastquery对应关系
+                    cameraQueryTimes.Add(s, result.lastRecordTime);//抓拍记录保存成功后，保存相机和lastquery对应关系
                     /*改为保存考勤记录之后再保存抓拍记录
                     if (!string.IsNullOrEmpty(time.ToString("yyyy-MM-dd HH:mm:ss.fff")))
                     {

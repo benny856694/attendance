@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Polly;
+using Polly.Extensions.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -16,6 +18,7 @@ namespace huaanClient.Api
 
         private HttpClient _client;
         private bool disposedValue;
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public Client(string ip, int port = 8000)
         {
@@ -31,7 +34,7 @@ namespace huaanClient.Api
         }
 
 
-        public async Task QueryCaptureRecordAsync(int pageSize, DateTime from, DateTime to, bool includeRegimage, bool includeFaceImage)
+        public void QueryCaptureRecord(int pageSize, DateTime from, DateTime to, bool includeRegimage, bool includeFaceImage)
         {
             if (from >= to) throw new ArgumentException("from must be smaller than to");
 
@@ -40,21 +43,49 @@ namespace huaanClient.Api
             {
                 page_no = 0,
                 page_size = pageSize,
-                time_start = from.ToUnixTimestamp(),
-                time_end = to.ToUnixTimestamp(),
+                time_start = from.ToUniversalTime().ToUnixTimestamp(),
+                time_end = to.ToUniversalTime().ToUnixTimestamp(),
                 reg_image_flag = includeRegimage ? 1 : 0,
                 face_image_flag = includeFaceImage ? 1 : 0
             };
             while (true)
             {
                 req.page_no++;
-                var response = await _client.PostAsJsonAsync("", req);
-                response.EnsureSuccessStatusCode();
-                var res = await response.Content.ReadAsAsync<ResponseCaptureRecord>();
-                OnRecordReceived?.Invoke(this, res);
 
-                if (res.records?.Length == 0) break;
-                if (res.count < req.page_size) break;
+                var policy = HttpPolicyExtensions
+                                .HandleTransientHttpError()
+                                    .WaitAndRetryAsync(
+                                        4,
+                                        retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                                        (ex, t) => Logger.Trace(ex.Exception, "request capture data exception")
+                                      );
+
+                var res = policy.ExecuteAndCaptureAsync(async () => {
+                    Logger.Debug($"sending request {req.ToString()}");
+                    return await _client.PostAsJsonAsync("", req);
+                }).Result;
+                
+                if (res.Outcome == OutcomeType.Successful)
+                {
+                    try
+                    {
+                        res.Result.EnsureSuccessStatusCode();
+                        var result = res.Result.Content.ReadAsAsync<ResponseCaptureRecord>().Result;
+                        OnRecordReceived?.Invoke(this, result);
+                        if (result.records == null && result.records?.Length == 0) break;
+                        if (result.count < req.page_size) break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "handle capture data exception", req.ToString());
+                        break;
+                    }
+                }
+                else
+                {
+                    Logger.Error(res.FinalException, "Request capture data failed");
+                    break;
+                }
             }
            
         }
