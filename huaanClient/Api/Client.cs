@@ -85,7 +85,14 @@ namespace huaanClient.Api
                 }
                 else
                 {
-                    Logger.Error(res.FinalException, "Request capture data failed");
+                    if (res.FinalException is TaskCanceledException)
+                    {
+                        Logger.Info("request capture data canceled");
+                    }
+                    else
+                    {
+                        Logger.Error(res.FinalException, "Request capture data failed");
+                    }
                     break;
                 }
             }
