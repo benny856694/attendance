@@ -146,7 +146,7 @@ namespace InsuranceBrowserLib
         //bool isExit;
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Close close = new Close(iszn);
+            var close = new Close(iszn);
             DialogResult dr= close.ShowDialog();
             if (dr==DialogResult.OK)
             {
@@ -183,108 +183,12 @@ namespace InsuranceBrowserLib
             }
             else if(dr == DialogResult.No)
             {
-                Process.GetCurrentProcess().Kill();
             }
             else
             {
                 e.Cancel = true;
             }
 
-            //if (iszn.Contains("US"))
-            //{
-            //    dr = MessageBox.Show(this, "Confirm to exit the clock in system?", "提示",
-            //                             MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            //}
-            //else if (iszn.Contains("JPN"))
-            //{
-            //    dr = MessageBox.Show(this, "勤務評定カードシステムを終了しますか？", "提示",
-            //                             MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            //}
-            //else
-            //{
-            //    dr = MessageBox.Show(this, "确定退出 考勤打卡系统?", "提示",
-            //                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            //}
-
-
-            //this.TopMost = false;
-            //if (dr == DialogResult.OK)
-            //{
-            //    Process.GetCurrentProcess().Kill();
-            //}
-            //else
-            //{
-            //    e.Cancel = true;
-            //    if (iszn.Contains("US"))
-            //    {
-            //        this.Hide();
-            //        this.WindowState = FormWindowState.Minimized;
-            //        this.notifyIcon1.Visible = true;
-            //        this.notifyIcon1.ShowBalloonTip(3000, "Running in the background", "The icon has been reduced to the tray. To open the window, double-click the icon or right-click [display]。", ToolTipIcon.Info);
-            //    }
-            //    else if (iszn.Contains("JPN"))
-            //    {
-            //        this.Hide();
-            //        this.WindowState = FormWindowState.Minimized;
-            //        this.notifyIcon1.Visible = true;
-            //        this.notifyIcon1.ShowBalloonTip(3000, "バックグラウンド実行中", "アイコンをパレットに縮小しました。ウィンドウを開けたらアイコンまたは右ボタンをダブルクリックしてください。。", ToolTipIcon.Info);
-            //    }
-            //    else
-            //    {
-            //        this.Hide();
-            //        this.WindowState = FormWindowState.Minimized;
-            //        this.notifyIcon1.Visible = true;
-            //        this.notifyIcon1.ShowBalloonTip(3000, "后台运行中", "图标已经缩小到托盘，打开窗口请双击图标或者右键【显示】即可。", ToolTipIcon.Info);
-            //    }
-            //}
-            //if (e.CloseReason == CloseReason.UserClosing)//当用户点击窗体右上角X按钮或(Alt + F4)时 发生          
-            //{
-            //    e.Cancel = true;
-            //    if (iszn.Contains("US"))
-            //    {
-            //        this.Hide();
-            //        this.WindowState = FormWindowState.Minimized;
-            //        this.notifyIcon1.Visible = true;
-            //        this.notifyIcon1.ShowBalloonTip(3000, "Running in the background", "The icon has been reduced to the tray. To open the window, double-click the icon or right-click [display]。", ToolTipIcon.Info);
-            //    }
-            //    else if (iszn.Contains("JPN"))
-            //    {
-            //        this.Hide();
-            //        this.WindowState = FormWindowState.Minimized;
-            //        this.notifyIcon1.Visible = true;
-            //        this.notifyIcon1.ShowBalloonTip(3000, "バックグラウンド実行中", "アイコンをパレットに縮小しました。ウィンドウを開けたらアイコンまたは右ボタンをダブルクリックしてください。。", ToolTipIcon.Info);
-            //    }
-            //    else
-            //    {
-            //        this.Hide();
-            //        this.WindowState = FormWindowState.Minimized;
-            //        this.notifyIcon1.Visible = true;
-            //        this.notifyIcon1.ShowBalloonTip(3000, "后台运行中", "图标已经缩小到托盘，打开窗口请双击图标或者右键【显示】即可。", ToolTipIcon.Info);
-            //    }
-            //}
-
-            //DialogResult dr ;
-            //if (iszn)
-            //{
-            //    dr = MessageBox.Show(this, "确定退出 考勤打卡系统?", "提示",
-            //                             MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            //}
-            //else
-            //{
-            //    dr = MessageBox.Show(this, "Confirm to exit the clock in system?", "提示",
-            //                             MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            //}
-
-
-            //this.TopMost = false;
-            //if (dr == DialogResult.OK)
-            //{
-            //    Process.GetCurrentProcess().Kill();
-            //}
-            //else
-            //{
-            //    e.Cancel = true;
-            //}
         }
 
         private void MainForm_OnCloseBoxClick()

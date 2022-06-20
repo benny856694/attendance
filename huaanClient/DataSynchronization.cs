@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace huaanClient
@@ -13,29 +14,29 @@ namespace huaanClient
     class DataSynchronization
     {
         static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        public static void DataSynchronizationtask()
+        public static void DataSynchronizationtask(CancellationToken token)
         {
             //先获取所有的人员ID和所有的人员同步表的ID
             var localIds = GetData.getIDsforstaffAndDataSyn();
 
 
             var cameraConfigPorts = Deviceinfo.GetAllMyDevices();
-            Array.ForEach(cameraConfigPorts, a =>
+            foreach (var a in cameraConfigPorts)
             {
-                if (a.IsConnected)
+                if (!token.IsCancellationRequested && a.IsConnected)
                 {
                     try
                     {
                         var deviceIdsNeedsSync = DevicePersonIdsNeedsSync(localIds, a);
-                        SyncDevicePersonIds(deviceIdsNeedsSync, a);
+                        SyncDevicePersonIds(deviceIdsNeedsSync, a, token);
                     }
                     catch (Exception ex)
                     {
                         Logger.Error(ex, $"同步人员信息异常{a.IP}");
                     }
-                    
+
                 }
-            });
+            }
         }
         /// <summary>
         /// 检测是否需要同步数据
@@ -55,11 +56,15 @@ namespace huaanClient
         /// </summary>
         /// <param name="localIds"></param>
         /// <param name="cameraConfigPort"></param>
-        public static void SyncDevicePersonIds(string[] deviceIds, CameraConfigPort cameraConfigPort)
+        public static void SyncDevicePersonIds(string[] deviceIds, CameraConfigPort cameraConfigPort, CancellationToken token)
         {
 
             foreach (var id in deviceIds)
             {
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
                 try
                 {
                     SyncOneId(id, cameraConfigPort);

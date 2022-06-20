@@ -1420,7 +1420,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             Task.Factory.StartNew(() =>
             {
                 string data = GetData.getCapture_Data(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt,null);
-                callback.ExecuteAsync(data);
+                if (callback.CanExecute)
+                {
+                    callback.ExecuteAsync(data);
+                }
             });
 
 
@@ -2379,13 +2382,20 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             new Thread(() =>
             {
                 Thread.Sleep(500);
-                chromiumForm.BeginInvoke(new Action(() =>
+                try
                 {
-                    if (!chromiumForm.IsDisposed && !chromiumForm.Disposing)
+                    chromiumForm.BeginInvoke(new Action(() =>
                     {
-                        chromiumForm.Close();
-                    }
-                }));
+                        if (!chromiumForm.IsDisposed && !chromiumForm.Disposing)
+                        {
+                            chromiumForm.Close();
+                        }
+                    }));
+                }
+                catch (InvalidOperationException ex)
+                {
+                }
+                
             })
             {
                 IsBackground = true

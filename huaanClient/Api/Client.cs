@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace huaanClient.Api
@@ -34,11 +35,11 @@ namespace huaanClient.Api
         }
 
 
-        public void QueryCaptureRecord(int pageSize, DateTime from, DateTime to, bool includeRegimage, bool includeFaceImage)
+        public void QueryCaptureRecord(int pageSize, int maxRecordCount, DateTime from, DateTime to, bool includeRegimage, bool includeFaceImage, CancellationToken token)
         {
             if (from >= to) throw new ArgumentException("from must be smaller than to");
 
-            
+            var count = 0;
             var req = new RequestCaptureRecord()
             {
                 page_no = 0,
@@ -48,7 +49,7 @@ namespace huaanClient.Api
                 reg_image_flag = includeRegimage ? 1 : 0,
                 face_image_flag = includeFaceImage ? 1 : 0
             };
-            while (true)
+            while (!token.IsCancellationRequested)
             {
                 req.page_no++;
 
@@ -59,11 +60,10 @@ namespace huaanClient.Api
                                         retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                                         (ex, t) => Logger.Trace(ex.Exception, "request capture data exception")
                                       );
-
-                var res = policy.ExecuteAndCaptureAsync(async () => {
-                    Logger.Debug($"sending request {req.ToString()}");
-                    return await _client.PostAsJsonAsync("", req);
-                }).Result;
+                
+                var res = policy.ExecuteAndCaptureAsync(async ct => {
+                    return await _client.PostAsJsonAsync("", req, ct);
+                }, token).Result;
                 
                 if (res.Outcome == OutcomeType.Successful)
                 {
@@ -72,8 +72,10 @@ namespace huaanClient.Api
                         res.Result.EnsureSuccessStatusCode();
                         var result = res.Result.Content.ReadAsAsync<ResponseCaptureRecord>().Result;
                         OnRecordReceived?.Invoke(this, result);
+                        count += result.count;
                         if (result.records == null && result.records?.Length == 0) break;
                         if (result.count < req.page_size) break;
+                        if (count >= maxRecordCount) break;
                     }
                     catch (Exception ex)
                     {

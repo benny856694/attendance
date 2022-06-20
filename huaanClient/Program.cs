@@ -95,17 +95,20 @@ namespace huaanClient
             //todo: 考勤计算
             //AttendanceAlgorithm.getpersonnel("2021-07-01 00:00:00", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), 1);
             //return;
+
+            var cts = new CancellationTokenSource();
+            var exitProgramEvent = new ManualResetEvent(false);
             
             //连接设备
-            Thread thread = new Thread(() =>
+            Thread thread = new Thread(ct =>
             {
-                while (true)
+                var token = (CancellationToken)ct;
+                while (!token.IsCancellationRequested)
                 {
                     try
                     {
-                        GetDevinfo.getinfoToMyDev();
-                        
-                        Thread.Sleep(6 * 1000);
+                        GetDevinfo.getinfoToMyDev(token);
+                        exitProgramEvent.WaitOne(6 * 1000);
                     }
                     catch (Exception ex)
                     {
@@ -114,15 +117,16 @@ namespace huaanClient
                 }
             });
             //下发人脸
-            Thread thread1 = new Thread(() =>
+            Thread thread1 = new Thread(ct =>
             {
-                Thread.Sleep(10 * 1000);
-                while (true)
+                var token = (CancellationToken) ct;
+                exitProgramEvent.WaitOne(10 * 1000);
+                while (!token.IsCancellationRequested)
                 {
                     try
                     {
                         DistributeToequipment.Wait();
-                        DistributeToequipment.distrbute();
+                        DistributeToequipment.distrbute(token);
                     }
                     catch (Exception ex)
                     {
@@ -132,76 +136,71 @@ namespace huaanClient
             });
             
             thread.IsBackground = true;
-            thread.Start();
+            thread.Start(cts.Token);
 
             thread1.Name = "人脸下发线程";
             thread1.IsBackground = true;
-            thread1.Start();
+            thread1.Start(cts.Token);
             //时间同步线程
-            new Thread(() =>
+            new Thread(ct =>
             {
-                while (true)
+                var token = (CancellationToken)ct;
+                while (!token.IsCancellationRequested)
                 {
                     try
                     {
-                        Thread.Sleep(10 * 1000);
+                        exitProgramEvent.WaitOne(10 * 1000);
                         GetDevinfo.timeSynchronization();
-                        Thread.Sleep(60 * 1000 * 2);
+                        exitProgramEvent.WaitOne(60 * 1000 * 2);
                     }
                     catch (Exception ex)
                     {
                         Logger.Error(ex, "时间同步异常");
                     }
                 }
-            })
-            {
-                IsBackground = true
-            }.Start();
+            }).Start(cts.Token);
             //同步设备人员
             if (ChromiumForm.userSettings.AutoDataSyn)
             {
-                new Thread(() =>
+                new Thread(ct =>
                 {
+                    var token = (CancellationToken)ct;
                     try
                     {
-                        Thread.Sleep(10 * 1000);
+                        exitProgramEvent.WaitOne(10 * 1000);
                         Console.WriteLine("自动同步设备人员开始...");
-                        DataSynchronization.DataSynchronizationtask();
-                        Thread.Sleep(60 * 1000 * 5);
+                        DataSynchronization.DataSynchronizationtask(token);
+                        exitProgramEvent.WaitOne(60 * 1000 * 5);
                     }
                     catch (Exception ex)
                     {
                         Logger.Error(ex, "设备人员同步异常");
                     }
 
-                })
-                {
-                    IsBackground = true
-                }.Start();
+                }).Start(cts.Token);
             }
             
             //抓拍记录下载
             if (ChromiumForm.userSettings.AutoCaptureSyn)
             {
-                new Thread(() =>
+                new Thread(ct =>
                 {
-                    while (true)
+                    var token = (CancellationToken)ct;
+                    while (!token.IsCancellationRequested)
                     {
                         try
                         {
-                            Thread.Sleep(10 * 1000);
-                            var hasData = TimingGet.Timingquery();
-                            Thread.Sleep(hasData ? 10 * 1000 : 60 * 1000);
+                            exitProgramEvent.WaitOne(10 * 1000);
+                            var hasData = TimingGet.Timingquery(token);
+                            exitProgramEvent.WaitOne(hasData ? 10 * 1000 : 60 * 1000);
                         }
                         catch (Exception ex)
                         {
                             Logger.Error(ex, "获取抓拍记录异常");
                         }
                     }
-                })
-                {
-                    IsBackground = true
-                }.Start();
+                    Logger.Debug("抓拍记录下载线程退出");
+                }).Start(cts.Token);
             }
             
 
@@ -337,9 +336,18 @@ namespace huaanClient
             {
                 isZn = "vi";
             }
+            
             ChromiumForm chromiumForm = new ChromiumForm(url);
             chromiumForm.Text = ". . .";
-            Application.Run(new MainForm(chromiumForm, isZn));
+            var mainForm = new MainForm(chromiumForm, isZn);
+            mainForm.FormClosed += (sender, e) =>
+            {
+                cts.Cancel();
+                exitProgramEvent.Set();
+                DistributeToequipment.Wakeup();
+            };
+            
+            Application.Run(mainForm);
             /**
              * 当前用户是管理员的时候，直接启动应用程序
              * 如果不是管理员，则使用启动对象启动程序，以确保使用管理员身份运行

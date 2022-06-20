@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 
 namespace huaanClient
@@ -69,6 +70,9 @@ namespace huaanClient
         private static object _locker = new object();
         private static bool? _copyData;
         public static string sqlServerConnectionString;
+
+
+
 
         public static bool CopyData
         {

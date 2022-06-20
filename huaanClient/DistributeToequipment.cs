@@ -34,13 +34,13 @@ namespace huaanClient
         {
             signal.Set();
         }
-
+        
         public static void Sleep()
         {
             signal.Reset();
         }
         
-        public static void distrbute()
+        public static void distrbute(CancellationToken token)
         {
             var startTime = DateTime.Now;
             Logger.Debug("开始查询待下发数据...");
@@ -56,6 +56,11 @@ namespace huaanClient
                     var results = new List<FaceDeploymentResult>();
                     foreach (JObject jo in srjo)
                     {
+                        if (token.IsCancellationRequested)
+                        {
+                            Logger.Debug("取消下发");
+                            break;
+                        }
                         var staffDistribution = jo.ToObject<EquipmentDistribution>();
                         var msg = $"开始下发staff({staffDistribution.userid})到device({staffDistribution.deviceid})";
                         try
@@ -70,14 +75,17 @@ namespace huaanClient
                         }
                     }
 
-                    if (results.All(x=>x == FaceDeploymentResult.DeviceOffline) 
-                        || results.All(x=>x == FaceDeploymentResult.Timeout))
+                    if (!token.IsCancellationRequested)
                     {
-                        Thread.Sleep(60 * 1000);
-                    }
-                    else 
-                    {
-                        Thread.Sleep(10 * 1000);
+                        if (results.All(x => x == FaceDeploymentResult.DeviceOffline)
+                         || results.All(x => x == FaceDeploymentResult.Timeout))
+                        {
+                            Thread.Sleep(60 * 1000);
+                        }
+                        else
+                        {
+                            Thread.Sleep(10 * 1000);
+                        }
                     }
                 }
                 else

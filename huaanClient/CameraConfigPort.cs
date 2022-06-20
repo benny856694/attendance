@@ -432,7 +432,7 @@ namespace huaanClient
         /// <param name="timeoutms">每接收100条数据超时时间</param>
         /// <param name="timeouttotal">当此查询总共的超时时间（会在每次分页完成后判定）</param>
         /// <returns>当前设备特定时间区间内的打卡记录</returns>
-        public (int count, DateTime lastRecordTime) GetRecords(DateTime timeStart, DateTime timeEnd, int timeoutms = 5000, int timeouttotal = 30000)
+        public (int count, DateTime lastRecordTime) GetRecords(DateTime timeStart, DateTime timeEnd, CancellationToken token)
         {
             var recordsCount = 0;
             var lastRecordTime = timeStart;
@@ -461,12 +461,10 @@ namespace huaanClient
                             if (r._closeup != null)
                                 SaveCloseup(r);
                             
-                            Logger.Debug($"save capture data to db seq: {r.sequnce} @ {r.time}");
                             HandleCaptureData.setCaptureDataToDatabase(r, DeviceNo, DeviceName);
                             if (r.time > lastRecordTime)
                             {
                                 lastRecordTime = r.time;
-                                Logger.Debug($"update last record time to {lastRecordTime}");
                             }
                             
                             recordsCount++;
@@ -474,7 +472,7 @@ namespace huaanClient
                     }
                     
                 };
-                client.QueryCaptureRecord(5, timeStart, timeEnd, true, true);
+                client.QueryCaptureRecord(5, 1000, timeStart, timeEnd, true, true, token);
             }
 
             Logger.Debug($"device: {this.IP}, time: {timeStart}-{timeEnd}, count: {recordsCount}");

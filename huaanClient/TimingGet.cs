@@ -13,7 +13,7 @@ namespace huaanClient
     class TimingGet
     {
         static NLog.Logger Logger= NLog.LogManager.GetCurrentClassLogger();
-        public static bool Timingquery()
+        public static bool Timingquery(CancellationToken token)
         {
             var hasData = false;
             DateTime endtime = DateTime.Now;
@@ -27,12 +27,16 @@ namespace huaanClient
             Dictionary<CameraConfigPort, DateTime> cameraQueryTimes = new Dictionary<CameraConfigPort, DateTime>();
             //保存所有相机首次查询
             List<DateTime> firstQuerys=new List<DateTime>();
-            Array.ForEach(Devicelistdata, s =>
+            foreach (var s in Devicelistdata)
             {
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
                 try
                 {
-                    Logger.Debug(s.IP+"主动查询抓拍开始....");
-                    var notEmpty = DownloadOneDevice(s, endtime, firstQuerys, cameraQueryTimes);
+                    Logger.Debug(s.IP + "主动查询抓拍开始....");
+                    var notEmpty = DownloadOneDevice(s, endtime, firstQuerys, cameraQueryTimes, token);
                     if (notEmpty)
                     {
                         hasData = true;
@@ -42,7 +46,7 @@ namespace huaanClient
                 {
                     Logger.Error(ex, $"下载{s.IP}抓拍数据异常");
                 }
-            });
+            }
 
             
             if (firstQuerys.Count >0)
@@ -68,7 +72,7 @@ namespace huaanClient
                     var time = cameraQueryTime.Value;
                     //保存最后一条的记录
                     GetData.setMyDeviceforLast_query(time.ToString("yyyy-MM-dd HH:mm:ss.fff"), s.IP);
-                    Logger.Debug($"update lastquery time {s.IP} to {time}");
+                    Logger.Debug($"set {s.IP}  lastquery time to {time} in db");
                 }
             }
             
@@ -77,7 +81,7 @@ namespace huaanClient
 
         }
 
-        private static bool DownloadOneDevice(CameraConfigPort s,DateTime endtime, List<DateTime> firstQuerys, Dictionary<CameraConfigPort, DateTime> cameraQueryTimes)
+        private static bool DownloadOneDevice(CameraConfigPort s,DateTime endtime, List<DateTime> firstQuerys, Dictionary<CameraConfigPort, DateTime> cameraQueryTimes, CancellationToken token)
         {
             string ATT_STA_time;
             //获取开始时间时如果数据库没有就默认取值当天时间
@@ -104,7 +108,7 @@ namespace huaanClient
             if (s.IsConnected)
             {
                 Logger.Debug($"beging query data from camera {statime}-{endtime}");
-                var result = s.GetRecords(statime, endtime, 3000, 30000);
+                var result = s.GetRecords(statime, endtime, token);
                 if (result.count > 0)
                 {
                     hasData = true;

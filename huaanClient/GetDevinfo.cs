@@ -175,7 +175,7 @@ namespace huaanClient
         /// <summary>
         /// 获取当前数据库保存的设备并进行处理
         /// </summary>
-        public static void getinfoToMyDev()
+        public static void getinfoToMyDev(CancellationToken token)
         {
             
             var str = GetData.getDeviceforMyDevice();
@@ -183,81 +183,88 @@ namespace huaanClient
 
             if (Mydevicelist!=null)
             {
-                Mydevicelist.ForEach(d => {
-                    string number = d.number;
-                    var cam = Deviceinfo.GetByIp(d.ipAddress);
-                    bool exists = true;
-                    if (cam == null)
+                foreach (var d in Mydevicelist)
+                {
+                    if (token.IsCancellationRequested)
                     {
-                        cam = new CameraConfigPort(d.ipAddress);
-                        cam.CaptureData += (s, e) => {
-                            Console.WriteLine(e.person_id);
-                        };
-                        cam.Username = d.username ?? "admin";
-                        cam.Password = d.password ?? "admin";
-                        //cam.Username = "123";
-                        //cam.Password = "123";
-                        cam.Deviceid = d.id;
-                        cam.Connect();
-                        exists = false;
+                        break;
                     }
-                    if (cam.IsConnected && cam.DeviceNo == default)
-                    {
-                        //设置默认参数
-                        var brandJson = Tools.GetBrandObjectInJson();
-                        var brandObj = JObject.Parse(brandJson);
-                        bool? autoCleanExpiredVisitor = (bool?)brandObj["autoCleanExpiredVisitor"];
-                        var cmd = UtilsJson.GetSettingObject(d.DeviceName, autoCleanExpiredVisitor);
-                        var json = JsonConvert.SerializeObject(cmd);
-                        var _ = request(cam, json);
-
-                        string result = request(cam);
-                        JObject jo = (JObject)JsonConvert.DeserializeObject(result);
-                        if (jo != null)
+                    
+                        string number = d.number;
+                        var cam = Deviceinfo.GetByIp(d.ipAddress);
+                        bool exists = true;
+                        if (cam == null)
                         {
-                            JToken deviceNoJObject = jo["device_sn"];
-                            if (deviceNoJObject != null)
-                            {
-                                string device_no = deviceNoJObject.ToString();
-                                if (!string.IsNullOrEmpty(device_no))
-                                {
-                                    if (string.IsNullOrEmpty(number))
-                                    {
-                                        try
-                                        {
-                                            //保存设备编号
-                                            GetData.setDevicenumber(device_no, d.id);
-                                        }
-                                        catch (Exception ex)
-                                        {
+                            cam = new CameraConfigPort(d.ipAddress);
+                            cam.CaptureData += (s, e) => {
+                                Console.WriteLine(e.person_id);
+                            };
+                            cam.Username = d.username ?? "admin";
+                            cam.Password = d.password ?? "admin";
+                            //cam.Username = "123";
+                            //cam.Password = "123";
+                            cam.Deviceid = d.id;
+                            cam.Connect();
+                            exists = false;
+                        }
+                        if (cam.IsConnected && cam.DeviceNo == default)
+                        {
+                            //设置默认参数
+                            var brandJson = Tools.GetBrandObjectInJson();
+                            var brandObj = JObject.Parse(brandJson);
+                            bool? autoCleanExpiredVisitor = (bool?)brandObj["autoCleanExpiredVisitor"];
+                            var cmd = UtilsJson.GetSettingObject(d.DeviceName, autoCleanExpiredVisitor);
+                            var json = JsonConvert.SerializeObject(cmd);
+                            var _ = request(cam, json);
 
+                            string result = request(cam);
+                            JObject jo = (JObject)JsonConvert.DeserializeObject(result);
+                            if (jo != null)
+                            {
+                                JToken deviceNoJObject = jo["device_sn"];
+                                if (deviceNoJObject != null)
+                                {
+                                    string device_no = deviceNoJObject.ToString();
+                                    if (!string.IsNullOrEmpty(device_no))
+                                    {
+                                        if (string.IsNullOrEmpty(number))
+                                        {
+                                            try
+                                            {
+                                                //保存设备编号
+                                                GetData.setDevicenumber(device_no, d.id);
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                            }
                                         }
                                     }
+                                    cam.DeviceNo = device_no;
+                                    Deviceinfo.RemoveAll(c_ => c_.DeviceNo == device_no);
                                 }
-                                cam.DeviceNo = device_no;
-                                Deviceinfo.RemoveAll(c_ => c_.DeviceNo == device_no);
+                                //JObject device_info = (JObject)jo["device_info"];
+                                //if (device_info != null)
+                                //{
+                                //    JToken addr_nameJObject = device_info["addr_name"];
+                                //    if (addr_nameJObject != null)
+                                //    {
+                                //        cam.DeviceName = addr_nameJObject.ToString();
+                                //    }
+                                //}
                             }
-                            //JObject device_info = (JObject)jo["device_info"];
-                            //if (device_info != null)
-                            //{
-                            //    JToken addr_nameJObject = device_info["addr_name"];
-                            //    if (addr_nameJObject != null)
-                            //    {
-                            //        cam.DeviceName = addr_nameJObject.ToString();
-                            //    }
-                            //}
                         }
-                    }
-                    if (!string.IsNullOrEmpty(d.DeviceName))
-                    {
-                        cam.DeviceName = d.DeviceName;
-                    }
-                    if (!exists)
-                    {
-                        Deviceinfo.Add(cam);
-                    }
-                        
-                });
+                        if (!string.IsNullOrEmpty(d.DeviceName))
+                        {
+                            cam.DeviceName = d.DeviceName;
+                        }
+                        if (!exists)
+                        {
+                            Deviceinfo.Add(cam);
+                        }
+
+
+                }
             }
         }
         /// <summary>
