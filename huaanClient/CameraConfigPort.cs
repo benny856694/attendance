@@ -461,7 +461,9 @@ namespace huaanClient
                             if (r._closeup != null)
                                 SaveCloseup(r);
                             
-                            HandleCaptureData.setCaptureDataToDatabase(r, DeviceNo, DeviceName);
+                            var res = HandleCaptureData.setCaptureDataToDatabase(r, DeviceNo, DeviceName);
+                            var msg = res ? "success" : "fail";
+                            Logger.Trace($"save capture record seq:{r.sequnce}, time:{r.time} to db {msg}");
                             if (r.time > lastRecordTime)
                             {
                                 lastRecordTime = r.time;

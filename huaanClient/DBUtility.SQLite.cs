@@ -15,6 +15,7 @@ namespace DBUtility.SQLite
     /// </summary>
     public class SQLiteHelper
     {
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Creates a new <see cref="SQLiteHelper"/> instance. The ctor is marked private since all members are static.
         /// </summary>
@@ -402,6 +403,7 @@ namespace DBUtility.SQLite
                     }
                     catch (Exception ex)
                     {
+                        Logger.Error(ex, "ExecSQL");
                         transaction.Rollback();
                         result = false;
                     }
