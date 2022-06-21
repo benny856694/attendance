@@ -183,6 +183,7 @@ namespace InsuranceBrowserLib
             }
             else if(dr == DialogResult.No)
             {
+
             }
             else
             {

@@ -498,4 +498,10 @@
 	<data name="Summary" xml:space="preserve">
     <value>Summary</value>
   </data>
+	<data name="AppIsFinishJobInBackground" xml:space="preserve">
+    <value>程序正在后台完成计算任务，请耐心等待</value>
+  </data>
+	<data name="AppIsRunningInBackground" xml:space="preserve">
+    <value>程序已经运行或者正在退出，请不要重复运行</value>
+  </data>
 </root>

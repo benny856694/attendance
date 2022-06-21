@@ -44,7 +44,7 @@ namespace huaanClient.Api
             {
                 page_no = 0,
                 page_size = pageSize,
-                time_start = from.ToUniversalTime().ToUnixTimestamp(),
+                time_start = from.Subtract(TimeSpan.FromHours(1)).ToUniversalTime().ToUnixTimestamp(), //把时间推前1小时，防止记录不全
                 time_end = to.ToUniversalTime().ToUnixTimestamp(),
                 reg_image_flag = includeRegimage ? 1 : 0,
                 face_image_flag = includeFaceImage ? 1 : 0
@@ -62,6 +62,7 @@ namespace huaanClient.Api
                                       );
                 
                 var res = policy.ExecuteAndCaptureAsync(async ct => {
+                    Logger.Trace($"send request: {req.ToString()}");
                     return await _client.PostAsJsonAsync("", req, ct);
                 }, token).Result;
                 
@@ -87,7 +88,7 @@ namespace huaanClient.Api
                 {
                     if (res.FinalException is TaskCanceledException)
                     {
-                        Logger.Info("request capture data canceled");
+                        Logger.Info("request capture data cancelled");
                     }
                     else
                     {

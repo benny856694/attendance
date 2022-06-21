@@ -79,6 +79,24 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 程序正在后台完成计算任务，请耐心等待.
+        /// </summary>
+        internal static string AppIsFinishJobInBackground {
+            get {
+                return ResourceManager.GetString("AppIsFinishJobInBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 程序已经运行或者正在退出，请不要重复运行.
+        /// </summary>
+        internal static string AppIsRunningInBackground {
+            get {
+                return ResourceManager.GetString("AppIsRunningInBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 月度考勤报表.
         /// </summary>
         internal static string AttendanceDataMonthlyExportFileName {

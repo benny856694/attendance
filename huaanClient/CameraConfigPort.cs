@@ -443,7 +443,7 @@ namespace huaanClient
                 {
                     if (e.records != null)
                     {
-                        Logger.Trace($"request capture data response: {string.Join(",", e.records.SelectMany(x => x.sequence.ToString()))}");
+                        Logger.Trace($"request capture data response: {string.Join(",", e.records.Select(x => x.sequence.ToString()))}");
                         foreach (var item in e.records)
                         {
                             var r = new CaptureDataEventArgs();

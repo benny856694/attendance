@@ -32,7 +32,7 @@ namespace huaanClient
 
             if (Process.GetProcessesByName("FaceRASystem").ToList().Count > 1)
             {
-                MessageBox.Show("系统已经运行或者正在退出，请不要重复运行");
+                MessageBox.Show(Properties.Strings.AppIsRunningInBackground);
                 if (!Debugger.IsAttached)
                 {
                     InsuranceBrowserLib.NativeMethods.NativeMethods.PostMessage(
