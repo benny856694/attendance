@@ -21,7 +21,7 @@ namespace huaanClient
     class HandleCaptureData
     {
         private static NLog.Logger NLogger = NLog.LogManager.GetCurrentClassLogger();
-        public static void setCaptureDataToDatabase(CaptureDataEventArgs CaptureData, string DeviceNo,string DeviceName)
+        public static bool setCaptureDataToDatabase(CaptureDataEventArgs CaptureData, string DeviceNo,string DeviceName)
         {
             if (string.IsNullOrEmpty(DeviceNo))
             {
@@ -32,16 +32,18 @@ namespace huaanClient
                 DeviceName = CaptureData.addr_name;
             }
 
-            string time = CaptureData.time.ToString("yyyy-MM-dd") + " " + CaptureData.time.TimeOfDay;
             //先根据设备编号和编号去查询是否重复time
-            string spl = "SELECT COUNT(*) as len FROM Capture_Data WHERE time=='" + time.TrimEnd('0') + "' AND device_sn='" + DeviceNo.Trim() + "'";
+            string spl = "SELECT COUNT(*) as len FROM Capture_Data WHERE sequnce=='" + CaptureData.sequnce + "' AND device_sn='" + DeviceNo.Trim() + "'";
             string quIPsr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, spl);
             if (!string.IsNullOrEmpty(quIPsr))
             {
                 JArray jo = (JArray)JsonConvert.DeserializeObject(quIPsr);
                 string reint = jo[0]["len"].ToString();
                 if (int.Parse(reint) > 0)
-                    return;
+                {
+                    NLogger.Info($"{DeviceNo} {CaptureData.sequnce} {CaptureData.time} 抓拍数据已存在");
+                    return false;
+                }
             }
 
             //string connectionString = "Data Source=" + Application.StartupPath + @"\huaanDatabase.sqlite;Version=3;";
@@ -121,7 +123,7 @@ namespace huaanClient
             new SQLiteParameter("@QRcode", CaptureData.QRcode),
             new SQLiteParameter("@trip_infor", CaptureData.trip_infor),
             };
-            SQLiteHelper.ExecSQL(connectionString, strSql.ToString(), parameters);
+            var res = SQLiteHelper.ExecSQL(connectionString, strSql.ToString(), parameters);
             //保存抓拍数据副本给客户使用
             try
             {
@@ -131,6 +133,7 @@ namespace huaanClient
             {
                 NLogger.Error(ex, "保存抓拍数据副本到sqlserver异常");
             }
+            return res;
         }
 
         private static void SaveDataCopy(CaptureDataEventArgs CaptureData, string DeviceNo, string DeviceName, string wg_card_id)

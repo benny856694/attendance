@@ -226,6 +226,9 @@
     <Reference Include="Polly, Version=7.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
       <HintPath>..\packages\Polly.7.2.2\lib\net461\Polly.dll</HintPath>
     </Reference>
+    <Reference Include="Polly.Extensions.Http, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.Extensions.Http.3.0.0\lib\netstandard2.0\Polly.Extensions.Http.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Slapper, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -322,8 +325,11 @@
     <Compile Include="Access.cs" />
     <Compile Include="Api\AddPerson.cs" />
     <Compile Include="Api\CameraVolume.cs" />
+    <Compile Include="Api\Client.cs" />
+    <Compile Include="Api\RequestCaptureRecord.cs" />
     <Compile Include="Api\RequestPersons.cs" />
     <Compile Include="Api\Response.cs" />
+    <Compile Include="Api\ResponseCaptureRecord.cs" />
     <Compile Include="Api\UpdateLcdScreensaver.cs" />
     <Compile Include="Api\UpdateAppParams.cs" />
     <Compile Include="Api\MiscClass.cs" />

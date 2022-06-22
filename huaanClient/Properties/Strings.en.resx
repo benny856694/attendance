@@ -480,4 +480,10 @@
 	<data name="Summary" xml:space="preserve">
 		<value>Summary</value>
 	</data>
+	<data name="AppIsFinishJobInBackground" xml:space="preserve">
+		<value>Application is completing the task in the background</value>
+	</data>
+	<data name="AppIsRunningInBackground" xml:space="preserve">
+		<value>The program is already running or exiting. Please do not run it again</value>
+	</data>
 </root>
