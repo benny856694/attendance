@@ -183,7 +183,11 @@ namespace InsuranceBrowserLib
             }
             else if(dr == DialogResult.No)
             {
-
+                this.Hide();
+                this.WindowState = FormWindowState.Minimized;
+                this.notifyIcon1.Visible = true;
+                this.notifyIcon1.Text = Properties.Strings.AppIsExitingMsg;
+                //this.notifyIcon1.ShowBalloonTip(3000, "", Properties.Strings.AppIsExitingMsg, ToolTipIcon.Info);
             }
             else
             {
