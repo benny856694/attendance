@@ -31,9 +31,11 @@ namespace InsuranceBrowserLib
             InitializeComponent();
             this.chromeForm = chromeForm;
 
-            if (File.Exists("./branding/logo.ico"))
+            var path = "./branding/logo.ico";
+            if (File.Exists(path))
             {
-                this.Icon = new Icon("./branding/logo.ico");
+                this.Icon = new Icon(path);
+                this.notifyIcon1.Icon = new Icon(path);
             }
 
         }
