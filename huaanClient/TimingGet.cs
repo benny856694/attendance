@@ -49,7 +49,8 @@ namespace huaanClient
             }
 
             
-            if (firstQuerys.Count >0)
+            if (Properties.Settings.Default.calculateAttendanceData
+                && firstQuerys.Count > 0)
             {
                 //计算最早查询
                 DateTime firstQuery = firstQuerys[0];
