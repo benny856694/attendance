@@ -39,12 +39,13 @@ namespace huaanClient.Api
         {
             if (from >= to) throw new ArgumentException("from must be smaller than to");
 
+            from = from == DateTime.MinValue ? from : from.Subtract(TimeSpan.FromMinutes(10)); //把时间向前推，防止记录不全
             var count = 0;
             var req = new RequestCaptureRecord()
             {
                 page_no = 0,
                 page_size = pageSize,
-                time_start = from.Subtract(TimeSpan.FromMinutes(10)).ToUniversalTime().ToUnixTimestamp(), //把时间向前推，防止记录不全
+                time_start = from.ToUniversalTime().ToUnixTimestamp(), 
                 time_end = to.ToUniversalTime().ToUnixTimestamp(),
                 reg_image_flag = includeRegimage ? 1 : 0,
                 face_image_flag = includeFaceImage ? 1 : 0
