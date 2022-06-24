@@ -33,7 +33,7 @@ namespace huaanClient
             }
 
             //先根据设备编号和编号去查询是否重复time
-            string spl = "SELECT COUNT(*) as len FROM Capture_Data WHERE sequnce=='" + CaptureData.sequnce + "' AND device_sn='" + DeviceNo.Trim() + "'";
+            string spl = "SELECT COUNT(*) as len FROM Capture_Data WHERE sequnce=='" + CaptureData?.sequnce + "' AND device_sn='" + DeviceNo?.Trim() + "'";
             string quIPsr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, spl);
             if (!string.IsNullOrEmpty(quIPsr))
             {

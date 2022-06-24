@@ -135,7 +135,8 @@ namespace huaanClient
 
                 if (re[2][0] != 0)
                 {
-                    reimgeurl = "0";
+                    sbyte a = (sbyte)re[2][0];
+                    reimgeurl = a+"";
                 }
                 else
                 {
