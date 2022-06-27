@@ -39,7 +39,7 @@ namespace huaanClient.Api
         {
             if (from >= to) throw new ArgumentException("from must be smaller than to");
 
-            from = from == DateTime.MinValue ? from : from.Subtract(TimeSpan.FromMinutes(10)); //把时间向前推，防止记录不全
+            from = from == DateTime.MinValue ? from : from.Subtract(TimeSpan.FromMinutes(1)); //把时间向前推，防止记录不全
             var count = 0;
             var req = new RequestCaptureRecord()
             {

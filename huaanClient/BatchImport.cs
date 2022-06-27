@@ -478,7 +478,7 @@ namespace huaanClient
                             {
                                 dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
                                 dataTable.Rows[i][lastcell - 1] = Properties.Strings.ImageMissing;
-
+                                failCount++;
                                 continue;
                             }
                             //判断是否合格
@@ -489,7 +489,7 @@ namespace huaanClient
                             {
                                 dataTable.Rows[i][lastcell - 2] = Properties.Strings.Fail;
                                 dataTable.Rows[i][lastcell - 1] = Properties.Strings.StaffImageInValid;
-
+                                failCount++;
                                 continue;
                             }
                         }
@@ -540,8 +540,6 @@ namespace huaanClient
                             dataTable.Rows[i][lastcell - 2] = Properties.Strings.Success;
                             dataTable.Rows[i][lastcell - 1] = string.IsNullOrEmpty(dataTable.Rows[i][lastcell - 1] as string)? jObject["data"].ToString(): dataTable.Rows[i][lastcell - 1];
                             successCount++;
-                            if (ChromiumForm.userSettings.AutoIssue)//是否自动下发
-                                GetData.setAddPersonToEquipment(staff_no);
                         }
                         else if (jObject["result"].ToString() != "2")
                         {

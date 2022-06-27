@@ -1360,9 +1360,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     result = await task;
                 }
                 catch { }
-
                 form.HideLayer();
                 await callback.ExecuteAsync(result);
+                DistributeToequipment.Wakeup();
             }));
         }
         public void Download()

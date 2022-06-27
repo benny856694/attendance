@@ -277,14 +277,14 @@ namespace huaanClient
             {
                 bitmap.Dispose();
                 //this.DialogResult = DialogResult.No;
-
+                sbyte errcode = (sbyte)re[2][0];
                 string mes = Properties.Strings.PhotoTakenNotQualified;
                 if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
                 {
                     videoSourcePlayer1.SignalToStop();
                     videoSourcePlayer1.WaitForStop();
                 }
-                MessageBox.Show(mes);
+                MessageBox.Show(mes,"", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             else
