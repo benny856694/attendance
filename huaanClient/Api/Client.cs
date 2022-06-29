@@ -14,6 +14,8 @@ namespace huaanClient.Api
     {
         public string IP { get; private set; }
         public int Port { get; private set; } = 8000;
+        public string UserName { get; set; }
+        public string Password { get; set; }
 
         public event EventHandler<ResponseCaptureRecord> OnRecordReceived;
 
@@ -25,19 +27,29 @@ namespace huaanClient.Api
         {
             IP = ip;
             Port = port;
-            BuildClient();
         }
 
         private void BuildClient()
         {
             _client = new HttpClient();
             _client.BaseAddress = new Uri($"http://{IP}:{Port}/");
+            
+            if (UserName != null && Password != null)
+            {
+                var auth = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{UserName}:{Password}"));
+                _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", auth);
+            }
         }
 
 
         public void QueryCaptureRecord(int pageSize, int maxRecordCount, DateTime from, DateTime to, bool includeRegimage, bool includeFaceImage, CancellationToken token)
         {
             if (from >= to) throw new ArgumentException("from must be smaller than to");
+
+            if (_client == null)
+            {
+                BuildClient();
+            }
 
             from = from == DateTime.MinValue ? from : from.Subtract(TimeSpan.FromMinutes(1)); //把时间向前推，防止记录不全
             var count = 0;

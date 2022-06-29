@@ -437,7 +437,11 @@ namespace huaanClient
             var recordsCount = 0;
             var lastRecordTime = timeStart;
 
-            using (var client = new Api.Client(this.IP))
+            using (var client = new Api.Client(this.IP)
+            {
+                UserName = this.Username,
+                Password = this.Password
+            })
             {
                 client.OnRecordReceived += (sender, e) =>
                 {
