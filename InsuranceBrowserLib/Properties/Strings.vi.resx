@@ -120,4 +120,13 @@
 	<data name="AppIsExitingMsg" xml:space="preserve">
     <value>Chương trình sẽ hoàn thành việc tính trong nền.</value>
   </data>
+	<data name="Alert" xml:space="preserve">
+		<value>Cảnh báo</value>
+	</data>
+	<data name="AlertExitMsg" xml:space="preserve">
+		<value>Nếu chương trình không chạy trong một thời gian dài, sẽ dẫn đến tính toán thời gian dài hơn!</value>
+	</data>
+	<data name="ExitTip" xml:space="preserve">
+		<value>Chắc chắn bạn muốn thoát khỏi?</value>
+	</data>
 </root>

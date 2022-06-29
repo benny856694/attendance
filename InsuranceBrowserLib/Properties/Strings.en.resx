@@ -120,4 +120,13 @@
 	<data name="AppIsExitingMsg" xml:space="preserve">
     <value>App is finishing tasks in background, please be patient...</value>
   </data>
+	<data name="Alert" xml:space="preserve">
+		<value>warning</value>
+	</data>
+	<data name="AlertExitMsg" xml:space="preserve">
+		<value>If the program does not run for a long time, it will take a long time to calculate the attendance!!</value>
+	</data>
+	<data name="ExitTip" xml:space="preserve">
+		<value>Are you sure you want to quit?</value>
+	</data>
 </root>

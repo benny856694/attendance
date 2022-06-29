@@ -117,7 +117,16 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+	<data name="Alert" xml:space="preserve">
+    <value>警告</value>
+  </data>
+	<data name="AlertExitMsg" xml:space="preserve">
+    <value>如果程序长期不运行，将会导致计算考勤耗时较长！！！</value>
+  </data>
 	<data name="AppIsExitingMsg" xml:space="preserve">
     <value>程序正在后台完成计算，请耐心等待</value>
+  </data>
+	<data name="ExitTip" xml:space="preserve">
+    <value>确定要退出吗？</value>
   </data>
 </root>

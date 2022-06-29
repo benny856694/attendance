@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZXCL.WinFormUI;
 
+
 namespace InsuranceBrowserLib
 {
     public partial class Close : ZForm
@@ -76,11 +77,53 @@ namespace InsuranceBrowserLib
             }
             else if (zCheckBox2.Checked == true)
             {
-                this.DialogResult = DialogResult.No;
-                this.Close();
+                if (!needShowCloseDialog(3))//判断是否需要显示警告弹窗,警告用户不能长期不运行程序
+                {
+                    Properties.Settings1.Default.LastCloseDate = DateTime.Now;
+                    Properties.Settings1.Default.Save();
+                    this.DialogResult = DialogResult.No;
+                    this.Close();
+                }
+                else
+                {
+                    this.Hide();
+                    string alert = Properties.Strings.Alert;
+                    string exitTip = Properties.Strings.ExitTip;
+                    string AlertExitMsg = Properties.Strings.AlertExitMsg;
+                    DialogResult dr = MessageBox.Show(""+ AlertExitMsg + "\r\n"+ exitTip + "", alert, MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                    if (dr == DialogResult.OK)
+                    {
+                        Properties.Settings1.Default.LastCloseDate = DateTime.Now;
+                        Properties.Settings1.Default.Save();
+                        this.DialogResult = DialogResult.No;
+                        this.Close();
+                    }
+                    else
+                    {
+                        this.Show();
+                    }
+                }
             }
         }
-
+        //是否需要显示退出警告提示弹窗
+        private bool needShowCloseDialog(int dayTime)
+        {
+            //获取今天时间
+            DateTime now = DateTime.Now;
+            //获取上次关闭应用程序时间
+            var lastCloseDate=Properties.Settings1.Default.LastCloseDate;
+            var minValue = DateTime.Parse("2020-1-1 0:00:00");
+            if (minValue.Subtract(lastCloseDate).Days == 0)
+            {//初始不需要显示警告
+                return false;
+            }
+            //如果上次关闭应用程序时间与今天相差超过dayTime天，则要提示
+            if (now.Subtract(lastCloseDate).Days > dayTime)
+            {
+                return true;
+            }
+            return false;
+        }
         private void zCheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (zCheckBox1.Checked==true)
