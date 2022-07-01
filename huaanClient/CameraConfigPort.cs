@@ -452,7 +452,7 @@ namespace huaanClient
                         {
                             var r = new CaptureDataEventArgs();
                             r.person_id = item.id;
-                            r.person_name = item.name ?? item.person_name_ext;
+                            r.person_name = string.IsNullOrEmpty(item.name) ? item.person_name_ext : item.name;
                             r.time = DateTime.Parse(item.time);
                             if (!string.IsNullOrEmpty(item.face_image))
                                 r._closeup = Convert.FromBase64String(item.face_image);
