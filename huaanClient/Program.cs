@@ -47,14 +47,14 @@ namespace huaanClient
             //检查sqlserver是否在运行
             if (ApplicationData.CopyData)
             {
-                var p = Process.GetProcessesByName("SQL2000");
-                if (p.Length == 0)
-                {
-                    MessageBox.Show(
-                        "已经打开了复制数据到SqlServer功能, 但是SqlServer没有运行, 请确保SqlServer已经启动, 本程序即将退出。",
-                        null, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                //var p = Process.GetProcessesByName("SQL2000");
+                //if (p.Length == 0)
+                //{
+                //    MessageBox.Show(
+                //        "已经打开了复制数据到SqlServer功能, 但是SqlServer没有运行, 请确保SqlServer已经启动, 本程序即将退出。",
+                //        null, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    return;
+                //}
             }
 
             //test
