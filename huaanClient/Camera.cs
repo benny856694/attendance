@@ -22,7 +22,7 @@ namespace huaanClient
         VideoCaptureDevice videoSource;
         public int selectedDeviceIndex = 0;
         HaCamera haCamera;
-        public string imgurl = string.Empty; 
+        public string imgurl = string.Empty;
         public Camera()
         {
             InitializeComponent();
@@ -46,7 +46,7 @@ namespace huaanClient
             }
             haCamera = new HaCamera();
             haCamera.Ip = ip;
-            newip= ip;
+            newip = ip;
             haCamera.Port = 9527;
             haCamera.VideoParmReceived += HaCamera_VideoParmReceived;
             haCamera.Connect();
@@ -85,13 +85,14 @@ namespace huaanClient
             //        myHeight = (int)Math.Round((double)myHeight / 3) * 2;
             //    }
             //}
-           
+
             haCamera.VideoParmReceived -= HaCamera_VideoParmReceived;
             haCamera.DisConnect();
             setwidthAndheight();
             haCamera.Ip = newip;
             haCamera.Port = 9527;
-            BeginInvoke(new Action(() => {
+            BeginInvoke(new Action(() =>
+            {
                 haCamera.Connect(this.videoSourcePlayer1.Handle);
             }));
         }
@@ -101,19 +102,19 @@ namespace huaanClient
             ischange = false;
             videoSourcePlayer1.Text = Properties.Strings.PromptSwitchingCamera;
             videoSourcePlayer1.Stop();
-            if (ip.Length<5)
+            if (ip.Length < 5)
             {
-                if (haCamera!=null)
+                if (haCamera != null)
                 {
                     haCamera.DisConnect();
-                } 
+                }
                 SwitchLocalCamera(ip);
             }
             else
             {
                 ischange = true;
-                getWidthAndHeight(ip);   
-            } 
+                getWidthAndHeight(ip);
+            }
         }
 
         //切换本地相机
@@ -167,7 +168,7 @@ namespace huaanClient
             {
                 MessageBox.Show(Strings.EnumerateBuildInCameraErrorMsg.Format(ex.Message), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
             //查询所有的IP地址
             string data = GetData.getDeviceDiscover();
             JArray jArray = (JArray)JsonConvert.DeserializeObject(data);
@@ -209,7 +210,8 @@ namespace huaanClient
                     myHeight = 350;
                 }
             }
-            this.BeginInvoke(new Action(()=> {
+            this.BeginInvoke(new Action(() =>
+            {
                 //this.Width = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
                 //this.Height = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
 
@@ -221,7 +223,7 @@ namespace huaanClient
                 //    / 2 - (myWidth + 140 + 170) / 2, System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2 - (myHeight + 140) / 2);
 
                 //this.btnLogin.Location = new System.Drawing.Point((myWidth + 140 + 190 + 140) / 2 - 115, myHeight + 70);
-                if (myWidth==350)
+                if (myWidth == 350)
                 {
                     this.videoSourcePlayer1.Location = new System.Drawing.Point(212, 50);
                 }
@@ -229,7 +231,7 @@ namespace huaanClient
                 {
                     this.videoSourcePlayer1.Location = new System.Drawing.Point(197 + myWidth / 2, 50);
                 }
-            }) );    
+            }));
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -250,11 +252,11 @@ namespace huaanClient
                 {
                     bitmap = new Bitmap(images.Item1);
                 }
-                else if(images.Item2?.IsGrayScale() == false)
+                else if (images.Item2?.IsGrayScale() == false)
                 {
                     bitmap = new Bitmap(images.Item2);
                 }
-                
+
             }
             else
             {
@@ -284,7 +286,7 @@ namespace huaanClient
                     videoSourcePlayer1.SignalToStop();
                     videoSourcePlayer1.WaitForStop();
                 }
-                MessageBox.Show(mes,"", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(mes, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             else
@@ -294,8 +296,8 @@ namespace huaanClient
                 {
                     Directory.CreateDirectory(imgPath);
                 }
-                bitmap.Save(ApplicationData.FaceRASystemToolUrl+"\\imgefile\\" + fileName+".jpg", ImageFormat.Jpeg);
-                imgurl = ApplicationData.FaceRASystemToolUrl + "\\imgefile\\" + fileName+ ".jpg";
+                bitmap.Save(ApplicationData.FaceRASystemToolUrl + "\\imgefile\\" + fileName + ".jpg", ImageFormat.Jpeg);
+                imgurl = ApplicationData.FaceRASystemToolUrl + "\\imgefile\\" + fileName + ".jpg";
                 bitmap.Dispose();
                 if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
                 {
@@ -310,12 +312,11 @@ namespace huaanClient
                 }
                 return;
             }
-            
+
         }
 
         private void Camera_FormClosing(object sender, FormClosingEventArgs e)
         {
-
             if (haCamera != null)
             {
                 haCamera.DisConnect();
@@ -324,6 +325,11 @@ namespace huaanClient
             {
                 this.DialogResult = DialogResult.Cancel;
                 e.Cancel = false;
+            }
+            if (videoSourcePlayer1 != null && videoSourcePlayer1.IsRunning)
+            {
+                videoSourcePlayer1.SignalToStop();
+                videoSourcePlayer1.WaitForStop();
             }
         }
 
