@@ -162,7 +162,7 @@ namespace huaanClient
                     //明细行
                     for (int row = 0; row < table.Rows.Count; row++)
                     {
-                        var sheetRow = sheet.CreateRow(row+1);
+                        var sheetRow = sheet.CreateRow(row + 1);
                         col = 0;
                         for (int column = 0; column < table.Columns.Count - 1; column++)
                         {
@@ -186,7 +186,7 @@ namespace huaanClient
                                 else
                                 {
                                     string TemString = table.Rows[row][column].ToString().Trim();
-                                    
+
                                     sheetRow.CreateCell(col++).SetCellValue(TemString);
                                 }
 
@@ -197,13 +197,13 @@ namespace huaanClient
                                 sheetRow.CreateCell(col++).SetCellValue(TemString);
                             }
                         }
-                        
+
                     }
 
                     var fs = saveDlg.OpenFile();
                     workBook.Write(fs);
                     workBook.Close();
-                    
+
                     string msg = "导出成功：";
                     if (ApplicationData.LanguageSign.Contains("English"))
                         msg = "Export succeeded：";
@@ -219,7 +219,7 @@ namespace huaanClient
                     else if (ApplicationData.LanguageSign.Contains("日本語"))
                         msg = $"エクスポート失敗:{ex.Message}";
                     MessageBox.Show(msg);
-                    
+
                 }
             }
         }
@@ -353,13 +353,13 @@ namespace huaanClient
         }
 
 
-       
+
 
 
 
         public static void ExportDataToXlsx<T>(
-            string fileName, 
-            T[] data, 
+            string fileName,
+            T[] data,
             Dictionary<string, string> propertyNames,
             Func<T, string, object, string> convertValueToString,
             string[] selectedPropertyNames = null
@@ -391,7 +391,7 @@ namespace huaanClient
                         title.CreateCell(i).SetCellValue(cultureInfo.ToTitleCase(propertyNames[selectedPropertyNames[i]]));
                     }
 
-                    
+
 
                     for (var i = 0; i < data.Length; ++i)
                     {
@@ -429,8 +429,8 @@ namespace huaanClient
                     FileStream fs = new FileStream(saveDlg.FileName, FileMode.Create);
                     workbook.Write(fs);
                     fs.Close();
-    
-                    
+
+
                     MessageBox.Show($"{Strings.ExportFileSucceed}: {saveDlg.FileName}");
                 }
                 catch (Exception ex)
@@ -684,7 +684,7 @@ namespace huaanClient
                         addr_name = table.Columns["addr_name"].ColumnName = "Addr Name";
                         //string personId = table.Columns["UserKey"].ColumnName = "用户编码";
                         time = table.Columns["time"].ColumnName = "Time";
-                        match_status = table.Columns["match_status"].ColumnName = "Match Status"; 
+                        match_status = table.Columns["match_status"].ColumnName = "Match Status";
                         //hatColor = table.Columns["hatColor"].ColumnName = "HatColor";
                         wg_card_id = table.Columns["wg_card_id"].ColumnName = "Access card number";
                         match_failed_reson = table.Columns["match_failed_reson"].ColumnName = "Reasons for failure";
@@ -696,7 +696,7 @@ namespace huaanClient
                         //match_type = table.Columns["match_type"].ColumnName = "Match Type";
                         //QRcodestatus = table.Columns["QRcodestatus"].ColumnName = "QRcodestatus";
 
-                        closeup = table.Columns["closeup"].ColumnName = "closeup"; 
+                        closeup = table.Columns["closeup"].ColumnName = "closeup";
                     }
                     else if (ApplicationData.LanguageSign.Contains("日本語"))
                     {
@@ -739,7 +739,7 @@ namespace huaanClient
                         closeup = table.Columns["closeup"].ColumnName = "抓拍图片路径";
                     }
 
-                    
+
                     write.Write(addr_name + ",");
                     write.Write(time + ",");
                     write.Write(match_status + ",");
@@ -757,7 +757,7 @@ namespace huaanClient
                     {
                         write.Write(QRcodestatus + ",");
                         write.Write(trip_infor + ",");
-                    } 
+                    }
                     write.Write(closeup + ",");
                     write.WriteLine();
                     //明细行
@@ -771,14 +771,14 @@ namespace huaanClient
                                 if (column == 7)
                                 {
                                     string TemString = table.Rows[row][column].ToString().Trim();
-                                    if (TemString.Trim().Length>3)
+                                    if (TemString.Trim().Length > 3)
                                     {
-                                        TemString = TemString.Substring(0,4);
+                                        TemString = TemString.Substring(0, 4);
                                     }
                                     Tem += TemString + "\t";
                                     Tem += ",";
                                 }
-                                else if(column == 6)
+                                else if (column == 6)
                                 {
                                     string TemString = table.Rows[row][column].ToString().Trim();
                                     if (TemString.Trim().Equals("1"))
@@ -798,7 +798,7 @@ namespace huaanClient
                                 else if (column == 11)
                                 {
                                     string TemString = table.Rows[row][column].ToString().Trim();
-                                    if(TemString.Trim().Equals("0"))
+                                    if (TemString.Trim().Equals("0"))
                                     {
                                         TemString = "绿码";
                                         if (ApplicationData.LanguageSign.Contains("English"))
@@ -806,7 +806,7 @@ namespace huaanClient
                                         else if (ApplicationData.LanguageSign.Contains("日本語"))
                                             TemString = "";
                                     }
-                                    else if(TemString.Trim().Equals("1"))
+                                    else if (TemString.Trim().Equals("1"))
                                     {
                                         TemString = "红码";
                                         if (ApplicationData.LanguageSign.Contains("English"))
@@ -814,7 +814,7 @@ namespace huaanClient
                                         else if (ApplicationData.LanguageSign.Contains("日本語"))
                                             TemString = "";
                                     }
-                                    else if(TemString.Trim().Equals("2"))
+                                    else if (TemString.Trim().Equals("2"))
                                     {
                                         TemString = "黄码";
                                         if (ApplicationData.LanguageSign.Contains("English"))
@@ -822,24 +822,24 @@ namespace huaanClient
                                         else if (ApplicationData.LanguageSign.Contains("日本語"))
                                             TemString = "";
                                     }
-                                    else if(TemString.Trim().Length>1)
+                                    else if (TemString.Trim().Length > 1)
                                     {
                                         TemString = TemString.Split(';')[0];
-                                        
+
                                     }
                                     else
-                                        TemString ="";
+                                        TemString = "";
                                     Tem += TemString + "\t";
                                     Tem += ",";
                                 }
                                 else if (column == 9)
                                 {
                                     string TemString = table.Rows[row][column].ToString().Trim();
-                                    if (TemString.Trim().Length==17)
+                                    if (TemString.Trim().Length == 17)
                                     {
                                         TemString = TemString + "X";
                                     }
-                                    else if (TemString.Trim().Length <3)
+                                    else if (TemString.Trim().Length < 3)
                                     {
                                         TemString = "";
                                     }
@@ -912,11 +912,11 @@ namespace huaanClient
                 }
             };
 
-            var selectedProperties = new string[] { "name", "Email", "phone", "Employee_code", "picture", "publish_time", "IDcardNo", "face_idcard", "idcardtype", "department_id", "Employetype_id" };
+            var selectedProperties = new string[] { "name", "Email", "phone", "Employee_code", "picture", "publish_time", "IDcardNo", "face_idcard", "idcardtype", "department_id", "Employetype_id", "customer_text" };
 
             ExportDataToXlsx(fileName, data, propertyNames, converter, selectedProperties);
 
-           
+
         }
 
         /// <summary>

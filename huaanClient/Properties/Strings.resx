@@ -160,10 +160,10 @@
     <value>照片不合符要求</value>
   </data>
   <data name="StaffKeys" xml:space="preserve">
-    <value>name,Email,phone,Employee_code,picture,publish_time,IDcardNo,face_idcard,idcardtype,department_id,Employetype_id</value>
+    <value>name,Email,phone,Employee_code,picture,publish_time,IDcardNo,face_idcard,idcardtype,department_id,Employetype_id,customer_text</value>
   </data>
   <data name="StaffNames" xml:space="preserve">
-    <value>姓名,邮箱地址,电话号码,员工编号,照片路径,添加日期,身份证号码,门禁卡号,门禁卡号位数,部门,员工分类</value>
+    <value>姓名,邮箱地址,电话号码,员工编号,照片路径,添加日期,身份证号码,门禁卡号,门禁卡号位数,部门,员工分类,自定义</value>
   </data>
   <data name="Switch" xml:space="preserve">
     <value>切换</value>
