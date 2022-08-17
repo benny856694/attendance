@@ -62,7 +62,7 @@ namespace huaanClient
                         firstQuery = item;
                     }
                 }
-                AttendanceAlgorithm.getpersonnel(firstQuery.ToString("yyyy-MM-dd HH:mm:ss") + ".999", endtime.ToString("yyyy-MM-dd HH:mm:ss") + ".999", 1);//计算考勤
+                AttendanceAlgorithm.getpersonnel(firstQuery.ToString("yyyy-MM-dd HH:mm:ss") + ".999", endtime.ToString("yyyy-MM-dd HH:mm:ss") + ".999", 1, token);//计算考勤
             }
             if (cameraQueryTimes.Count > 0)
             {

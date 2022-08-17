@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace huaanClient
@@ -22,7 +23,7 @@ namespace huaanClient
         //reData
         static List<reData> relistAll = new List<reData>();
         static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        public static string getpersonnel(string starttime, string endtime,int type)
+        public static string getpersonnel(string starttime, string endtime,int type, CancellationToken token)
         {
             try
             {
@@ -104,6 +105,10 @@ namespace huaanClient
                 {
                     for (int i = 0; i < staffs.Count; i++)
                     {
+                        if(token.IsCancellationRequested)
+                        {
+                            break;
+                        }
                         captureDataForOneStaff.Clear();
                         JToken staff = staffs[i];
                         Logger.Debug($"calculate staff id = {staff["personId"]} attendance");
@@ -152,7 +157,7 @@ namespace huaanClient
                             Logger.Debug($"calculate start:{starttime}, end:{endtime}, staffid: {staff["personId"]} attendance");
                             try
                             {
-                                getEffectiveTime(starttime, endtime, staff["personId"].ToString(), staff["AttendanceGroup_id"].ToString(), staff["Employee_code"].ToString(), staff["name"].ToString(), staff["department"].ToString(), day);
+                                getEffectiveTime(starttime, endtime, staff["personId"].ToString(), staff["AttendanceGroup_id"].ToString(), staff["Employee_code"].ToString(), staff["name"].ToString(), staff["department"].ToString(), day, token);
                             }
                             catch (Exception ex)
                             {
@@ -284,14 +289,16 @@ namespace huaanClient
         }
         //根据personId找到对应的考勤组
         public static void getEffectiveTime(
-            string starttime, 
+            string starttime,
             string endtime,
             string personId,
             string AttendanceGroup_id,
-            string Employee_code, 
-            string  name,
+            string Employee_code,
+            string name,
             string department,
-            int day)
+            int day,
+            CancellationToken token
+            )
         {
             Logger.Debug($"beging calculate attendance for {personId}, start: {starttime}, end: {endtime}");
             if (DateTimeFormatInfo.CurrentInfo != null)
@@ -308,6 +315,10 @@ namespace huaanClient
             {
                 reData reData = new reData();
                 DateTime today = sta.AddDays(i);
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
                 if(today.Date == DateTime.MinValue.Date)
                 {
                     continue;
