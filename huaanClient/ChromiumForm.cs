@@ -1028,7 +1028,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 using (callback)
                 {
-                    string data = AttendanceAlgorithm.getpersonnel(starttime + " 00:00:00", endtime + " 23:59:59", 1);
+                    string data = AttendanceAlgorithm.getpersonnel(starttime + " 00:00:00", endtime + " 23:59:59", 1, new CancellationToken());
                     callback.ExecuteAsync(data);
                 }
 
@@ -1045,7 +1045,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 using (callback)
                 {
-                    string data = AttendanceAlgorithm.getpersonnel(starttime + " 00:00:00", endtime + " 23:59:59", 0);
+                    string data = AttendanceAlgorithm.getpersonnel(starttime + " 00:00:00", endtime + " 23:59:59", 0, new CancellationToken());
                     callback.ExecuteAsync(data);
                 }
 
