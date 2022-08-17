@@ -15,7 +15,7 @@ namespace huaanClient.Database
         public string DeviceName { get; set; }
         public string number { get; set; }
         public string ipAddress { get; set; }
-        public DateTime Last_query { get; set; }
+        public DateTime? Last_query { get; set; }
         public string time_syn { get; set; }
 
         //-1: undefined, 1: enter, 0: exit

@@ -308,6 +308,10 @@ namespace huaanClient
             {
                 reData reData = new reData();
                 DateTime today = sta.AddDays(i);
+                if(today.Date == DateTime.MinValue.Date)
+                {
+                    continue;
+                }
                 string strToday = today.ToString("yyyy-MM-dd").Replace(@"\", "-");
 
                 //昨天的时间
