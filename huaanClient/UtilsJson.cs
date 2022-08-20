@@ -28,8 +28,6 @@ namespace huaanClient
         public static string request_persons = "{{\"cmd\": \"request persons\",\"role\": -1,\"page_no\": 1,\"page_size\": 10,\"normal_image_flag\": 1,\"image_flag\": 1,\"query_mode\": 0,\"condition\": {{\"person_id\": \"{0}\"}}}}";
         public static string request_persons_by_name = "{{\"cmd\": \"request persons\",\"role\": -1,\"page_no\": {0},\"page_size\": {1},\"normal_image_flag\": 1,\"image_flag\": 1,\"query_mode\": 1,\"condition\": {{\"person_name\": \"{2}\"}}}}";
 
-
-
         public const string UPLOAD_PERSON_FIELD_ID = "id";
         public const string UPLOAD_PERSON_FIELD_NAME = "name";
         public const string UPLOAD_PERSON_FIELD_REG_IMAGE = "reg_image";

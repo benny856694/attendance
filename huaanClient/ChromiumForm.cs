@@ -44,7 +44,7 @@ namespace InsuranceBrowser
         InsuranceBrowserLib.MainForm mainForm;
         public static UserSettings userSettings = new UserSettings();
 
-        
+
         public ChromiumForm()
         {
             InitializeComponent();
@@ -90,7 +90,7 @@ namespace InsuranceBrowser
                     {
                         mainForm.Text = " HEAT CHECK" + " " + ApplicationData.MyAppVersion;
                     }
-                    else if(ApplicationData.LanguageSign.Contains("中文"))
+                    else if (ApplicationData.LanguageSign.Contains("中文"))
                     {
                         mainForm.Text = " 智慧人脸考勤门禁系统" + " " + ApplicationData.MyAppVersion;
                     }
@@ -168,7 +168,7 @@ namespace InsuranceBrowser
             JavaScriptBound jsBound = new JavaScriptBound(this, this.skinPanel1);
             //webBrowser.RegisterJsObject("myExtension", jsBound, false);
             CefSharpSettings.LegacyJavascriptBindingEnabled = true;
-            CefSharpSettings.WcfEnabled = true; 
+            CefSharpSettings.WcfEnabled = true;
             webBrowser.JavascriptObjectRepository.Register("myExtension1", jsBound, isAsync: false, options: new BindingOptions() { CamelCaseJavascriptNames = false });
             //webBrowser.JavascriptObjectRepository.Register("myExtension", jsBound, isAsync: false, options: BindingOptions.DefaultBinder);
             webBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
@@ -395,7 +395,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 BigScreen bigScreen = new BigScreen();
                 bigScreen.Show();
-            }));      
+            }));
         }
         public string getlanguage()
         {
@@ -480,17 +480,17 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
         //批量导出门禁记录
-        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string type, string tempFrom, string tempTo,string ids,string wg_card_id)
+        public void BatchXportforCapture(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string type, string tempFrom, string tempTo, string ids, string wg_card_id)
         {
             #region 查询数量
             string result = "";
             if (string.IsNullOrEmpty(ids))
             {
-                result = GetData.getCapture_Datacuont(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(),wg_card_id);
+                result = GetData.getCapture_Datacuont(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), wg_card_id);
             }
             else
             {
-                result =  $"[{{\"count\":{ids.Split(',').Length}}}]";
+                result = $"[{{\"count\":{ids.Split(',').Length}}}]";
             }
             #endregion
 
@@ -502,14 +502,15 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 {
                     MessageBox.Show(Strings.DatasetIsTooBig);
                     return;
-                }else if (int.Parse(reint)==0)
+                }
+                else if (int.Parse(reint) == 0)
                 {
                     MessageBox.Show(Strings.NoDataFound);
                     return;
                 }
                 else
                 {
-                    var data = GetData.getCapture_Data1(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(),ids, wg_card_id);
+                    var data = GetData.getCapture_Data1(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), ids, wg_card_id);
                     var propertyNames = Tools.GetPropertyNames(nameof(Capture_Data));
                     Func<Capture_Data, string, object, string> convertProperty = (d, pname, v) =>
                     {
@@ -559,7 +560,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 //选择路径进行导出
 
             }));
-            
+
         }
 
         public void export()
@@ -657,7 +658,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public string EdPdfconfiguration(string pdftitle, string rows1, string rows2, string rows3, string rows4
             , string rows5
             , string rows6
-            , string rows7, string rows8, string rows9, string rows10, string rows11,string rows12)
+            , string rows7, string rows8, string rows9, string rows10, string rows11, string rows12)
         {
             string data = GetData.EdPdfconfiguration(pdftitle, rows1, rows2, rows3, rows4
             , rows5
@@ -665,9 +666,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             , rows7, rows8, rows9, rows10, rows11, rows12);
             return data;
         }
-        public string getStaffDataQuey(string name, string no, string qu_phone, string pageint, string limt, string dep, string employeeTypeName,string haspicture)
+        public string getStaffDataQuey(string name, string no, string qu_phone, string pageint, string limt, string dep, string employeeTypeName, string haspicture)
         {
-            string data = GetData.getStaffData(name, no, qu_phone, pageint, limt, dep, employeeTypeName,haspicture);
+            string data = GetData.getStaffData(name, no, qu_phone, pageint, limt, dep, employeeTypeName, haspicture);
             return data;
         }
         public string getStaffDataQueyforcount(string name, string no, string qu_phone, string dep, string employeeTypeName, string haspicture)
@@ -689,34 +690,34 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //添加新员工
-        public string setStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard,string idcardtype,string customer_text,string term_start,string term)
+        public string setStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard, string idcardtype, string customer_text, string term_start, string term)
         {
-            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), Staff.STAFF_SOURCE_MANUAL_ADD, customer_text.Trim(), term_start.Trim(),term.Trim());
+            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), Staff.STAFF_SOURCE_MANUAL_ADD, customer_text.Trim(), term_start.Trim(), term.Trim());
             DistributeToequipment.Wakeup();
             return data;
         }
-        public string setStaffForsynchronization(string ID,string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
+        public string setStaffForsynchronization(string ID, string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
             string data = GetData.setStaf(ID.ToString(), name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), source.Trim());
             return data;
         }
         //编辑员工
-        public string EditStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string line_userid,string lineType, string id,string face_idcard, string idcardtype, string customer_text, string term_start, string term)
+        public string EditStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string line_userid, string lineType, string id, string face_idcard, string idcardtype, string customer_text, string term_start, string term)
         {
-            string data = GetData.eidStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, line_userid.Trim(), lineType.Trim(), id, face_idcard.Trim(), idcardtype.Trim(),  customer_text.Trim(), term_start.Trim(), term.Trim());
+            string data = GetData.eidStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, line_userid.Trim(), lineType.Trim(), id, face_idcard.Trim(), idcardtype.Trim(), customer_text.Trim(), term_start.Trim(), term.Trim());
             DistributeToequipment.Wakeup();
             return data;
         }
 
         //添加访客
-        public string setVisitor(string name,  string phone,  string imgeurl, string statime, string endtime)
+        public string setVisitor(string name, string phone, string imgeurl, string statime, string endtime)
         {
             string data = GetData.setVisitor(name.Trim(), phone, imgeurl.Trim(), statime.Trim(), endtime.Trim());
             DistributeToequipment.Wakeup();
             return data;
         }
         //编辑访客
-        public string EditVisitor(string name, string phone, string imgeurl, string statime, string endtime,string id)
+        public string EditVisitor(string name, string phone, string imgeurl, string statime, string endtime, string id)
         {
             string data = GetData.editVisitor(name.Trim(), phone, imgeurl.Trim(), statime.Trim(), endtime.Trim(), id);
             DistributeToequipment.Wakeup();
@@ -883,9 +884,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string data = GetData.AddIPtoMydevice(IP, DeviceName, inout, username, password);
             return data;
         }
-        public string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout,string username, string password)
+        public string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout, string username, string password)
         {
-            string data = GetData.UpdatIPtoMydevice(oldIp, IP, DeviceName, inout, username,password);
+            string data = GetData.UpdatIPtoMydevice(oldIp, IP, DeviceName, inout, username, password);
             return data;
         }
         public bool DeleteIPtoMydevice(string IP)
@@ -954,10 +955,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //选择单个相机下发
-        public void AllpersonToEquipment_distribution(IJavascriptCallback callback,string datajson)
+        public void AllpersonToEquipment_distribution(IJavascriptCallback callback, string datajson)
         {
             form.ShowLayer();
-            form.BeginInvoke(new Action(async ()=> {
+            form.BeginInvoke(new Action(async () =>
+            {
                 string result = "success";
                 try
                 {
@@ -965,7 +967,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     result = await task;
                     DistributeToequipment.Wakeup();
                 }
-                catch(Exception e) { result = e.Message; }
+                catch (Exception e) { result = e.Message; }
                 form.HideLayer();
                 await callback.ExecuteAsync(result);
             }));
@@ -1065,7 +1067,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     {
                         date = date.Replace(@"/", "-");
                         var data = GetData.getMonthlyData(date, name, departments);
-                        json =  JsonConvert.SerializeObject(data);
+                        json = JsonConvert.SerializeObject(data);
                     }
                     else
                     {
@@ -1076,7 +1078,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     cb.ExecuteAsync(json);
                 }
             });
-            
+
         }
         //导出月度考勤报表
         public void exportMonthlyData(string date, string name, string departments)
@@ -1115,11 +1117,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             }));
         }
 
-        public string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism,string department)
+        public string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string department)
         {
             starttime = starttime.Replace(@"/", "-");
             endtime = endtime.Replace(@"/", "-");
-            string data = GetData.queryAttendanceinformationcount(starttime, endtime, name, late, Leaveearly, isAbsenteeism,department);
+            string data = GetData.queryAttendanceinformationcount(starttime, endtime, name, late, Leaveearly, isAbsenteeism, department);
             return data;
         }
 
@@ -1133,7 +1135,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 form.Invoke(new Action(() =>
                 {
                     string data = null;
-                    if(CultureInfo.CurrentCulture.Name != Constants.LANG_LOCALE_ENGLISH)
+                    if (CultureInfo.CurrentCulture.Name != Constants.LANG_LOCALE_ENGLISH)
                     {
                         data = GetData.queryAttendanceinformation(starttime, endtime, name, late, Leaveearly, isAbsenteeism, page, limt, department);
                     }
@@ -1156,10 +1158,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
                         var ctx = new DataContext();
                         ctx.Load(criteria);
-                        
+
                         var att = ctx.ToDailyAttendance();
                         data = JsonConvert.SerializeObject(att, Formatting.Indented);
-                        
+
                     }
 
                     form.HideLayer();
@@ -1169,7 +1171,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             });
         }
 
-        public void queryAttendanceinByid(IJavascriptCallback callback,string personId)
+        public void queryAttendanceinByid(IJavascriptCallback callback, string personId)
         {
             Task.Factory.StartNew(() =>
             {
@@ -1181,12 +1183,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //写入自定义导出每日考勤数据
         public bool setCsvSettings(string key, string values)
         {
-            bool data = GetData.setCsvSettings(key,values);
+            bool data = GetData.setCsvSettings(key, values);
             return data;
         }
 
         //获取自定义导出每日考勤数据
-        public string  getCsvSettings()
+        public string getCsvSettings()
         {
             string data = GetData.getCsvSettings();
             return data;
@@ -1277,7 +1279,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string data = GetData.EditLine(temperature, Message, Message2, Message3, Message4
             , Message5
             , Message6
-            , Message7, Message8, Message9, Message10, Message11, Message12, line_url,  ftpserver,  ftppassword,  ftpusername);
+            , Message7, Message8, Message9, Message10, Message11, Message12, line_url, ftpserver, ftppassword, ftpusername);
             return data;
         }
 
@@ -1375,7 +1377,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //getCapture_Data(string statime,string endtime,string name,string devname,string pageint,string limt)
-        public string getCapture_Data(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt, string wg_card_id)
+        public string getCapture_Data(string statime, string endtime, string name, string devname, string stranger, string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt, string wg_card_id)
         {
             //Task.Factory.StartNew(() =>
             //{
@@ -1393,7 +1395,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 try
                 {
                     form.ShowLayer();
-                    result = GetData.getCapture_Data(statime, endtime, name, devname, stranger,HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt,wg_card_id);
+                    result = GetData.getCapture_Data(statime, endtime, name, devname, stranger, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt, wg_card_id);
                     form.HideLayer();
                 }
                 catch
@@ -1404,7 +1406,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return result;
         }
         //首页调用
-        public void getCapture_Dataforindex(IJavascriptCallback callback,string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt)
+        public void getCapture_Dataforindex(IJavascriptCallback callback, string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, string tempFrom, string tempTo, string pageint, string limt)
         {
             //Task.Factory.StartNew(() =>
             //{
@@ -1419,7 +1421,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string result = string.Empty;
             Task.Factory.StartNew(() =>
             {
-                string data = GetData.getCapture_Data(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt,null);
+                string data = GetData.getCapture_Data(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), pageint, limt, null);
                 if (callback.CanExecute)
                 {
                     callback.ExecuteAsync(data);
@@ -1431,7 +1433,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             //{
             //    try
             //    {
-                    
+
             //        result = 
             //    }
             //    catch
@@ -1474,9 +1476,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             bool re = GetData.delCapture_DataForid(id);
             return re;
         }
-        public string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger,string HealthCodeType, string tempFrom, string tempTo,string wg_card_id)
+        public string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger, string HealthCodeType, string tempFrom, string tempTo, string wg_card_id)
         {
-            
+
             string result = GetData.getCapture_Datacuont(statime, endtime, name, devname, stranger, HealthCodeType,
                 tempFrom.toFloat(), tempTo.toFloat(), wg_card_id);
 
@@ -1486,23 +1488,23 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public string getVisitorcuont(string statime, string statime1, string endtime, string endtime2, string name, string phone, string isDown)
         {
 
-            string result = GetData.getVisitorcuont(statime, statime1, endtime, endtime2,name, phone, isDown);
+            string result = GetData.getVisitorcuont(statime, statime1, endtime, endtime2, name, phone, isDown);
 
             return result;
         }
 
-        public void Prinpdf(string id,string linetype)
+        public void Prinpdf(string id, string linetype)
         {
             form.Invoke(new Action(() =>
             {
-                if (linetype=="2")
+                if (linetype == "2")
                 {
                     PrinPDF.prinpdfforlineEmail(id);
                 }
                 else
                 {
                     PrinPDF.prinpdf(id);
-                } 
+                }
             }));
 
         }
@@ -1585,7 +1587,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 if (skinPanel.Visible == true)
                 {
-                    for (int i=0;i< VideoHelper.VideoHelper.DevicelistForVideo.Count;i++)
+                    for (int i = 0; i < VideoHelper.VideoHelper.DevicelistForVideo.Count; i++)
                     {
                         MultiPlayerControl s = (MultiPlayerControl)VideoHelper.VideoHelper.DevicelistForVideo[i].Tag;
                         s.MPCStop();
@@ -1603,7 +1605,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public void AppIp(string ip)
         {
-            
+
             form.Invoke(new Action(() =>
             {
                 MyDevice dev = null;
@@ -1619,7 +1621,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public bool CardReplacement(string type, string id, string staTime, string endTime, string timeInterval, string number)
         {
-            bool re = GetData.CardReplacement(type, id,  staTime,  endTime, timeInterval, number);
+            bool re = GetData.CardReplacement(type, id, staTime, endTime, timeInterval, number);
             return re;
         }
 
@@ -1680,7 +1682,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return re;
         }
         //修改ip
-        public bool SetNetworkInfo(string ip,string oldip, string gateway, string netmask, string dns)
+        public bool SetNetworkInfo(string ip, string oldip, string gateway, string netmask, string dns)
         {
             bool re = GetData.SetNetworkInfo(ip, oldip, gateway, netmask, dns);
             return re;
@@ -1702,11 +1704,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
 
-        public  bool getIscode_syn()
+        public bool getIscode_syn()
         {
             return GetData.getIscode_syn();
         }
-        public  bool setIscode_syn(string nooff)
+        public bool setIscode_syn(string nooff)
         {
             return GetData.setIscode_syn(nooff);
         }
@@ -1750,24 +1752,47 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return GetData.getDataSynRealTime(name, role, stutas, addr_name, page, limt);
         }
 
+        //一键导出设备人员图片
+        public string exportDataSynRealTime(String addr_name)
+        {
+
+            string foldPath = GetData.getFoldPath();
+            if (string.IsNullOrEmpty(foldPath)) return null;
+            foldPath = foldPath + "personPicture" + @"\";
+            form.ShowLayer();
+            form.BeginInvoke(new Action(async () =>
+            {
+                string result = "";
+                try
+                {
+                    Task<string> task = GetData.exportDataSynRealTime(addr_name, foldPath);
+                    result = await task;
+                }
+                catch (Exception e) { result = e.Message; }
+                form.HideLayer();
+                GetData.showExportPersonInfo(result, foldPath);
+            }));
+            return "";
+        }
+
         public string getDataSyn(string name, string role, string stutas, string addr_name, string page, string limt)
         {
-            return GetData.getDataSyn( name,  role,  stutas,addr_name,  page,  limt);
+            return GetData.getDataSyn(name, role, stutas, addr_name, page, limt);
         }
 
         public string getDataSynCount(string name, string role, string stutas, string addr_name)
         {
-            return GetData.getDataSynCount(name, role, stutas,addr_name);
+            return GetData.getDataSynCount(name, role, stutas, addr_name);
         }
 
-        public bool deleteDataSyn(string id,string personid, string device_sn)
+        public bool deleteDataSyn(string id, string personid, string device_sn)
         {
-            return GetData.deleteDataSyn(id,personid, device_sn);
+            return GetData.deleteDataSyn(id, personid, device_sn);
         }
 
-        public bool deleteDataSynRealTime(string personid,string device_sn)
+        public bool deleteDataSynRealTime(string personid, string device_sn)
         {
-            return GetData.deleteDataSynRealTime(personid,device_sn);
+            return GetData.deleteDataSynRealTime(personid, device_sn);
         }
 
         //一键注册  数据同步——>staff
@@ -1807,9 +1832,9 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
             if (ChromiumForm.userSettings.EnableTitleLong)
             {
-                form.BeginInvoke((Action)(()=>form.setText(title)));
+                form.BeginInvoke((Action)(() => form.setText(title)));
             }
-            
+
         }
 
         public void enableShortTitle(string enable)
@@ -1861,7 +1886,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         public string getInOutCount()
         {
             var data = GetData.getInOutCount(DateTime.Today);
-            return JsonConvert.SerializeObject( new { data.In, data.Out } );
+            return JsonConvert.SerializeObject(new { data.In, data.Out });
         }
 
         public string getCaptureDataByIdForDate(string id, string date)
@@ -1929,7 +1954,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         {
             GetData.RemoveRuleDistributionItem(Id);
         }
-       
+
         public void removeRuleDistributionDevice(int id)
         {
             GetData.RemoveRuleDistributionDevice(id);
@@ -2004,7 +2029,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return AccessRuleDeployManager.Instance.CanAddTask;
         }
 
-        public void  removeAccessControlDeployTask(int id)
+        public void removeAccessControlDeployTask(int id)
         {
             AccessRuleDeployManager.Instance.removeTask(id);
         }
@@ -2086,7 +2111,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 MessageBox.Show(null, e.Message, null, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
 
         public string GetReadme()
@@ -2143,7 +2168,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 model.Clear();
             }
-            if (!string.IsNullOrEmpty(parameters.SourceUrl)&& parameters.SourceUrl.Length<200)
+            if (!string.IsNullOrEmpty(parameters.SourceUrl) && parameters.SourceUrl.Length < 200)
             {
                 model.AddItem(CefMenuCommand.Find, Strings.ShowInExplorer);
             }
@@ -2225,7 +2250,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 case CefMenuCommand.Find:
                     if (parameters?.SourceUrl?.StartsWith("file:///") == true)
                     {
-                        var path =  Path.GetFullPath(parameters.SourceUrl.Substring(8));
+                        var path = Path.GetFullPath(parameters.SourceUrl.Substring(8));
                         var si = new ProcessStartInfo();
                         si.FileName = "explorer.exe";
                         si.Arguments = $"/select, \"{path}\"";
@@ -2395,7 +2420,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 catch (InvalidOperationException ex)
                 {
                 }
-                
+
             })
             {
                 IsBackground = true

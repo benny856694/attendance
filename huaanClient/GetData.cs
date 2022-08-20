@@ -33,9 +33,9 @@ namespace huaanClient
         //返回json
         public static JObject obj = null;
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        
+
         private static IDbConnection GetConnection() => SQLiteHelper.GetConnection();
-        
+
         static Lazy<IFreeSql> sqliteLazy = new Lazy<IFreeSql>(() => new FreeSql.FreeSqlBuilder()
           .UseConnectionString(FreeSql.DataType.Sqlite, GetConnection().ConnectionString)
           .UseAutoSyncStructure(false) //自动同步实体结构到数据库，FreeSql不会扫描程序集，只有CRUD时才会生成表。
@@ -160,7 +160,7 @@ namespace huaanClient
             }
             string commandText = "UPDATE Employetype SET Employetype_name ='' WHERE Employetype_name = '" + val.Trim() + "'";
             int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
-            
+
         }
         public static void addEmployetype(string val)
         {
@@ -370,7 +370,7 @@ namespace huaanClient
                 {
                     var split = departments.Split(',');
                     string dts = string.Join(",", split.Select(x => $"'{x}'"));
-                    commandText+=" AND department in( " + dts.Trim() + ")";
+                    commandText += " AND department in( " + dts.Trim() + ")";
                 }
                 if (!string.IsNullOrEmpty(name))
 
@@ -427,7 +427,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getStaffData(string name, string no, string qu_phone, string page, string limt,string dep, string employeeTypeName,string haspicture)
+        public static string getStaffData(string name, string no, string qu_phone, string page, string limt, string dep, string employeeTypeName, string haspicture)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
@@ -461,18 +461,18 @@ namespace huaanClient
                 var split = dep.Split(',');
                 string dts = string.Join(",", split.Select(x => $"'{x}'"));
                 string commandTextDep = $"select id from department where name in ({dts})";
-                string strDepCodes=SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextDep);
+                string strDepCodes = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextDep);
                 if (!string.IsNullOrEmpty(strDepCodes))
                 {
                     JArray jo = (JArray)JsonConvert.DeserializeObject(strDepCodes);
                     int len = jo.Count;
                     var split2 = new string[len];
                     // 拼接SQL，通过部门ID查询员工
-                    for(int i = 0; i < len; i++)
+                    for (int i = 0; i < len; i++)
                     {
                         split2[i] = jo[i]["id"].ToString();
                     }
-                    string dtsName=string.Join(",", split2.Select(x => $"'{x}'"));
+                    string dtsName = string.Join(",", split2.Select(x => $"'{x}'"));
                     st.Append($" staf.department_id in ({dtsName}) AND");
                 }
 
@@ -480,7 +480,7 @@ namespace huaanClient
 
             if (!string.IsNullOrEmpty(employeeTypeName))
             {
-                var names = string.Join(",", employeeTypeName.Split(',').Select(x=>$"'{x}'"));
+                var names = string.Join(",", employeeTypeName.Split(',').Select(x => $"'{x}'"));
                 st.Append($" em.Employetype_name in ({names}) AND");
             }
 
@@ -503,7 +503,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getStaffDataforcount(string name, string no, string qu_phone,string dep, string employeeTypeName,string haspicture)
+        public static string getStaffDataforcount(string name, string no, string qu_phone, string dep, string employeeTypeName, string haspicture)
         {
 
             StringBuilder st = new StringBuilder("SELECT COUNT(*) as count FROM staff staf LEFT JOIN department de ON de.id=staf.department_id LEFT JOIN Employetype em ON em.id = staf.Employetype_id WHERE 1=1  AND");
@@ -611,7 +611,7 @@ namespace huaanClient
             SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
         }
 
-        public static string AddIPtoMydevice(string IP, string DeviceName, int inout,string username, string password)
+        public static string AddIPtoMydevice(string IP, string DeviceName, int inout, string username, string password)
         {
             obj = new JObject();
             obj["result"] = 0;
@@ -673,9 +673,9 @@ namespace huaanClient
         internal static int issueByEquipmentDistributionIds(string jsondata)
         {
             JArray jo = (JArray)JsonConvert.DeserializeObject(jsondata);
-            var userids=jsondata.Replace('[', '(').Replace(']', ')');
+            var userids = jsondata.Replace('[', '(').Replace(']', ')');
             string updatessql = "UPDATE Equipment_distribution SET status='inprogress',type=0,code='',errMsg='' WHERE id in " + userids;
-            int res=SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
+            int res = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, updatessql);
             return res;
         }
 
@@ -685,7 +685,7 @@ namespace huaanClient
             int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
         }
 
-        public static string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout,string username,string password)
+        public static string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout, string username, string password)
         {
             obj = new JObject();
             obj["result"] = 0;
@@ -742,7 +742,7 @@ namespace huaanClient
                         c.ExecuteScalar($"DELETE FROM RuleDistributionDevice WHERE DeviceId = {d.id}");
                     }
                 }
-                
+
             }
             return result;
         }
@@ -774,14 +774,15 @@ namespace huaanClient
             string connectionString = ApplicationData.connectionString;
             string sr = SQLiteHelper.SQLiteDataReader(connectionString, commandText);
             JArray srjo = (JArray)JsonConvert.DeserializeObject(sr);
-            int remainCount=(int)srjo[0]["count"];
+            int remainCount = (int)srjo[0]["count"];
             return remainCount;
         }
 
         internal static Task<string> AllpersonToEquipment_distribution(string datajson)
         {
- 
-            Task<string> task = Task.Run<string>(()=> {
+
+            Task<string> task = Task.Run<string>(() =>
+            {
                 try
                 {
                     int deviceId = int.Parse(datajson);
@@ -791,7 +792,7 @@ namespace huaanClient
                     using (var conn = SQLiteHelper.GetConnection())
                     {
 
-                        device=conn.Get<MyDevice>(deviceId);
+                        device = conn.Get<MyDevice>(deviceId);
                         staffs = DapperExtensions.DapperExtensions.GetList<Staff>(conn);
                         foreach (var staff in staffs)
                         {
@@ -928,7 +929,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism,string departments)
+        public static string queryAttendanceinformationcount(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string departments)
         {
             StringBuilder commandText = new StringBuilder("SELECT COUNT(*) as count FROM  Attendance_Data  att WHERE att.Date>='" + starttime.Trim() + "' AND att.Date<='" + endtime.Trim() + "' AND");
             if (!string.IsNullOrEmpty(name))
@@ -958,7 +959,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string page, string limt,string departments)
+        public static string queryAttendanceinformation(string starttime, string endtime, string name, string late, string Leaveearly, string isAbsenteeism, string page, string limt, string departments)
         {
 
             int page1 = int.Parse(page) - 1;
@@ -1085,7 +1086,7 @@ namespace huaanClient
             pg.Predicates.Add(DapperExtensions.Predicates.Between<AttendanceData>(
                 a => a.Date,
                 new DapperExtensions.Predicate.BetweenValues { Value1 = starttime, Value2 = endtime }));
-            
+
             if (!string.IsNullOrEmpty(name))
             {
                 pg.Predicates.Add(DapperExtensions.Predicates.Field<AttendanceData>(a => a.name, DapperExtensions.Predicate.Operator.Like, $"%{name}%"));
@@ -1104,7 +1105,7 @@ namespace huaanClient
             }
             if (!string.IsNullOrEmpty(departments))
             {
-                
+
                 // string dts = string.Join(",", split.Select(x => $"'{x}'"));
                 //commandText.Append(" att.department in( " + dts.Trim() + ") AND");
                 var pgDepartments = new DapperExtensions.Predicate.PredicateGroup() { Operator = DapperExtensions.Predicate.GroupOperator.Or, Predicates = new List<DapperExtensions.Predicate.IPredicate>() };
@@ -1120,13 +1121,13 @@ namespace huaanClient
 
 
             var sort = new List<DapperExtensions.Predicate.ISort>();
-            sort.Add(DapperExtensions.Predicates.Sort<AttendanceData>(x=>x.name));
+            sort.Add(DapperExtensions.Predicates.Sort<AttendanceData>(x => x.name));
             sort.Add(DapperExtensions.Predicates.Sort<AttendanceData>(x => x.Date));
 
             using (var con = SQLiteHelper.GetConnection())
             {
-                var data = pageIndex.HasValue 
-                    ? 
+                var data = pageIndex.HasValue
+                    ?
                     DapperExtensions.DapperExtensions.GetPage<AttendanceData>(con, pg, sort, pageIndex.Value, pageSize.Value)
                     :
                     DapperExtensions.DapperExtensions.GetList<AttendanceData>(con, pg, sort);
@@ -1200,23 +1201,23 @@ namespace huaanClient
             {
                 //判断该班次是否在考勤组里
                 string agText = "select attribute as atts from attendancegroup";
-                var agAtts=SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, agText);
+                var agAtts = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, agText);
                 JArray jo = (JArray)JsonConvert.DeserializeObject(agAtts);
                 if (jo.Count > 0)
                 {
-                    foreach(var j in jo)
+                    foreach (var j in jo)
                     {
                         Console.WriteLine(j);
                         JObject jb = (JObject)JsonConvert.DeserializeObject(j.ToString());
-                        JObject at= (JObject)JsonConvert.DeserializeObject(jb["atts"].ToString());
-                        if (at["Monday"].ToString() == id|| at["Tuesday"].ToString() == id|| at["Wednesday"].ToString() == id|| at["Thursday"].ToString() == id|| at["Friday"].ToString() == id|| at["Saturday"].ToString() == id|| at["Sunday"].ToString() == id)
+                        JObject at = (JObject)JsonConvert.DeserializeObject(jb["atts"].ToString());
+                        if (at["Monday"].ToString() == id || at["Tuesday"].ToString() == id || at["Wednesday"].ToString() == id || at["Thursday"].ToString() == id || at["Friday"].ToString() == id || at["Saturday"].ToString() == id || at["Sunday"].ToString() == id)
                         {
-                            MessageBox.Show(Properties.Strings.PleaseRemoveShiftFromAttendanceGroup, Properties.Strings.DeleteFailed);  
+                            MessageBox.Show(Properties.Strings.PleaseRemoveShiftFromAttendanceGroup, Properties.Strings.DeleteFailed);
                             return false;
                         }
                     }
                 }
-                
+
                 string commandText = "delete from Shift where id = " + id;
                 int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
 
@@ -1324,7 +1325,7 @@ namespace huaanClient
         public static void setAddPersonToEquipment_distribution(string data)
         {
             //传入是相机ID与员工ID对应关系的数组
-            if(data.StartsWith("[") && data.EndsWith("]"))
+            if (data.StartsWith("[") && data.EndsWith("]"))
             {
                 JArray jo = (JArray)JsonConvert.DeserializeObject(data);
                 if (jo.Count > 0)
@@ -1359,7 +1360,7 @@ namespace huaanClient
                         using (var conn = SQLiteHelper.GetConnection())
                         {
                             //var predicte = DapperExtensions.Predicates.Field<Staff>(s=>s.picture, DapperExtensions.Operator.Eq, null, true);
-                            device=DapperExtensions.DapperExtensions.Get<MyDevice>(conn, deviceId);
+                            device = DapperExtensions.DapperExtensions.Get<MyDevice>(conn, deviceId);
                             staffs = DapperExtensions.DapperExtensions.GetList<Staff>(conn);
                             foreach (var staff in staffs)
                             {
@@ -1367,13 +1368,13 @@ namespace huaanClient
                             }
                         }
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Logger.Error(e.Message);
                     }
                 }
             }
-           
+
         }
         //一键下发
         public static bool setAddPersonToEquipment_distribution()
@@ -1437,6 +1438,120 @@ namespace huaanClient
             }
         }
 
+        internal static string getFoldPath()
+        {
+            //选择导出路径
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "choose path";//"请选择文件路径";
+            string foldPath = "";
+            //未知原因，调不出弹窗
+            //if (dialog.ShowDialog() == DialogResult.OK)
+            //{
+            //    foldPath = dialog.SelectedPath + @"\";
+            //}
+
+            foldPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\";
+            return foldPath;
+        }
+
+        internal static void showExportPersonInfo(string result, string foldPath)
+        {
+            if (!string.IsNullOrEmpty(result))
+            {
+                var resJson = JObject.Parse(result);
+                int code = (int)resJson["code"];
+                int success = (int)resJson["successCount"];
+                int total = (int)resJson["total"];
+                string errMsg = (string)resJson["errorMsg"];
+                if (code == 1)//成功，给出导出结果
+                {
+
+                    var info = string.Format(Properties.Strings.SaveSuccess + "{0}/{1}", success, total);
+                    MessageBox.Show(foldPath, info);
+                }
+                else if (code == 0)//失败，给出失败原因
+                {
+                    MessageBox.Show(errMsg, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        internal static Task<string> exportDataSynRealTime(string addr_name, string foldPath)
+        {
+            Task<string> task = Task.Run<string>(() =>
+            {
+                if (!Directory.Exists(foldPath))
+                {
+                    Directory.CreateDirectory(foldPath);
+                }
+                //查询相机
+                var CameraConfigPortlist = Deviceinfo.GetByAddrName(addr_name);
+                JObject retJson = new JObject();
+                retJson["total"] = 0;
+                retJson["successCount"] = 0;
+                retJson["code"] = 0;//0失败，1成功
+                retJson["errorMsg"] = "";//失败备注
+                //判断相机是否在线
+                if (CameraConfigPortlist?.IsConnected == false)
+                {
+                    retJson["errorMsg"] = "device is offline!";
+                    return retJson.ToString();
+                }
+
+                //查询人员
+                int page = 1;//每次查询加一
+                int limit = 10;
+                string name = "";
+                string queryJson = "";
+                int count = 0;
+                //查询条数非0就翻页继续导
+                do
+                {
+                    queryJson = string.Format(UtilsJson.request_persons_by_name, page, limit, name);
+                    var restr = GetDevinfo.request(CameraConfigPortlist, queryJson);//发命令
+                    if (string.IsNullOrEmpty(restr)) break;
+                    //解析返回值
+                    JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
+                    if (restr_json["code"].Value<int>() != 0 || restr_json["count"].Value<int>() == 0) break;
+                    JArray persons = (JArray)restr_json["persons"];
+                    count = persons.Count();
+                    if (persons.Count() > 0)
+                    {
+                        for (int i = 0; i < persons.Count(); i++)
+                        {
+                            try
+                            {
+                                retJson["total"] = (int)retJson["total"] + 1;
+                                string base64Pic = persons[i]["reg_images"][0]["image_data"].ToString();
+                                string id = persons[i]["id"].ToString();
+                                string personname = persons[i]["name"].ToString();
+                                string fileName = foldPath + id + "_" + personname + ".jpg";
+                                byte[] bytes = Convert.FromBase64String(base64Pic);
+                                MemoryStream memStream = new MemoryStream(bytes);
+                                Image mImage = Image.FromStream(memStream);
+                                Bitmap bp = new Bitmap(mImage);
+                                MemoryStream ms = new MemoryStream();
+                                bp.Save(fileName, System.Drawing.Imaging.ImageFormat.Jpeg);//注意保存路径
+                                retJson["successCount"] = (int)retJson["successCount"] + 1;
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.Error(e.Message);
+                                retJson["errorMsg"] = e.Message;
+                            }
+
+                        }
+                    }
+                    page++;
+                } while (count > 0);
+                //统计成功条数，失败条数并返回
+                retJson["code"] = 1;
+                return retJson.ToString();
+            });
+
+            return task;
+        }
+
         private static void DistributeStaffToDevice(Staff staff, MyDevice device, bool distributeByCode, IDbConnection conn)
         {
 
@@ -1486,7 +1601,7 @@ namespace huaanClient
                     userid = staffId,
                     deviceid = deviceId,
                     status = "deleting",
-                    type="1"
+                    type = "1"
                 };
 
                 SqlMapperExtensions.Insert(conn, distro);
@@ -1504,11 +1619,12 @@ namespace huaanClient
 
         internal static Object[] getAllMyDeviceExt(MyDevice[] mydevice)
         {
-            if (mydevice == null|| mydevice.Length==0)
+            if (mydevice == null || mydevice.Length == 0)
             {
                 return mydevice;
             }
-            var deviceJArr = mydevice.AsParallel().Select<MyDevice, JObject>((m) => {
+            var deviceJArr = mydevice.AsParallel().Select<MyDevice, JObject>((m) =>
+            {
                 var ipAddress = m.ipAddress;
                 var mjson = JObject.FromObject(m);
                 //通过IP找到这个设备
@@ -1522,9 +1638,9 @@ namespace huaanClient
             return deviceJArr;
         }
 
-        internal static bool deleteDataSynRealTime(string personid,string device_sn)
+        internal static bool deleteDataSynRealTime(string personid, string device_sn)
         {
-            string deleteJson = string.Format(UtilsJson.deleteJson2,personid);
+            string deleteJson = string.Format(UtilsJson.deleteJson2, personid);
             var CameraConfigPortlist = Deviceinfo.GetByDeviceSN(device_sn);
             if (CameraConfigPortlist?.IsConnected == true)
             {
@@ -1569,16 +1685,16 @@ namespace huaanClient
             JArray persons = (JArray)restr_json["persons"];
             if (persons.Count() > 0)
             {
-                for(int i = 0; i < persons.Count(); i++)
+                for (int i = 0; i < persons.Count(); i++)
                 {
                     JObject p = new JObject();
                     p["imge"] = "";
-                    if (persons[i]["image_num"].ToString()=="1")
+                    if (persons[i]["image_num"].ToString() == "1")
                     {
                         p["imge"] = persons[i]["reg_images"][0]["image_data"].ToString();
                     }
                     //p["long_card_id"] = null;
-                   // p["wg_card_id"] = null;
+                    // p["wg_card_id"] = null;
                     p["name"] = persons[i]["name"].ToString();
                     p["id"] = persons[i]["id"].ToString();
                     p["personid"] = persons[i]["id"].ToString();
@@ -1781,9 +1897,9 @@ namespace huaanClient
 
                 string temperature = "";
                 if (!string.IsNullOrEmpty(reData.temperature) && !reData.temperature.Trim().Equals("0"))
-                { 
-                    temperature = reData.temperature.Trim(); 
-                    ValueList.Add("temperature", temperature); 
+                {
+                    temperature = reData.temperature.Trim();
+                    ValueList.Add("temperature", temperature);
                 }
                 else if (!string.IsNullOrEmpty(reData.temperature1) && !reData.temperature1.Trim().Equals("0"))
                 {
@@ -1832,7 +1948,7 @@ namespace huaanClient
                             else if (!string.IsNullOrEmpty(reData.Punchinformation1))
                                 commandText = commandText + li.Key + "='" + li.Value + "',";
                         }
-                        else if(li.Key == "temperature")
+                        else if (li.Key == "temperature")
                         {
                             if (string.IsNullOrEmpty(temp))//只有记录第一次温度
                             {
@@ -2179,7 +2295,7 @@ namespace huaanClient
 
         }
 
-        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source,string customer_text,string term_start,string term)
+        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source, string customer_text, string term_start, string term)
         {
 
             if (string.IsNullOrEmpty(staff_no))
@@ -2274,7 +2390,7 @@ namespace huaanClient
             {
                 staff.AttendanceGroup_id = Convert.ToInt32(attGroup.id);
             }
-            
+
             if (Thread.CurrentThread.CurrentUICulture.Name.Contains("ja"))
             {
                 staff.line_type = lineType;
@@ -2305,7 +2421,7 @@ namespace huaanClient
                 });
             }
 
-            
+
         }
 
         private static bool IsCorrectTimeFormat(string authorizedTime)
@@ -2618,7 +2734,7 @@ namespace huaanClient
         //0未传值 1保存失败 2成功
         public static string setStaf(string id, string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source)
         {
-            
+
             if (string.IsNullOrEmpty(Employetype))
             {
                 Employetype = "1";
@@ -3270,7 +3386,7 @@ namespace huaanClient
                         {
                             if (!string.IsNullOrEmpty(imge))
                             {
-                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "',customer_text="+$"'{customer_text}'"+",term_start="+$"'{term_start}'"+",term="+$"'{term}'"+" WHERE id=" + $"'{id}'";
+                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "',customer_text=" + $"'{customer_text}'" + ",term_start=" + $"'{term_start}'" + ",term=" + $"'{term}'" + " WHERE id=" + $"'{id}'";
                             }
                             else
                             {
@@ -3582,13 +3698,13 @@ namespace huaanClient
             return result;
         }
 
-        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string wg_card_id)
+        public static string getCapture_Datacuont(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string wg_card_id)
         {
 
             StringBuilder commandText = new StringBuilder("SELECT COUNT(*) as count FROM Capture_Data  WHERE 1=1 AND");
             if (!string.IsNullOrEmpty(wg_card_id))
             {
-                commandText.Append(" wg_card_id = '"+ wg_card_id + "' AND");
+                commandText.Append(" wg_card_id = '" + wg_card_id + "' AND");
             }
             if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
             {
@@ -3618,7 +3734,7 @@ namespace huaanClient
                 }
                 else
                 {
-                    commandText.Append(" QRcodestatus LIKE '%"+ HealthCodeType + "%' AND");//查询普通自定义字段
+                    commandText.Append(" QRcodestatus LIKE '%" + HealthCodeType + "%' AND");//查询普通自定义字段
                 }
             }
             if (!string.IsNullOrEmpty(selectedPersonTypes))
@@ -3764,7 +3880,7 @@ namespace huaanClient
             }
         }
 
-        public static string getCapture_Data(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string page, string limt,string wg_card_id)
+        public static string getCapture_Data(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string page, string limt, string wg_card_id)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
@@ -3798,7 +3914,8 @@ namespace huaanClient
                 else if (HealthCodeType == "3")
                 {
                     commandText.Append(" QRcodestatus LIKE '%红码%' AND");
-                }else
+                }
+                else
                 {
                     commandText.Append(" QRcodestatus LIKE '%" + HealthCodeType + "%' AND");//查询普通自定义字段
                 }
@@ -3816,7 +3933,7 @@ namespace huaanClient
 
             if (tempFrom != null)
             {
-                if(!ChromiumForm.userSettings.ShowTemperatureInCelsius)
+                if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
                 {
                     tempFrom = tempFrom.Value.toCelsius();
                 }
@@ -3898,7 +4015,7 @@ namespace huaanClient
             return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
         }
 
-        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo,string ids,string wg_card_id)
+        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string ids, string wg_card_id)
         {
             var pg = new DapperExtensions.Predicate.PredicateGroup
             {
@@ -3913,7 +4030,7 @@ namespace huaanClient
                     Operator = DapperExtensions.Predicate.GroupOperator.Or,
                     Predicates = new List<DapperExtensions.Predicate.IPredicate>()
                 };
-                var ids2=ids.Split(',');
+                var ids2 = ids.Split(',');
                 foreach (var id in ids2)
                 {
                     pg2.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.id, DapperExtensions.Predicate.Operator.Eq, id));
@@ -3996,8 +4113,8 @@ namespace huaanClient
             {
 
                 var data = DapperExtensions.DapperExtensions.GetList<Capture_Data>(
-                    conn, 
-                    pg, 
+                    conn,
+                    pg,
                     new List<DapperExtensions.Predicate.ISort>() { new DapperExtensions.Predicate.Sort() { PropertyName = nameof(Capture_Data.time), Ascending = true } }
                     ).ToArray();
                 if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
@@ -4674,7 +4791,7 @@ namespace huaanClient
         public static string getCameraParameters(string ip)
         {
             string re = "0";
-            
+
             Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
             {
                 if (s.IP == ip.Trim())
@@ -4690,8 +4807,8 @@ namespace huaanClient
                             JObject jObj = JObject.Parse(re.Trim());
                             if (getvolume(out outstr, s))
                             {
-                                
-                                jObj.Add(new JProperty("volume", outstr)); 
+
+                                jObj.Add(new JProperty("volume", outstr));
                             }
                             if (getlcdscreensaver(out screensaver_mode, s))
                             {
@@ -4750,7 +4867,7 @@ namespace huaanClient
                             {
                                 string camera_volume = UtilsJson.camera_volume;
                                 camera_volume = string.Format(camera_volume, volume);
-                                string requestre2=GetDevinfo.request(s, camera_volume);
+                                string requestre2 = GetDevinfo.request(s, camera_volume);
                                 Console.WriteLine("设置声音：" + requestre2);
                             }
 
@@ -4785,7 +4902,7 @@ namespace huaanClient
                                     re = true;
                                 }
                             }
-  
+
                         }
                         catch (Exception ex)
                         {
@@ -4934,7 +5051,7 @@ namespace huaanClient
                 //Console.WriteLine(dns);
                 var gateway = GetGateway();
                 Console.WriteLine(gateway);
-                result = gateway + ";" + ip+";";
+                result = gateway + ";" + ip + ";";
 
                 //获得到的本机IP不可靠，取消该获取方式
                 //int cou = 0;
@@ -5158,7 +5275,7 @@ namespace huaanClient
             }
         }
 
-        public static bool deleteDataSyn(string id, string personid,string device_sn)
+        public static bool deleteDataSyn(string id, string personid, string device_sn)
         {
             bool re = false;
             var cameraConfigPort = Deviceinfo.GetByDeviceSN(device_sn);
@@ -5692,7 +5809,7 @@ namespace huaanClient
         {
             using (var c = GetConnection())
             {
-                var et = c.GetAll<Employeetype>().Where(x=>!string.IsNullOrEmpty(x.Employetype_name));
+                var et = c.GetAll<Employeetype>().Where(x => !string.IsNullOrEmpty(x.Employetype_name));
                 return et.ToArray();
             }
         }
