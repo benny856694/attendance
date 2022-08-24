@@ -1350,7 +1350,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //批量导入
-        public void BatchIimport(IJavascriptCallback callback)
+        public void BatchIimport(int photoNaming, IJavascriptCallback callback)
         {
             form.ShowLayer();
             form.BeginInvoke(new Action(async () =>
@@ -1358,7 +1358,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 string result = "";
                 try
                 {
-                    Task<string> task = BatchImport.batchImport();
+                    Task<string> task = BatchImport.batchImport( photoNaming == 0 ? PhotoNaming.EmployeeName : PhotoNaming.EmployeeNumber );
                     result = await task;
                 }
                 catch { }
