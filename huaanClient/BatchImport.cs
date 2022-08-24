@@ -19,6 +19,12 @@ using System.Windows.Forms;
 
 namespace huaanClient
 {
+    public enum PhotoNaming
+    {
+        EmployeeName,
+        EmployeeNumber
+    }
+
     class BatchImport
     {
         /// <summary>  
@@ -288,7 +294,14 @@ namespace huaanClient
             }
         }
 
-        public static async Task<string> batchImport()
+
+        public static bool IsMatch(string fullPath, string expectedFileNameWihoutExtension)
+        {
+            var regex = new Regex($@"{expectedFileNameWihoutExtension}(\.(jpg|jpeg|png))+$");
+            return regex.IsMatch(fullPath);
+        }
+
+        public static async Task<string> batchImport(PhotoNaming photoNaming = PhotoNaming.EmployeeName)
         {
             JObject obj = new JObject();
             obj["result"] = 0;
@@ -311,21 +324,9 @@ namespace huaanClient
             {
                 return obj.ToString();
             }
-            //将双后缀的文件名保存到字典中
-            #region 图片文件双后缀处理
-            string doubleSuffixRegexStr = @"((\.jpg|\.png|\.jpeg){2})$";
-            var doubleSuffixFileNames = Directory.GetFiles(DirectoryName).Where(s => Regex.IsMatch(s, doubleSuffixRegexStr));
-            Dictionary<string, string> doubleSuffixFilesDic = new Dictionary<string, string>();
-            if (doubleSuffixFileNames.Count() > 0)
-            {
-                foreach(var item in doubleSuffixFileNames)
-                {
-                    var FileName = Path.GetFileName(item);
-                    var staffName = FileName.Split('.')[0];
-                    doubleSuffixFilesDic.Add(staffName, FileName);
-                }
-            }
-            #endregion
+
+            string photoExtensions = @"(\.(jpg|jpeg|png))$";
+            var allPhotoFiles = Directory.GetFiles(DirectoryName).Where(s => Regex.IsMatch(s, photoExtensions)).ToList();
 
             //将选择的文件转换成 datatable
             DataTable dataTable = ExcelToDataTable(filePath, 2);
@@ -419,23 +420,12 @@ namespace huaanClient
 
                             //continue;
                         }
-                        string[] imgestrs = new string[] { ".jpg", ".png", ".JPEG" };
-                        for (int s = 0; s < imgestrs.Length; s++)
+                        var expectedPhotoName = photoNaming == PhotoNaming.EmployeeName ? name : staff_no;
+                        if (!string.IsNullOrEmpty(expectedPhotoName))
                         {
-                            if (System.IO.File.Exists(DirectoryName + "/" + name.Trim() + imgestrs[s]))
-                            {
-                                imge = DirectoryName + "/" + name.Trim() + imgestrs[s];
-                                break;
-                            }else if (doubleSuffixFilesDic.Count() > 0)
-                            {
-                                string fileName = "";
-                                if (doubleSuffixFilesDic.TryGetValue(name,out fileName))
-                                {
-                                    imge= DirectoryName + "/" + fileName.Trim();
-                                    break;
-                                }
-                            }
+                            imge = allPhotoFiles.FirstOrDefault(x => IsMatch(x, expectedPhotoName));
                         }
+                        
                         string imgeurl = "";
                         if (!string.IsNullOrEmpty(imge))
                         {
