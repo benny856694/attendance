@@ -21,7 +21,7 @@ namespace huaanClient
     class HandleCaptureData
     {
         private static NLog.Logger NLogger = NLog.LogManager.GetCurrentClassLogger();
-        public static bool setCaptureDataToDatabase(CaptureDataEventArgs CaptureData, string DeviceNo,string DeviceName)
+        public static bool setCaptureDataToDatabase(CaptureDataEventArgs CaptureData, string DeviceNo, string DeviceName)
         {
             if (string.IsNullOrEmpty(DeviceNo))
             {
@@ -197,7 +197,7 @@ namespace huaanClient
         public static void getstaffforlineAdminEmail()
         {
             //先移除所有的元素
-            if (ApplicationData.lineadmin!=null)
+            if (ApplicationData.lineadmin != null)
             {
                 ApplicationData.lineadmin.Clear();
             }
@@ -215,7 +215,7 @@ namespace huaanClient
                     foreach (var l in linejArray)
                     {
                         ApplicationData.lineadmin.Add(l["Email"].ToString());
-                    }        
+                    }
                 }
             }
         }
@@ -230,17 +230,17 @@ namespace huaanClient
                     JArray jArray = (JArray)JsonConvert.DeserializeObject(data);
                     if (jArray.Count > 0)
                     {
-                        if(jArray[0]["line_type"].ToString().Trim()=="1"|| string.IsNullOrEmpty(jArray[0]["line_type"].ToString().Trim()))
+                        if (jArray[0]["line_type"].ToString().Trim() == "1" || string.IsNullOrEmpty(jArray[0]["line_type"].ToString().Trim()))
                         {
                             line_userid = jArray[0]["line_userid"].ToString().Trim() + "&";
                         }
-                        else if(jArray[0]["line_type"].ToString().Trim() == "2")
+                        else if (jArray[0]["line_type"].ToString().Trim() == "2")
                         {
-                            line_userid = "mailTo:"+jArray[0]["Email"].ToString().Trim() + "&";
+                            line_userid = "mailTo:" + jArray[0]["Email"].ToString().Trim() + "&";
                         }
                         else if (jArray[0]["line_type"].ToString().Trim() == "3")
                         {
-                            line_userid = jArray[0]["line_userid"].ToString().Trim()+"&"+ "mailTo:" + jArray[0]["Email"].ToString().Trim();
+                            line_userid = jArray[0]["line_userid"].ToString().Trim() + "&" + "mailTo:" + jArray[0]["Email"].ToString().Trim();
                         }
                     }
                 }
@@ -249,12 +249,12 @@ namespace huaanClient
                     return;
                 }
                 string[] line_userids = line_userid.Split('&');
-                if (line_userids.Length>1)
+                if (line_userids.Length > 1)
                 {
                     foreach (var line_useridstr in line_userids)
                     {
-                        if (line_useridstr.Length<8) continue;
-                        httpToLineorEmail(reData,line_useridstr);
+                        if (line_useridstr.Length < 8) continue;
+                        httpToLineorEmail(reData, line_useridstr);
                     }
                 }
 
@@ -262,7 +262,7 @@ namespace huaanClient
                 {
                     try
                     {
-                        if (!string.IsNullOrEmpty(reData.Punchinformation)&& !string.IsNullOrEmpty(reData.Punchinformation1))
+                        if (!string.IsNullOrEmpty(reData.Punchinformation) && !string.IsNullOrEmpty(reData.Punchinformation1))
                         {
                             return;
                         }
@@ -274,14 +274,15 @@ namespace huaanClient
             }
         }
 
-        public static void httpToLineorEmail(reData reData,string line_userid) {
+        public static void httpToLineorEmail(reData reData, string line_userid)
+        {
             if (!IsBetweenTime(reData.Date, DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00", DateTime.Now.ToString("yyyy-MM-dd") + " 23:59:59"))
             {
                 return;
             }
             string messge = string.Empty;
 
-            
+
 
             //正常上学打卡
             if (!string.IsNullOrEmpty(reData.Punchinformation) && string.IsNullOrEmpty(reData.late) && string.IsNullOrEmpty(reData.Punchinformation1))
@@ -370,7 +371,7 @@ namespace huaanClient
                         }
                     }
 
-                    
+
                 }
                 //if (IsBetweenTime(reData.Date, DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00", DateTime.Now.ToString("yyyy-MM-dd") + " 23:59:59"))
                 //{
@@ -420,7 +421,7 @@ namespace huaanClient
                             GetData.setLine_list(reData, messge, "late", reData.temperature, reData.Date, reData.Punchinformation, line_userid, "0");
                         }
                     }
-                    
+
                 }
                 //if (IsBetweenTime(reData.Date, DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00", DateTime.Now.ToString("yyyy-MM-dd") + " 23:59:59"))
                 //{
@@ -446,7 +447,7 @@ namespace huaanClient
                 else
                     messge = ApplicationData.lineMessage7;
                 messge = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + reData.name + string.Format(messge, reData.temperature1);
-                GetData.setLine_list(reData, messge, "Leave", reData.temperature1, reData.Date, reData.Punchinformation1, line_userid, "0");      
+                GetData.setLine_list(reData, messge, "Leave", reData.temperature1, reData.Date, reData.Punchinformation1, line_userid, "0");
             }
         }
 
@@ -633,7 +634,7 @@ namespace huaanClient
             {
                 return re;
             }
-            
+
             //先发送缩略图
             //if (FTPHelper.UploadFile(reData.closeup, "preview"))
             //{
@@ -643,12 +644,12 @@ namespace huaanClient
             //}
 
 
-            if (ApplicationData.lineadmin.Count==0)
+            if (ApplicationData.lineadmin.Count == 0)
                 return re;
 
             foreach (var Email in ApplicationData.lineadmin)
             {
-                if (string.IsNullOrEmpty(Email)||Email=="null")
+                if (string.IsNullOrEmpty(Email) || Email == "null")
                 {
                     continue;
                 }
@@ -658,7 +659,7 @@ namespace huaanClient
                     ApplicationData.ftppassword,
                     Email,
                     "体温が異常である",
-                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"体温異常が検出されました。体温：”" + ti + "”℃",
+                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "体温異常が検出されました。体温：”" + ti + "”℃",
                     reData.closeup
                     );
 
@@ -707,7 +708,7 @@ namespace huaanClient
                     //只能循环
                     for (int i = 0; i < 999999; i++)
                     {
-                        string commandTextdepartmentid = "SELECT COUNT(*) as len FROM staff WHERE line_code=" + code ;
+                        string commandTextdepartmentid = "SELECT COUNT(*) as len FROM staff WHERE line_code=" + code;
                         string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
                         if (!string.IsNullOrEmpty(sr))
                         {
@@ -894,7 +895,7 @@ namespace huaanClient
 
                     if (!jObject["mail"].ToString().Contains("ERROR") && !string.IsNullOrEmpty(jObject["mail"].ToString()))
                     {
-                        if (!jObject["mail"].ToString().Contains("mail is empty")&&!jObject["mail"].ToString().Contains("found"))
+                        if (!jObject["mail"].ToString().Contains("mail is empty") && !jObject["mail"].ToString().Contains("found"))
                         {
                             string Email = jObject["mail"].ToString();
                             bool ru = GetData.setline_Email(id, Email);

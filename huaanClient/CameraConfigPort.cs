@@ -88,7 +88,7 @@ namespace huaanClient
         {
             get
             {
-                lock(_lockIsConnected)
+                lock (_lockIsConnected)
                     return _isconnected;
             }
             set
@@ -115,7 +115,7 @@ namespace huaanClient
             tlv.Disconnected += Tlv_Disconnected;
             reconnectTimer = new Timer();
             reconnectTimer.Interval = 15 * 1000;
-            reconnectTimer.Elapsed += ReconnectTimer_Elapsed; 
+            reconnectTimer.Elapsed += ReconnectTimer_Elapsed;
             reconnectTimer.Start();
             var c = tlv.Connect();
             IsConnected = c;
@@ -144,8 +144,8 @@ namespace huaanClient
                     }
                     catch { }
                 }
-                
-                
+
+
             }
 
             return IsConnected;
@@ -160,16 +160,16 @@ namespace huaanClient
         {
             lock (reconnectLocker)
             {
-                lock(_lockIsConnected)
-                if (needReconnect && IsConnected == false)
-                {
-                    tlv?.DisConnect();
-                    tlv = new TLVClient(IP, 9527);
-                    tlv.MessageReceived += Tlv_MessageReceived;
-                    tlv.Disconnected += Tlv_Disconnected;
-                    IsConnected = tlv.Connect();
-                    if (IsConnected) SendAuth();
-                }
+                lock (_lockIsConnected)
+                    if (needReconnect && IsConnected == false)
+                    {
+                        tlv?.DisConnect();
+                        tlv = new TLVClient(IP, 9527);
+                        tlv.MessageReceived += Tlv_MessageReceived;
+                        tlv.Disconnected += Tlv_Disconnected;
+                        IsConnected = tlv.Connect();
+                        if (IsConnected) SendAuth();
+                    }
             }
         }
 
@@ -252,9 +252,9 @@ namespace huaanClient
         }
 
         [DllImport("msvcrt", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
-        static unsafe extern void memcpy(void *dest, byte[] src, int count);
+        static unsafe extern void memcpy(void* dest, byte[] src, int count);
         [DllImport("msvcrt", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
-        static unsafe extern void memcpy(byte[] dest, void *src, int count);
+        static unsafe extern void memcpy(byte[] dest, void* src, int count);
         private unsafe struct ListSnapCriteria
         {
             public int page_no;
@@ -277,11 +277,12 @@ namespace huaanClient
                 fuzzy_flag = 0;
                 time_start = Convert.ToUInt32(timeStart.ToUniversalTime().Subtract(DateTime.Parse("1970-1-1")).TotalSeconds);
                 time_end = Convert.ToUInt32(timeEnd.ToUniversalTime().Subtract(DateTime.Parse("1970-1-1")).TotalSeconds);
-                if (!string.IsNullOrEmpty(personId)) {
+                if (!string.IsNullOrEmpty(personId))
+                {
                     condition_flag = 0x11;
                     byte[] idStrBytes = Encoding.UTF8.GetBytes(personId);
                     fixed (byte* ptrId = id)
-                    memcpy(ptrId, idStrBytes, Math.Min(idStrBytes.Length, 20));
+                        memcpy(ptrId, idStrBytes, Math.Min(idStrBytes.Length, 20));
                 }
 
             }
@@ -465,19 +466,21 @@ namespace huaanClient
                             r.body_temp = item.body_temp;
                             if (r._closeup != null)
                                 SaveCloseup(r);
-                            
+                            r.QRcodestatus = item.customer_id;
+                            r.customer_text = item.customer_id;
                             var res = HandleCaptureData.setCaptureDataToDatabase(r, DeviceNo, DeviceName);
+
                             var msg = res ? "success" : "fail";
                             Logger.Trace($"save capture record seq:{r.sequnce}, time:{r.time} to db {msg}");
                             if (r.time > lastRecordTime)
                             {
                                 lastRecordTime = r.time;
                             }
-                            
+
                             recordsCount++;
                         }
                     }
-                    
+
                 };
                 client.QueryCaptureRecord(5, 1000, timeStart, timeEnd, true, true, token);
             }
@@ -865,7 +868,7 @@ namespace huaanClient
                 {
                 }
             }
-            if(daemonData == null)
+            if (daemonData == null)
             {
                 uc.Send(new byte[] { 0xe9, 0x43, 0x00, 0x64, 0x00, 0x00, 0x00, 0x00 }, 8, new IPEndPoint(IPAddress.Parse(IP), 9527));
                 asyncResult = uc.BeginReceive(null, null);
@@ -886,7 +889,7 @@ namespace huaanClient
             {
                 int enable = BitConverter.ToInt32(daemonData, 0x274);
                 int interval = BitConverter.ToInt32(daemonData, 0x288);
-                if(enable != -1 && interval != -1) // dv300的ntp参数已不在daemon中，所以将enable/interval都置为-1，表示通过face来配置！
+                if (enable != -1 && interval != -1) // dv300的ntp参数已不在daemon中，所以将enable/interval都置为-1，表示通过face来配置！
                 {
                     byte[] header = new byte[] { 0xea, 0x43, 0x00, 0x64, 0xc0, 0x02, 0x00, 0x00, 0xbc, 0x02, 0x00, 0x00 };
                     byte[] sendData = new byte[header.Length + 0x2bc];
@@ -1142,7 +1145,7 @@ namespace huaanClient
 
         private unsafe void Tlv_MessageReceived(TLVClient sender, int sysType, int majorVersion, int minorVersion, int msgType, int? ack, byte[] _v)
         {
-            if(msgType == 0x0E)
+            if (msgType == 0x0E)
             {
                 ntpSetFlag = ack == 0;
                 lock (ntpLocker)
@@ -1150,17 +1153,17 @@ namespace huaanClient
                     Monitor.Pulse(ntpLocker);
                 }
             }
-            if(msgType == 0x0D)
+            if (msgType == 0x0D)
             {
                 ntpData = _v;
-                lock(ntpLocker)
+                lock (ntpLocker)
                 {
                     Monitor.Pulse(ntpLocker);
                 }
             }
             if (msgType == 50 && _v?.Length >= 4)
             {
-                lock(jsonInteractiveLocker)
+                lock (jsonInteractiveLocker)
                 {
                     int jsonLen = BitConverter.ToInt32(_v, 0);
                     if (_v.Length >= 4 + jsonLen)
@@ -1269,11 +1272,11 @@ namespace huaanClient
                     e.body_temp = BitConverter.ToSingle(_v, idx);
                     idx += 4;
                     e.match_failed_reson = (MatchFailedReason)BitConverter.ToInt32(_v, idx);
- 
+
                     try
                     {
                         idx += 70;
-                        if (_v.Length- idx>511)
+                        if (_v.Length - idx > 511)
                         {
                             e.trip_infor = Encoding.UTF8.GetString(_v, idx, 512).TrimEnd('\0').Trim();
                         }
@@ -1289,7 +1292,7 @@ namespace huaanClient
 
                     }
                     _queriedRecords.Add(e);
-                    if(e._closeup != null)
+                    if (e._closeup != null)
                     {
                         SaveCloseup(e);
                     }
@@ -1297,7 +1300,7 @@ namespace huaanClient
             }
             if (msgType == 5 && CaptureData != default)
             {
-                if(Properties.Settings.Default.receiveRealTimeData)
+                if (Properties.Settings.Default.receiveRealTimeData)
                 {
                     CaptureDataEventArgs e = new CaptureDataEventArgs();
                     int idx = 0;
@@ -1517,9 +1520,9 @@ namespace huaanClient
                     catch (Exception x) { }
                 }
             }
-            if(msgType == 210)
+            if (msgType == 210)
             {
-                lock(snapshortLocker)
+                lock (snapshortLocker)
                 {
                     byte[] jpgBytes1 = null;
                     byte[] jpgBytes2 = null;
@@ -1528,7 +1531,7 @@ namespace huaanClient
                         jpgBytes1 = new byte[BitConverter.ToInt32(_v, 8)];
                         Array.Copy(_v, 12, jpgBytes1, 0, jpgBytes1.Length);
                         int jpg2Len = BitConverter.ToInt32(_v, 12 + jpgBytes1.Length);
-                        if(jpg2Len > 0)
+                        if (jpg2Len > 0)
                         {
                             jpgBytes2 = new byte[jpg2Len];
                             Array.Copy(_v, 16 + jpgBytes1.Length, jpgBytes2, 0, jpg2Len);
@@ -1539,7 +1542,7 @@ namespace huaanClient
 
                     }
                     List<Image> rets = new List<Image>();
-                    if(jpgBytes1 != null)
+                    if (jpgBytes1 != null)
                     {
                         rets.Add(Image.FromStream(new MemoryStream(jpgBytes1)));
                     }
@@ -1561,7 +1564,7 @@ namespace huaanClient
             e.closeup = fn;
             byte[] bytes = e._closeup;
             e._closeup = null;
-            
+
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(fn));
@@ -1572,7 +1575,7 @@ namespace huaanClient
                 Logger.Error(ex, "save image exception");
             }
 
-            
+
         }
     }
 }
