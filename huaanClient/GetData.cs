@@ -513,7 +513,7 @@ namespace huaanClient
             }
             if (!string.IsNullOrEmpty(no))
             {
-                st.Append(" staf.Employee_code='" + no.Trim() + "' AND");
+                st.Append($" staf.Employee_code LIKE '%{no.Trim()}%' AND");
             }
             if (!string.IsNullOrEmpty(qu_phone))
             {
