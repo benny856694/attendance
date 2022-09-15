@@ -755,6 +755,7 @@ namespace huaanClient
             //判断相机是否在线，在线则清空人脸库
             if (CameraConfigPortlist?.IsConnected == true)
             {
+                Logger.Info("清空人脸: 设备名称 " + addr_name);
                 var restr = GetDevinfo.request(CameraConfigPortlist, deleteJson);
                 JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
                 if (restr_json != null)

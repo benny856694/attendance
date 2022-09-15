@@ -225,6 +225,7 @@ namespace huaanClient
             Array.Copy(jsonLenBytes, v, 4);
             Array.Copy(jsonBytes, 0, v, 4, jsonBytes.Length);
             tlv?.Write(SysType, Marjor, Minor, 50, v);
+            Logger.Info("发送命令:" + new string(json2send.Take(200).ToArray()));
             lock (jsonInteractiveLocker)
             {
                 jsonRet = string.Empty;
