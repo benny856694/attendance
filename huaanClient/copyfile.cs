@@ -18,8 +18,9 @@ namespace huaanClient
     {
         public static string copyimge(string path, string filename)
         {
+            if (path == null) return null;
             string ext = Path.GetExtension(path);//截取后缀名
-            if (!Constants.AllowedImageFileFormats.Contains(ext.ToLowerInvariant()))
+            if (!Constants.AllowedImageFileFormats.Contains(ext?.ToLowerInvariant()))
             {
                 return null;
             }

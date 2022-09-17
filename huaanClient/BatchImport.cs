@@ -549,8 +549,8 @@ namespace huaanClient
 
             string sss = Properties.Strings.MessageSaveImportLog;           
             //MessageBox.Show($"成功{0},失败{1}");
-            DialogResult dr = MessageBox.Show(string.Format(sss, successCount, failCount), "", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-            if (dr == DialogResult.OK)
+            DialogResult dr = MessageBox.Show(string.Format(sss, successCount, failCount), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (dr == DialogResult.Yes)
             {
 
                 string path=ChoosePath();
