@@ -22,7 +22,8 @@ namespace huaanClient
     public enum PhotoNaming
     {
         EmployeeName,
-        EmployeeNumber
+        EmployeeNumber,
+        EmployeePhone
     }
 
     class BatchImport
@@ -73,7 +74,7 @@ namespace huaanClient
                                     startRow = 1;//如果第一行是列名，则从第二行开始读取  
                                     for (int i = firstRow.FirstCellNum; i < cellCount; ++i)
                                     {
-                                        if (firstRow.FirstCellNum==-1)
+                                        if (firstRow.FirstCellNum == -1)
                                         {
                                             continue;
                                         }
@@ -201,7 +202,7 @@ namespace huaanClient
                                 int cellCount = firstRow.LastCellNum;//列数  
 
                                 //构建datatable的列  
-                                if (startRow>0)
+                                if (startRow > 0)
                                 {
                                     for (int i = firstRow.FirstCellNum; i < cellCount; ++i)
                                     {
@@ -290,7 +291,7 @@ namespace huaanClient
             {
                 workbook?.Close();
                 fs?.Close();
-                
+
             }
         }
 
@@ -315,7 +316,6 @@ namespace huaanClient
                 filePath = openFileDialog.FileName;
             else
             {
-                
                 return obj.ToString();
             }
 
@@ -331,9 +331,9 @@ namespace huaanClient
             //将选择的文件转换成 datatable
             DataTable dataTable = ExcelToDataTable(filePath, 2);
 
-            if (dataTable==null)
+            if (dataTable == null)
             {
-                string mes = Properties.Strings.ExcelCantBeAccessed; 
+                string mes = Properties.Strings.ExcelCantBeAccessed;
                 MessageBox.Show(mes);
                 return obj.ToString();
             }
@@ -349,7 +349,7 @@ namespace huaanClient
 
             await Task.Factory.StartNew(() =>
             {
-                
+
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
                     try
@@ -366,9 +366,9 @@ namespace huaanClient
                         {
                             face_idcard = "8";
                         }
-                        string custom_text= (lastcell - 7 > 2)?dataTable.Rows[i][7].ToString():"";
-                        string term_start= (lastcell - 8 > 2)?dataTable.Rows[i][8].ToString():"";
-                        string term = (lastcell-9 > 2)?dataTable.Rows[i][9].ToString():"";
+                        string custom_text = (lastcell - 7 > 2) ? dataTable.Rows[i][7].ToString() : "";
+                        string term_start = (lastcell - 8 > 2) ? dataTable.Rows[i][8].ToString() : "";
+                        string term = (lastcell - 9 > 2) ? dataTable.Rows[i][9].ToString() : "";
                         //判断是否是数字
 
                         //
@@ -425,7 +425,7 @@ namespace huaanClient
                         {
                             imge = allPhotoFiles.FirstOrDefault(x => IsMatch(x, expectedPhotoName));
                         }
-                        
+
                         string imgeurl = "";
                         if (!string.IsNullOrEmpty(imge))
                         {
@@ -499,7 +499,7 @@ namespace huaanClient
                         {
                             try
                             {
-                                if (4294967295 < ulong.Parse(face_idcard)&&ulong.Parse(face_idcard) < 18446744073709551615)
+                                if (4294967295 < ulong.Parse(face_idcard) && ulong.Parse(face_idcard) < 18446744073709551615)
                                 {
                                     idcardtype = "64";
                                 }
@@ -508,7 +508,7 @@ namespace huaanClient
                                     idcardtype = "32";
                                 }
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 Console.WriteLine(e);
                             }
@@ -522,13 +522,13 @@ namespace huaanClient
                         {
                             data = GetData.setStaf(name, staff_no, phone, email, departmentid, Employetypeid, imgeurl, "", "", face_idcard, idcardtype, Staff.STAFF_SOURCE_BATCH_IMPORT, custom_text, term_start.Trim(), term.Trim());
                         }
-                        
+
 
                         JObject jObject = JObject.Parse(data);
                         if (jObject["result"].ToString() == "2")
                         {
                             dataTable.Rows[i][lastcell - 2] = Properties.Strings.Success;
-                            dataTable.Rows[i][lastcell - 1] = string.IsNullOrEmpty(dataTable.Rows[i][lastcell - 1] as string)? jObject["data"].ToString(): dataTable.Rows[i][lastcell - 1];
+                            dataTable.Rows[i][lastcell - 1] = string.IsNullOrEmpty(dataTable.Rows[i][lastcell - 1] as string) ? jObject["data"].ToString() : dataTable.Rows[i][lastcell - 1];
                             successCount++;
                         }
                         else if (jObject["result"].ToString() != "2")
@@ -547,18 +547,18 @@ namespace huaanClient
                 }
             });
 
-            string sss = Properties.Strings.MessageSaveImportLog;           
+            string sss = Properties.Strings.MessageSaveImportLog;
             //MessageBox.Show($"成功{0},失败{1}");
             DialogResult dr = MessageBox.Show(string.Format(sss, successCount, failCount), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (dr == DialogResult.Yes)
             {
 
-                string path=ChoosePath();
+                string path = ChoosePath();
 
                 try
                 {
                     DataTableToExcel(dataTable, path);
-                        obj["result"] = 2;
+                    obj["result"] = 2;
                     obj["data"] = path;
                 }
                 catch (Exception ex)
@@ -566,14 +566,14 @@ namespace huaanClient
                     obj["result"] = 1;
                     obj["data"] = string.Format(Properties.Strings.ExportFileFailedWithError, ex.Message);
                 }
-                
-                
+
+
             }
             return obj.ToString();
         }
 
         //生成一个datatable
-        public static void DataTableToExcel(DataTable dt,string path)
+        public static void DataTableToExcel(DataTable dt, string path)
         {
             IWorkbook workbook = null;
             FileStream fs = null;
@@ -608,7 +608,7 @@ namespace huaanClient
                         }
                     }
 
-                    
+
                     using (fs = File.OpenWrite(path))
                     {
                         workbook.Write(fs);//向打开的这个xls文件中写入数据  
@@ -639,7 +639,7 @@ namespace huaanClient
             {
                 try
                 {
-                    var srcPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"Template\{Properties.Strings.SrcStaffTemplateFileName}" );
+                    var srcPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"Template\{Properties.Strings.SrcStaffTemplateFileName}");
                     File.Copy(srcPath, sfd.FileName, true);
                     MessageBox.Show(Properties.Strings.ExportFileSucceed);
                 }
@@ -649,6 +649,81 @@ namespace huaanClient
                     MessageBox.Show(errMsg);
                 }
             }
+        }
+
+        public static async Task<string> DownloadImage(PhotoNaming pn)
+        {
+            JObject obj = new JObject();
+            obj["result"] = 0;
+            obj["data"] = "";
+            obj["msg"] = "";
+            int successCount = 0;
+            int total = 0;
+            string foldPath = GetData.getFoldPath();
+            foldPath = foldPath + "staffPicture" + @"\";
+            await Task.Factory.StartNew(() =>
+            {
+                //查询出所有人员信息
+                var allStaffs = GetData.GetAllStaffs();
+                total = allStaffs.Length;
+                if (total == 0)
+                {
+                    obj["msg"] = "staff total is 0";
+                    return;
+                }
+                Console.WriteLine("人数：" + total);
+
+                if (string.IsNullOrEmpty(foldPath))
+                {
+                    obj["msg"] = "can't make directory" + foldPath;
+                    return;
+                }
+
+                if (!Directory.Exists(foldPath))
+                {
+                    Directory.CreateDirectory(foldPath);
+                }
+                //遍历人员信息
+                allStaffs.ToList().ForEach((item) =>
+                {
+                    var emp_code = item.Employee_code;
+                    var name = item.name;
+                    var phone = item.phone;
+                    string imageName = "";
+                    switch (pn)
+                    {
+                        case PhotoNaming.EmployeeName:
+                            imageName = name; break;
+                        case PhotoNaming.EmployeeNumber:
+                            imageName = emp_code; break;
+                        case PhotoNaming.EmployeePhone:
+                            imageName = phone; break;
+                        default:
+                            imageName = name; break;
+                    }
+                    //源文件路径
+                    var sourcePath = item.picture;
+                    //目标文件路径
+                    var targetPath = "";
+                    if (!string.IsNullOrEmpty(imageName))
+                    {
+                        targetPath = foldPath + imageName + ".jpg";
+                    }
+
+                    if (copyfile.Copyfile(sourcePath, targetPath, imageName))
+                    {
+                        successCount++;
+                    }
+                });
+            });
+
+            if (successCount > 0)
+            {
+                obj["result"] = 2;
+                var info = string.Format(Properties.Strings.SaveSuccess + "{0}/{1}", successCount, total);
+                MessageBox.Show(foldPath, info);
+            }
+            return obj.ToString();
         }
     }
 }

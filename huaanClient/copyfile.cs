@@ -29,13 +29,13 @@ namespace huaanClient
             try
             {
                 //新建一个文件夹
-                var targetFolder = ApplicationData.FaceRASystemToolUrl+"\\imgefile";
+                var targetFolder = ApplicationData.FaceRASystemToolUrl + "\\imgefile";
                 if (!Directory.Exists(targetFolder))
                 {
                     Directory.CreateDirectory(targetFolder);
                 }
-                
-                if(Tools.TryDownscaleImage(path, out var array, Properties.Settings.Default.resizeImageWidthTo))
+
+                if (Tools.TryDownscaleImage(path, out var array, Properties.Settings.Default.resizeImageWidthTo))
                 {
                     var targetFilePath = Path.Combine(targetFolder, filename + ".jpg");
                     File.WriteAllBytes(targetFilePath, array);
@@ -53,22 +53,32 @@ namespace huaanClient
             {
                 return null;
             }
-            
+
         }
 
 
         public static bool Copyfile(string path, string newpath, string filename)
         {
+            if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(newpath))
+            {
+                return false;
+            }
+            if (File.Exists(newpath))
+            {
+                var ran = new Random();
+                var num = ran.Next(0, 100);
+                newpath = newpath + "." + num;
+            }
             try
             {
                 var nf = Path.Combine(newpath);//将新的文件名称路径字符串结合成路径。
                 if (!nf.ToString().IsNullOrEmpty())
                 {
-                    File.Copy(path, nf,true);//进行文件复制，第一个参数是需要复制的文件路径，第二个参数是目标文件夹中文件路径
+                    File.Copy(path, nf, true);//进行文件复制，第一个参数是需要复制的文件路径，第二个参数是目标文件夹中文件路径
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
                 return false;
@@ -137,7 +147,7 @@ namespace huaanClient
                 if (re[2][0] != 0)
                 {
                     sbyte a = (sbyte)re[2][0];
-                    reimgeurl = a+"";
+                    reimgeurl = a + "";
                 }
                 else
                 {
@@ -161,7 +171,7 @@ namespace huaanClient
             return reimgeurl;
         }
 
-        public static Bitmap IsQualified(string path,int x, int y)
+        public static Bitmap IsQualified(string path, int x, int y)
         {
             Bitmap bitmap = null;
             try
@@ -200,7 +210,7 @@ namespace huaanClient
             {
                 return null;
             }
-            
+
         }
 
         /// <summary>

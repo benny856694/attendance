@@ -1358,13 +1358,30 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 string result = "";
                 try
                 {
-                    Task<string> task = BatchImport.batchImport( photoNaming == 0 ? PhotoNaming.EmployeeName : PhotoNaming.EmployeeNumber );
+                    Task<string> task = BatchImport.batchImport(photoNaming == 0 ? PhotoNaming.EmployeeName : PhotoNaming.EmployeeNumber);
                     result = await task;
                 }
                 catch { }
                 form.HideLayer();
                 await callback.ExecuteAsync(result);
                 DistributeToequipment.Wakeup();
+            }));
+        }
+        //导出图像
+        public void DownloadPicture(int photoNaming, IJavascriptCallback callback)
+        {
+            form.ShowLayer();
+            form.BeginInvoke(new Action(async () =>
+            {
+                string result = "";
+                try
+                {
+                    Task<string> task = BatchImport.DownloadImage((PhotoNaming)photoNaming);
+                    result = await task;
+                }
+                catch { }
+                form.HideLayer();
+                await callback.ExecuteAsync(result);
             }));
         }
         public void Download()
