@@ -145,6 +145,18 @@ namespace huaanClient.DatabaseTool
                     }
                 }
 
+                if (string.Compare(TableColumnType("Visitor", "id"), "integer", true) == 0)
+                {
+                    var sql = $"CREATE TABLE IF NOT EXISTS Visitor_tmp({string.Join(", ", tablecolumn.Visitor)});" +
+                    "INSERT INTO Visitor_tmp SELECT * FROM Visitor;" +
+                    "DROP TABLE Visitor;" +
+                    "ALTER TABLE Visitor_tmp RENAME TO Visitor;";
+                    using (var conn = SQLiteHelper.GetConnection())
+                    {
+                        conn.Execute(sql);
+                    }
+                }
+
 
             });
             
@@ -480,7 +492,7 @@ namespace huaanClient.DatabaseTool
 
         public static string[] Visitor =
         {
-            "id INTEGER NOT NULL PRIMARY KEY",
+            "id TEXT NOT NULL PRIMARY KEY",
   "name TEXT",
   "phone TEXT",
   "imge TEXT",

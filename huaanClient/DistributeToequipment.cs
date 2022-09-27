@@ -681,7 +681,7 @@ namespace huaanClient
                                 JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
                                 if (deleteJson != null)
                                 {
-                                    deleteJson["id"] = string.IsNullOrEmpty(idNumber) ? id.Replace(",", "") : idNumber;
+                                    deleteJson["id"] = string.IsNullOrEmpty(idNumber) ? id : idNumber;
                                 }
                                 //先执行删除操作
                                 GetDevinfo.request(d, deleteJson.ToString());
