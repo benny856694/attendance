@@ -33,6 +33,7 @@ using System.Linq;
 using huaanClient.Report;
 using NodaTime;
 using System.Globalization;
+using NLog;
 
 namespace InsuranceBrowser
 {
@@ -759,15 +760,19 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return result;
         }
 
-        public void delVisitorforId(string id)
-        {
-            DistributeToequipment.delVisitorByIds(id.Trim());
-        }
 
         public bool delVisitorForid(string id)
         {
-            bool re = GetData.delVisitorForid(id);
-            return re;
+            try
+            {
+                DistributeToequipment.delVisitorByIds(id.Trim());
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+           
         }
 
         //添加考勤组

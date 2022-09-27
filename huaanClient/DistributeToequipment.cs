@@ -661,7 +661,7 @@ namespace huaanClient
             {
                 return;
             }
-            string[] s = ids.Split(',');
+            string[] s = ids.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             if (s.Length > 0)
             {
                 foreach (string id in s)
@@ -685,6 +685,10 @@ namespace huaanClient
                                 }
                                 //先执行删除操作
                                 GetDevinfo.request(d, deleteJson.ToString());
+                                using (var c = SQLiteHelper.GetConnection())
+                                {
+                                    c.ExecuteScalar<int>($"delete FROM Visitor WHERE id = {id}");
+                                }
                             }
                         });
                     }

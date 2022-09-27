@@ -4211,48 +4211,6 @@ namespace huaanClient
                 return false;
         }
 
-        public static bool delVisitorForid(string id)
-        {
-            if (id.Trim().Length < 2)
-            {
-                return false;
-            }
-
-            var commaSplittedIds = id.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-            Visitor[] visitors = null;
-            using (var conn = SQLiteHelper.GetConnection())
-            {
-                visitors = conn.Query<Visitor>($"select idNumber from Visitor where id in ({string.Join(",", commaSplittedIds)})").ToArray();
-            }
-
-            var idNumbers = string.Join(",", visitors.SelectMany(x=>x.idNumber));
-
-            Array.ForEach(Deviceinfo.GetAllMyDevices(), d =>
-            {
-                if (d.IsConnected == true)
-                {
-                    
-
-                    JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
-                    if (deleteJson != null)
-                    {
-                        deleteJson["id"] = string.IsNullOrEmpty(visitors) ? id.Replace(",", "").Trim() : visitors;
-                    }
-                    //先执行删除操作
-                    string sss = GetDevinfo.request(d, deleteJson.ToString());
-                }
-            });
-
-            string sql = "DELETE FROM Visitor WHERE id in (" + id.ToString().Substring(0, id.ToString().Length - 1).ToString() + ")";
-
-            int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-            if (re > 0)
-            {
-                return true;
-            }
-            else
-                return false;
-        }
 
         public static void ubpdateEquipment_distributionfordel(string id)
         {
