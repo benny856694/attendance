@@ -532,32 +532,12 @@ namespace huaanClient
                 if (d?.IsConnected == true)
                 {
                     string PersonJson = string.Empty;
-                    string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
 
                     //将图片转换成符合相机需求
-                    if (twistImageCore(File.ReadAllBytes(imgeurl.Trim()), (string)device["DevicVersion"], out thumb, out twis, out bool IsNew))
-                    {
-                        reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
+                    var reg_image = Convert.ToBase64String(File.ReadAllBytes(imgeurl));
 
-                        if (IsNew)
-                        {
-                            norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", twis);
-                        }
-                        else
-                            norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
-                    }
+                    PersonJson = string.Format(UtilsJson.PersonJsonforVisitor, string.IsNullOrEmpty(idNumber) ? id : idNumber, name.Trim(), reg_image, endtime, statime);
 
-                    PersonJson = string.Format(UtilsJson.PersonJsonforterm, string.IsNullOrEmpty(idNumber) ? id : idNumber, name.Trim(), reg_images, norm_images, endtime, statime);
-
-                    JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
-                    if (deleteJson != null)
-                    {
-                        deleteJson["id"] = string.IsNullOrEmpty(idNumber) ? id : idNumber;
-                    }
-
-                    //先执行删除操作
-                    string sss = GetDevinfo.request(d, deleteJson.ToString());
-                    //在执行下发操作
                     string restr = GetDevinfo.request(d, PersonJson);
                     JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
                     if (restr_json != null)
@@ -676,7 +656,7 @@ namespace huaanClient
 
                         Array.ForEach(Deviceinfo.GetAllMyDevices(), d =>
                         {
-                            if (d.IsConnected == true)
+                            if (d.IsConnected)
                             {
                                 JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
                                 if (deleteJson != null)

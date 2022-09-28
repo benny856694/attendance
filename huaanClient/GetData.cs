@@ -2981,7 +2981,7 @@ namespace huaanClient
                 }
             }
 
-            string commandText = @"UPDATE Visitor SET phone='" + phone + "',name='" + name + "', staTime='" + staTime + "', endTime='" + endTime + "', imge='" + imge + "'" + $", idNumber = {idNumber}" + "  WHERE id=" + id + "";
+            string commandText = @"UPDATE Visitor SET phone='" + phone + "',name='" + name + "', staTime='" + staTime + "', endTime='" + endTime + "', imge='" + imge + "'" + (String.IsNullOrEmpty(idNumber) ? "" : $", idNumber = '{idNumber}'") + "  WHERE id=" + id + "";
 
             int reint = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
             if (reint == 1)
