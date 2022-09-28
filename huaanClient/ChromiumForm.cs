@@ -33,6 +33,7 @@ using System.Linq;
 using huaanClient.Report;
 using NodaTime;
 using System.Globalization;
+using NLog;
 
 namespace InsuranceBrowser
 {
@@ -710,21 +711,21 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         }
 
         //添加访客
-        public string setVisitor(string name, string phone, string imgeurl, string statime, string endtime)
+        public string setVisitor(string name, string phone, string imgeurl, string statime, string endtime, string idNumber)
         {
-            string data = GetData.setVisitor(name.Trim(), phone, imgeurl.Trim(), statime.Trim(), endtime.Trim());
+            string data = GetData.setVisitor(name.Trim(), phone, imgeurl.Trim(), statime.Trim(), endtime.Trim(), idNumber);
             DistributeToequipment.Wakeup();
             return data;
         }
         //编辑访客
-        public string EditVisitor(string name, string phone, string imgeurl, string statime, string endtime, string id)
+        public string EditVisitor(string name, string phone, string imgeurl, string statime, string endtime, string id, string idNumber)
         {
-            string data = GetData.editVisitor(name.Trim(), phone, imgeurl.Trim(), statime.Trim(), endtime.Trim(), id);
+            string data = GetData.editVisitor(name.Trim(), phone, imgeurl.Trim(), statime.Trim(), endtime.Trim(), id, idNumber);
             DistributeToequipment.Wakeup();
             return data;
         }
         //下发访客
-        public bool downVisitorForid(string name, string imgeurl, string statime, string endtime, string id, string devices)
+        public bool downVisitorForid(string name, string imgeurl, string statime, string endtime, string id, string idNumber, string devices)
         {
             bool re = false;
             form.Invoke(new Action(() =>
@@ -732,7 +733,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 try
                 {
                     form.ShowLayer();
-                    re = DistributeToequipment.distrbute(name.Trim(), imgeurl.Trim(), statime.Trim(), endtime.Trim(), id, devices);
+                    re = DistributeToequipment.distrbuteVisitor(name.Trim(), imgeurl.Trim(), statime.Trim(), endtime.Trim(), id, idNumber, devices);
                     form.HideLayer();
                 }
                 catch
@@ -759,15 +760,19 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return result;
         }
 
-        public void delVisitorforId(string id)
-        {
-            DistributeToequipment.delVisitorforId(id.Trim());
-        }
 
         public bool delVisitorForid(string id)
         {
-            bool re = GetData.delVisitorForid(id);
-            return re;
+            try
+            {
+                DistributeToequipment.delVisitorByIds(id.Trim());
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+           
         }
 
         //添加考勤组
@@ -1460,7 +1465,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             //}));
             //return result;
         }
-        public string getVisitor(string statime, string statime1, string endtime, string endtime1, string name, string phone, string isDown, string pageint, string limt)
+        public string getVisitor(string statime, string statime1, string endtime, string endtime1, string name, string phone, string isDown, string idNumber, string pageint, string limt)
         {
             //Task.Factory.StartNew(() =>
             //{
@@ -1478,7 +1483,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 try
                 {
                     form.ShowLayer();
-                    result = GetData.getVisitor(statime, statime1, endtime, endtime1, name, phone, isDown, pageint, limt);
+                    result = GetData.getVisitor(statime, statime1, endtime, endtime1, name, phone, isDown, idNumber, pageint, limt);
                     form.HideLayer();
                 }
                 catch
@@ -1502,10 +1507,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return result;
         }
 
-        public string getVisitorcuont(string statime, string statime1, string endtime, string endtime2, string name, string phone, string isDown)
+        public string getVisitorcuont(string statime, string statime1, string endtime, string endtime2, string name, string phone, string isDown, string idNumber)
         {
 
-            string result = GetData.getVisitorcuont(statime, statime1, endtime, endtime2, name, phone, isDown);
+            string result = GetData.getVisitorcuont(statime, statime1, endtime, endtime2, name, phone, isDown, idNumber);
 
             return result;
         }

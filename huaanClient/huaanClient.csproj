@@ -395,6 +395,7 @@
     <Compile Include="Database\MyDevice.cs" />
     <Compile Include="Database\DbConstants.cs" />
     <Compile Include="Database\Staff.cs" />
+    <Compile Include="Database\Visitor.cs" />
     <Compile Include="DataSynchronization.cs" />
     <Compile Include="ExportToExcel.cs" />
     <Compile Include="copyfile.cs" />

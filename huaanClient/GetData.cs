@@ -2899,7 +2899,7 @@ namespace huaanClient
         }
 
         //0未传值 1保存失败 2成功
-        public static string setVisitor(string name, string phone, string imge, string staTime, string endTime)
+        public static string setVisitor(string name, string phone, string imge, string staTime, string endTime, string idNumber)
         {
             obj = new JObject();
             if (!string.IsNullOrEmpty(imge))
@@ -2931,8 +2931,8 @@ namespace huaanClient
                     return obj.ToString();
                 }
             }
-            string commandText = @"Insert into Visitor (id,name,phone, imge, staTime, endTime,isDown) " +
-                "values('" + GetTimeStamp().Trim() + "','" + name.Trim() + "','" + phone.Trim() + "', '" + imge.Trim() + "','" + staTime.Trim() + "','" + endTime.Trim() + "','0')"; ;
+            string commandText = @"Insert into Visitor (id,name,phone, imge, staTime, endTime, isDown, idNumber) " +
+                "values('" + GetTimeStamp().Trim() + "','" + name.Trim() + "','" + phone.Trim() + "', '" + imge.Trim() + "','" + staTime.Trim() + "','" + endTime.Trim() + "','0'" + $", '{idNumber}')";
             int rejosn = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
             if (rejosn == 1)
             {
@@ -2948,7 +2948,7 @@ namespace huaanClient
             return obj.ToString();
         }
 
-        public static string editVisitor(string name, string phone, string imge, string staTime, string endTime, string id)
+        public static string editVisitor(string name, string phone, string imge, string staTime, string endTime, string id, string idNumber)
         {
             obj = new JObject();
             if (!string.IsNullOrEmpty(imge))
@@ -2981,7 +2981,7 @@ namespace huaanClient
                 }
             }
 
-            string commandText = @"UPDATE Visitor SET phone='" + phone + "',name='" + name + "', staTime='" + staTime + "', endTime='" + endTime + "', imge='" + imge + "'" + "  WHERE id=" + id + "";
+            string commandText = @"UPDATE Visitor SET phone='" + phone + "',name='" + name + "', staTime='" + staTime + "', endTime='" + endTime + "', imge='" + imge + "'" + (String.IsNullOrEmpty(idNumber) ? "" : $", idNumber = '{idNumber}'") + "  WHERE id=" + id + "";
 
             int reint = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
             if (reint == 1)
@@ -3776,7 +3776,7 @@ namespace huaanClient
             return sr;
         }
 
-        public static string getVisitorcuont(string statime, string statime1, string endtime, string endtime2, string name, string phone, string isDown)
+        public static string getVisitorcuont(string statime, string statime1, string endtime, string endtime2, string name, string phone, string isDown, string idNumber)
         {
 
             StringBuilder commandText = new StringBuilder("SELECT COUNT(*) as count FROM Visitor  WHERE 1=1 AND");
@@ -3791,6 +3791,10 @@ namespace huaanClient
             if (!string.IsNullOrEmpty(name))
             {
                 commandText.Append(" name LIKE '%" + name.Trim() + "%' AND");
+            }
+            if (!string.IsNullOrEmpty(idNumber))
+            {
+                commandText.Append($" idNumber LIKE '%{idNumber}%' AND");
             }
             if (!string.IsNullOrEmpty(phone))
             {
@@ -3974,7 +3978,7 @@ namespace huaanClient
             };
         }
 
-        public static string getVisitor(string statime, string statime1, string endtime, string endtime1, string name, string phone, string isDown, string page, string limt)
+        public static string getVisitor(string statime, string statime1, string endtime, string endtime1, string name, string phone, string isDown, string idNumber, string page, string limt)
         {
             int page1 = int.Parse(page) - 1;
             int pageint = page1 * int.Parse(limt);
@@ -3990,6 +3994,10 @@ namespace huaanClient
             if (!string.IsNullOrEmpty(name))
             {
                 commandText.Append(" name LIKE '%" + name.Trim() + "%' AND");
+            }
+            if (!string.IsNullOrEmpty(idNumber))
+            {
+                commandText.Append($" idNumber LIKE '%{idNumber}%' AND");
             }
             if (!string.IsNullOrEmpty(phone))
             {
@@ -4013,7 +4021,8 @@ namespace huaanClient
             string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
             commandText2 = commandText2 +
                 "order by id DESC LIMIT " + pageint + "," + limt;
-            return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
+            var result = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
+            return result;
         }
 
         public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string ids, string wg_card_id)
@@ -4202,37 +4211,6 @@ namespace huaanClient
                 return false;
         }
 
-        public static bool delVisitorForid(string id)
-        {
-            if (id.Trim().Length < 2)
-            {
-                return false;
-            }
-
-            Array.ForEach(Deviceinfo.GetAllMyDevices(), d =>
-            {
-                if (d.IsConnected == true)
-                {
-                    JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
-                    if (deleteJson != null)
-                    {
-                        deleteJson["id"] = id.Replace(",", "").Trim();
-                    }
-                    //先执行删除操作
-                    string sss = GetDevinfo.request(d, deleteJson.ToString());
-                }
-            });
-
-            string sql = "DELETE FROM Visitor WHERE id in (" + id.ToString().Substring(0, id.ToString().Length - 1).ToString() + ")";
-
-            int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-            if (re > 0)
-            {
-                return true;
-            }
-            else
-                return false;
-        }
 
         public static void ubpdateEquipment_distributionfordel(string id)
         {

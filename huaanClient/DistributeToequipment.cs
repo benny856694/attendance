@@ -513,7 +513,7 @@ namespace huaanClient
             }
         }
 
-        public static bool distrbute(string name, string imgeurl, string statime, string endtime, string id, string deivces)
+        public static bool distrbuteVisitor(string name, string imgeurl, string statime, string endtime, string id, string idNumber, string deivces)
         {
             Console.WriteLine(deivces);
             JArray arrDevices = (JArray)JsonConvert.DeserializeObject(deivces);
@@ -532,32 +532,12 @@ namespace huaanClient
                 if (d?.IsConnected == true)
                 {
                     string PersonJson = string.Empty;
-                    string thumb, twis, reg_images = string.Empty, norm_images = string.Empty;
 
                     //将图片转换成符合相机需求
-                    if (twistImageCore(File.ReadAllBytes(imgeurl.Trim()), (string)device["DevicVersion"], out thumb, out twis, out bool IsNew))
-                    {
-                        reg_images = string.Format("{{\"format\": \"jpg\",\"image_data\":\"{0}\"}}", thumb);
+                    var reg_image = Convert.ToBase64String(File.ReadAllBytes(imgeurl));
 
-                        if (IsNew)
-                        {
-                            norm_images = string.Format("{{\"width\": 112,\"height\": 112,\"image_data\":\"{0}\"}}", twis);
-                        }
-                        else
-                            norm_images = string.Format("{{\"width\": 150,\"height\": 150,\"image_data\":\"{0}\"}}", twis);
-                    }
+                    PersonJson = string.Format(UtilsJson.PersonJsonforVisitor, string.IsNullOrEmpty(idNumber) ? id : idNumber, name.Trim(), reg_image, endtime, statime);
 
-                    PersonJson = string.Format(UtilsJson.PersonJsonforterm, id, name.Trim(), reg_images, norm_images, endtime, statime);
-
-                    JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
-                    if (deleteJson != null)
-                    {
-                        deleteJson["id"] = id;
-                    }
-
-                    //先执行删除操作
-                    string sss = GetDevinfo.request(d, deleteJson.ToString());
-                    //在执行下发操作
                     string restr = GetDevinfo.request(d, PersonJson);
                     JObject restr_json = (JObject)JsonConvert.DeserializeObject(restr.Trim());
                     if (restr_json != null)
@@ -655,30 +635,40 @@ namespace huaanClient
             return re;
         }
 
-        public static void delVisitorforId(string id)
+        public static void delVisitorByIds(string ids)
         {
-            if (string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(ids))
             {
                 return;
             }
-            string[] s = id.Split(',');
+            string[] s = ids.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             if (s.Length > 0)
             {
-                for (int i = 0; i < s.Length; i++)
+                foreach (string id in s)
                 {
-                    if (!string.IsNullOrEmpty(s[i]))
+                    if (!string.IsNullOrEmpty(id))
                     {
+                        string idNumber = null;
+                        using (var conn = SQLiteHelper.GetConnection())
+                        {
+                            idNumber = conn.Get<Visitor>(id)?.idNumber;
+                        }
+
                         Array.ForEach(Deviceinfo.GetAllMyDevices(), d =>
                         {
-                            if (d.IsConnected == true)
+                            if (d.IsConnected)
                             {
                                 JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
                                 if (deleteJson != null)
                                 {
-                                    deleteJson["id"] = s[i].Replace(",", "");
+                                    deleteJson["id"] = string.IsNullOrEmpty(idNumber) ? id : idNumber;
                                 }
                                 //先执行删除操作
                                 GetDevinfo.request(d, deleteJson.ToString());
+                                using (var c = SQLiteHelper.GetConnection())
+                                {
+                                    c.ExecuteScalar<int>($"delete FROM Visitor WHERE id = {id}");
+                                }
                             }
                         });
                     }
