@@ -1002,12 +1002,14 @@ namespace huaanClient
             return sr;
         }
 
-        public static string queryAttendanceinformation(string personId)
+        public static string queryAttendanceinformation(string personId, string date)
         {
-            DateTime dateTime = DateTime.Now;
-            string end = dateTime.ToString("yyyy-MM-dd") + " 23:59:59";
-            string sta = dateTime.AddDays(-(dateTime.Day + 1)).ToString("yyyy-MM-dd") + " 00:00:00";
-            StringBuilder commandText = new StringBuilder("SELECT * FROM  Attendance_Data  att WHERE att.Date>='" + sta.Trim() + "' AND att.Date<='" + end.Trim() + "' AND personId='" + personId + "'");
+            //DateTime dateTime = DateTime.Now;
+            //string end = dateTime.ToString("yyyy-MM-dd") + " 23:59:59";
+            //string sta = dateTime.AddDays(-(dateTime.Day + 1)).ToString("yyyy-MM-dd") + " 00:00:00";
+            //StringBuilder commandText = new StringBuilder("SELECT * FROM  Attendance_Data  att WHERE att.Date>='" + sta.Trim() + "' AND att.Date<='" + end.Trim() + "' AND personId='" + personId + "'");
+
+            StringBuilder commandText = new StringBuilder("SELECT * FROM  Attendance_Data  att WHERE att.Date like'" + date + "%' AND personId='" + personId + "'");
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText.ToString());
             return sr;
         }

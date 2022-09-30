@@ -772,7 +772,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 return false;
             }
-           
+
         }
 
         //添加考勤组
@@ -1176,11 +1176,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             });
         }
 
-        public void queryAttendanceinByid(IJavascriptCallback callback, string personId)
+        public void queryAttendanceinByid(IJavascriptCallback callback, string personId, string date)
         {
             Task.Factory.StartNew(() =>
             {
-                string data = GetData.queryAttendanceinformation(personId);
+                string data = GetData.queryAttendanceinformation(personId, date);
                 callback.ExecuteAsync(data);
             });
         }
