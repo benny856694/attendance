@@ -60,20 +60,20 @@ namespace huaanClient
             //test
             //var count = 0;
             //var client = new Api.Client("192.168.0.38");
-            
+
             //client.OnRecordReceived += (s, e) =>
             //{
             //    count+=e.count;
-               
+
             //    Debug.WriteLine("接收到数据：" + String.Join(", ", e.records.Select(x=>x.sequence.ToString())));
-                
+
             //    if (e.count < 5)
             //    {
             //        Debug.WriteLine("count：" + count);
 
             //    }
             //};
-            
+
             //client.QueryCaptureRecordAsync(5, DateTime.Parse("2018-01-01 00:00:00"), DateTime.Parse("2022-06-07 10:53:43"));
 
 
@@ -99,7 +99,7 @@ namespace huaanClient
 
             var cts = new CancellationTokenSource();
             var exitProgramEvent = new ManualResetEvent(false);
-            
+
             //连接设备
             Thread thread = new Thread(ct =>
             {
@@ -120,7 +120,7 @@ namespace huaanClient
             //下发人脸
             Thread thread1 = new Thread(ct =>
             {
-                var token = (CancellationToken) ct;
+                var token = (CancellationToken)ct;
                 exitProgramEvent.WaitOne(10 * 1000);
                 while (!token.IsCancellationRequested)
                 {
@@ -135,7 +135,7 @@ namespace huaanClient
                     }
                 }
             });
-            
+
             thread.IsBackground = true;
             thread.Start(cts.Token);
 
@@ -180,7 +180,7 @@ namespace huaanClient
 
                 }).Start(cts.Token);
             }
-            
+
             //抓拍记录下载
             if (ChromiumForm.userSettings.AutoCaptureSyn)
             {
@@ -193,7 +193,7 @@ namespace huaanClient
                         {
                             exitProgramEvent.WaitOne(10 * 1000);
                             var hasData = TimingGet.Timingquery(token);
-                            exitProgramEvent.WaitOne(hasData ? 10 * 1000 : 60 * 1000);
+                            //exitProgramEvent.WaitOne(hasData ? 10 * 1000 : 60 * 1000);
                         }
                         catch (Exception ex)
                         {
@@ -203,10 +203,10 @@ namespace huaanClient
                     Logger.Debug("抓拍记录下载线程退出");
                 }).Start(cts.Token);
             }
-            
 
 
-            string url = Application.StartupPath + @"\detached\index.html"; 
+
+            string url = Application.StartupPath + @"\detached\index.html";
             string isZn = "Zh";
             if (ApplicationData.LanguageSign.Contains("English"))
             {
@@ -337,7 +337,7 @@ namespace huaanClient
             {
                 isZn = "vi";
             }
-            
+
             ChromiumForm chromiumForm = new ChromiumForm(url);
             chromiumForm.Text = ". . .";
             var mainForm = new MainForm(chromiumForm, isZn);
@@ -347,7 +347,7 @@ namespace huaanClient
                 exitProgramEvent.Set();
                 DistributeToequipment.Wakeup();
             };
-            
+
             Application.Run(mainForm);
             /**
              * 当前用户是管理员的时候，直接启动应用程序
@@ -388,8 +388,8 @@ namespace huaanClient
         static void Cef_Initialize()
         {
             CefSettings setting = new CefSettings();
-            setting.LocalesDirPath = Application.StartupPath + @"\locales";        
-            
+            setting.LocalesDirPath = Application.StartupPath + @"\locales";
+
             var lng = CultureInfo.CurrentCulture;
             switch (lng.Name)
             {
