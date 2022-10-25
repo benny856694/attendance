@@ -34,6 +34,7 @@ using huaanClient.Report;
 using NodaTime;
 using System.Globalization;
 using NLog;
+using DocumentFormat.OpenXml.CustomProperties;
 
 namespace InsuranceBrowser
 {
@@ -389,6 +390,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
     class JavaScriptBound
     {
+        static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         //显示大屏
         public void showBigScreen()
         {
@@ -693,7 +695,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //添加新员工
         public string setStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard, string idcardtype, string customer_text, string term_start, string term)
         {
-            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), Staff.STAFF_SOURCE_MANUAL_ADD, customer_text.Trim(), term_start.Trim(), term.Trim());
+            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), int.Parse(department), int.Parse(Employetype), imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), Staff.STAFF_SOURCE_MANUAL_ADD, customer_text.Trim(), term_start.Trim(), term.Trim());
             DistributeToequipment.Wakeup();
             return data;
         }
@@ -1366,7 +1368,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     Task<string> task = BatchImport.batchImport(photoNaming == 0 ? PhotoNaming.EmployeeName : PhotoNaming.EmployeeNumber);
                     result = await task;
                 }
-                catch { }
+                catch(Exception e) 
+                {
+                    Logger.Error(e, "批量导入文件发生异常");
+                    MessageBox.Show(string.Format(Strings.ExceptionOccurred, e.Message));
+                }
                 form.HideLayer();
                 await callback.ExecuteAsync(result);
                 DistributeToequipment.Wakeup();

@@ -22,6 +22,7 @@ namespace huaanClient
         public const string LANG_LOCALE_VIETNAMESE = "vi";
 
         public static readonly string[] AllowedImageFileFormats = { ".jpg", ".jpeg", ".png" };
+        public const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
 
     }
 }

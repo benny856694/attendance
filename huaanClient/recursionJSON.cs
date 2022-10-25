@@ -72,7 +72,7 @@ namespace huaanClient
                     }
                     if (p.Name == phone)
                     {
-                        model.phone = p.GetValue(item, null).ToString();
+                        model.phone = p.GetValue(item, null)?.ToString();
                     }
                     if (p.Name == no)
                     {
@@ -80,11 +80,11 @@ namespace huaanClient
                     }
                     if (p.Name == address)
                     {
-                        model.address = p.GetValue(item, null).ToString();
+                        model.address = p.GetValue(item, null)?.ToString();
                     }
                     if (p.Name == explain)
                     {
-                        model.explain = p.GetValue(item, null).ToString();
+                        model.explain = p.GetValue(item, null)?.ToString();
                     }
                     if (p.Name == code)
                     {

@@ -96,6 +96,16 @@ namespace huaanClient
             return obj.ToString();
         }
 
+
+        public static Department AddDepartment(Department dep)
+        {
+            using (var c = SQLiteHelper.GetConnection())
+            {
+                c.Insert(dep);
+                return dep;
+            }
+        }
+
         public static string AddDepartmentData(string name, string explain, string phone, string address, string no, string ParentId)
         {
             obj = new JObject();
@@ -130,6 +140,16 @@ namespace huaanClient
             }
             return obj.ToString();
         }
+
+        public static int GetMaxDepartmentNo()
+        {
+            using (var c = SQLiteHelper.GetConnection())
+            {
+                return c.ExecuteScalar<int>("SELECT MAX(no) as deparmentNo FROM department");
+
+            }
+        }
+
         public static string getDepartmentNo()
         {
 
@@ -162,6 +182,21 @@ namespace huaanClient
             int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
 
         }
+
+        public static Employeetype AddEmployeeType(string name)
+        {
+            using (var c = SQLiteHelper.GetConnection())
+            {
+                var e = new Employeetype
+                {
+                    Employetype_name = name
+                };
+                c.Insert(e);
+                return e;
+
+            }
+        }
+
         public static void addEmployetype(string val)
         {
             if (!string.IsNullOrEmpty(val))
@@ -2250,55 +2285,26 @@ namespace huaanClient
                 }
             }
         }
-        public static string queydepartmentcode(string depardmentname)
+        public static Department queydepartmentByName(string depardmentname)
         {
-            string commandTextdepartmentid = "SELECT id FROM department WHERE name='" + depardmentname + "'";
-            string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
-            if (!string.IsNullOrEmpty(sr))
+            string sql = "SELECT id FROM department WHERE name='" + depardmentname + "'";
+            using (var c = SQLiteHelper.GetConnection())
             {
-                JArray jo = (JArray)JsonConvert.DeserializeObject(sr);
-                if (jo.Count > 0)
-                {
-                    string id = jo[0]["id"].ToString();
-                    if (string.IsNullOrEmpty(id))
-                        return null;
-                    else
-                        return id;
-                }
-                else
-                    return null;
-
+                return c.QueryFirstOrDefault<Department>(sql);
             }
-            else
-                return null;
+        }
+
+        public static Employeetype queydEmployetypeidByName(string Employetype)
+        {
+            string sql = "SELECT * FROM Employetype WHERE Employetype_name='" + Employetype + "'";
+            using (var c = SQLiteHelper.GetConnection())
+            {
+                return c.QueryFirstOrDefault<Employeetype>(sql);
+            }
 
         }
 
-        public static string queydEmployetypeid(string Employetype)
-        {
-            string commandTextdepartmentid = "SELECT id FROM Employetype WHERE Employetype_name='" + Employetype + "'";
-            string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
-            if (!string.IsNullOrEmpty(sr))
-            {
-                JArray jo = (JArray)JsonConvert.DeserializeObject(sr);
-                if (jo.Count > 0)
-                {
-                    string id = jo[0]["id"].ToString();
-                    if (string.IsNullOrEmpty(id))
-                        return null;
-                    else
-                        return id;
-                }
-                else
-                    return null;
-
-            }
-            else
-                return null;
-
-        }
-
-        public static string setStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source, string customer_text, string term_start, string term)
+        public static string setStaf(string name, string staff_no, string phone, string email, int? department, int? Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source, string customer_text, string term_start, string term)
         {
 
             if (string.IsNullOrEmpty(staff_no))
@@ -2379,12 +2385,11 @@ namespace huaanClient
             staff.customer_text = customer_text;
             staff.term_start = term_start;
             staff.term = term;
-            if (!string.IsNullOrEmpty(department))
+            if (department != null)
             {
-                staff.department_id = int.Parse(department);
-
+                staff.department_id = department.Value;
             }
-            staff.Employetype_id = int.Parse(string.IsNullOrEmpty(Employetype) ? "1" : Employetype);
+            staff.Employetype_id = Employetype.HasValue ? Employetype.Value : 1;
 
             staff.idcardtype = idcardtype;
             staff.face_idcard = face_idcard;
