@@ -11,14 +11,19 @@ namespace huaanClient.Database
 	public class Department
 	{
 		[Key]
-		public long id { get; set; }
+		public int id { get; set; }
 		public string name { get; set; }
 		public string phone { get; set; }
 		public long no { get; set; }
 		public string address { get; set; }
 		public string explain { get; set; }
 		public long code { get; set; }
-		public string publish_time { get; set; }
+		public DateTime? publish_time { get; set; }
 		public long ParentId { get; set; }
+
+		public Department()
+		{
+			publish_time = DateTime.Now;
+		}
 	}
 }

@@ -11,7 +11,7 @@ namespace huaanClient.Database
 	public class Employeetype
 	{
 		[Key]
-		public long id { get; set; }
+		public int id { get; set; }
 		public string Employetype_name { get; set; }
 	}
 }
