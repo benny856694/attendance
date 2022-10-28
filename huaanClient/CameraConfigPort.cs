@@ -78,6 +78,10 @@ namespace huaanClient
         /// 获取固件版本时间
         /// </summary>
         public string master_buildtime { get; set; }
+        /// <summary>
+        /// 设备人数
+        /// </summary>
+        public int personCount { get; set; }
 
         private object _lockIsConnected = new object();
         private volatile bool _isconnected;

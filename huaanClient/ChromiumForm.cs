@@ -885,6 +885,12 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string data = GetData.getDeviceDiscover();
             return data;
         }
+        //获取设备人数
+        public string getDevicePerconCount()
+        {
+            string data = GetData.getDeviceDiscoverExt();
+            return data;
+        }
 
         public string AddIPtoMydevice(string IP, string DeviceName, int inout, string username, string password)
         {
@@ -1368,7 +1374,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                     Task<string> task = BatchImport.batchImport(photoNaming == 0 ? PhotoNaming.EmployeeName : PhotoNaming.EmployeeNumber);
                     result = await task;
                 }
-                catch(Exception e) 
+                catch (Exception e)
                 {
                     Logger.Error(e, "批量导入文件发生异常");
                     MessageBox.Show(string.Format(Strings.ExceptionOccurred, e.Message));

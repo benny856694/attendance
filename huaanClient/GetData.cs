@@ -714,6 +714,29 @@ namespace huaanClient
             return res;
         }
 
+        internal static string getDeviceDiscoverExt()
+        {
+            var Devicelistdata = Deviceinfo.GetAllMyDevices();
+            foreach (var item in Devicelistdata)
+            {
+                try
+                {
+                    if (item.IsConnected)
+                    {
+                        var list = item.GetAllPersonId();
+                        item.personCount = list.Count();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(e.Message);
+                }
+            }
+            string DevicelistdataJsonStr = JsonConvert.SerializeObject(Devicelistdata);
+
+            return DevicelistdataJsonStr;
+        }
+
         internal static void deleteDataSyn(string person_id)
         {
             string sql = "delete from DataSyn where personid = " + person_id;
@@ -1668,8 +1691,8 @@ namespace huaanClient
                 //通过IP找到这个设备
                 CameraConfigPort CameraConfigPortlist = Deviceinfo.GetByIp(ipAddress);
                 //通过这个设备查出平台
-                mjson["platForm"] = CameraConfigPortlist?.platform;
-                mjson["master_buildtime"] = CameraConfigPortlist?.master_buildtime;
+                //mjson["platForm"] = CameraConfigPortlist?.platform;
+                //mjson["master_buildtime"] = CameraConfigPortlist?.master_buildtime;
                 return mjson;
             }).ToArray();
 
