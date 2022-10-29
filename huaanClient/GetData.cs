@@ -2327,7 +2327,7 @@ namespace huaanClient
 
         }
 
-        public static string setStaf(string name, string staff_no, string phone, string email, int? department, int? Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source, string customer_text, string term_start, string term)
+        public static string setStaf(string name, string staff_no, string phone, string email, int? departmentId, int? Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source, string customer_text, string term_start, string term)
         {
 
             if (string.IsNullOrEmpty(staff_no))
@@ -2408,9 +2408,9 @@ namespace huaanClient
             staff.customer_text = customer_text;
             staff.term_start = term_start;
             staff.term = term;
-            if (department != null)
+            if (departmentId != null)
             {
-                staff.department_id = department.Value;
+                staff.department_id = departmentId.Value;
             }
             staff.Employetype_id = Employetype.HasValue ? Employetype.Value : 1;
 
