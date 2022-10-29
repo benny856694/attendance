@@ -13,6 +13,15 @@ namespace huaanClient
     {
         public static float? toFloat(this string s) => s.IsNullOrEmpty() ? null : (float?)float.Parse(s, CultureInfo.InvariantCulture);
 
+        public static int? toIntOrNull(this string s)
+        {
+            if (int.TryParse(s, out var v))
+            {
+                return v;
+            }
+            return null;
+        }
+
         public static string toFahreinheit(this string s)
         {
             if (string.IsNullOrEmpty(s)) return string.Empty;

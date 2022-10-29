@@ -695,12 +695,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
         //添加新员工
         public string setStaff(string name, string staff_no, string phone, string email, string department, string Employetype, string imgeurl, string lineType, string line_userid, string face_idcard, string idcardtype, string customer_text, string term_start, string term)
         {
-            int? departmentId = null;
-            if (int.TryParse(department, out var id))
-            {
-                departmentId = id;
-            }
-            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), departmentId, int.Parse(Employetype), imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), Staff.STAFF_SOURCE_MANUAL_ADD, customer_text.Trim(), term_start.Trim(), term.Trim());
+            string data = GetData.setStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department.toIntOrNull(), Employetype.toIntOrNull(), imgeurl, lineType.Trim(), line_userid, face_idcard.Trim(), idcardtype.Trim(), Staff.STAFF_SOURCE_MANUAL_ADD, customer_text.Trim(), term_start.Trim(), term.Trim());
             DistributeToequipment.Wakeup();
             return data;
         }
