@@ -8,7 +8,7 @@ namespace huaanClient.Database.Freesql {
 	[JsonObject(MemberSerialization.OptIn), Table(DisableSyncStructure = true)]
 	public partial class Employetype {
 
-		[JsonProperty, Column(IsPrimary = true)]
+		[JsonProperty, Column(IsPrimary = true, IsIdentity = true)]
 		public int id { get; set; }
 
 		[JsonProperty, Column(StringLength = -2, IsNullable = false)]

@@ -88,7 +88,7 @@ namespace huaanClient
                     }
                     if (p.Name == code)
                     {
-                        model.code = p.GetValue(item, null).ToString();
+                        model.code = p.GetValue(item, null)?.ToString();
                     }
                     if (p.Name == title)
                     {

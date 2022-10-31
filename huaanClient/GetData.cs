@@ -41,7 +41,7 @@ namespace huaanClient
           .UseAutoSyncStructure(false) //自动同步实体结构到数据库，FreeSql不会扫描程序集，只有CRUD时才会生成表。
           .Build(), true);
 
-        public static IFreeSql Database => freesqlLazy.Value;
+        public static IFreeSql DB => freesqlLazy.Value;
         public static string getDepartmentDataI()
         {
 
@@ -97,13 +97,10 @@ namespace huaanClient
         }
 
 
-        public static Department AddDepartment(Department dep)
+        public static void AddDepartment(Database.Freesql.Department dep)
         {
-            using (var c = SQLiteHelper.GetConnection())
-            {
-                c.Insert(dep);
-                return dep;
-            }
+            var id = DB.Insert(dep).ExecuteIdentity();
+            dep.id = Convert.ToInt32(id);
         }
 
         public static string AddDepartmentData(string name, string explain, string phone, string address, string no, string ParentId)
@@ -143,11 +140,8 @@ namespace huaanClient
 
         public static int GetMaxDepartmentNo()
         {
-            using (var c = SQLiteHelper.GetConnection())
-            {
-                return c.ExecuteScalar<int>("SELECT MAX(no) as deparmentNo FROM department");
-
-            }
+            var val = DB.Ado.ExecuteScalar("SELECT MAX(no) as deparmentNo FROM department");
+            return Convert.ToInt32(val);
         }
 
         public static string getDepartmentNo()
@@ -183,18 +177,14 @@ namespace huaanClient
 
         }
 
-        public static Employeetype AddEmployeeType(string name)
+        public static Database.Freesql.Employetype AddEmployeeType(string name)
         {
-            using (var c = SQLiteHelper.GetConnection())
+            var e = new Database.Freesql.Employetype
             {
-                var e = new Employeetype
-                {
-                    Employetype_name = name
-                };
-                c.Insert(e);
-                return e;
-
-            }
+                Employetype_name = name
+            };
+            DB.GetRepository<Database.Freesql.Employetype>().Insert(e);
+            return e;
         }
 
         public static void addEmployetype(string val)
@@ -2308,22 +2298,14 @@ namespace huaanClient
                 }
             }
         }
-        public static Department queydepartmentByName(string depardmentname)
+        public static Database.Freesql.Department queydepartmentByName(string depardmentname)
         {
-            string sql = "SELECT id FROM department WHERE name='" + depardmentname + "'";
-            using (var c = SQLiteHelper.GetConnection())
-            {
-                return c.QueryFirstOrDefault<Department>(sql);
-            }
+           return DB.Select<Database.Freesql.Department>().Where(x => x.name == depardmentname).ToOne();
         }
 
-        public static Employeetype queydEmployetypeidByName(string Employetype)
+        public static Database.Freesql.Employetype queydEmployetypeidByName(string Employetype)
         {
-            string sql = "SELECT * FROM Employetype WHERE Employetype_name='" + Employetype + "'";
-            using (var c = SQLiteHelper.GetConnection())
-            {
-                return c.QueryFirstOrDefault<Employeetype>(sql);
-            }
+            return DB.Select<Database.Freesql.Employetype>().Where(x => x.Employetype_name == Employetype).ToOne();
 
         }
 
