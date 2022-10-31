@@ -393,19 +393,19 @@ namespace huaanClient
                         }
                         string imge = "";
                         //如果上传了部门信息 先确认当前是否有这个部门id
-                        if (!string.IsNullOrEmpty(staff.DepartmentName))
+                        if (!string.IsNullOrEmpty(staff.DepartmentName?.Trim()))
                         {
                             var department = GetData.queydepartmentByName(staff.DepartmentName);
                             if (department == null)
                             {
                                 var no = GetData.GetMaxDepartmentNo();
-                                var dep = new Department
+                                department = new Database.Freesql.Department
                                 {
                                     no = no + 1,
                                     ParentId = 1,
                                     name = staff.DepartmentName
                                 };
-                                department = GetData.AddDepartment(dep);
+                                GetData.AddDepartment(department);
                             }
                             staff.DepartmentId = department?.id;
                                 //dataTable.Rows[i][lastcell - 2] = "失败";
@@ -426,7 +426,7 @@ namespace huaanClient
                         }
 
                         //如果上传分类 先确认当前是否有这个分类id
-                        if (!string.IsNullOrEmpty(staff.JobClassification))
+                        if (!string.IsNullOrEmpty(staff.JobClassification?.Trim()))
                         {
                             var EmployeeType = GetData.queydEmployetypeidByName(staff.JobClassification);
                             if (EmployeeType == null)

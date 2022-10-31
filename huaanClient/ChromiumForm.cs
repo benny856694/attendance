@@ -445,7 +445,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public bool delDepartmentData(string no, string sedata)
         {
-            var dep = JsonConvert.DeserializeObject<Department>(sedata);
+            var dep = JsonConvert.DeserializeObject<huaanClient.Database.Freesql.Department>(sedata);
             bool data = GetData.delDepartmentData(no, sedata);
             using (var c = SQLiteHelper.GetConnection())
             {

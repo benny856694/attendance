@@ -160,11 +160,17 @@
     <Reference Include="FileHelpers.ExcelNPOIStorage, Version=3.5.2.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
       <HintPath>..\packages\FileHelpers.ExcelNPOIStorage.3.5.2\lib\net45\FileHelpers.ExcelNPOIStorage.dll</HintPath>
     </Reference>
-    <Reference Include="FreeSql, Version=3.2.500.0, Culture=neutral, PublicKeyToken=a33928e5d4a4b39c, processorArchitecture=MSIL">
-      <HintPath>..\packages\FreeSql.3.2.500\lib\net451\FreeSql.dll</HintPath>
+    <Reference Include="FreeSql, Version=3.2.682.0, Culture=neutral, PublicKeyToken=a33928e5d4a4b39c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSql.3.2.682\lib\net451\FreeSql.dll</HintPath>
     </Reference>
-    <Reference Include="FreeSql.Provider.Sqlite, Version=3.2.500.0, Culture=neutral, PublicKeyToken=5800863e689c9dd8, processorArchitecture=MSIL">
-      <HintPath>..\packages\FreeSql.Provider.Sqlite.3.2.500\lib\net45\FreeSql.Provider.Sqlite.dll</HintPath>
+    <Reference Include="FreeSql.DbContext, Version=3.2.682.0, Culture=neutral, PublicKeyToken=d6971b25f8f033dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSql.DbContext.3.2.682\lib\net45\FreeSql.DbContext.dll</HintPath>
+    </Reference>
+    <Reference Include="FreeSql.Provider.Sqlite, Version=3.2.682.0, Culture=neutral, PublicKeyToken=5800863e689c9dd8, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSql.Provider.Sqlite.3.2.682\lib\net45\FreeSql.Provider.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="FreeSql.Repository, Version=3.2.682.0, Culture=neutral, PublicKeyToken=e2c05379863de526, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSql.Repository.3.2.682\lib\net45\FreeSql.Repository.dll</HintPath>
     </Reference>
     <Reference Include="HaSdkWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
