@@ -384,6 +384,31 @@
     <Compile Include="Database\DateTimeHandler.cs" />
     <Compile Include="Database\DistributionItemType.cs" />
     <Compile Include="Database\Extensions.cs" />
+    <Compile Include="Database\Freesql\AccessControlDeployTask.cs" />
+    <Compile Include="Database\Freesql\AccessRule.cs" />
+    <Compile Include="Database\Freesql\AttendanceGroup.cs" />
+    <Compile Include="Database\Freesql\Attendance_Data.cs" />
+    <Compile Include="Database\Freesql\Capture_Data.cs" />
+    <Compile Include="Database\Freesql\CsvSettings.cs" />
+    <Compile Include="Database\Freesql\DataSyn.cs" />
+    <Compile Include="Database\Freesql\Day.cs" />
+    <Compile Include="Database\Freesql\department.cs" />
+    <Compile Include="Database\Freesql\Employetype.cs" />
+    <Compile Include="Database\Freesql\Equipment_distribution.cs" />
+    <Compile Include="Database\Freesql\Linefor_.cs" />
+    <Compile Include="Database\Freesql\LineFor_list.cs" />
+    <Compile Include="Database\Freesql\MyDevice.cs" />
+    <Compile Include="Database\Freesql\Pdfconfiguration.cs" />
+    <Compile Include="Database\Freesql\RuleDistribution.cs" />
+    <Compile Include="Database\Freesql\RuleDistributionDevice.cs" />
+    <Compile Include="Database\Freesql\RuleDistributionItem.cs" />
+    <Compile Include="Database\Freesql\Shift.cs" />
+    <Compile Include="Database\Freesql\Special_date.cs" />
+    <Compile Include="Database\Freesql\sqlite_sequence.cs" />
+    <Compile Include="Database\Freesql\staff.cs" />
+    <Compile Include="Database\Freesql\TimeSegment.cs" />
+    <Compile Include="Database\Freesql\user.cs" />
+    <Compile Include="Database\Freesql\Visitor.cs" />
     <Compile Include="Database\GroupType.cs" />
     <Compile Include="Database\Holiday.cs" />
     <Compile Include="Database\RepeatType.cs" />
@@ -515,6 +540,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
+    <Content Include="Database\Freesql\__razor.cshtml.txt" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -552,6 +578,7 @@
     <None Include="Branding\brand.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Database\Freesql\__重新生成.bat" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
