@@ -36,12 +36,12 @@ namespace huaanClient
 
         private static IDbConnection GetConnection() => SQLiteHelper.GetConnection();
 
-        static Lazy<IFreeSql> sqliteLazy = new Lazy<IFreeSql>(() => new FreeSql.FreeSqlBuilder()
-          .UseConnectionString(FreeSql.DataType.Sqlite, GetConnection().ConnectionString)
+        static Lazy<IFreeSql> freesqlLazy = new Lazy<IFreeSql>(() => new FreeSql.FreeSqlBuilder()
+          .UseConnectionString(global::FreeSql.DataType.Sqlite, GetConnection().ConnectionString)
           .UseAutoSyncStructure(false) //自动同步实体结构到数据库，FreeSql不会扫描程序集，只有CRUD时才会生成表。
           .Build(), true);
 
-        public static IFreeSql Sqlite => sqliteLazy.Value;
+        public static IFreeSql Database => freesqlLazy.Value;
         public static string getDepartmentDataI()
         {
 
