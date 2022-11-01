@@ -397,7 +397,7 @@ namespace huaanClient
         private static void StartWebsocketServer()
         {
             _wssv = new WebSocketServer(IPAddress.Loopback, 3006, false);
-            _wssv.Log.Level = WebSocketSharp.LogLevel.Trace;
+            //_wssv.Log.Level = WebSocketSharp.LogLevel.Trace;
             _wssv.AddWebSocketService<BroadcastBehavior>("/messaging");
             _wssv.Start();
 
