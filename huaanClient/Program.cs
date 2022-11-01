@@ -16,12 +16,18 @@ using System.Threading;
 using System.Windows.Forms;
 using Dapper;
 using System.Diagnostics;
+using WebSocketSharp.Server;
+using System.Net;
+using System.Threading.Tasks;
+using WebSocketSharp;
 
 namespace huaanClient
 {
     static class Program
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static WebSocketServer _wssv;
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -338,6 +344,9 @@ namespace huaanClient
                 isZn = "vi";
             }
 
+
+            StartWebsocketServer();
+
             ChromiumForm chromiumForm = new ChromiumForm(url);
             chromiumForm.Text = ". . .";
             var mainForm = new MainForm(chromiumForm, isZn);
@@ -384,6 +393,22 @@ namespace huaanClient
             //    Application.Exit();
             //}   
         }
+
+        private static void StartWebsocketServer()
+        {
+            _wssv = new WebSocketServer(IPAddress.Loopback, 3006, false);
+            //_wssv.Log.Level = WebSocketSharp.LogLevel.Trace;
+            _wssv.AddWebSocketService<BroadcastBehavior>("/messaging");
+            _wssv.Start();
+
+            if (_wssv.IsListening)
+            {
+                Console.WriteLine("Listening on port {0}, and providing WebSocket services:", _wssv.Port);
+                foreach (var path in _wssv.WebSocketServices.Paths)
+                    Console.WriteLine("- {0}", path);
+            }
+        }
+
 
         static void Cef_Initialize()
         {
