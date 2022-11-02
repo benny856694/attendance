@@ -19,14 +19,14 @@ namespace huaanClient.Worker
         public string DeviceIp { get; }
         public AccessControlDeployRule[] Rules { get; }
         public AccessControlDeployItem[] Items { get; }
-        public Exception LastError {  get; private set; }
-        public int LastErrorCode { get;set;  }
+        public Exception LastError { get; private set; }
+        public int LastErrorCode { get; set; }
 
         public event EventHandler<DeployEventArgs> ItemDeployedEvent;
         public event EventHandler<DeployEventArgs> RuleDeployEvent;
 
         private HttpClient _http;
-        private static NLog.Logger Logger= NLog.LogManager.GetCurrentClassLogger();
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public DeviceAccessRuleDeployer(string deviceIp, AccessControlDeployRule[] rules, AccessControlDeployItem[] items)
         {
@@ -66,7 +66,7 @@ namespace huaanClient.Worker
                 RuleDeployEvent?.Invoke(this, arg);
                 return;
             }
-            
+
             await DeployItemsAsync(policy, token);
         }
 
@@ -103,18 +103,18 @@ namespace huaanClient.Worker
 
                 try
                 {
-                    await policy.ExecuteAsync(async tk => 
+                    await policy.ExecuteAsync(async tk =>
                     {
                         var resp = await _http.PostAsJsonAsync("", req);
                         var res = await resp.Content.ReadAsAsync<Api.Response>();
                         item.ErrorCode = res.code;
                         item.State = res.code == 0 ? DeployResult.Succeed : DeployResult.Failed;
                         ItemDeployedEvent?.Invoke(this, new DeployEventArgs { ErrorCode = res.code });
-                        if (AccessRuleDeployManager.Instance.DefaultAccess.Equals(Access.NoAccess)&& req.kind==1)//默认规则不准通行并且调度类别为1的加入到下发列表，进行删除
+                        if (AccessRuleDeployManager.Instance.DefaultAccess.Equals(Access.NoAccess) && req.kind == 1)//默认规则不准通行并且调度类别为1的加入到下发列表，进行删除
                         {
                             using (var conn = SQLiteHelper.GetConnection())
                             {
-                                GetData.DeleteStaffFromDevice(item.id?.ToString(),(int)item.DeviceId, conn);
+                                GetData.DeleteStaffFromDevice(item.id?.ToString(), (int)item.DeviceId, conn);
                             }
                         }
                     }, token);
@@ -129,10 +129,10 @@ namespace huaanClient.Worker
                 }
             }
 
-            DistributeToequipment.Wakeup();
+
             _http.Dispose();
         }
 
-        
+
     }
 }

@@ -29,17 +29,17 @@ namespace huaanClient
         {
             signal.WaitOne(TimeSpan.FromMinutes(5));
         }
-        
+
         public static void Wakeup()
         {
             signal.Set();
         }
-        
+
         public static void Sleep()
         {
             signal.Reset();
         }
-        
+
         public static void distrbute(CancellationToken token)
         {
             var startTime = DateTime.Now;
@@ -140,6 +140,7 @@ namespace huaanClient
 
         private static void DeleteDistribute(JObject distribute, string connectionString)
         {
+            var deviceId = distribute["deviceid"].ToString().Trim();
             var staffId = distribute["userid"].ToString().Trim();
             var distroId = (int)distribute["id"];
             var employeeCode = distribute["employeeCode"].ToString();
@@ -148,7 +149,7 @@ namespace huaanClient
             var Devicelistdata = Deviceinfo.GetAllMyDevices();
             Array.ForEach(Devicelistdata, s =>
             {
-                if (s.IsConnected)
+                if (s.IsConnected && s.Deviceid == deviceId)
                 {
                     JObject deleteJson = (JObject)JsonConvert.DeserializeObject(UtilsJson.deleteJson);
                     if (deleteJson != null)
@@ -395,7 +396,7 @@ namespace huaanClient
                 string updatessql = $"UPDATE Equipment_distribution SET status='fail', type = '2', errMsg='{Properties.Strings.DeviceOffline}', date='{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' WHERE id={id}";
                 SQLiteHelper.ExecuteNonQuery(connectionString, updatessql);
                 return FaceDeploymentResult.DeviceOffline;
-                
+
             }
         }
 

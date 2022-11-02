@@ -69,7 +69,7 @@ namespace huaanClient.Worker
                 tasks = c.GetAll<AccessControlDeployTask>().ToArray();
             }
 
-            foreach (var t in tasks.Where(x=>x.State == State.Finished))
+            foreach (var t in tasks.Where(x => x.State == State.Finished))
             {
                 _finishedTasks.TryAdd(t.Id, t);
             }
@@ -97,7 +97,7 @@ namespace huaanClient.Worker
             var json = JsonConvert.SerializeObject(task.Items);
             File.WriteAllText(p, json);
             task.ItemsFilePath = p;
-            
+
             using (var c = SQLiteHelper.GetConnection())
             {
                 c.Insert(task);
@@ -121,7 +121,7 @@ namespace huaanClient.Worker
             }
         }
 
-        
+
 
         public void Start()
         {
@@ -152,6 +152,7 @@ namespace huaanClient.Worker
 
                         _finishedTasks.TryAdd(tsk.Id, tsk);
                         _currentTask = null;
+                        DistributeToequipment.Wakeup();
 
                     }
 
