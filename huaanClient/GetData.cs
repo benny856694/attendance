@@ -35,11 +35,24 @@ namespace huaanClient
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private static IDbConnection GetConnection() => SQLiteHelper.GetConnection();
+        private static object locker = new object();
+        static Lazy<IFreeSql> freesqlLazy = new Lazy<IFreeSql>(() => {
+            var fsql = new FreeSql.FreeSqlBuilder()
+                          .UseConnectionString(global::FreeSql.DataType.Sqlite, GetConnection().ConnectionString)
+                          .UseAutoSyncStructure(false) //自动同步实体结构到数据库，FreeSql不会扫描程序集，只有CRUD时才会生成表。
+                          .Build();
+            fsql.Aop.CommandBefore += (_, e) =>
+            {
+                Monitor.Enter(locker);
+            };
+            fsql.Aop.CommandAfter += (_, e) =>
+            {
+                Monitor.Exit(locker);
+            };
 
-        static Lazy<IFreeSql> freesqlLazy = new Lazy<IFreeSql>(() => new FreeSql.FreeSqlBuilder()
-          .UseConnectionString(global::FreeSql.DataType.Sqlite, GetConnection().ConnectionString)
-          .UseAutoSyncStructure(false) //自动同步实体结构到数据库，FreeSql不会扫描程序集，只有CRUD时才会生成表。
-          .Build(), true);
+            return fsql;
+
+        });
 
         public static IFreeSql DB => freesqlLazy.Value;
         public static string getDepartmentDataI()
