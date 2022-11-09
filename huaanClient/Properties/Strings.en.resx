@@ -163,7 +163,7 @@
     <value>Device offline</value>
   </data>
 	<data name="StaffNames" xml:space="preserve">
-    <value>Name,Email,Telephone number,Employee number,Photo path,Create date,ID number,Access control card number,Access control card length,Department,Staff type</value>
+    <value>Name,Email,Telephone number,Employee number,Photo path,Create date,ID number,Access control card number,Access control card length,Department,Staff type,Custom Text</value>
   </data>
 	<data name="InitializingDb" xml:space="preserve">
     <value>Initializing Database...</value>
