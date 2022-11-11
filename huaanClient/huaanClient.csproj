@@ -575,6 +575,7 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Strings.ru.resx" />
     <EmbeddedResource Include="Properties\Strings.vi.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
