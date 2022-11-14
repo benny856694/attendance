@@ -72,7 +72,8 @@ namespace huaanClient
                 { 1, Constants.LANG_NAME_ENGLISH }, 
                 { 2, Constants.LANG_NAME_JAPANESE }, 
                 { 3, Constants.LANG_NAME_FRENCH }, 
-                { 4, Constants.LANG_NAME_VIETNAMESE } 
+                { 4, Constants.LANG_NAME_VIETNAMESE },
+                { 5, Constants.LANG_NAME_RUSSIAN },
             };
             Language_Selection1.ItemsSource = mydic;
             Language_Selection1.SelectedValuePath = "Value";
@@ -281,20 +282,23 @@ namespace huaanClient
 
             switch (Language_Selection1.SelectedValue)
             {
-                case Constants.LANG_NAME_CHINESE: //chinese
+                case Constants.LANG_NAME_CHINESE: 
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_CHINESE);
                     break;
-                case Constants.LANG_NAME_ENGLISH: //english
+                case Constants.LANG_NAME_ENGLISH: 
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_ENGLISH);
                     break;
-                case Constants.LANG_NAME_JAPANESE: //japaness
+                case Constants.LANG_NAME_JAPANESE: 
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_JAPANESE);
                     break;
-                case Constants.LANG_NAME_FRENCH: //french
+                case Constants.LANG_NAME_FRENCH: 
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_FRENCH);
                     break;
-                case Constants.LANG_NAME_VIETNAMESE: //french
+                case Constants.LANG_NAME_VIETNAMESE: 
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_VIETNAMESE);
+                    break;
+                case Constants.LANG_NAME_RUSSIAN: 
+                    culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_RUSSIAN);
                     break;
                 default:
                     throw new InvalidOperationException();
@@ -438,8 +442,18 @@ namespace huaanClient
                 title.Visibility = Visibility.Visible;
                 jPlogo.Visibility = Visibility.Collapsed;
                 //title.Margin = new Thickness(10, 52, 10, 0);
+                
             }
+            else if (Language_Selection1.SelectedIndex == 5)
+            {
+                usernamelable.Content = "Имя пользователя";
+                passwordlable.Content = "арготизм";
+                login.Content = "вход";
+                title.Content = "система распознавания лиц";
 
+                title.Visibility = Visibility.Visible;
+                jPlogo.Visibility = Visibility.Collapsed;
+            }
             changePassword.Content = Strings.ChangePassword;
             NewPasswordlable.Content = Strings.NewPassword;
             ConfirmNewPasswordlable.Content = Strings.ConfirmNewPassword;

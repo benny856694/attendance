@@ -13,6 +13,7 @@ namespace huaanClient
         public const string LANG_NAME_JAPANESE = "日本語";
         public const string LANG_NAME_FRENCH = "Français";
         public const string LANG_NAME_VIETNAMESE = "Tiếng Việt";
+        public const string LANG_NAME_RUSSIAN = "русский язык";
 
 
         public const string LANG_LOCALE_CHINESE = "zh";
@@ -20,6 +21,7 @@ namespace huaanClient
         public const string LANG_LOCALE_JAPANESE = "ja";
         public const string LANG_LOCALE_FRENCH = "fr";
         public const string LANG_LOCALE_VIETNAMESE = "vi";
+        public const string LANG_LOCALE_RUSSIAN = "ru";
 
         public static readonly string[] AllowedImageFileFormats = { ".jpg", ".jpeg", ".png" };
         public const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
