@@ -419,6 +419,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 language = Constants.LANG_LOCALE_VIETNAMESE;
             }
+            else if (ApplicationData.LanguageSign == Constants.LANG_NAME_RUSSIAN)
+            {
+                language = Constants.LANG_LOCALE_RUSSIAN;
+            }
             return language;
         }
         //System.Windows.Forms.OpenFileDialog openFileDialog1 = new System.Windows.Forms.OpenFileDialog();

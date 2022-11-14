@@ -447,7 +447,7 @@ namespace huaanClient
             else if (Language_Selection1.SelectedIndex == 5)
             {
                 usernamelable.Content = "Имя пользователя";
-                passwordlable.Content = "арготизм";
+                passwordlable.Content = "Пароль";
                 login.Content = "вход";
                 title.Content = "система распознавания лиц";
 
