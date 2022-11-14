@@ -343,6 +343,10 @@ namespace huaanClient
             {
                 isZn = "vi";
             }
+            else if (ApplicationData.LanguageSign == Constants.LANG_NAME_RUSSIAN)
+            {
+                isZn = "ru";
+            }
 
 
             StartWebsocketServer();

@@ -62,6 +62,15 @@ namespace InsuranceBrowserLib
                 zButton1.Text = "Phải.";
                 zButton2.Text = "Không";
             }
+            else if (language.Contains("ru"))
+            {
+                this.Text = "Exit";
+                label1.Text = "вы нажали кнопку закрыть, хотите ли вы";
+                zCheckBox1.Text = "свернуть в область системного лотка и не выходить из программы";
+                zCheckBox2.Text = "выход из программы";
+                zButton1.Text = "OK";
+                zButton2.Text = "отмена";
+            }
 
 
 

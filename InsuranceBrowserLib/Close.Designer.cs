@@ -40,7 +40,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.Location = new System.Drawing.Point(134, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(174, 20);
@@ -62,6 +62,7 @@
             // zButton2
             // 
             this.zButton2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.zButton2.AutoSize = true;
             this.zButton2.Location = new System.Drawing.Point(228, 173);
             this.zButton2.Name = "zButton2";
             this.zButton2.Radius = 5;
@@ -74,10 +75,10 @@
             // zCheckBox1
             // 
             this.zCheckBox1.AutoSize = true;
-            this.zCheckBox1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.zCheckBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.zCheckBox1.Location = new System.Drawing.Point(138, 84);
             this.zCheckBox1.Name = "zCheckBox1";
-            this.zCheckBox1.Size = new System.Drawing.Size(207, 21);
+            this.zCheckBox1.Size = new System.Drawing.Size(206, 21);
             this.zCheckBox1.TabIndex = 3;
             this.zCheckBox1.Text = "最小化到系统托盘区，不退出程序";
             this.zCheckBox1.UseVisualStyleBackColor = true;
@@ -86,10 +87,10 @@
             // zCheckBox2
             // 
             this.zCheckBox2.AutoSize = true;
-            this.zCheckBox2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.zCheckBox2.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.zCheckBox2.Location = new System.Drawing.Point(138, 111);
             this.zCheckBox2.Name = "zCheckBox2";
-            this.zCheckBox2.Size = new System.Drawing.Size(75, 21);
+            this.zCheckBox2.Size = new System.Drawing.Size(74, 21);
             this.zCheckBox2.TabIndex = 4;
             this.zCheckBox2.Text = "退出程序";
             this.zCheckBox2.UseVisualStyleBackColor = true;
@@ -117,7 +118,7 @@
             this.Controls.Add(this.zButton2);
             this.Controls.Add(this.zButton1);
             this.Controls.Add(this.label1);
-            this.Font = new System.Drawing.Font("宋体", 9F);
+            this.Font = new System.Drawing.Font("SimSun", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
