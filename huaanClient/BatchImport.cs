@@ -360,7 +360,7 @@ namespace huaanClient
                 StartColumn = 0,
                 FileName = filePath,
             };
-            var newStaffs = excelReader.ExtractRecords().Cast<StaffRecord>().ToArray();
+            var newStaffs = excelReader.ExtractRecords().Cast<StaffRecord>().Select(x=>x.TrimAllProperties()).ToArray();
 
             string DirectoryName = System.IO.Path.GetDirectoryName(filePath);
             if (string.IsNullOrEmpty(filePath))

@@ -521,6 +521,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Service.cs" />
+    <Compile Include="StaffRecorExtension.cs" />
     <Compile Include="UserSettings.cs" />
     <Compile Include="StringBuffer.cs" />
     <Compile Include="TimingGet.cs" />
