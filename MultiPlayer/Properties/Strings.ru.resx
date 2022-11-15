@@ -98,13 +98,13 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="Connecting" xml:space="preserve">
-		<value>соединение {0}</value>
+		<value>Соединение {0}</value>
 	</data>
 	<data name="NotConnected" xml:space="preserve">
-		<value>не подключаться</value>
+		<value>Нет соединения</value>
 	</data>
 	<data name="Playing" xml:space="preserve">
-		<value>играть {0}</value>
+		<value>Воспроизведение {0}</value>
 	</data>
 	<data name="StopPlay" xml:space="preserve">
 		<value>Остановить воспроизведение</value>
