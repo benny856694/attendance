@@ -39,6 +39,7 @@ Name: "english"; MessagesFile: "compiler:Languages\English.isl"
 Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "vi"; MessagesFile: "compiler:Languages\Vietnamese.isl"
+Name: "russian"; MessagesFile: "compiler:Languages\russian.isl"
 
 
 [Tasks]
