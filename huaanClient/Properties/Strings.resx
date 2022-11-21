@@ -504,4 +504,7 @@
 	<data name="AppIsRunningInBackground" xml:space="preserve">
     <value>程序已经运行或者正在退出，请不要重复运行</value>
   </data>
+	<data name="ResetPassword" xml:space="preserve">
+    <value>重置密码{0}</value>
+  </data>
 </root>
