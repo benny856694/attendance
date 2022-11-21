@@ -78,6 +78,8 @@ namespace huaanClient
             Language_Selection1.ItemsSource = mydic;
             Language_Selection1.SelectedValuePath = "Value";
             Language_Selection1.DisplayMemberPath = "Value";
+
+            InitDbPath();
         }
 
         public static bool DriverExists(string DriverName)
@@ -148,39 +150,12 @@ namespace huaanClient
             return true;
         }
 
+       
+
         public  async void Login()
         {
 
             ShowStatus(Strings.InitializingDb);
-
-
-            try
-            {
-                //先判断是否存在
-                var drives = new List<DriveInfo>() { new DriveInfo("d:"), new DriveInfo("c:") };
-                foreach (var d in drives)
-                {
-                    if (d.IsReady && d.DriveType == DriveType.Fixed)
-                    {
-                        var path = System.IO.Path.Combine(d.RootDirectory.FullName, "FaceRASystemTool");
-                        if (!Directory.Exists(path))
-                        {
-                            Directory.CreateDirectory(path);
-                        }
-
-                        ApplicationData.FaceRASystemToolUrl = path;
-                        break;
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "Init error");
-                MessageBox.Show(string.Format(Strings.ExceptionOccurred, ex.Message));
-                return;
-            }
-
 
             try
             {
@@ -493,6 +468,36 @@ namespace huaanClient
                 System.Windows.Forms.MessageBox.Show(String.Format(Strings.ResetPassword, c == 1 ? Strings.Success: Strings.Fail ));
             }
 
+        }
+
+        private void InitDbPath()
+        {
+            try
+            {
+                //先判断是否存在
+                var drives = new List<DriveInfo>() { new DriveInfo("d:"), new DriveInfo("c:") };
+                foreach (var d in drives)
+                {
+                    if (d.IsReady && d.DriveType == DriveType.Fixed)
+                    {
+                        var path = System.IO.Path.Combine(d.RootDirectory.FullName, "FaceRASystemTool");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+
+                        ApplicationData.FaceRASystemToolUrl = path;
+                        break;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Init error");
+                MessageBox.Show(string.Format(Strings.ExceptionOccurred, ex.Message));
+                return;
+            }
         }
     }
 }
