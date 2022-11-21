@@ -12,7 +12,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel HorizontalAlignment="Center" Margin="0,10,0,0" Orientation="Vertical" VerticalAlignment="Center">
-            <Image x:Name="jPlogo" Height="42" Width="305" Source="logonew.png"/>
+            <Image x:Name="jPlogo" MouseDown="title_MouseDown" Height="42" Width="305" Source="logonew.png"/>
             <Label Content="智慧人脸考勤门禁系统" MouseDown="title_MouseDown" x:Name="title" Foreground="#FFFFFF"  FontSize="24" FontStretch="Medium" HorizontalContentAlignment="Center"/>
             <Label Content="用户名" x:Name="usernamelable" FontSize="12" Foreground="#758092" HorizontalAlignment="Left" Margin="0,15,0,0"/>
             <TextBox CaretBrush="White" Text="admin" x:Name="username" BorderBrush="White" VerticalContentAlignment="Center" Foreground="#FFFFFF" FontSize="12" Background="Transparent"  BorderThickness="0,0,0,2" TextWrapping="Wrap"/>
