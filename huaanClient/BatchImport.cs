@@ -360,7 +360,7 @@ namespace huaanClient
                 StartColumn = 0,
                 FileName = filePath,
             };
-            var newStaffs = excelReader.ExtractRecords().Cast<StaffRecord>().Select(x=>x.TrimAllProperties()).ToArray();
+            var newStaffs = excelReader.ExtractRecords().Cast<StaffRecord>().Select(x => x.TrimAllProperties()).ToArray();
 
             string DirectoryName = System.IO.Path.GetDirectoryName(filePath);
             if (string.IsNullOrEmpty(filePath))
@@ -408,21 +408,21 @@ namespace huaanClient
                                 GetData.AddDepartment(department);
                             }
                             staff.DepartmentId = department?.id;
-                                //dataTable.Rows[i][lastcell - 2] = "失败";
-                                //dataTable.Rows[i][lastcell-1] = "未查询到部门";
-                                //if (ApplicationData.LanguageSign.Contains("English"))
-                                //{
-                                //    dataTable.Rows[i][lastcell - 2] = "fail";
-                                //    dataTable.Rows[i][lastcell - 1] = "Department not found";
-                                //}
-                                //else if (ApplicationData.LanguageSign.Contains("日本語"))
-                                //{
-                                //    dataTable.Rows[i][lastcell - 2] = "失敗";
-                                //    dataTable.Rows[i][lastcell - 1] = "部署に問い合わせていません";
-                                //}
+                            //dataTable.Rows[i][lastcell - 2] = "失败";
+                            //dataTable.Rows[i][lastcell-1] = "未查询到部门";
+                            //if (ApplicationData.LanguageSign.Contains("English"))
+                            //{
+                            //    dataTable.Rows[i][lastcell - 2] = "fail";
+                            //    dataTable.Rows[i][lastcell - 1] = "Department not found";
+                            //}
+                            //else if (ApplicationData.LanguageSign.Contains("日本語"))
+                            //{
+                            //    dataTable.Rows[i][lastcell - 2] = "失敗";
+                            //    dataTable.Rows[i][lastcell - 1] = "部署に問い合わせていません";
+                            //}
 
-                                //continue;
-                            
+                            //continue;
+
                         }
 
                         //如果上传分类 先确认当前是否有这个分类id
@@ -551,11 +551,11 @@ namespace huaanClient
                         string data = "";
                         if (string.IsNullOrEmpty(idcardtype))
                         {
-                            data = GetData.setStaf(staff.Name, staff.StaffNo, staff.PhoneNo, staff.Email, staff.DepartmentId, staff.EmployeeTypeId, imgeurl, "", "", "", "", Staff.STAFF_SOURCE_BATCH_IMPORT, staff.CustomerText, staff.BeginTime?.ToString(Constants.DateTimeFormat), staff.EndTime?.ToString(Constants.DateTimeFormat));
+                            data = GetData.setStaf(staff.Name, staff.StaffNo, staff.PhoneNo, staff.Email, staff.DepartmentId, staff.EmployeeTypeId, imgeurl, "", "", "", "", Staff.STAFF_SOURCE_BATCH_IMPORT, staff.CustomerText, staff.BeginTime?.ToString(Constants.DateTimeFormat), staff.EndTime?.ToString(Constants.DateTimeFormat), "", "", "", "", "", "");
                         }
                         else
                         {
-                            data = GetData.setStaf(staff.Name, staff.StaffNo, staff.PhoneNo, staff.Email, staff.DepartmentId, staff.EmployeeTypeId, imgeurl, "", "", staff.AccessCardNo, idcardtype, Staff.STAFF_SOURCE_BATCH_IMPORT, staff.CustomerText, staff.BeginTime?.ToString(Constants.DateTimeFormat), staff.EndTime?.ToString(Constants.DateTimeFormat));
+                            data = GetData.setStaf(staff.Name, staff.StaffNo, staff.PhoneNo, staff.Email, staff.DepartmentId, staff.EmployeeTypeId, imgeurl, "", "", staff.AccessCardNo, idcardtype, Staff.STAFF_SOURCE_BATCH_IMPORT, staff.CustomerText, staff.BeginTime?.ToString(Constants.DateTimeFormat), staff.EndTime?.ToString(Constants.DateTimeFormat), "", "", "", "", "", "");
                         }
 
 

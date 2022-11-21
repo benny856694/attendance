@@ -22,7 +22,7 @@ namespace huaanClient.DatabaseTool
             //判断数据库是否存在
             if (!File.Exists(ApplicationData.FaceRASystemToolUrl + "\\huaanDatabase.sqlite"))     // 返回bool类型，存在返回true，不存在返回false
             {
-               SQLiteHelper.NewDbFile(ApplicationData.FaceRASystemToolUrl+"\\huaanDatabase.sqlite");
+                SQLiteHelper.NewDbFile(ApplicationData.FaceRASystemToolUrl + "\\huaanDatabase.sqlite");
             }
 
             await Task.Factory.StartNew(() =>
@@ -31,8 +31,8 @@ namespace huaanClient.DatabaseTool
                 dynamic TableColumns = null;
                 using (var conn = SQLiteHelper.GetConnection())
                 {
-                     TableColumns = conn.Query("SELECT m.name AS TableName, p.name AS ColumnName, p.type AS ColumnType " +
-                        "FROM sqlite_master AS m JOIN pragma_table_info(m.name) AS p ORDER BY m.name, p.cid");
+                    TableColumns = conn.Query("SELECT m.name AS TableName, p.name AS ColumnName, p.type AS ColumnType " +
+                       "FROM sqlite_master AS m JOIN pragma_table_info(m.name) AS p ORDER BY m.name, p.cid");
                 }
 
                 bool TableColumnExists(string tableName, string columnName = null)
@@ -53,7 +53,7 @@ namespace huaanClient.DatabaseTool
                                 return true;
                             }
                         }
-                        
+
                     }
 
                     return false;
@@ -159,7 +159,7 @@ namespace huaanClient.DatabaseTool
 
 
             });
-            
+
             //判断是否为测试
             Inihelper.FileName = Application.StartupPath + @"\\tool.ini";
             bool sss = Inihelper.ReadBool("Setting", "FirstRun", false);
@@ -192,7 +192,7 @@ namespace huaanClient.DatabaseTool
 
                     sql = "INSERT INTO Linefor_ VALUES (1,23, '36.5', 'ちゃんが学校に登校しました', 'ちゃんが学校に登校しました。体温は{0}℃でした。', 'ちゃんが学校に登校しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校に遅刻しました。', 'ちゃんが学校に遅刻しました。体温は{0} ℃でした。', 'ちゃんが学校に遅刻しました。体温は(0) ℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から早退しました。', 'ちゃんが学校から早退しました。体温は{0} ℃でした。', 'ちゃんが学校から早退しました。体温は{0}℃でした。至急、学校へ連絡を下さい。', 'ちゃんが学校から下校しました。', 'ちゃんが学校から下校しました。体温は{0}℃でした。', 'ちゃんが学校から下校しました。体温は{0} ℃でした。至急、学校へ連絡を下さい。', '', '', '', '', '', '')";
                     SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
-                    
+
                     if (ApplicationData.DefaultLanguage == 2)
                     {
                         sql = "INSERT INTO Linefor_ (id,temperature) VALUES (1,'36.5')";
@@ -204,14 +204,14 @@ namespace huaanClient.DatabaseTool
                 {
                     Logger.Error(ex, "初始化数据库异常");
                 }
-                
+
                 Inihelper.WriteBool("Setting", "FirstRun", true);
             }
 
             return true;
         }
 
-       
+
 
         private static string[] GetDatas(string name)
         {
@@ -221,21 +221,21 @@ namespace huaanClient.DatabaseTool
             var result = field.GetValue(null) as string[];
             return result;
         }
-        
+
     }
     class tableName
     {
-        public static string[] tablename = { 
-            "AttendanceGroup", 
-            "Attendance_Data", 
-            "Capture_Data", 
+        public static string[] tablename = {
+            "AttendanceGroup",
+            "Attendance_Data",
+            "Capture_Data",
             "Employetype",
-            "Equipment_distribution", 
-            "LineFor_list", 
-            "Linefor_", 
-            "MyDevice", 
-            "Shift", 
-            "Special_date", 
+            "Equipment_distribution",
+            "LineFor_list",
+            "Linefor_",
+            "MyDevice",
+            "Shift",
+            "Special_date",
             "department",
             "staff",
             "user",
@@ -250,12 +250,12 @@ namespace huaanClient.DatabaseTool
             "RuleDistributionDevice",
             "RuleDistribution",
             "AccessControlDeployTask",
-        }; 
+        };
     }
 
     static class tablecolumn
     {
-      
+
         public static string[] AttendanceGroup =
         {
             "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT",
@@ -455,6 +455,12 @@ namespace huaanClient.DatabaseTool
   "customer_text TEXT",
   "term_start TEXT",
   "term TEXT",
+  "sex TEXT",
+  "extra1 TEXT",
+  "extra2 TEXT",
+  "extra3 TEXT",
+  "extra4 TEXT",
+  "extra5 TEXT",
   //face_idcard
         };
 

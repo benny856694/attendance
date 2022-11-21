@@ -1123,7 +1123,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 name,Email,phone,Employee_code,picture,publish_time,IDcardNo,face_idcard,idcardtype,department_id,Employetype_id,customer_text 的本地化字符串。
+        ///   查找类似 name,Email,phone,Employee_code,picture,publish_time,IDcardNo,face_idcard,idcardtype,department_id,Employetype_id,customer_text,sex,extra1,extra2,extra3,extra4,extra5 的本地化字符串。
         /// </summary>
         internal static string StaffKeys {
             get {
@@ -1132,7 +1132,7 @@ namespace huaanClient.Properties {
         }
         
         /// <summary>
-        ///   查找类似 姓名,邮箱地址,电话号码,员工编号,照片路径,添加日期,身份证号码,门禁卡号,门禁卡号位数,部门,员工分类,自定义 的本地化字符串。
+        ///   查找类似 姓名,邮箱地址,电话号码,员工编号,照片路径,添加日期,身份证号码,门禁卡号,门禁卡号位数,部门,员工分类,自定义,性别,属性1,属性2,属性3,属性4,属性5 的本地化字符串。
         /// </summary>
         internal static string StaffNames {
             get {

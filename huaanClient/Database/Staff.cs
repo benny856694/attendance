@@ -12,7 +12,7 @@ namespace huaanClient.Database
     public class Staff
     {
         [ExplicitKey]
-        
+
         public string id { get; set; }
         public string name { get; set; }
         public string Email { get; set; }
@@ -36,6 +36,12 @@ namespace huaanClient.Database
         public string customer_text { get; set; }
         public string term_start { get; set; }
         public string term { get; set; }
+        public string sex { get; set; }
+        public string extra1 { get; set; }
+        public string extra2 { get; set; }
+        public string extra3 { get; set; }
+        public string extra4 { get; set; }
+        public string extra5 { get; set; }
 
         public Staff()
         {

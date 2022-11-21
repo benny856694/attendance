@@ -27,6 +27,7 @@ namespace huaanClient
         public static string camera_volume = "{{\"cmd\": \"camera volume\",\"method\": \"SET\",\"volume\": {0}}}";
         public static string request_persons = "{{\"cmd\": \"request persons\",\"role\": -1,\"page_no\": 1,\"page_size\": 10,\"normal_image_flag\": 1,\"image_flag\": 1,\"query_mode\": 0,\"condition\": {{\"person_id\": \"{0}\"}}}}";
         public static string request_persons_by_name = "{{\"cmd\": \"request persons\",\"role\": -1,\"page_no\": {0},\"page_size\": {1},\"normal_image_flag\": 1,\"image_flag\": 1,\"query_mode\": 1,\"condition\": {{\"person_name\": \"{2}\"}}}}";
+        public static string person_property_alias = "{\"extra1\":\"extra1\",\"extra2\":\"extra2\",\"extra3\":\"extra3\",\"extra4\":\"extra4\",\"extra5\":\"extra5\"}";
 
         public const string UPLOAD_PERSON_FIELD_ID = "id";
         public const string UPLOAD_PERSON_FIELD_NAME = "name";

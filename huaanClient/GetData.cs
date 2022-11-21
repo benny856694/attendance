@@ -36,7 +36,8 @@ namespace huaanClient
 
         private static IDbConnection GetConnection() => SQLiteHelper.GetConnection();
         private static object locker = new object();
-        static Lazy<IFreeSql> freesqlLazy = new Lazy<IFreeSql>(() => {
+        static Lazy<IFreeSql> freesqlLazy = new Lazy<IFreeSql>(() =>
+        {
             var fsql = new FreeSql.FreeSqlBuilder()
                           .UseConnectionString(global::FreeSql.DataType.Sqlite, GetConnection().ConnectionString)
                           .UseAutoSyncStructure(false) //自动同步实体结构到数据库，FreeSql不会扫描程序集，只有CRUD时才会生成表。
@@ -2313,7 +2314,7 @@ namespace huaanClient
         }
         public static Database.Freesql.Department queydepartmentByName(string depardmentname)
         {
-           return DB.Select<Database.Freesql.Department>().Where(x => x.name == depardmentname).ToOne();
+            return DB.Select<Database.Freesql.Department>().Where(x => x.name == depardmentname).ToOne();
         }
 
         public static Database.Freesql.Employetype queydEmployetypeidByName(string Employetype)
@@ -2322,7 +2323,7 @@ namespace huaanClient
 
         }
 
-        public static string setStaf(string name, string staff_no, string phone, string email, int? departmentId, int? Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source, string customer_text, string term_start, string term)
+        public static string setStaf(string name, string staff_no, string phone, string email, int? departmentId, int? Employetype, string imge, string lineType, string line_userid, string face_idcard, string idcardtype, string source, string customer_text, string term_start, string term, string sex, string extra1, string extra2, string extra3, string extra4, string extra5)
         {
 
             if (string.IsNullOrEmpty(staff_no))
@@ -2403,6 +2404,12 @@ namespace huaanClient
             staff.customer_text = customer_text;
             staff.term_start = term_start;
             staff.term = term;
+            staff.sex = sex;
+            staff.extra1 = extra1;
+            staff.extra2 = extra2;
+            staff.extra3 = extra3;
+            staff.extra4 = extra4;
+            staff.extra5 = extra5;
             if (departmentId != null)
             {
                 staff.department_id = departmentId.Value;
@@ -3360,7 +3367,7 @@ namespace huaanClient
             }
             return obj.ToString();
         }
-        public static string eidStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string line_userid, string lineType, string id, string face_idcard, string idcardtype, string customer_text, string term_start, string term)
+        public static string eidStaf(string name, string staff_no, string phone, string email, string department, string Employetype, string imge, string line_userid, string lineType, string id, string face_idcard, string idcardtype, string customer_text, string term_start, string term, string sex, string extra1, string extra2, string extra3, string extra4, string extra5)
         {
             if (string.IsNullOrEmpty(Employetype))
             {
@@ -3412,11 +3419,11 @@ namespace huaanClient
                         {
                             if (!string.IsNullOrEmpty(imge))
                             {
-                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "',customer_text=" + $"'{customer_text}'" + ",term_start=" + $"'{term_start}'" + ",term=" + $"'{term}'" + " WHERE id=" + $"'{id}'";
+                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "', picture='" + imge + "',customer_text=" + $"'{customer_text}'" + ",term_start=" + $"'{term_start}'" + ",term=" + $"'{term}'" + ",sex=" + $"'{sex}'" + ",extra1=" + $"'{extra1}'" + ",extra2=" + $"'{extra2}'" + ",extra3=" + $"'{extra3}'" + ",extra4=" + $"'{extra4}'" + ",extra5=" + $"'{extra5}'" + " WHERE id=" + $"'{id}'";
                             }
                             else
                             {
-                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "',customer_text=" + $"'{customer_text}'" + ",term_start=" + $"'{term_start}'" + ",term=" + $"'{term}'" + "  WHERE id=" + $"'{id}'";
+                                commandText = @"UPDATE staff SET publish_time='" + publish_time + "',name='" + name + "', Employee_code='" + staff_no + "', phone='" + phone + "', Email='" + email + "', department_id='" + department + "',Employetype_id='" + Employetype + "',face_idcard='" + face_idcard + "',idcardtype='" + idcardtype + "',customer_text=" + $"'{customer_text}'" + ",term_start=" + $"'{term_start}'" + ",term=" + $"'{term}'" + ",sex=" + $"'{sex}'" + ",extra1=" + $"'{extra1}'" + ",extra2=" + $"'{extra2}'" + ",extra3=" + $"'{extra3}'" + ",extra4=" + $"'{extra4}'" + ",extra5=" + $"'{extra5}'" + "  WHERE id=" + $"'{id}'";
                             }
                         }
 

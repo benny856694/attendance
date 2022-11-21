@@ -912,7 +912,7 @@ namespace huaanClient
                 }
             };
 
-            var selectedProperties = new string[] { "name", "Email", "phone", "Employee_code", "picture", "publish_time", "IDcardNo", "face_idcard", "idcardtype", "department_id", "Employetype_id", "customer_text" };
+            var selectedProperties = new string[] { "name", "Email", "phone", "Employee_code", "picture", "publish_time", "IDcardNo", "face_idcard", "idcardtype", "department_id", "Employetype_id", "customer_text", "sex", "extra1", "extra2", "extra3", "extra4", "extra5" };
 
             ExportDataToXlsx(fileName, data, propertyNames, converter, selectedProperties);
 

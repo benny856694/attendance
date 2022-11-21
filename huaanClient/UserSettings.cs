@@ -9,17 +9,18 @@ namespace huaanClient
 {
     public class UserSettings : ITrackingAware
     {
-        public string TitleLong { get; set;  }
-        public string TitleShort {  get; set; }
+        public string TitleLong { get; set; }
+        public string TitleShort { get; set; }
         public bool EnableTitleLong { get; set; }
         public bool EnableTitleShort { get; set; }
         public bool HideAttendanceManagementPage { get; set; } = false;
         public bool HideAttendanceConfigPage { get; set; } = false;
-        public bool ShowTemperatureInCelsius {  get; set; } = true;
+        public bool ShowTemperatureInCelsius { get; set; } = true;
         public Access DefaultAccess { get; set; } = Access.FullAccess;
         public bool AutoIssue { get; set; } = true;
         public bool AutoDataSyn { get; set; } = false;
         public bool AutoCaptureSyn { get; set; } = true;
+        public string ExtraProperties { get; set; }
 
         public void ConfigureTracking(TrackingConfiguration configuration)
         {
@@ -37,7 +38,8 @@ namespace huaanClient
                     setting.DefaultAccess,
                     setting.AutoIssue,
                     setting.AutoDataSyn,
-                    setting.AutoCaptureSyn
+                    setting.AutoCaptureSyn,
+                    setting.ExtraProperties
                 });
         }
     }
