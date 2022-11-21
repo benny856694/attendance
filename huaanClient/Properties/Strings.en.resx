@@ -486,4 +486,7 @@
   <data name="AppIsRunningInBackground" xml:space="preserve">
     <value>The program is already running or exiting. Please do not run it again</value>
   </data>
+	<data name="ResetPassword" xml:space="preserve">
+		<value>Reset password {0}</value>
+	</data>
 </root>

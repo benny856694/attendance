@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -318,172 +318,175 @@
   <data name="AttendanceNameCanBeNotNull" xml:space="preserve">
     <value>Название групп посещаемости не может быть пустым</value>
   </data>
-  <data name="PasswordSpace" xml:space="preserve">
-    <value>В пароле не должно быть пробелов</value>
-  </data>
-  <data name="DeleteFailed" xml:space="preserve">
-    <value>Не удалось удалить</value>
-  </data>
-  <data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
-    <value>Эти смены уже используются, пожалуйста, сначала удалите эти смены из группы посещаемости!</value>
-  </data>
-  <data name="TimeOut" xml:space="preserve">
-    <value>Время вышло</value>
-  </data>
-  <data name="AttendanceMasterDept" xml:space="preserve">
-    <value>Департамент</value>
-  </data>
-  <data name="AttendanceMasterDesig" xml:space="preserve">
-    <value>Дизайн</value>
-  </data>
-  <data name="AttendanceMasterEmpNo" xml:space="preserve">
-    <value>EmpNo</value>
-  </data>
-  <data name="AttendanceMasterIn" xml:space="preserve">
-    <value>В</value>
-  </data>
-  <data name="AttendanceMasterLate" xml:space="preserve">
-    <value>Опаздание</value>
-  </data>
-  <data name="AttendanceMasterOT" xml:space="preserve">
-    <value>Вр.раб.</value>
-  </data>
-  <data name="AttendanceMasterOut" xml:space="preserve">
-    <value>Выход</value>
-  </data>
-  <data name="AttendanceMasterReportEmpDetailsTitle" xml:space="preserve">
-    <value>Подробнее</value>
-  </data>
-  <data name="AttendanceMasterStatus" xml:space="preserve">
-    <value>Статус</value>
-  </data>
-  <data name="AttendanceMasterSumAB" xml:space="preserve">
-    <value>Общ.кол-во присут.</value>
-  </data>
-  <data name="AttendanceMasterSumLateHour" xml:space="preserve">
-    <value>Последний час</value>
-  </data>
-  <data name="AttendanceMasterSumLT" xml:space="preserve">
-    <value>LT</value>
-  </data>
-  <data name="AttendanceMasterSumOT" xml:space="preserve">
-    <value>Раб.вр.</value>
-  </data>
-  <data name="AttendanceMasterSumOTHour" xml:space="preserve">
-    <value>Вр.раб</value>
-  </data>
-  <data name="AttendanceMasterSumPR" xml:space="preserve">
-    <value>Общ.кол-во отсут.</value>
-  </data>
-  <data name="AttendanceMasterSumWO" xml:space="preserve">
-    <value>Вых</value>
-  </data>
-  <data name="AttendanceMasterSumWorkHour" xml:space="preserve">
-    <value>Рабочее время</value>
-  </data>
-  <data name="AttendanceMasterWH" xml:space="preserve">
-    <value>РВ</value>
-  </data>
-  <data name="DailyReportCheckInTitle" xml:space="preserve">
-    <value>Войти</value>
-  </data>
-  <data name="DailyReportCheckOutTitle" xml:space="preserve">
-    <value>Выйти</value>
-  </data>
-  <data name="DailyReportDateTitle" xml:space="preserve">
-    <value>Дата</value>
-  </data>
-  <data name="DailyReportDepartmentTitle" xml:space="preserve">
-    <value>Департамент</value>
-  </data>
-  <data name="DailyReportDesignationTitle" xml:space="preserve">
-    <value>Наименование</value>
-  </data>
-  <data name="DailyReportEarlyTitle" xml:space="preserve">
-    <value>Ранний</value>
-  </data>
-  <data name="DailyReportEmpNameTitle" xml:space="preserve">
-    <value>Emp Name</value>
-  </data>
-  <data name="DailyReportEmpNumberTitle" xml:space="preserve">
-    <value>Emp No.</value>
-  </data>
-  <data name="DailyReportLateTitle" xml:space="preserve">
-    <value>Опаздания</value>
-  </data>
-  <data name="DailyReportRemarksTitle" xml:space="preserve">
-    <value>Примечания</value>
-  </data>
-  <data name="DailyReportShiftEndTitle" xml:space="preserve">
-    <value>Конец смены</value>
-  </data>
-  <data name="DailyReportShiftStartTitle" xml:space="preserve">
-    <value>Начало смены</value>
-  </data>
-  <data name="DailyReportShiftTitle" xml:space="preserve">
-    <value>Смена</value>
-  </data>
-  <data name="DailyReportTotalAbsent" xml:space="preserve">
-    <value>Отсутствует всего</value>
-  </data>
-  <data name="DailyReportTotalEarly" xml:space="preserve">
-    <value>Раньше пришли</value>
-  </data>
-  <data name="DailyReportTotalLate" xml:space="preserve">
-    <value>Всего опаздали</value>
-  </data>
-  <data name="DailyReportTotalPresent" xml:space="preserve">
-    <value>Присутствует всего</value>
-  </data>
-  <data name="DailyReportWHTitle" xml:space="preserve">
-    <value>WH</value>
-  </data>
-  <data name="PeriodicMasterDepartmentTitle" xml:space="preserve">
-    <value>Департамент</value>
-  </data>
-  <data name="PeriodicMasterDesignationTitle" xml:space="preserve">
-    <value>Наименование</value>
-  </data>
-  <data name="PeriodicMasterEmpName" xml:space="preserve">
-    <value>Имя сотрудника</value>
-  </data>
-  <data name="PeriodicMasterEmpNo" xml:space="preserve">
-    <value>Номер сотрудника</value>
-  </data>
-  <data name="ReportRemarkHO" xml:space="preserve">
-    <value>Вых.</value>
-  </data>
-  <data name="ReportRemarkA" xml:space="preserve">
-    <value>Отсут.</value>
-  </data>
-  <data name="ReportRemarkP" xml:space="preserve">
-    <value>Присут.</value>
-  </data>
-  <data name="ReportRemarkPX" xml:space="preserve">
-    <value>Один. пропуск</value>
-  </data>
-  <data name="DailyReportOTTitle" xml:space="preserve">
-    <value>Вр.раб.</value>
-  </data>
-  <data name="AttendanceMasterEarly" xml:space="preserve">
-    <value>Раньше</value>
-  </data>
-  <data name="AttendanceMasterSumEarly" xml:space="preserve">
-    <value>Раньше</value>
-  </data>
-  <data name="AttendanceMasterSumEarlyHour" xml:space="preserve">
-    <value>Раньше(часы)</value>
-  </data>
-  <data name="Deleted" xml:space="preserve">
-    <value>Удалено</value>
-  </data>
-  <data name="Summary" xml:space="preserve">
-    <value>Резюме</value>
-  </data>
-  <data name="AppIsFinishJobInBackground" xml:space="preserve">
-    <value>Программа выполняет задачу в фоновом режиме</value>
-  </data>
-  <data name="AppIsRunningInBackground" xml:space="preserve">
-    <value>Программа уже запущена</value>
-  </data>
+	<data name="PasswordSpace" xml:space="preserve">
+		<value>В пароле не должно быть пробелов</value>
+	</data>
+	<data name="DeleteFailed" xml:space="preserve">
+		<value>Не удалось удалить</value>
+	</data>
+	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
+		<value>Эти смены уже используются, пожалуйста, сначала удалите эти смены из группы посещаемости!</value>
+	</data>
+	<data name="TimeOut" xml:space="preserve">
+		<value>Время вышло</value>
+	</data>
+	<data name="AttendanceMasterDept" xml:space="preserve">
+		<value>Департамент</value>
+	</data>
+	<data name="AttendanceMasterDesig" xml:space="preserve">
+		<value>Дизайн</value>
+	</data>
+	<data name="AttendanceMasterEmpNo" xml:space="preserve">
+		<value>EmpNo</value>
+	</data>
+	<data name="AttendanceMasterIn" xml:space="preserve">
+		<value>В</value>
+	</data>
+	<data name="AttendanceMasterLate" xml:space="preserve">
+		<value>Опаздание</value>
+	</data>
+	<data name="AttendanceMasterOT" xml:space="preserve">
+		<value>Вр.раб.</value>
+	</data>
+	<data name="AttendanceMasterOut" xml:space="preserve">
+		<value>Выход</value>
+	</data>
+	<data name="AttendanceMasterReportEmpDetailsTitle" xml:space="preserve">
+		<value>Подробнее</value>
+	</data>
+	<data name="AttendanceMasterStatus" xml:space="preserve">
+		<value>Статус</value>
+	</data>
+	<data name="AttendanceMasterSumAB" xml:space="preserve">
+		<value>Общ.кол-во присут.</value>
+	</data>
+	<data name="AttendanceMasterSumLateHour" xml:space="preserve">
+		<value>Последний час</value>
+	</data>
+	<data name="AttendanceMasterSumLT" xml:space="preserve">
+		<value>LT</value>
+	</data>
+	<data name="AttendanceMasterSumOT" xml:space="preserve">
+		<value>Раб.вр.</value>
+	</data>
+	<data name="AttendanceMasterSumOTHour" xml:space="preserve">
+		<value>Вр.раб</value>
+	</data>
+	<data name="AttendanceMasterSumPR" xml:space="preserve">
+		<value>Общ.кол-во отсут.</value>
+	</data>
+	<data name="AttendanceMasterSumWO" xml:space="preserve">
+		<value>Вых</value>
+	</data>
+	<data name="AttendanceMasterSumWorkHour" xml:space="preserve">
+		<value>Рабочее время</value>
+	</data>
+	<data name="AttendanceMasterWH" xml:space="preserve">
+		<value>РВ</value>
+	</data>
+	<data name="DailyReportCheckInTitle" xml:space="preserve">
+		<value>Войти</value>
+	</data>
+	<data name="DailyReportCheckOutTitle" xml:space="preserve">
+		<value>Выйти</value>
+	</data>
+	<data name="DailyReportDateTitle" xml:space="preserve">
+		<value>Дата</value>
+	</data>
+	<data name="DailyReportDepartmentTitle" xml:space="preserve">
+		<value>Департамент</value>
+	</data>
+	<data name="DailyReportDesignationTitle" xml:space="preserve">
+		<value>Наименование</value>
+	</data>
+	<data name="DailyReportEarlyTitle" xml:space="preserve">
+		<value>Ранний</value>
+	</data>
+	<data name="DailyReportEmpNameTitle" xml:space="preserve">
+		<value>Emp Name</value>
+	</data>
+	<data name="DailyReportEmpNumberTitle" xml:space="preserve">
+		<value>Emp No.</value>
+	</data>
+	<data name="DailyReportLateTitle" xml:space="preserve">
+		<value>Опаздания</value>
+	</data>
+	<data name="DailyReportRemarksTitle" xml:space="preserve">
+		<value>Примечания</value>
+	</data>
+	<data name="DailyReportShiftEndTitle" xml:space="preserve">
+		<value>Конец смены</value>
+	</data>
+	<data name="DailyReportShiftStartTitle" xml:space="preserve">
+		<value>Начало смены</value>
+	</data>
+	<data name="DailyReportShiftTitle" xml:space="preserve">
+		<value>Смена</value>
+	</data>
+	<data name="DailyReportTotalAbsent" xml:space="preserve">
+		<value>Отсутствует всего</value>
+	</data>
+	<data name="DailyReportTotalEarly" xml:space="preserve">
+		<value>Раньше пришли</value>
+	</data>
+	<data name="DailyReportTotalLate" xml:space="preserve">
+		<value>Всего опаздали</value>
+	</data>
+	<data name="DailyReportTotalPresent" xml:space="preserve">
+		<value>Присутствует всего</value>
+	</data>
+	<data name="DailyReportWHTitle" xml:space="preserve">
+		<value>WH</value>
+	</data>
+	<data name="PeriodicMasterDepartmentTitle" xml:space="preserve">
+		<value>Департамент</value>
+	</data>
+	<data name="PeriodicMasterDesignationTitle" xml:space="preserve">
+		<value>Наименование</value>
+	</data>
+	<data name="PeriodicMasterEmpName" xml:space="preserve">
+		<value>Имя сотрудника</value>
+	</data>
+	<data name="PeriodicMasterEmpNo" xml:space="preserve">
+		<value>Номер сотрудника</value>
+	</data>
+	<data name="ReportRemarkHO" xml:space="preserve">
+		<value>Вых.</value>
+	</data>
+	<data name="ReportRemarkA" xml:space="preserve">
+		<value>Отсут.</value>
+	</data>
+	<data name="ReportRemarkP" xml:space="preserve">
+		<value>Присут.</value>
+	</data>
+	<data name="ReportRemarkPX" xml:space="preserve">
+		<value>Один. пропуск</value>
+	</data>
+	<data name="DailyReportOTTitle" xml:space="preserve">
+		<value>Вр.раб.</value>
+	</data>
+	<data name="AttendanceMasterEarly" xml:space="preserve">
+		<value>Раньше</value>
+	</data>
+	<data name="AttendanceMasterSumEarly" xml:space="preserve">
+		<value>Раньше</value>
+	</data>
+	<data name="AttendanceMasterSumEarlyHour" xml:space="preserve">
+		<value>Раньше(часы)</value>
+	</data>
+	<data name="Deleted" xml:space="preserve">
+		<value>Удалено</value>
+	</data>
+	<data name="Summary" xml:space="preserve">
+		<value>Резюме</value>
+	</data>
+	<data name="AppIsFinishJobInBackground" xml:space="preserve">
+		<value>Программа выполняет задачу в фоновом режиме</value>
+	</data>
+	<data name="AppIsRunningInBackground" xml:space="preserve">
+		<value>Программа уже запущена</value>
+	</data>
+	<data name="ResetPassword" xml:space="preserve">
+		<value>сбросить пароль {0}</value>
+	</data>
 </root>

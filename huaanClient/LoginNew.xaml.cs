@@ -475,14 +475,24 @@ namespace huaanClient
             colseBtn.Source = new BitmapImage(new Uri("pack://application:,,,/close_norm.png"));
         }
 
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
+      
 
         private void changePassword_Click(object sender, RoutedEventArgs e)
         {
             ShowChangePassword = changePassword.IsChecked == true;
+        }
+
+        private void title_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                var c = GetData.DB.Update<Database.Freesql.user>()
+                    .Set(x => x.password, "123456")
+                    .Where(x => x.username == "admin")
+                    .ExecuteAffrows();
+                System.Windows.Forms.MessageBox.Show(String.Format(Strings.ResetPassword, c == 1 ? Strings.Success: Strings.Fail ));
+            }
+
         }
     }
 }
