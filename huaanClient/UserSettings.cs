@@ -20,7 +20,7 @@ namespace huaanClient
         public bool AutoIssue { get; set; } = true;
         public bool AutoDataSyn { get; set; } = false;
         public bool AutoCaptureSyn { get; set; } = true;
-        public string ExtraProperties { get; set; }
+        public string ExtraProperties { get; set; } = UtilsJson.person_property_alias;
 
         public void ConfigureTracking(TrackingConfiguration configuration)
         {
