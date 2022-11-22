@@ -33,6 +33,7 @@ namespace huaanClient
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private double? height;
+        private object _loginText;
 
 
         IList<Control> _heightControls = new List<Control>();
@@ -88,6 +89,16 @@ namespace huaanClient
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                var c = GetData.DB.Update<Database.Freesql.user>()
+                    .Set(x => x.password, "123456")
+                    .Where(x => x.username == "admin")
+                    .ExecuteAffrows();
+                ShowStatus(c == 1 ? Strings.Success : Strings.Fail);
+                return;
+            }
+
             try
             {
                 changePassword.IsEnabled = false;
@@ -433,6 +444,7 @@ namespace huaanClient
             NewPasswordlable.Content = Strings.NewPassword;
             ConfirmNewPasswordlable.Content = Strings.ConfirmNewPassword;
             RememberPassword.Content = Strings.RememberPassword;
+            _loginText = login.Content;
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
@@ -456,19 +468,7 @@ namespace huaanClient
         {
             ShowChangePassword = changePassword.IsChecked == true;
         }
-
-        private void title_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-            {
-                var c = GetData.DB.Update<Database.Freesql.user>()
-                    .Set(x => x.password, "123456")
-                    .Where(x => x.username == "admin")
-                    .ExecuteAffrows();
-                System.Windows.Forms.MessageBox.Show(String.Format(Strings.ResetPassword, c == 1 ? Strings.Success: Strings.Fail ));
-            }
-
-        }
+       
 
         private void InitDbPath()
         {
@@ -498,6 +498,16 @@ namespace huaanClient
                 MessageBox.Show(string.Format(Strings.ExceptionOccurred, ex.Message));
                 return;
             }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            login.Content = Strings.ResetPassword;
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            login.Content = _loginText;
         }
     }
 }
