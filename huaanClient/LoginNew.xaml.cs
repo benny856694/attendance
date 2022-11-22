@@ -89,7 +89,7 @@ namespace huaanClient
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            if (isCtrlDown())
             {
                 var c = GetData.DB.Update<Database.Freesql.user>()
                     .Set(x => x.password, "123456")
@@ -114,8 +114,10 @@ namespace huaanClient
                 changePassword.IsEnabled = true;
                 NewPassword.IsEnabled = true;
             }
-            
+
         }
+
+        private static bool isCtrlDown() => Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl);
 
         private bool ValidateInput()
         {
@@ -502,12 +504,18 @@ namespace huaanClient
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            login.Content = Strings.ResetPassword;
+            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+            {
+                login.Content = Strings.ResetPassword;
+            }
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-            login.Content = _loginText;
+            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+            {
+                login.Content = _loginText;
+            }
         }
     }
 }
