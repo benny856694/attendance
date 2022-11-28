@@ -2169,6 +2169,13 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             Services.Tracker.Persist(ChromiumForm.userSettings);
         }
 
+        public void SetScaleInPercent(int scaleInPercent)
+        {
+            ChromiumForm.userSettings.CurrentScaleInPercent = scaleInPercent;
+            Services.Tracker.Persist(ChromiumForm.userSettings);
+
+        }
+
     }
 
     class KeyboardHandler : IKeyboardHandler

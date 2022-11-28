@@ -21,6 +21,7 @@ namespace huaanClient
         public bool AutoDataSyn { get; set; } = false;
         public bool AutoCaptureSyn { get; set; } = true;
         public string ExtraProperties { get; set; } = UtilsJson.person_property_alias;
+        public int CurrentScaleInPercent { get; set; } = 100;
 
         public void ConfigureTracking(TrackingConfiguration configuration)
         {
@@ -39,7 +40,8 @@ namespace huaanClient
                     setting.AutoIssue,
                     setting.AutoDataSyn,
                     setting.AutoCaptureSyn,
-                    setting.ExtraProperties
+                    setting.ExtraProperties,
+                    setting.CurrentScaleInPercent
                 });
         }
     }
