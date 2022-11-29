@@ -1587,33 +1587,22 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return imgeUrl;
         }
 
-        public void displayPanel(string width, string height, string locationW, string locationH)
+        public void setPlayerPos(int left, int top, int width, int height)
+        {
+            form.Invoke(new Action(() =>
+            {
+                skinPanel.Location = new System.Drawing.Point(left, top);
+                skinPanel.Size = new Size(width, height);
+            }));
+        }
+
+
+        public void displayPanel()
         {
             form.Invoke(new Action(() =>
             {
                 if (skinPanel.Visible == false)
                 {
-                    if (width.Contains("."))
-                    {
-
-                        width = width.Split('.')[0];
-                    }
-                    if (height.Contains("."))
-                    {
-                        height = height.Split('.')[0];
-                    }
-                    if (locationW.Contains("."))
-                    {
-                        locationW = locationW.Split('.')[0];
-                    }
-                    if (locationH.Contains("."))
-                    {
-                        locationH = locationH.Split('.')[0];
-                    }
-                    int ss = Convert.ToInt32(locationW);
-                    int ssss = Convert.ToInt32(locationH);
-                    skinPanel.Location = new System.Drawing.Point(Convert.ToInt32(locationW), Convert.ToInt32(locationH));
-                    skinPanel.Size = new Size(Convert.ToInt32(width), Convert.ToInt32(height));
                     skinPanel.Visible = true;
                 }
             }));
