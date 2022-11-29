@@ -35,32 +35,36 @@
             // Iplabel
             // 
             this.Iplabel.AutoSize = true;
-            this.Iplabel.Location = new System.Drawing.Point(17, 9);
+            this.Iplabel.Location = new System.Drawing.Point(23, 11);
+            this.Iplabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Iplabel.Name = "Iplabel";
-            this.Iplabel.Size = new System.Drawing.Size(17, 12);
+            this.Iplabel.Size = new System.Drawing.Size(23, 15);
             this.Iplabel.TabIndex = 0;
             this.Iplabel.Text = "IP";
             // 
             // btn
             // 
+            this.btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn.FlatAppearance.BorderColor = System.Drawing.Color.DodgerBlue;
             this.btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn.ForeColor = System.Drawing.Color.Blue;
-            this.btn.Location = new System.Drawing.Point(112, 4);
+            this.btn.Location = new System.Drawing.Point(149, 5);
+            this.btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn.Name = "btn";
-            this.btn.Size = new System.Drawing.Size(50, 22);
+            this.btn.Size = new System.Drawing.Size(67, 28);
             this.btn.TabIndex = 4;
             this.btn.Text = "切换";
             this.btn.UseVisualStyleBackColor = true;
             // 
             // Iplist
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btn);
             this.Controls.Add(this.Iplabel);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Iplist";
-            this.Size = new System.Drawing.Size(172, 29);
+            this.Size = new System.Drawing.Size(229, 36);
             this.ResumeLayout(false);
             this.PerformLayout();
 

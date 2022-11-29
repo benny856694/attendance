@@ -3,6 +3,8 @@ using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
 using MultiPlayer.Properties;
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -17,30 +19,25 @@ namespace VideoHelper
     {
         [DllImport("msvcrt", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
         static extern void memcpy(IntPtr dest, IntPtr src, int count);
-
+        static int inited = 0;
         internal bool CanFullScreen = false;
-#if !DESIGN
-        static MultiPlayerControl()
-        {
-            //AV_LOG_TRACE 56
-            //av_log_set_level(56);
-            avcodec_register_all();
-        }
-#endif
 
         public MultiPlayerControl()
         {
             InitializeComponent();
             this.label1.Text = Strings.NotConnected;
 
-#if !DESIGN
-            frame = av_frame_alloc();
-            avpkt = av_packet_alloc();
-            av_init_packet(avpkt);
-            nalData = Marshal.AllocHGlobal(1024 * 1024);
-            codec = avcodec_find_decoder(AVCodecID.AV_CODEC_ID_H264);
-            avpkt->data = (void*)nalData;      
-#endif
+            if (!DesignMode && Interlocked.Exchange(ref inited, 1) == 0)
+            {
+                avcodec_register_all();
+                frame = av_frame_alloc();
+                avpkt = av_packet_alloc();
+                av_init_packet(avpkt);
+                nalData = Marshal.AllocHGlobal(1024 * 1024);
+                codec = avcodec_find_decoder(AVCodecID.AV_CODEC_ID_H264);
+                avpkt->data = (void*)nalData;
+            }
+
         }
 
         private Holder m_holder;

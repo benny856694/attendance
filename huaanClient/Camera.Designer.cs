@@ -48,8 +48,8 @@
             this.btnLogin.BorderColorNormal = System.Drawing.Color.Transparent;
             this.btnLogin.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnLogin.ForeColor = System.Drawing.Color.White;
-            this.btnLogin.Location = new System.Drawing.Point(283, 532);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLogin.Location = new System.Drawing.Point(283, 530);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(4);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Radius = 10;
             this.btnLogin.Size = new System.Drawing.Size(467, 50);
@@ -62,7 +62,7 @@
             // 
             this.videoSourcePlayer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.videoSourcePlayer1.Location = new System.Drawing.Point(0, 0);
-            this.videoSourcePlayer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.videoSourcePlayer1.Margin = new System.Windows.Forms.Padding(4);
             this.videoSourcePlayer1.Name = "videoSourcePlayer1";
             this.videoSourcePlayer1.Size = new System.Drawing.Size(482, 457);
             this.videoSourcePlayer1.TabIndex = 27;
@@ -75,7 +75,7 @@
             this.plView.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.plView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.plView.Location = new System.Drawing.Point(0, 0);
-            this.plView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.plView.Margin = new System.Windows.Forms.Padding(4);
             this.plView.Name = "plView";
             this.plView.Size = new System.Drawing.Size(243, 457);
             this.plView.TabIndex = 28;
@@ -111,7 +111,7 @@
             this.Controls.Add(this.skinSplitContainer1);
             this.Controls.Add(this.btnLogin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Camera";

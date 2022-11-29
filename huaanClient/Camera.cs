@@ -182,6 +182,7 @@ namespace huaanClient
 
                     if (Database.Deviceinfo.GetByIp(j["IP"].Value<string>().Trim())?.IsConnected == true)
                     {
+                        iplist.Dock = DockStyle.Top;
                         iplist.Controls["Iplabel"].Text = j["IP"].ToString().Trim();
 
                         iplist.Controls["btn"].Click += (object sender_, EventArgs e_) => chanvideo(j["IP"].ToString().Trim());
