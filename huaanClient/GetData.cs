@@ -4957,6 +4957,18 @@ namespace huaanClient
             bool re = false;
             try
             {
+                //查询数据库中的设备
+                var list=DB.Select<Database.Freesql.MyDevice>().Where(x => x.ipAddress.Trim() == ip.Trim()).ToList();
+                //判断是否IP冲突
+                foreach(var item in list)
+                {
+                    if (item.ipAddress == ip && ip != oldip)
+                    {
+                        MessageBox.Show(Strings.IPAlreadyExists, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        throw new Exception("ip already exists");
+                    }
+                }
+
                 Array.ForEach(Deviceinfo.GetAllMyDevices(), s =>
                 {
                     if (s.IP == oldip.Trim())
