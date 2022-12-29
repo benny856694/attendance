@@ -23,10 +23,12 @@ namespace huaanClient
         private static NLog.Logger NLogger = NLog.LogManager.GetCurrentClassLogger();
         public static bool setCaptureDataToDatabase(CaptureDataEventArgs CaptureData, string DeviceNo, string DeviceName)
         {
-            if (string.IsNullOrEmpty(DeviceNo))
+            //优先使用抓拍数据里面的SN
+            if (!string.IsNullOrEmpty(CaptureData.device_sn))
             {
                 DeviceNo = CaptureData.device_sn;
             }
+            
             if (string.IsNullOrEmpty(DeviceName))
             {
                 DeviceName = CaptureData.addr_name;
