@@ -457,6 +457,7 @@ namespace huaanClient
                         foreach (var item in e.records)
                         {
                             var r = new CaptureDataEventArgs();
+                            r.device_sn = e.device_sn;
                             r.person_id = item.id;
                             r.person_name = string.IsNullOrEmpty(item.name) ? item.person_name_ext : item.name;
                             r.time = DateTime.Parse(item.time);
@@ -473,7 +474,7 @@ namespace huaanClient
                                 SaveCloseup(r);
                             r.QRcodestatus = item.customer_id;
                             r.customer_text = item.customer_id;
-                            var res = HandleCaptureData.setCaptureDataToDatabase(r, DeviceNo, DeviceName);
+                            var res = HandleCaptureData.setCaptureDataToDatabase(r, r.device_sn, DeviceName);
 
                             var msg = res ? "success" : "fail";
                             Logger.Trace($"save capture record seq:{r.sequnce}, time:{r.time} to db {msg}");
