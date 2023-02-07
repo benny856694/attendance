@@ -19,7 +19,6 @@ namespace VideoHelper
     {
         [DllImport("msvcrt", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
         static extern void memcpy(IntPtr dest, IntPtr src, int count);
-        static int inited = 0;
         internal bool CanFullScreen = false;
 
         public MultiPlayerControl()
@@ -27,7 +26,7 @@ namespace VideoHelper
             InitializeComponent();
             this.label1.Text = Strings.NotConnected;
 
-            if (!DesignMode && Interlocked.Exchange(ref inited, 1) == 0)
+            if (!DesignMode)
             {
                 avcodec_register_all();
                 frame = av_frame_alloc();
