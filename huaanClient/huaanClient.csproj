@@ -470,12 +470,6 @@
     <Compile Include="Iplist.Designer.cs">
       <DependentUpon>Iplist.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="LoginNew.xaml.cs">
       <DependentUpon>LoginNew.xaml</DependentUpon>
     </Compile>
@@ -557,10 +551,6 @@
     </Content>
     <EmbeddedResource Include="Iplist.resx">
       <DependentUpon>Iplist.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
-      <DependentUpon>LoginForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Strings.en.resx">
       <SubType>Designer</SubType>

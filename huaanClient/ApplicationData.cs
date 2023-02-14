@@ -71,6 +71,8 @@ namespace huaanClient
         private static bool? _copyData;
         public static string sqlServerConnectionString;
 
+        //是否命令行指定了数据保存文件夹
+        public static bool cmdLineSpecifiedDirectory;
 
 
 

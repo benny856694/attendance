@@ -80,7 +80,10 @@ namespace huaanClient
             Language_Selection1.SelectedValuePath = "Value";
             Language_Selection1.DisplayMemberPath = "Value";
 
-            InitDbPath();
+            if (!ApplicationData.cmdLineSpecifiedDirectory)
+            {
+                InitDbPath();
+            }
         }
 
         public static bool DriverExists(string DriverName)
