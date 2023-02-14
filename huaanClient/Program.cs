@@ -32,7 +32,7 @@ namespace huaanClient
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             DapperExtensions.DapperExtensions.SetMappingAssemblies(new[] { typeof(StaffMapper).Assembly });
 
@@ -85,6 +85,12 @@ namespace huaanClient
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            if (args.Length > 0 && Directory.Exists(args[0]))
+            {
+                ApplicationData.FaceRASystemToolUrl = args[0];
+                ApplicationData.cmdLineSpecifiedDirectory = true;
+            }
 
             LoginNew loginNew = new LoginNew();
             loginNew.ShowDialog();
