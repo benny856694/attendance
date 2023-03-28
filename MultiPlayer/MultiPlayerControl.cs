@@ -3,6 +3,7 @@ using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
 using MultiPlayer.Properties;
 using System;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -17,6 +18,9 @@ namespace VideoHelper
 {
     public unsafe partial class MultiPlayerControl : UserControl
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static ConcurrentBag<Type> errors = new ConcurrentBag<Type>();
+
         [DllImport("msvcrt", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)]
         static extern void memcpy(IntPtr dest, IntPtr src, int count);
         internal bool CanFullScreen = false;
@@ -255,16 +259,19 @@ namespace VideoHelper
                     }
                     catch (DirectXException ex)
                     {
-                        StringBuilder msg = new StringBuilder();
-                        msg.Append("*************************************** \n");
-                        msg.AppendFormat(" 异常发生时间： {0} \n", DateTime.Now);
-                        msg.AppendFormat(" 导致当前异常的 Exception 实例： {0} \n", ex.InnerException);
-                        msg.AppendFormat(" 导致异常的应用程序或对象的名称： {0} \n", ex.Source);
-                        msg.AppendFormat(" 引发异常的方法： {0} \n", ex.TargetSite);
-                        msg.AppendFormat(" 异常堆栈信息： {0} \n", ex.StackTrace);
-                        msg.AppendFormat(" 异常消息： {0} \n", ex.Message);
-                        msg.Append("***************************************");
-                        Console.WriteLine(msg);
+                        Exception e = ex;
+                        while (e.InnerException != null)
+                        {
+                            e = e.InnerException;
+                        }
+
+                        var t = e.GetType();
+                        if (!errors.TryPeek(out _))
+                        {
+                            logger.Error(ex, "video decoding error");
+                            errors.Add(t);
+                        }
+
                         Releases();
                         return;
                     }
