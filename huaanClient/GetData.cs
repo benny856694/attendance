@@ -4057,173 +4057,92 @@ namespace huaanClient
             return result;
         }
 
-        public static Capture_Data[] getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string ids, string wg_card_id)
+        public static IList<Database.Freesql.Capture_Data> getCapture_Data1(string statime, string endtime, string name, string devname, string selectedPersonTypes, string HealthCodeType, float? tempFrom, float? tempTo, string ids, string wg_card_id)
         {
-            var pg = new DapperExtensions.Predicate.PredicateGroup
-            {
-                Operator = DapperExtensions.Predicate.GroupOperator.And,
-                Predicates = new List<DapperExtensions.Predicate.IPredicate>()
-            };
+            var q = DB.Select<Database.Freesql.Capture_Data>();
+
+          
 
             if (!string.IsNullOrEmpty(ids))
             {
-                var pg2 = new DapperExtensions.Predicate.PredicateGroup
-                {
-                    Operator = DapperExtensions.Predicate.GroupOperator.Or,
-                    Predicates = new List<DapperExtensions.Predicate.IPredicate>()
-                };
-                var ids2 = ids.Split(',');
-                foreach (var id in ids2)
-                {
-                    pg2.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.id, DapperExtensions.Predicate.Operator.Eq, id));
-                }
-
-                pg.Predicates.Add(pg2);
+                var ids2 = ids.Split(',').Select(i => int.Parse(i));
+                q = q.Where(x => ids2.ToList().Contains(x.id));
             }
 
             if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.time, DapperExtensions.Predicate.Operator.Gt, statime));
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.time, DapperExtensions.Predicate.Operator.Lt, endtime));
+                q = q.Where(x => x.time > DateTime.Parse(statime) && x.time < DateTime.Parse(endtime));
             }
 
             if (!string.IsNullOrEmpty(name))
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_name, DapperExtensions.Predicate.Operator.Like, $"%{name}%"));
+                q = q.Where(x=>x.person_name.Contains(name));
             }
 
             if (!string.IsNullOrEmpty(devname))
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.device_sn, DapperExtensions.Predicate.Operator.Eq, devname));
+                q = q.Where(x => x.device_sn == devname);
             }
 
             if (!string.IsNullOrEmpty(wg_card_id))
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.wg_card_id, DapperExtensions.Predicate.Operator.Eq, wg_card_id));
+                q = q.Where(x=>x.wg_card_id ==  wg_card_id);
             }
 
             if (HealthCodeType != "0")
             {
                 if (HealthCodeType == "1")
                 {
-                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Predicate.Operator.Like, "%绿码%"));
+                    q = q.Where(x => x.QRcodestatus.Contains("绿码"));
                 }
                 else if (HealthCodeType == "2")
                 {
-                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Predicate.Operator.Like, "%黄码%"));
+                    q = q.Where(x => x.QRcodestatus.Contains("黄码"));
                 }
                 else if (HealthCodeType == "3")
                 {
-                    pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.QRcodestatus, DapperExtensions.Predicate.Operator.Like, "%红码%"));
+                    q = q.Where(x => x.QRcodestatus.Contains("红码"));
                 }
             }
             if (!string.IsNullOrEmpty(selectedPersonTypes))
             {
-                var personTypeGroup = new DapperExtensions.Predicate.PredicateGroup()
-                {
-                    Operator = DapperExtensions.Predicate.GroupOperator.Or,
-                    Predicates = new List<DapperExtensions.Predicate.IPredicate>()
-                };
                 var sections = selectedPersonTypes.Split(',');
                 foreach (var personType in sections)
                 {
                     switch (personType)
                     {
                         case "1":
-                            personTypeGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_id, DapperExtensions.Predicate.Operator.Eq, null, true));
+                            q = q.Where(x => x.person_id != null);
                             break;
                         case "0":
-                            personTypeGroup.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.person_id, DapperExtensions.Predicate.Operator.Eq, null));
+                            q = q.Where(x => x.person_id == null);
                             break;
                     }
                 }
-                pg.Predicates.Add(personTypeGroup);
             }
 
             if (tempFrom != null)
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.body_temp, DapperExtensions.Predicate.Operator.Ge, tempFrom.Value));
+                q = q.Where(x => x.body_temp >= tempFrom.Value);
             }
 
             if (tempTo != null)
             {
-                pg.Predicates.Add(DapperExtensions.Predicates.Field<Capture_Data>(x => x.body_temp, DapperExtensions.Predicate.Operator.Le, tempTo.Value));
+                q = q.Where(x => x.body_temp <= tempFrom.Value);
             }
 
+            var res = q.ToList();
 
-            using (var conn = SQLiteHelper.GetConnection())
+            if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
             {
-
-                var data = DapperExtensions.DapperExtensions.GetList<Capture_Data>(
-                    conn,
-                    pg,
-                    new List<DapperExtensions.Predicate.ISort>() { new DapperExtensions.Predicate.Sort() { PropertyName = nameof(Capture_Data.time), Ascending = true } }
-                    ).ToArray();
-                if (!ChromiumForm.userSettings.ShowTemperatureInCelsius)
+                foreach (var item in res)
                 {
-                    foreach (var item in data)
-                    {
-                        item.body_temp = item.body_temp.toFahreinheit();
-                    }
+                    item.body_temp = item.body_temp.toFahreinheit();
                 }
-                return data;
             }
 
-
-            //            StringBuilder commandText = new StringBuilder("SELECT ca.addr_name as addr_name"+
-            //", ca.time as time" + 
-            //", ca.match_status as match_status" + 
-            //", ca.person_name as person_name" + 
-            //", ca.wg_card_id as wg_card_id" + 
-            //", ca.match_failed_reson as match_failed_reson" + 
-            //", ca.exist_mask as exist_mask" + 
-            //", ca.body_temp as body_temp" + 
-            //", ca.device_sn as device_sn" + 
-            //", ca.idcard_number as idcard_number" + 
-            //", ca.idcard_name as idcard_name" + 
-            //", ca.QRcodestatus as QRcodestatus "+
-            //", ca.trip_infor as trip_infor " +
-            //", ca.closeup as closeup " +
-            //" FROM Capture_Data ca LEFT JOIN staff sta on sta.id=ca.person_id WHERE 1=1 AND");
-            //            if (!string.IsNullOrEmpty(statime) && !string.IsNullOrEmpty(endtime))
-            //            {
-            //                commandText.Append(" '" + statime + "' < time AND  time < '" + endtime + "' AND");
-            //            }
-            //            if (!string.IsNullOrEmpty(name))
-            //            {
-            //                commandText.Append(" person_name LIKE '%" + name.Trim() + "%' AND");
-            //            }
-            //            if (!string.IsNullOrEmpty(devname))
-            //            {
-            //                commandText.Append(" device_sn='" + devname + "' AND");
-            //            }
-            //            if (HealthCodeType != "0")
-            //            {
-            //                if (HealthCodeType == "1")
-            //                {
-            //                    commandText.Append(" QRcodestatus LIKE '%绿码%' AND");
-            //                }
-            //                else if (HealthCodeType == "2")
-            //                {
-            //                    commandText.Append(" QRcodestatus LIKE '%黄码%' AND");
-            //                }
-            //                else if (HealthCodeType == "3")
-            //                {
-            //                    commandText.Append(" QRcodestatus LIKE '%红码%' AND");
-            //                }
-            //            }
-            //            if (!string.IsNullOrEmpty(stranger))
-            //            {
-            //                if (stranger.Trim() == "1")
-            //                {
-            //                    commandText.Append(" match_status='0' or match_status='-1' AND");
-            //                }
-            //            }
-
-            //            string commandText2 = commandText.ToString().Substring(0, commandText.ToString().Length - 3).ToString();
-            //            commandText2 = commandText2 +
-            //                "order by ca.id DESC";
-            //            return SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText2.ToString());
+            return res;
+           
         }
 
         public static bool delCapture_DataForid(string id)

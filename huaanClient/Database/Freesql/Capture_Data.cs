@@ -44,8 +44,8 @@ namespace huaanClient.Database.Freesql {
 		[JsonProperty, Column(StringLength = -2)]
 		public string person_name { get; set; }
 
-		[JsonProperty("person_id"), Column(Name = "person_id", StringLength = -2)]
-		public string StaffId { get; set; }
+		[JsonProperty, Column(StringLength = -2)]
+		public string person_id { get; set; }
 
         [JsonProperty]
 		public Staff Staff { get; set; }

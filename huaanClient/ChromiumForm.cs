@@ -519,7 +519,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                 {
                     var data = GetData.getCapture_Data1(statime, endtime, name, devname, selectedPersonTypes, HealthCodeType, tempFrom.toFloat(), tempTo.toFloat(), ids, wg_card_id);
                     var propertyNames = Tools.GetPropertyNames(nameof(Capture_Data));
-                    Func<Capture_Data, string, object, string> convertProperty = (d, pname, v) =>
+                    Func<huaanClient.Database.Freesql.Capture_Data, string, object, string> convertProperty = (d, pname, v) =>
                     {
                         switch (pname)
                         {
@@ -556,7 +556,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                         }
                     };
 
-                    DataToCsv.ExportDataToXlsx<Capture_Data>(
+                    DataToCsv.ExportDataToXlsx<huaanClient.Database.Freesql.Capture_Data>(
                         Strings.CaptureDataExportDefaultFileName,
                         data,
                         propertyNames,
