@@ -4128,8 +4128,10 @@ namespace huaanClient
 
             if (tempTo != null)
             {
-                q = q.Where(x => x.body_temp <= tempFrom.Value);
+                q = q.Where(x => x.body_temp <= tempTo.Value);
             }
+
+            q = q.OrderByDescending(x => x.time);
 
             var res = q.ToList();
 
