@@ -76,5 +76,7 @@ namespace huaanClient
 
         public static long ToUnixTimestamp(this DateTime dt) => (long)(dt - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds;
 
+        public static string ToAppTimeString(this DateTime dt) => dt.ToString(Constants.DateTimeFormat);
+
     }
 }
