@@ -112,7 +112,7 @@ namespace huaanClient
                         captureDataForOneStaff.Clear();
                         JToken staff = staffs[i];
                         Logger.Debug($"calculate staff id = {staff["personId"]} attendance");
-                        Console.WriteLine(i+"/"+staffs.Count+",计算员工考勤：" + staff["name"]);
+                        
                         allCaptureData.ForEach(captureData => {
                             if (!string.IsNullOrEmpty(captureData.personId.ToString().Trim()))
                             {

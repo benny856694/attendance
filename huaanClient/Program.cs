@@ -105,10 +105,6 @@ namespace huaanClient
             //f.ShowDialog();
             Cef_Initialize();
 
-            //todo: 考勤计算
-            //AttendanceAlgorithm.getpersonnel("2021-07-01 00:00:00", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), 1);
-            //return;
-
             var cts = new CancellationTokenSource();
             var exitProgramEvent = new ManualResetEvent(false);
 
