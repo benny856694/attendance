@@ -359,13 +359,13 @@ namespace huaanClient
 
         public static void ExportDataToXlsx<T>(
             string fileName,
-            T[] data,
+            IList<T> data,
             Dictionary<string, string> propertyNames,
             Func<T, string, object, string> convertValueToString,
             string[] selectedPropertyNames = null
         )
         {
-            if (data.Length == 0)
+            if (data.Count == 0)
             {
                 return;
             }
@@ -393,7 +393,7 @@ namespace huaanClient
 
 
 
-                    for (var i = 0; i < data.Length; ++i)
+                    for (var i = 0; i < data.Count; ++i)
                     {
                         var row = sheet.CreateRow(i + 1);
                         var d = data[i];
