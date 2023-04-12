@@ -78,5 +78,7 @@ namespace huaanClient
 
         public static string ToAppTimeString(this DateTime dt) => dt.ToString(Constants.DateTimeFormat);
 
+        public static DateTime ToDate(this string dt) => DateTime.ParseExact(dt, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
     }
 }

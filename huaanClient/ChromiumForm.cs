@@ -2165,6 +2165,16 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         }
 
+        public huaanClient.Attendance.ProgressValue GetAttendanceCalculatorStatus() => huaanClient.Attendance.AttendanceCalculatorForDates.Instance.Status;
+        
+        public void CalculateAttendanceForDates(string[] dates)
+        {
+            var days = dates.Select(i => i.ToDate()).ToArray();
+            huaanClient.Attendance.AttendanceCalculatorForDates.Instance.CalcForDatesAsync(days, CancellationToken.None);
+        }
+
+
+
     }
 
     class KeyboardHandler : IKeyboardHandler
