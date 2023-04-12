@@ -8,37 +8,41 @@ using System.Threading.Tasks;
 
 namespace huaanClient.Attendance
 {
-    internal class AttendanceCalculator: Progress<int>
+    internal class AttendanceCalculator: Progress<ProgressValue>
     {
         public void CalculateForPeriod(DateTime from, DateTime to, CancellationToken token)
         {
             new AttendanceAlgorithm().getpersonnel(from.ToAppTimeString(), to.ToAppTimeString(), 1, token);
         }
 
-        public Task CalculateForDateAsync(DateTime date, CancellationToken token) 
+        public async Task CalculateForDateAsync(DateTime date, CancellationToken token) 
         {
-            var dateOnly = date.Date;
-            var stepsInMinutes = 10;
-            var progress = 0;
-            var total = 24 * 60;
-            var endTime = dateOnly.AddDays(1);
-            return Task.Run(() =>
+            var startDate = date.Date;
+            var stepsInMinutes = Constants.StepInMinutes;
+            var currentStep = 0;
+            var steps = 24 * 60 / Constants.StepInMinutes;
+            var endTime = startDate.AddDays(1);
+            await Task.Factory.StartNew(() =>
             {
-                for (var d = dateOnly; d < endTime; d = d.AddMinutes(stepsInMinutes))
+                for (var d = startDate; d < endTime; d = d.AddMinutes(stepsInMinutes))
                 {
                     var from = d;
                     var to = d + TimeSpan.FromMinutes(10);
-                    Debug.WriteLine($"beging calc: {from} -> {to}");
                     if (token.IsCancellationRequested)
                     {
                         return;
                     }
                     CalculateForPeriod(from, to, token);
-                    progress += stepsInMinutes;
-                    var percent = progress * 100.0 / total;
-                    base.OnReport(Convert.ToInt32(percent));
+                    currentStep++;
+                    var percent = currentStep * 100.0 / steps;
+                    var msg = $"{from} -> {to}";
+                    var v = new ProgressValue
+                    {
+                        Percent = (int)percent,
+                        Message = msg
+                    };
+                    base.OnReport(v);
                 }
-
             });
         }
 

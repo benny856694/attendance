@@ -105,6 +105,18 @@ namespace huaanClient
             //f.ShowDialog();
             Cef_Initialize();
 
+            var calc = Attendance.AttendanceCalculatorForDates.Instance;
+            calc.ProgressChanged += (s, arg) =>
+            {
+                Debug.WriteLine($"done: {arg.done}, progress: {arg.Percent}%, msg: {arg.Message}");
+            };
+            calc.CalcForDatesAsync(new List<DateTime> { 
+                new DateTime(2023, 4, 5),
+                new DateTime(2023, 4, 6),
+            }, 
+            CancellationToken.None);
+
+
             var cts = new CancellationTokenSource();
             var exitProgramEvent = new ManualResetEvent(false);
 
