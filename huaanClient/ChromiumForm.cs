@@ -2167,10 +2167,15 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
 
         public huaanClient.Attendance.ProgressValue GetAttendanceCalculatorStatus() => huaanClient.Attendance.AttendanceCalculatorForDates.Instance.Status;
         
-        public void CalculateAttendanceForDates(string[] dates)
+        public void CalculateAttendanceForDates(string datesJson)
         {
-            var days = dates.Select(i => i.ToDate()).ToArray();
-            huaanClient.Attendance.AttendanceCalculatorForDates.Instance.CalcForDatesAsync(days, CancellationToken.None);
+            var dates = JsonConvert.DeserializeObject<DateTime[]>(datesJson);
+            var localDates = dates.Select(x=>x.ToLocalTime()).ToList();
+            huaanClient.Attendance.AttendanceCalculatorForDates.Instance.ProgressChanged += (s, e) =>
+            {
+                Debug.WriteLine($"busy: {e.busy}, progress: {e.Percent}, msg: {e.Message}");
+            };
+            huaanClient.Attendance.AttendanceCalculatorForDates.Instance.CalcForDatesAsync(localDates, CancellationToken.None);
         }
 
 
