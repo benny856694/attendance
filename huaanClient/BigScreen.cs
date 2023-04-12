@@ -145,8 +145,9 @@ namespace InsuranceBrowser
             webBrowser.MenuHandler = new MenuHandler();
             JavaScriptBound1 jsBound = new JavaScriptBound1(this);
             //webBrowser.RegisterJsObject("myExtension", jsBound, false);
-
-            webBrowser.JavascriptObjectRepository.Register("myExtension", jsBound, isAsync: false, options: new CefSharp.BindingOptions { CamelCaseJavascriptNames = false });
+            var binder = BindingOptions.DefaultBinder;
+            binder.CamelCaseJavascriptNames = false;
+            webBrowser.JavascriptObjectRepository.Register("myExtension", jsBound, isAsync: false, options: binder );
             //webBrowser.LoadingStateChanged += WebBrowser_LoadingStateChanged;
             webBrowser.TitleChanged += WebBrowser_TitleChanged;
             webBrowser.StatusMessage += WebBrowser_StatusMessage;
