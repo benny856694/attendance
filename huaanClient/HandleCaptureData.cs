@@ -35,17 +35,13 @@ namespace huaanClient
             }
 
             //先根据设备编号和编号去查询是否重复time
-            string spl = "SELECT COUNT(*) as len FROM Capture_Data WHERE sequnce=='" + CaptureData?.sequnce + "' AND device_sn='" + DeviceNo?.Trim() + "'";
-            string quIPsr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, spl);
-            if (!string.IsNullOrEmpty(quIPsr))
+            var hasRecord = GetData.DB.Select<Database.Freesql.Capture_Data>()
+                .Where(x => x.time == CaptureData.time && x.device_sn == DeviceNo && x.person_id == CaptureData.person_id)
+                .Any();
+            if (hasRecord)
             {
-                JArray jo = (JArray)JsonConvert.DeserializeObject(quIPsr);
-                string reint = jo[0]["len"].ToString();
-                if (int.Parse(reint) > 0)
-                {
-                    NLogger.Info($"{DeviceNo} {CaptureData.sequnce} {CaptureData.time} 抓拍数据已存在");
-                    return false;
-                }
+                NLogger.Info($"person: {CaptureData.person_id} time: {CaptureData.time} device: {CaptureData.device_sn} 抓拍数据已存在");
+                return false;
             }
 
             //string connectionString = "Data Source=" + Application.StartupPath + @"\huaanDatabase.sqlite;Version=3;";
