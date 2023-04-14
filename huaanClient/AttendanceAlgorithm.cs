@@ -17,13 +17,13 @@ namespace huaanClient
 {
     class AttendanceAlgorithm
     {
-        static List<data> allCaptureData = new List<data>();
+        List<data> allCaptureData = new List<data>();
         //每个人的数据
-        static List<data> captureDataForOneStaff = new List<data>();
+        List<data> captureDataForOneStaff = new List<data>();
         //reData
-        static List<reData> relistAll = new List<reData>();
-        static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        public static string getpersonnel(string starttime, string endtime,int type, CancellationToken token)
+        List<reData> relistAll = new List<reData>();
+        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        public  string getpersonnel(string starttime, string endtime,int type, CancellationToken token)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace huaanClient
                         captureDataForOneStaff.Clear();
                         JToken staff = staffs[i];
                         Logger.Debug($"calculate staff id = {staff["personId"]} attendance");
-                        Console.WriteLine(i+"/"+staffs.Count+",计算员工考勤：" + staff["name"]);
+                        
                         allCaptureData.ForEach(captureData => {
                             if (!string.IsNullOrEmpty(captureData.personId.ToString().Trim()))
                             {
@@ -187,7 +187,7 @@ namespace huaanClient
         /// <summary>
         /// 判断字符串是否是数字
         /// </summary>
-        public static bool IsNumber(string s)
+        public  bool IsNumber(string s)
         {
             try
             {
@@ -201,7 +201,7 @@ namespace huaanClient
                 return false;
             }
         }
-        public static void getpersondata(string personId, string starttime, string endtime, string Employee_code)
+        public  void getpersondata(string personId, string starttime, string endtime, string Employee_code)
         {
             DateTime sta = Convert.ToDateTime(starttime);
             DateTime end = Convert.ToDateTime(endtime);
@@ -227,7 +227,7 @@ namespace huaanClient
                 }
             }
         }
-        public static string GetShiftId(string AttendanceGroup_id,string date)
+        public  string GetShiftId(string AttendanceGroup_id,string date)
         {
             string attribute_str = "";
             string re = "0";
@@ -265,7 +265,7 @@ namespace huaanClient
             return re;
         }
         
-        public static string getAtt_attribute(string AttendanceGroup_id)
+        public  string getAtt_attribute(string AttendanceGroup_id)
         {
             string attribute_str = "";
             string re = "0";
@@ -288,7 +288,7 @@ namespace huaanClient
             return re;
         }
         //根据personId找到对应的考勤组
-        public static void getEffectiveTime(
+        public  void getEffectiveTime(
             string starttime,
             string endtime,
             string personId,
@@ -900,7 +900,7 @@ namespace huaanClient
 
         
 
-        public static void setAttendance_Data(reData reData,string stagotowork1,string endgotowork1)
+        public  void setAttendance_Data(reData reData,string stagotowork1,string endgotowork1)
         {
             try
             {
@@ -912,7 +912,7 @@ namespace huaanClient
             }
         }
 
-        public static void setAttendance_Data2(reData reData, string stagotowork1, string endgotowork1, string stagotowork2, string endgotowork2)
+        public  void setAttendance_Data2(reData reData, string stagotowork1, string endgotowork1, string stagotowork2, string endgotowork2)
         {
             try
             {
@@ -952,7 +952,7 @@ namespace huaanClient
             return re.ToString();
         }
         //获取当前周几
-        private static string GetWeek(string datetime)
+        private  string GetWeek(string datetime)
         {
             string week = string.Empty;
             switch ((int)DateTime.Parse(datetime).DayOfWeek)
@@ -982,7 +982,7 @@ namespace huaanClient
             return week;
         }
 
-        private static string GetWeek()
+        private  string GetWeek()
         {
             string week = string.Empty;
             switch ((int)DateTime.Now.DayOfWeek)

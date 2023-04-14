@@ -1047,7 +1047,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 using (callback)
                 {
-                    string data = AttendanceAlgorithm.getpersonnel(starttime + " 00:00:00", endtime + " 23:59:59", 1, CancellationToken.None);
+                    string data = new AttendanceAlgorithm().getpersonnel(starttime + " 00:00:00", endtime + " 23:59:59", 1, CancellationToken.None);
                     callback.ExecuteAsync(data);
                 }
 
@@ -1064,7 +1064,7 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             {
                 using (callback)
                 {
-                    string data = AttendanceAlgorithm.getpersonnel(starttime + " 00:00:00", endtime + " 23:59:59", 0, CancellationToken.None);
+                    string data = new AttendanceAlgorithm().getpersonnel(starttime + " 00:00:00", endtime + " 23:59:59", 0, CancellationToken.None);
                     callback.ExecuteAsync(data);
                 }
 
@@ -2164,6 +2164,21 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             Services.Tracker.Persist(ChromiumForm.userSettings);
 
         }
+
+        public huaanClient.Attendance.ProgressValue GetAttendanceCalculatorStatus() => huaanClient.Attendance.AttendanceCalculatorForDates.Instance.Status;
+        
+        public void CalculateAttendanceForDates(string datesJson)
+        {
+            var dates = JsonConvert.DeserializeObject<DateTime[]>(datesJson);
+            var localDates = dates.Select(x=>x.ToLocalTime()).ToList();
+            huaanClient.Attendance.AttendanceCalculatorForDates.Instance.ProgressChanged += (s, e) =>
+            {
+                Debug.WriteLine($"busy: {e.busy}, progress: {e.Percent}, msg: {e.Message}");
+            };
+            huaanClient.Attendance.AttendanceCalculatorForDates.Instance.CalcForDatesAsync(localDates, CancellationToken.None);
+        }
+
+
 
     }
 

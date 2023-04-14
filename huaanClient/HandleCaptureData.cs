@@ -35,9 +35,10 @@ namespace huaanClient
             }
 
             //先根据设备编号和编号去查询是否重复time
-            var hasRecord = GetData.DB.Select<Database.Freesql.Capture_Data>()
-                .Where(x => x.time == CaptureData.time && x.device_sn == DeviceNo && x.person_id == CaptureData.person_id)
-                .Any();
+            var sql = GetData.DB.Select<Database.Freesql.Capture_Data>()
+                .Where(x => x.time.ToString(Constants.DateTimeFormat) == CaptureData.time.ToString(Constants.DateTimeFormat) && x.device_sn == DeviceNo && x.person_id == CaptureData.person_id);
+            var sqlString = sql.ToSql();
+            var hasRecord = sql.Any();
             if (hasRecord)
             {
                 NLogger.Info($"person: {CaptureData.person_id} time: {CaptureData.time} device: {CaptureData.device_sn} 抓拍数据已存在");
