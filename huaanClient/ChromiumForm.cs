@@ -1256,8 +1256,14 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
                         object keyStr = null;
                         if (csvSetting?.TryGetValue("keyStr", out keyStr) == true)
                         {
-                            userSelProp = keyStr.ToString().Split(',');
+                            userSelProp = keyStr.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                         }
+                    }
+
+                    if (userSelProp == null || userSelProp?.Length == 0)
+                    {
+                        MessageBox.Show(Strings.AttendanceKeysIsEmpty, "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return;
                     }
 
                     string other = "重载参数少一个";

@@ -176,7 +176,7 @@ namespace huaanClient
             try
             {
                 //初始化数据库
-                Task<bool> task = AddDataTtables.addData();
+                Task<bool> task = AddDataTtables.InitDB();
                 bool count = await task;
             }
             catch (Exception ex)
@@ -510,6 +510,7 @@ namespace huaanClient
             if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
             {
                 login.Content = Strings.ResetPassword;
+                resetDB.Visibility = Visibility.Visible;
             }
         }
 
@@ -518,7 +519,23 @@ namespace huaanClient
             if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
             {
                 login.Content = _loginText;
+                resetDB.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private async void resetDB_Click(object sender, RoutedEventArgs e)
+        {
+            resetDB.IsEnabled = false;
+            try
+            {
+                await AddDataTtables.ResetDB();
+                lbStatus.Content = "Reset DB succeed\n重置数据库成功";
+            }
+            catch (Exception ex)
+            {
+                lbStatus.Content = $"Error: {ex.Message}";
+            }
+            finally { resetDB.IsEnabled = true;}
         }
     }
 }

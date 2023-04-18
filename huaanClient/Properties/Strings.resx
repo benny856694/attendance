@@ -507,4 +507,7 @@
 	<data name="ResetPassword" xml:space="preserve">
     <value>重置密码</value>
   </data>
+	<data name="AttendanceKeysIsEmpty" xml:space="preserve">
+    <value>请先点击“导出配置”，配置导出项目</value>
+  </data>
 </root>

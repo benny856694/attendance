@@ -489,4 +489,7 @@
 	<data name="ResetPassword" xml:space="preserve">
 		<value>сбросить пароль</value>
 	</data>
+	<data name="AttendanceKeysIsEmpty" xml:space="preserve">
+		<value>Plese configure export items first by clicking "Export Settings"</value>
+	</data>
 </root>
