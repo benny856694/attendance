@@ -315,4 +315,7 @@
 	<data name="ResetPassword" xml:space="preserve">
 		<value>Réinitialiser le mot de passe</value>
 	</data>
+	<data name="AttendanceKeysIsEmpty" xml:space="preserve">
+		<value>Plese configure export items first by clicking "Export Settings"</value>
+	</data>
 </root>

@@ -17,12 +17,29 @@ namespace huaanClient.DatabaseTool
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static async Task<bool> addData()
+        static AddDataTtables()
+        {
+            Inihelper.FileName = Application.StartupPath + @"\\tool.ini";
+        }
+
+        public static async Task<bool> ResetDB()
+        {
+            Inihelper.WriteBool("Setting", "FirstRun", false);
+            if (File.Exists(DBBullPath))
+            {
+                var backup = $"{DBBullPath}.{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")}";
+                File.Move(DBBullPath, backup);
+            }
+
+            return await InitDB();
+        }
+
+        public static async Task<bool> InitDB()
         {
             //判断数据库是否存在
-            if (!File.Exists(ApplicationData.FaceRASystemToolUrl + "\\huaanDatabase.sqlite"))     // 返回bool类型，存在返回true，不存在返回false
+            if (!File.Exists(DBBullPath))     // 返回bool类型，存在返回true，不存在返回false
             {
-                SQLiteHelper.NewDbFile(ApplicationData.FaceRASystemToolUrl + "\\huaanDatabase.sqlite");
+                SQLiteHelper.NewDbFile(DBBullPath);
             }
 
             await Task.Factory.StartNew(() =>
@@ -161,7 +178,6 @@ namespace huaanClient.DatabaseTool
             });
 
             //判断是否为测试
-            Inihelper.FileName = Application.StartupPath + @"\\tool.ini";
             bool sss = Inihelper.ReadBool("Setting", "FirstRun", false);
             if (!Inihelper.ReadBool("Setting", "FirstRun", false))
             {
@@ -211,7 +227,7 @@ namespace huaanClient.DatabaseTool
             return true;
         }
 
-
+        private static string DBBullPath => ApplicationData.FaceRASystemToolUrl + "\\huaanDatabase.sqlite";
 
         private static string[] GetDatas(string name)
         {
