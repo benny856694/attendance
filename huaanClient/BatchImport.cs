@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -332,8 +333,10 @@ namespace huaanClient
 
         public static bool IsMatch(string fullPath, string expectedFileNameWihoutExtension)
         {
-            var regex = new Regex($@"{expectedFileNameWihoutExtension}(\.(jpg|jpeg|png))+$");
-            return regex.IsMatch(fullPath);
+            var expr = $@"\\{expectedFileNameWihoutExtension}(\.(jpg|jpeg|png))+$";
+            var regex = new Regex(expr);
+            var match = regex.IsMatch(fullPath);
+            return match;
         }
 
         public static async Task<string> batchImport(PhotoNaming photoNaming = PhotoNaming.EmployeeName)
