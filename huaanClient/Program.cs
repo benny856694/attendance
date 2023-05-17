@@ -86,7 +86,7 @@ namespace huaanClient
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            if (args.Length > 0 && Directory.Exists(args[0]))
+            if (args.Length > 0)
             {
                 ApplicationData.FaceRASystemToolUrl = args[0];
                 ApplicationData.cmdLineSpecifiedDirectory = true;

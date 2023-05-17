@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -103,8 +104,23 @@ namespace huaanClient
             }
             set
             {
-                connectionString = "Data Source=" + value + "\\huaanDatabase.sqlite;Version=3;Pooling=True;Max Pool Size=100;";
-                faceRASystemToolUrl = value;
+                string dbDir, dbfullPath;
+                if (File.Exists(value))
+                {
+                    dbDir = Path.GetDirectoryName(value);
+                    dbfullPath = value;
+                }
+                else if (Directory.Exists(value))
+                {
+                    dbDir = value;
+                    dbfullPath = Path.Combine(value, "huaanDatabase.sqlite");
+                }
+                else
+                {
+                    throw new System.Exception($"无效的数据库文件路径({value})");
+                }
+                connectionString = $"Data Source={dbfullPath};Version=3;Pooling=True;Max Pool Size=100;";
+                faceRASystemToolUrl = dbDir;
             }
         }
 
