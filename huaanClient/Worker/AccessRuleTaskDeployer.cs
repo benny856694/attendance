@@ -32,7 +32,12 @@ namespace huaanClient.Worker
                 {
                     if (_devices.ContainsKey(deviceGroup.Key))
                     {
-                        var deviceDeployer = new DeviceAccessRuleDeployer(_devices[deviceGroup.Key].ipAddress, task.RulesToDeploy.ToArray(), deviceGroup.ToArray());
+                        var deviceDeployer = new DeviceAccessRuleDeployer(
+                            _devices[deviceGroup.Key].ipAddress, 
+                            task.RulesToDeploy.ToArray(),
+                            deviceGroup.ToArray(),
+                            _devices[deviceGroup.Key].username,
+                            _devices[deviceGroup.Key].username);
                         deviceDeployer.ItemDeployedEvent += DeviceDeployer_ItemDeployedEvent;
                         deviceDeployer.RuleDeployEvent += DeviceDeployer_RuleDeployEvent;
                         var t = deviceDeployer.DeployAsync(cancellationToken);

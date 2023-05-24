@@ -28,13 +28,24 @@ namespace huaanClient.Worker
         private HttpClient _http;
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public DeviceAccessRuleDeployer(string deviceIp, AccessControlDeployRule[] rules, AccessControlDeployItem[] items)
+        public DeviceAccessRuleDeployer(
+            string deviceIp,
+            AccessControlDeployRule[] rules,
+            AccessControlDeployItem[] items,
+            string userName = null,
+            string password = null)
         {
             DeviceIp = deviceIp;
             Rules = rules;
             Items = items;
 
             _http = new HttpClient();
+            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
+            {
+                var authenticationString = $"{userName}:{password}";
+                var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.UTF8.GetBytes(authenticationString));
+                _http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", base64EncodedAuthenticationString);
+            }
             _http.BaseAddress = new Uri($"http://{deviceIp}:8000");
         }
 
