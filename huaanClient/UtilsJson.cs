@@ -48,6 +48,7 @@ namespace huaanClient
                 o["role"] = 1;
                 o["term_start"] = "useless";
                 o["term"] = "forever";
+                o["kind"] = 0;
                 return o;
             }
         }
