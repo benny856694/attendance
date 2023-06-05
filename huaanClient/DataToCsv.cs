@@ -2,6 +2,7 @@
 using DBUtility.SQLite;
 using huaanClient.Database;
 using huaanClient.Properties;
+using NLog;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections;
@@ -17,6 +18,7 @@ namespace huaanClient
 {
     class DataToCsv
     {
+        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public DataToCsv()
         {
         }
@@ -435,6 +437,7 @@ namespace huaanClient
                 }
                 catch (Exception ex)
                 {
+                    logger.Error(ex);
                     var msg = string.Format(Strings.ExportFileFailedWithError, ex.Message);
                     MessageBox.Show(msg);
                 }

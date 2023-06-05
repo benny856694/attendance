@@ -2,6 +2,7 @@
 using huaanClient.Database;
 using huaanClient.Properties;
 using huaanClient.Report;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ namespace huaanClient
 {
     class Tools
     {
+        private static readonly Logger log = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// 判断是否是身份证号码
         /// </summary>
@@ -124,7 +126,9 @@ namespace huaanClient
                 }
                 catch (Exception ex)
                 {
+                    log.Error(ex);
                     var msg = string.Format(Strings.ExportFileFailedWithError, ex.Message);
+                    
                     MessageBox.Show(msg);
                 }
 

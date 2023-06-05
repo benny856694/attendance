@@ -153,7 +153,7 @@ namespace huaanClient.Report
             }
 
             var isHoliday = IsHolidayForDay(staffDetails.Staff, date);
-            if (isHoliday.Value == true)
+            if (isHoliday!= null && isHoliday.Value == true)
             {
                 remark = Remark.Holiday;
             }
