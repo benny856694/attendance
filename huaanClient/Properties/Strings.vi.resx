@@ -124,13 +124,13 @@
     <value>Không có đĩa để lưu dữ liệu</value>
   </data>
 	<data name="AttendanceNames" xml:space="preserve">
-    <value>Tên,Bộ phận,Số nhân viên,Ngày tham dự,Giờ vào,Giờ ra,Giờ vào 2,Giờ ra 2,Thông tin ca làm việc,Thời gian tham dự (giờ),Muộn (phút),Nghỉ sớm (phút),Làm thêm giờ (phút),Vắng mặt,Nhiệt độ cơ thể</value>
+    <value>Họ tên,Bộ phận,Số nhân viên,Ngày chấm công,Giờ vào,Giờ ra,Giờ vào 2,Giờ ra 2,Thông tin ca làm việc,Thời gian chấm công (giờ),Muộn (phút),Nghỉ sớm (phút),Tăng ca (phút),Vắng mặt,Nhiệt độ cơ thể</value>
   </data>
 	<data name="Camera" xml:space="preserve">
-    <value>máy ảnh</value>
+    <value>Máy ảnh</value>
   </data>
 	<data name="DayOff" xml:space="preserve">
-    <value>nghỉ</value>
+    <value>Nghỉ</value>
   </data>
 	<data name="DeviceOffline" xml:space="preserve">
     <value>Thiết bị tắt</value>
@@ -139,10 +139,10 @@
     <value>Thiếu ảnh</value>
   </data>
 	<data name="PromptSwitchingCamera" xml:space="preserve">
-    <value>Chuyển</value>
+    <value>Đang chuyển đổi...</value>
   </data>
 	<data name="SaveFailed" xml:space="preserve">
-    <value>Lỗi lưu</value>
+    <value>Lưu bị lỗi</value>
   </data>
 	<data name="SaveSuccess" xml:space="preserve">
     <value>Lưu thành công</value>
@@ -157,10 +157,10 @@
     <value>Tấm ảnh không đáp ứng yêu cầu</value>
   </data>
 	<data name="StaffNames" xml:space="preserve">
-    <value>Tên,Email,Số điện thoại,Số nhân viên,Đường dẫn ảnh,Ngày tạo,Số ID,Số thẻ kiểm soát truy cập,Độ dài thẻ kiểm soát truy cập,Bộ phận,Loại nhân viên,sex,extra1,extra2,extra3,extra4,extra5</value>
+    <value>Họ tên,Email,Số điện thoại,Số nhân viên,Đường dẫn ảnh,Ngày tạo,Số ID,Mã thẻ,Chuẩn mã thẻ,Bộ phận,Chức vụ,Năm sinh,Giới tính,Địa chỉ,CCCD,Biển số xe,Ghi chú 1,Ghi chú 2</value>
   </data>
 	<data name="Switch" xml:space="preserve">
-    <value>công</value>
+    <value>Công tắc</value>
   </data>
 	<data name="TakePicture" xml:space="preserve">
     <value>Chụp ảnh</value>
@@ -193,7 +193,7 @@
     <value>Mật khẩu không được để trống</value>
   </data>
 	<data name="ExceptionOccurred" xml:space="preserve">
-    <value>Ngoại lệ: {0}</value>
+    <value>Đã xảy ra lỗi: {0}</value>
   </data>
 	<data name="ChangePassword" xml:space="preserve">
     <value>Đổi mật khẩu</value>
@@ -214,70 +214,70 @@
     <value>Nhớ mật khẩu</value>
   </data>
 	<data name="CaptureDataExportDefaultFileName" xml:space="preserve">
-    <value>danh sách tham dự</value>
+    <value>Danh sách chấm công</value>
   </data>
 	<data name="CaptureRecordColumnNames" xml:space="preserve">
-    <value>tên đầy đủ,ID,Tên trang bị,Thời gian thẻ tín dụng,Điểm tương phản,Số thẻ truy cập,Lý do gây thất bại,Anh có đeo mặt nạ không?,Nhiệt,Số seri Thiết bị,Số chứng nhận,Tên của chứng nhận,Hệ thống Y tế,Thông tin mật,Vẽ đường dẫn</value>
+    <value>Họ tên,Số nhân viên,Tên thiết bị,Thời gian nhận dạng,Điểm giống nhau,Mã thẻ,Điểm không khớp,Đeo khẩu trang ?,Nhiệt độ,Số seri thiết bị,Số ID,Tên ID,Trạng thái,Thông tin,Đường dẫn</value>
   </data>
 	<data name="GreenCode" xml:space="preserve">
-    <value>  </value>
+    <value>Mã xanh</value>
   </data>
 	<data name="RedCode" xml:space="preserve">
-    <value>  </value>
+    <value>Mã đỏ</value>
   </data>
 	<data name="YellowCode" xml:space="preserve">
-    <value>  </value>
+    <value>Mã vàng</value>
   </data>
 	<data name="Yes" xml:space="preserve">
-    <value>Phải.</value>
+    <value>Có</value>
   </data>
 	<data name="ExportFileFailedWithError" xml:space="preserve">
-    <value>Lỗi xuất tập tin: {0}</value>
+    <value>Không thể xuất Excel: {0}</value>
   </data>
 	<data name="ExportFileSucceed" xml:space="preserve">
-    <value>Xuất tập tin thành công</value>
+    <value>Xuất Excel thành công</value>
   </data>
 	<data name="ExcelFile" xml:space="preserve">
-    <value>Xoá tập tin (*.xlsx)|*.xlsx</value>
+    <value>Excel (*.xlsx)|*.xlsx</value>
   </data>
 	<data name="No" xml:space="preserve">
-    <value>không</value>
+    <value>Không</value>
   </data>
 	<data name="AttendanceDataMonthlyNames" xml:space="preserve">
-    <value>tên đầy đủ,Mã người dùng,Bộ,Số nhân viên,Ngày tham dự,Tham dự (ngày),Số lần trễ/ toàn bộ thời gian (phút),Thời gian nghỉ sớm/ toàn bộ (phút),Ngày vắng mặt,Nghỉ phép</value>
+    <value>Họ tên,Mã người dùng,Bộ phận,Số nhân viên,Ngày chấm công,Tham dự (ngày),Số lần đi trễ/ tổng (phút),Số lần về sớm/ tổng (phút),Ngày vắng mặt,Nghỉ phép</value>
   </data>
 	<data name="AttendanceDataMonthlyExportFileName" xml:space="preserve">
-    <value>Báo cáo tham dự tháng</value>
+    <value>Báo cáo chấm công tháng</value>
   </data>
 	<data name="ExcelCantBeAccessed" xml:space="preserve">
-    <value>Không mở được t ập tin, đảm bảo nó không được mở bởi chương trình khác.</value>
+    <value>Không mở được tập tin, đảm bảo nó không được mở bởi chương trình khác.</value>
   </data>
 	<data name="ExcelImportLogFileName" xml:space="preserve">
-    <value>Sản phẩm phụ gốc</value>
+    <value>Kết quả nhập Excel</value>
   </data>
 	<data name="ExcelIsEmpty" xml:space="preserve">
-    <value>tập tin rỗng</value>
+    <value>Excel trống</value>
   </data>
 	<data name="Fail" xml:space="preserve">
-    <value>hỏng</value>
+    <value>Lỗi</value>
   </data>
 	<data name="MessageSaveImportLog" xml:space="preserve">
-    <value>Thành công:{0},Thất bại:{1}, Lưu bản nhập khẩu?</value>
+    <value>Thành công:{0},Thất bại:{1}, Bạn muốn lưu kết quả nhập excel không?</value>
   </data>
 	<data name="Success" xml:space="preserve">
-    <value>thành công</value>
+    <value>Thành công</value>
   </data>
 	<data name="SrcStaffTemplateFileName" xml:space="preserve">
-    <value>TemplateEn.xlsx</value>
+    <value>Mẫu Excel.xlsx</value>
   </data>
 	<data name="DefaultCustomerText" xml:space="preserve">
-    <value>0</value>
+    <value>Ghi chú</value>
   </data>
 	<data name="BatchImportModel" xml:space="preserve">
-    <value>BatchImportModel</value>
+    <value>Mẫu nhập Excel</value>
   </data>
 	<data name="BatchImportResult" xml:space="preserve">
-    <value>BatchImportResult</value>
+    <value>Kết quả nhập Excel</value>
   </data>
 	<data name="StaffExportExcelName" xml:space="preserve">
     <value>Danh sách nhân sự</value>
@@ -292,13 +292,13 @@
     <value>Khác</value>
   </data>
 	<data name="DefaultCompanyName" xml:space="preserve">
-    <value>tên công ty</value>
+    <value>Tên công ty</value>
   </data>
 	<data name="DefaultDepartmentName" xml:space="preserve">
-    <value>phòng ban</value>
+    <value>Phòng ban</value>
   </data>
 	<data name="DefaultShiftGroupName" xml:space="preserve">
-    <value>nhóm ca</value>
+    <value>Nhóm ca</value>
   </data>
 	<data name="MenuItemCopyImage" xml:space="preserve">
     <value>Sao chép</value>
@@ -316,19 +316,19 @@
     <value>Lỗi chụp ảnh, xin hãy thử lại.</value>
   </data>
 	<data name="AttendanceNameCanBeNotNull" xml:space="preserve">
-    <value>Tên nhóm không phải là trống rỗng!</value>
+    <value>Tên nhóm không để trống!</value>
   </data>
 	<data name="PasswordSpace" xml:space="preserve">
-    <value>Không thể nhập không gian</value>
+    <value>Không thể nhập dấu cách</value>
   </data>
 	<data name="DeleteFailed" xml:space="preserve">
-    <value>Xóa lỗi</value>
+    <value>Không thể xóa</value>
   </data>
 	<data name="PleaseRemoveShiftFromAttendanceGroup" xml:space="preserve">
-    <value>Các chuyến bay đã được sử dụng, xin vui lòng loại bỏ các chuyến bay trong nhóm làm việc!</value>
+    <value>Ca này đã được sử dụng, vui lòng xóa ca này trong nhóm tham dự trước!</value>
   </data>
 	<data name="TimeOut" xml:space="preserve">
-    <value>hết giờ</value>
+    <value>Hết giờ</value>
   </data>
 	<data name="AttendanceMasterDept" xml:space="preserve">
     <value>Bộ phận</value>
@@ -412,7 +412,7 @@
     <value>Trễ</value>
   </data>
 	<data name="DailyReportRemarksTitle" xml:space="preserve">
-    <value>Trạng thái</value>
+    <value>Nhận xét</value>
   </data>
 	<data name="DailyReportShiftEndTitle" xml:space="preserve">
     <value>Kết thúc ca</value>
@@ -475,7 +475,7 @@
     <value>Giờ sớm</value>
   </data>
 	<data name="ResetPassword" xml:space="preserve">
-		<value>đặt lại mật khẩu</value>
+		<value>Cài lại mật khẩu</value>
 	</data>
 	<data name="AttendanceKeysIsEmpty" xml:space="preserve">
 		<value>Plese configure export items first by clicking "Export Settings"</value>
