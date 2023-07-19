@@ -1,6 +1,7 @@
 ; 脚本由 Inno Setup 脚本向导 生成！
 ; 有关创建 Inno Setup 脚本文件的详细资料请查阅帮助文档！
-
+#define public Dependency_NoExampleSetup
+#include ".\InnoDependencyInstaller\CodeDependencies.iss"
 #define MyAppName "FaceRASystem"
 #define MyAppVersion "2.10.9.7"
 #define MyAppPublisher "FaceSystem"
@@ -66,6 +67,16 @@ Name: "{commondesktop}\{#MyLinkName}"; Filename: "{app}\{#MyAppExeName}"; IconFi
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [code]
+function InitializeSetup: Boolean;
+begin
+  // add the dependencies you need
+  //Dependency_AddDotNet46;
+  Dependency_AddVC2010;
+  Dependency_AddVC2015To2022;
+  // ...
+
+  Result := True;
+end;
 
 //1  一些API                                                                     
 //1.1  查找安装产品guid是否存在 返回5表示存在
