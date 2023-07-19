@@ -71,6 +71,7 @@ function InitializeSetup: Boolean;
 begin
   // add the dependencies you need
   //Dependency_AddDotNet46;
+
   Dependency_AddVC2010;
   Dependency_AddVC2015To2022;
   // ...
