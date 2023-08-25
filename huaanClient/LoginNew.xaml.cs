@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using DBUtility.SQLite;
 using huaanClient.DatabaseTool;
 using huaanClient.Properties;
 using System;
@@ -10,18 +9,13 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WebSocketSharp;
 
 namespace huaanClient
 {
@@ -69,10 +63,10 @@ namespace huaanClient
             _heightControls.Add(confirmNewPassword);
 
             Dictionary<int, string> mydic = new Dictionary<int, string>() {
-                { 0, Constants.LANG_NAME_CHINESE }, 
-                { 1, Constants.LANG_NAME_ENGLISH }, 
-                { 2, Constants.LANG_NAME_JAPANESE }, 
-                { 3, Constants.LANG_NAME_FRENCH }, 
+                { 0, Constants.LANG_NAME_CHINESE },
+                { 1, Constants.LANG_NAME_ENGLISH },
+                { 2, Constants.LANG_NAME_JAPANESE },
+                { 3, Constants.LANG_NAME_FRENCH },
                 { 4, Constants.LANG_NAME_VIETNAMESE },
                 { 5, Constants.LANG_NAME_RUSSIAN },
             };
@@ -132,7 +126,7 @@ namespace huaanClient
                     return false;
                 }
 
-                if(NewPassword.Password.Contains(" "))
+                if (NewPassword.Password.Contains(" "))
                 {
                     ShowStatus(Strings.PasswordSpace);
                     return false;
@@ -166,9 +160,9 @@ namespace huaanClient
             return true;
         }
 
-       
 
-        public  async void Login()
+
+        public async void Login()
         {
 
             ShowStatus(Strings.InitializingDb);
@@ -183,10 +177,10 @@ namespace huaanClient
             {
                 MessageBox.Show(ex.Message, "Have you installed Microsoft Runtime?", MessageBoxButton.OK, MessageBoxImage.Error);
                 Logger.Error(ex, "init db error");
-                
+
                 ShowStatus(Strings.InitializeDbFailed);
                 return;
-                
+
             }
 
             //登录检测
@@ -239,7 +233,7 @@ namespace huaanClient
                             {
                                 cfa.AppSettings.Settings["password"].Value = upwd;
                             }
-                            
+
                             cfa.Save();
 
                             if (changePassword.IsChecked == true)
@@ -257,7 +251,7 @@ namespace huaanClient
                             ShowStatus(Strings.LoginFailed);
                         }
                     }
-                    
+
                 }
             }
             catch (Exception ex)
@@ -273,22 +267,22 @@ namespace huaanClient
 
             switch (Language_Selection1.SelectedValue)
             {
-                case Constants.LANG_NAME_CHINESE: 
+                case Constants.LANG_NAME_CHINESE:
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_CHINESE);
                     break;
-                case Constants.LANG_NAME_ENGLISH: 
+                case Constants.LANG_NAME_ENGLISH:
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_ENGLISH);
                     break;
-                case Constants.LANG_NAME_JAPANESE: 
+                case Constants.LANG_NAME_JAPANESE:
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_JAPANESE);
                     break;
-                case Constants.LANG_NAME_FRENCH: 
+                case Constants.LANG_NAME_FRENCH:
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_FRENCH);
                     break;
-                case Constants.LANG_NAME_VIETNAMESE: 
+                case Constants.LANG_NAME_VIETNAMESE:
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_VIETNAMESE);
                     break;
-                case Constants.LANG_NAME_RUSSIAN: 
+                case Constants.LANG_NAME_RUSSIAN:
                     culture = CultureInfo.GetCultureInfo(Constants.LANG_LOCALE_RUSSIAN);
                     break;
                 default:
@@ -304,9 +298,10 @@ namespace huaanClient
             Thread.CurrentThread.CurrentUICulture = culture;
         }
 
-        public  void ShowStatus(string value)
+        public void ShowStatus(string value)
         {
-            this.Dispatcher.BeginInvoke(new Action(() => {
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
                 lbStatus.Content = value;
             }));
 
@@ -345,11 +340,16 @@ namespace huaanClient
                     Language_Selection1.SelectedIndex = 2;
                 }
 
-                Language_Selection1.SelectedIndex = int.Parse(ConfigurationManager.AppSettings["select"]);
+                var v = ConfigurationManager.AppSettings["select"];
+                if (v.IsNullOrEmpty())
+                {
+                    v = "0";
+                }
+                Language_Selection1.SelectedIndex = int.Parse(v);
                 username.Text = ConfigurationManager.AppSettings["name"];
                 var rememberPassword = string.Equals(ConfigurationManager.AppSettings["rememberPassword"], "true", StringComparison.InvariantCultureIgnoreCase);
                 RememberPassword.IsChecked = rememberPassword;
-                
+
                 password.Password = rememberPassword ?
                     ConfigurationManager.AppSettings["password"] : "";
 
@@ -371,7 +371,7 @@ namespace huaanClient
             //CSQLiteHelper.NewTable(dbPath, tableName);
         }
 
-        
+
 
 
         private void Language_Selection1_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -433,7 +433,7 @@ namespace huaanClient
                 title.Visibility = Visibility.Visible;
                 jPlogo.Visibility = Visibility.Collapsed;
                 //title.Margin = new Thickness(10, 52, 10, 0);
-                
+
             }
             else if (Language_Selection1.SelectedIndex == 5)
             {
@@ -467,13 +467,13 @@ namespace huaanClient
             colseBtn.Source = new BitmapImage(new Uri("pack://application:,,,/close_norm.png"));
         }
 
-      
+
 
         private void changePassword_Click(object sender, RoutedEventArgs e)
         {
             ShowChangePassword = changePassword.IsChecked == true;
         }
-       
+
 
         private void InitDbPath()
         {
@@ -535,7 +535,7 @@ namespace huaanClient
             {
                 lbStatus.Content = $"Error: {ex.Message}";
             }
-            finally { resetDB.IsEnabled = true;}
+            finally { resetDB.IsEnabled = true; }
         }
     }
 }
