@@ -3,7 +3,7 @@
 #define public Dependency_NoExampleSetup
 #include ".\InnoDependencyInstaller\CodeDependencies.iss"
 #define MyAppName "FaceRASystem"
-#define MyAppVersion "2.10.9.7"
+#define MyAppVersion "2.10.9.8"
 #define MyAppPublisher "FaceSystem"
 #define MyAppExeName "FaceRASystem.exe"
 #define MyLinkName "FaceSystem"

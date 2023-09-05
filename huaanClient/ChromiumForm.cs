@@ -906,6 +906,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string data = GetData.UpdatIPtoMydevice(oldIp, IP, DeviceName, inout, username, password);
             return data;
         }
+        public string UpdateDeviceLastQuery(int id,DateTime lastQuery)
+        {
+            string data = GetData.UpdateLastquerytoMydevice(id,lastQuery);
+            return data;
+        }
         public bool DeleteIPtoMydevice(string IP)
         {
             bool result = GetData.DeleteIPtoMydevice(IP);
@@ -1520,6 +1525,11 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             bool re = GetData.delCapture_DataForid(id);
             return re;
         }
+        public bool delCapture_DataByDatetime(string startTime,string endTime)
+        {
+            bool re = GetData.delCapture_DataByDatetime(startTime,endTime);
+            return true;
+        }
         public string getCapture_Datacuont(string statime, string endtime, string name, string devname, string stranger, string HealthCodeType, string tempFrom, string tempTo, string wg_card_id)
         {
 
@@ -1709,9 +1719,10 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             string led_sensitivity,
             string screensaver_mode,
             string output_not_matched,
-            string volume)
+            string volume,
+            string derep_timeout)
         {
-            bool re = GetData.setCameraParameters(ip, dereplication, enable_alive, enable, limit, led_mode, led_brightness, led_sensitivity, screensaver_mode, output_not_matched, volume);
+            bool re = GetData.setCameraParameters(ip, dereplication, enable_alive, enable, limit, led_mode, led_brightness, led_sensitivity, screensaver_mode, output_not_matched, volume, derep_timeout);
             return re;
         }
         //修改ip

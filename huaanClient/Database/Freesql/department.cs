@@ -18,7 +18,7 @@ namespace huaanClient.Database.Freesql {
 		public string phone { get; set; }
 
 		[JsonProperty, Column(InsertValueSql = "")]
-		public int no { get; set; }
+		public int? no { get; set; }
 
 		[JsonProperty, Column(StringLength = -2)]
 		public string address { get; set; }
@@ -26,10 +26,10 @@ namespace huaanClient.Database.Freesql {
 		[JsonProperty, Column(StringLength = -2)]
 		public string explain { get; set; }
 
-		//[JsonProperty]
-		//public int? code { get; set; }
+        [JsonProperty]
+        public int? code { get; set; }
 
-		[JsonProperty, Column(StringLength = -2)]
+        [JsonProperty, Column(StringLength = -2)]
 		public DateTime? publish_time { get; set; }
 
 		[JsonProperty]

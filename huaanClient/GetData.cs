@@ -123,6 +123,22 @@ namespace huaanClient
             obj["result"] = "1";
             obj["data"] = "";
 
+            List<Database.Freesql.Department> depList = DB.Select<Database.Freesql.Department>().Where(d => d.no.ToString().Equals(no)).ToList();
+            if (depList.Count == 0)
+            {
+                Database.Freesql.Department department = new Database.Freesql.Department();
+                department.name = name;
+                department.phone = phone;
+                department.no = no.toIntOrNull();
+                department.address = address;
+                department.explain = explain;
+                department.code = GetTimeStamp().toIntOrNull();
+                department.ParentId = ParentId.toIntOrNull();
+                department.id=(int)DB.Insert<Database.Freesql.Department>().AppendData(department).ExecuteIdentity();
+                obj["result"] = 2;
+                obj["data"] = Strings.SaveSuccess;
+            }
+            /*
             string commandTextdepartmentid = "SELECT COUNT(id) as len FROM department de WHERE de.no='" + no + "'";
             string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextdepartmentid);
             if (!string.IsNullOrEmpty(sr))
@@ -149,6 +165,7 @@ namespace huaanClient
 
                 }
             }
+            */
             return obj.ToString();
         }
 
@@ -746,7 +763,16 @@ namespace huaanClient
             string sql = "delete from DataSyn where personid = " + person_id;
             int sr = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
         }
-
+        public static string UpdateLastquerytoMydevice(int id,DateTime lastQuery)
+        {
+            obj = new JObject();
+            obj["result"] = 0;
+            obj["data"] = "";
+            string last_query = lastQuery.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            string commandText = $"UPDATE  MyDevice  SET Last_query='{last_query}' WHERE id='{id}'";
+            SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, commandText);
+            return obj.ToString();
+        }
         public static string UpdatIPtoMydevice(string oldIp, string IP, string DeviceName, int inout, string username, string password)
         {
             obj = new JObject();
@@ -1692,6 +1718,7 @@ namespace huaanClient
             {
                 var ipAddress = m.ipAddress;
                 var mjson = JObject.FromObject(m);
+                mjson["queryTime"]=m.Last_query == null ? "" : m.Last_query?.ToString("yyyy-MM-dd HH:mm:ss");
                 //通过IP找到这个设备
                 CameraConfigPort CameraConfigPortlist = Deviceinfo.GetByIp(ipAddress);
                 //通过这个设备查出平台
@@ -4164,6 +4191,17 @@ namespace huaanClient
                 return false;
         }
 
+        public static bool delCapture_DataByDatetime(string startTime, string endTime)
+        {
+            if (String.IsNullOrEmpty(startTime) || String.IsNullOrEmpty(endTime))
+            {
+                return false;
+            }
+            string sql = $"DELETE FROM Capture_Data WHERE time >'{startTime}' and time < '{endTime}'";
+            int re = SQLiteHelper.ExecuteNonQuery(ApplicationData.connectionString, sql);
+            return re > 0 ? true : false;
+        }
+
 
         public static void ubpdateEquipment_distributionfordel(string id)
         {
@@ -4771,7 +4809,8 @@ namespace huaanClient
             string led_sensitivity,
             string screensaver_mode,
             string output_not_matched,
-            string volume
+            string volume,
+            string derep_timeout
             )
         {
             bool re = false;
@@ -4807,11 +4846,13 @@ namespace huaanClient
                             //在设置基础参数
                             if (String.IsNullOrEmpty(output_not_matched))
                             {
+                                string enable_dereplication = derep_timeout.Equals("0") ? "false" : "true";
                                 CameraParameter = UtilsJson.CameraParameter;
                                 CameraParameter = string.Format(CameraParameter,
                                     dereplication, enable_alive,
                                     enable, limit, led_mode,
-                                    led_brightness, led_sensitivity);
+                                    led_brightness, led_sensitivity,
+                                    enable_dereplication, derep_timeout);
                             }
                             else
                             {
