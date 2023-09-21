@@ -559,6 +559,65 @@ namespace huaanClient
             return sr;
         }
 
+        public static List<string> getStaffDataforid(string name, string no, string qu_phone, string dep, string employeeTypeName, string haspicture)
+        {
+
+            StringBuilder st = new StringBuilder("SELECT staf.id as id FROM staff staf LEFT JOIN department de ON de.id=staf.department_id LEFT JOIN Employetype em ON em.id = staf.Employetype_id WHERE 1=1  AND");
+            if (!string.IsNullOrEmpty(name))
+            {
+                st.Append(" staf.name LIKE '%" + name.Trim() + "%' AND");
+            }
+            if (!string.IsNullOrEmpty(no))
+            {
+                st.Append($" staf.Employee_code LIKE '%{no.Trim()}%' AND");
+            }
+            if (!string.IsNullOrEmpty(qu_phone))
+            {
+                st.Append(" staf.phone='" + qu_phone.Trim() + "' AND");
+            }
+            if (haspicture.Equals("1"))
+            {
+                st.Append(" staf.picture!=''" + " AND");
+            }
+            if (haspicture.Equals("0"))
+            {
+                st.Append(" staf.picture=''" + " AND");
+            }
+            if (!string.IsNullOrEmpty(dep))
+            {
+                // 从department表查出分别对应的ID
+                var split = dep.Split(',');
+                string dts = string.Join(",", split.Select(x => $"'{x}'"));
+                string commandTextDep = $"select id from department where name in ({dts})";
+                string strDepCodes = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandTextDep);
+                if (!string.IsNullOrEmpty(strDepCodes))
+                {
+                    JArray jo = (JArray)JsonConvert.DeserializeObject(strDepCodes);
+                    int len = jo.Count;
+                    var split2 = new string[len];
+                    // 拼接SQL，通过部门ID查询员工
+                    for (int i = 0; i < len; i++)
+                    {
+                        split2[i] = jo[i]["id"].ToString();
+                    }
+                    string dtsName = string.Join(",", split2.Select(x => $"'{x}'"));
+                    st.Append($" staf.department_id in ({dtsName}) AND");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(employeeTypeName))
+            {
+                var names = string.Join(",", employeeTypeName.Split(',').Select(x => $"'{x}'"));
+                st.Append($" em.Employetype_name in ({names}) AND");
+            }
+
+            string commandText = st.ToString().Substring(0, st.ToString().Length - 3).ToString();
+            string sr = SQLiteHelper.SQLiteDataReader(ApplicationData.connectionString, commandText);
+            JArray ja=JArray.Parse(sr);
+            List<string> list =ja.Select(x => (string)x["id"]).ToList();
+            return list;
+        }
+
         public static string getStaffDataforcount(string name, string no, string qu_phone, string dep, string employeeTypeName, string haspicture)
         {
 
@@ -616,6 +675,59 @@ namespace huaanClient
 
             return sr;
         }
+
+        internal static void BatchDelStaff(List<string> idList)
+        {
+            Console.WriteLine(idList);
+            if (idList.Count == 0)
+            {
+                throw new Exception("no item found!");
+            }
+            foreach(string id in idList)
+            {
+                DeleteUser(id);
+            }
+           // DB.Delete<Database.Freesql.Staff>(idList.Select(s => s).ToArray()).ExecuteAffrows();
+        }
+
+        internal static void BatchEditStaff(string data, List<string> idList)
+        {
+            if (idList.Count == 0)
+            {
+                throw new Exception("no item found!");
+            }
+            //部门，类别，授权时间，自定义字段
+            JObject jo=JObject.Parse(data);
+            string department_id = (string)jo["departmentname"];
+            string customer_text=(string)jo["customer_text"];
+            string term_start=(string)jo["term_start"];
+            string term=(string)jo["term"];
+            var fs =DB.Update<Database.Freesql.Staff>();
+            if (!string.IsNullOrEmpty(department_id))
+            {
+                fs.Set(a => a.DepartmentId, int.Parse(department_id));
+            }
+            if (!string.IsNullOrEmpty(customer_text))
+            {
+                fs.Set(a => a.customer_text, customer_text);
+            }
+            if (!string.IsNullOrEmpty(term_start))
+            {
+                fs.Set(a => term_start, term_start);
+            }
+            if (!string.IsNullOrEmpty(term))
+            {
+                fs.Set(a => a.term, term);
+            }
+            fs.Set(a => a.publish_time, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            foreach(string id in idList)
+            {
+                fs.Where(a=>a.id== id);
+                fs.ExecuteAffrows();
+            }
+            //eidStaf(name.Trim(), staff_no, phone.Trim(), email.Trim(), department, Employetype, imgeurl, line_userid.Trim(), lineType.Trim(), id, face_idcard.Trim(), idcardtype.Trim(), customer_text.Trim(), term_start.Trim(), term.Trim(), sex, extra1, extra2, null, null, null);
+        }
+
         public static string getlEmployetypedata()
         {
 
@@ -2369,11 +2481,14 @@ namespace huaanClient
                         .Any();
                     if (codeExists)
                     {
-                        return JsonConvert.SerializeObject(new
-                        {
-                            result = 1,
-                            data = Properties.Strings.StaffCodeExists,
-                        });
+                        //return JsonConvert.SerializeObject(new
+                        //{
+                        //    result = 1,
+                        //    data = Properties.Strings.StaffCodeExists,
+                        //});
+                        //DB.Delete<Database.Freesql.Staff>().Where(a => a.Employee_code.Equals(staff_no)).ExecuteAffrows();
+                        line_userid = staff_no;
+                        return eidStaf(name, staff_no, phone, email, departmentId?.ToString(), Employetype?.ToString(), imge, line_userid, lineType, line_userid, face_idcard, idcardtype, customer_text, term_start, term, sex, extra1, extra2, extra3, extra4, extra5);
                     }
                 }
             }

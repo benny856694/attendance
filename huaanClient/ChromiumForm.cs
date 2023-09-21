@@ -716,6 +716,43 @@ namespace InsuranceBrowser.CefHanderForChromiumFrom
             return data;
         }
 
+        //批量编辑员工
+        public void BatchEditStaff(string data,string query)
+        {
+            //Console.WriteLine(data);
+            //Console.WriteLine(query);
+
+            JObject queryJson=(JObject)JsonConvert.DeserializeObject(query);
+            string name = (string)queryJson["name"];
+            string no=queryJson["no"].ToString();
+            string qu_phone=queryJson["qu_phone"].ToString();
+            string dep=queryJson["dep"].ToString().Replace("[", "").Replace("]", "");
+            string employeeTypeName=queryJson["employeeTypeName"].ToString().Replace("[", "").Replace("]", "");
+            string haspicture=queryJson["haspicture"].ToString();
+            List<string> idList=GetData.getStaffDataforid(name, no, qu_phone, dep, employeeTypeName, haspicture);
+            Console.WriteLine(idList);
+           
+            GetData.BatchEditStaff(data, idList);
+
+            DistributeToequipment.Wakeup();
+        }
+
+        public void BatchDelStaff(string query)
+        {
+            //Console.WriteLine(query);
+            JObject queryJson = (JObject)JsonConvert.DeserializeObject(query);
+            string name = (string)queryJson["name"];
+            string no = queryJson["no"].ToString();
+            string qu_phone = queryJson["qu_phone"].ToString();
+            string dep = queryJson["dep"].ToString().Replace("[", "").Replace("]", "");
+            string employeeTypeName = queryJson["employeeTypeName"].ToString().Replace("[", "").Replace("]", "");
+            string haspicture = queryJson["haspicture"].ToString();
+            List<string> idList = GetData.getStaffDataforid(name, no, qu_phone, dep, employeeTypeName, haspicture);
+            GetData.BatchDelStaff(idList);
+            DistributeToequipment.Wakeup();
+        }
+
+
         //添加访客
         public string setVisitor(string name, string phone, string imgeurl, string statime, string endtime, string idNumber)
         {

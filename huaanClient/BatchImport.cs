@@ -333,7 +333,7 @@ namespace huaanClient
 
         public static bool IsMatch(string fullPath, string expectedFileNameWihoutExtension)
         {
-            var expr = $@"\\{expectedFileNameWihoutExtension}(\.(jpg|jpeg|png))+$";
+            var expr = $@"\\{expectedFileNameWihoutExtension}(\.(jpg|jpeg|png|JPG|JPEG|PNG|jpg\.jpg|JPG\.JPG|jpeg\.jpeg|JPEG\.JPEG|png\.png|PNG\.PNG))+$";
             var regex = new Regex(expr);
             var match = regex.IsMatch(fullPath);
             return match;
@@ -371,7 +371,7 @@ namespace huaanClient
                 return obj.ToString();
             }
 
-            string photoExtensions = @"(\.(jpg|jpeg|png))$";
+            string photoExtensions = @"(\.(jpg|jpeg|png|JPG|JPEG|PNG|jpg\.jpg|jpeg\.jpeg|JPEG\.JPEG|png\.png|PNG\.PNG))$";
             var allPhotoFiles = Directory.GetFiles(DirectoryName).Where(s => Regex.IsMatch(s, photoExtensions)).ToList();
 
             if (newStaffs.Length == 0)
